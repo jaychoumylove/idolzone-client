@@ -1,0 +1,19 @@
+.star-container.data-v-46257ce1 {
+  position: relative;
+  height: 100%;
+}
+.star-container .tips-container.data-v-46257ce1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 6;
+    margin-top: -130rpx;
+}
+.star-container .tips-container image.data-v-46257ce1 {
+      width: 100%;
+      margin-top: 100rpx;
+}
+

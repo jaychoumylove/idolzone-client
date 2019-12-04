@@ -1,0 +1,1 @@
+<view data-event-opts="{{[['touchstart',[['e0',['$event']]]],['touchend',[['e1',['$event']]]]]}}" class="{{['button flex-set data-v-4b0b1e94',type,scale]}}" bindtouchstart="__e" bindtouchend="__e"><slot></slot></view>

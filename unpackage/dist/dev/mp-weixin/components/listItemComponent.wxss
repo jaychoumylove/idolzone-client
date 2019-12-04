@@ -1,0 +1,28 @@
+.container.data-v-88a7e572 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 15rpx 0;
+  background-color: #FFF;
+  width: 100%;
+}
+.container .left-container .rank-num.data-v-88a7e572 {
+    text-align: center;
+    width: 90rpx;
+}
+.container .left-container .avatar.data-v-88a7e572 {
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+    margin-right: 40rpx;
+}
+

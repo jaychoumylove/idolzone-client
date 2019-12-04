@@ -1,0 +1,236 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		// #ifndef H5
+		{
+			"path": "pages/open/open",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "爱豆圈子"
+			}
+		},
+		{
+			"path": "pages/index/rank",
+			"style": {
+				"navigationBarTitleText": "往期榜单"
+			}
+		},
+		{
+			"path": "pages/index/fengyun",
+			"style": {
+				"navigationBarTitleText": "鲜花小时榜"
+			}
+		},
+
+		{
+			"path": "pages/farm/farm",
+			"style": {
+				"navigationBarTitleText": "农场",
+				"disableScroll": true,
+				"navigationBarBackgroundColor": "#42B6E7"
+			}
+		},
+		{
+			"path": "pages/farm/help"
+		},
+		{
+			"path": "pages/group/star",
+			"style": {
+				"disableScroll": true,
+				"navigationBarBackgroundColor": "#544f4b",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/group/group",
+			"style": {
+				"disableScroll": true,
+				"navigationBarBackgroundColor": "#544f4b",
+				"navigationBarTextStyle": "white"
+			}
+		}, {
+			"path": "pages/group/rank_history",
+			"style": {}
+		},
+		{
+			"path": "pages/square/square",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "广场"
+			}
+		}, {
+			"path": "pages/user/user",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/user/headwear",
+			"style": {
+				"navigationBarTitleText": "头像挂饰"
+			}
+		},
+		{
+			"path": "pages/user/log"
+		},
+		{
+			"path": "pages/user/rank",
+			"style": {}
+		}, {
+			"path": "pages/user/birth_rank",
+			"style": {
+				"navigationBarTitleText": "生日应援榜"
+			}
+		},
+
+		{
+			"path": "pages/user/excharge",
+			"style": {}
+		},
+
+		{
+			"path": "pages/user/setting",
+			"style": {}
+		}, {
+			"path": "pages/user/starinfo",
+			"style": {}
+		},  {
+			"path": "pages/user/edit_user",
+			"style": {}
+		}, {
+			"path": "pages/square/article",
+			"style": {}
+		}, {
+			"path": "pages/task/task",
+			"style": {
+				"navigationBarTitleText": "每日必做任务"
+			}
+		}, {
+			"path": "pages/task/game",
+			"style": {}
+		}, {
+			"path": "pages/notice/notice",
+			"style": {}
+		}, {
+			"path": "pages/notice/list",
+			"style": {}
+		}, {
+			"path": "pages/pk/pk_index",
+			"style": {
+				"navigationBarTitleText": "来PK"
+			}
+		}, {
+			"path": "pages/pk/pk_rank",
+			"style": {}
+		}, {
+			"path": "pages/pk/pk_rank_user",
+			"style": {}
+		}
+
+		, {
+			"path": "pages/lottery/lottery",
+			"style": {
+				"navigationBarTitleText": "幸运大抽奖"
+			}
+		}, {
+			"path": "pages/lottery/log",
+			"style": {
+				"navigationBarTitleText": "抽奖明细"
+			}
+		},
+
+		{
+			"path": "pages/lottery/box",
+			"style": {}
+		}, {
+			"path": "pages/lottery/box_open",
+			"style": {}
+		},
+		{
+			"path": "pages/active_one/active_one",
+			"style": {}
+		}, {
+			"path": "pages/active_one/active_one_list",
+			"style": {}
+		}, {
+			"path": "pages/score/score",
+			"style": {}
+		}, {
+			"path": "pages/redress/redress",
+			"style": {}
+		},
+		{
+			"path": "pages/fans/fans_list",
+			"style": {
+				"navigationBarTitleText": "粉丝团"
+			}
+		}, {
+			"path": "pages/fans/fans_club",
+			"style": {
+				"navigationBarTitleText": "粉丝团"
+			}
+		}, {
+			"path": "pages/fans/mass"
+		}, {
+			"path": "pages/fans/fans_new"
+		}, {
+			"path": "pages/fans/member",
+			"style": {
+				"navigationBarTitleText": "粉丝团成员"
+			}
+		},
+		// #endif
+		{
+			"path": "pages/charge/charge",
+			"style": {}
+		}
+
+	],
+	"tabBar": {
+		"color": "#aaaaaa",
+		"selectedColor": "#fbcc3e",
+		"backgroundColor": "#ffffff",
+		"borderStyle": "black",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "/static/image/tab/rank.png",
+				"selectedIconPath": "/static/image/tab/rank-tap.png",
+				"text": "榜单"
+			},
+			{
+				"pagePath": "pages/farm/farm",
+				"iconPath": "/static/image/tab/farm.png",
+				"selectedIconPath": "/static/image/tab/farm-tap.png",
+				"text": "农场"
+			}, {
+				"pagePath": "pages/group/group",
+				"iconPath": "/static/image/tab/group.png",
+				"selectedIconPath": "/static/image/tab/group-tap.png",
+				"text": "圈子"
+			},
+			{
+				"pagePath": "pages/square/square",
+				"iconPath": "/static/image/tab/square.png",
+				"selectedIconPath": "/static/image/tab/square-tap.png",
+				"text": "广场"
+			},
+			{
+				"pagePath": "pages/user/user",
+				"iconPath": "/static/image/tab/user.png",
+				"selectedIconPath": "/static/image/tab/user-tap.png",
+				"text": "个人中心"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "爱豆圈子",
+		"navigationBarBackgroundColor": "#fbcc3e",
+		"backgroundColor": "#F8F8F8",
+		"onReachBottomDistance": 300
+	}
+}

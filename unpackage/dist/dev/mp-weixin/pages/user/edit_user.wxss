@@ -1,0 +1,55 @@
+.new-page-container {
+  padding: 20rpx 40rpx;
+}
+.new-page-container .tips {
+    color: #888;
+    padding: 10rpx;
+    font-size: 22rpx;
+}
+.new-page-container .form-container {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+}
+.new-page-container .form-container .input-group {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+          -ms-flex-align: center;
+              align-items: center;
+      margin: 60rpx 20rpx;
+}
+.new-page-container .form-container .input-group .img-input {
+        width: 180rpx;
+        height: 180rpx;
+        background-color: rgba(238, 238, 238, 0.6);
+        font-size: 100rpx;
+        color: #cecece;
+        border-radius: 50%;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+        -webkit-box-shadow: 0 2rpx 8rpx rgba(153, 153, 153, 0.3);
+                box-shadow: 0 2rpx 8rpx rgba(153, 153, 153, 0.3);
+}
+.new-page-container .form-container .input-group input {
+        height: 80rpx;
+        padding: 0 20rpx;
+        width: 100%;
+        border-bottom: 2rpx solid #eee;
+}
+

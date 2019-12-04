@@ -1,0 +1,101 @@
+{
+  "pages": [
+    "pages/open/open",
+    "pages/index/index",
+    "pages/index/rank",
+    "pages/index/fengyun",
+    "pages/farm/farm",
+    "pages/farm/help",
+    "pages/group/star",
+    "pages/group/group",
+    "pages/group/rank_history",
+    "pages/square/square",
+    "pages/user/user",
+    "pages/user/headwear",
+    "pages/user/log",
+    "pages/user/rank",
+    "pages/user/birth_rank",
+    "pages/user/excharge",
+    "pages/user/setting",
+    "pages/user/starinfo",
+    "pages/user/edit_user",
+    "pages/square/article",
+    "pages/task/task",
+    "pages/task/game",
+    "pages/notice/notice",
+    "pages/notice/list",
+    "pages/pk/pk_index",
+    "pages/pk/pk_rank",
+    "pages/pk/pk_rank_user",
+    "pages/lottery/lottery",
+    "pages/lottery/log",
+    "pages/lottery/box",
+    "pages/lottery/box_open",
+    "pages/active_one/active_one",
+    "pages/active_one/active_one_list",
+    "pages/score/score",
+    "pages/redress/redress",
+    "pages/fans/fans_list",
+    "pages/fans/fans_club",
+    "pages/fans/mass",
+    "pages/fans/fans_new",
+    "pages/fans/member",
+    "pages/charge/charge"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "爱豆圈子",
+    "navigationBarBackgroundColor": "#fbcc3e",
+    "backgroundColor": "#F8F8F8",
+    "onReachBottomDistance": 300
+  },
+  "tabBar": {
+    "color": "#aaaaaa",
+    "selectedColor": "#fbcc3e",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "/static/image/tab/rank.png",
+        "selectedIconPath": "/static/image/tab/rank-tap.png",
+        "text": "榜单"
+      },
+      {
+        "pagePath": "pages/farm/farm",
+        "iconPath": "/static/image/tab/farm.png",
+        "selectedIconPath": "/static/image/tab/farm-tap.png",
+        "text": "农场"
+      },
+      {
+        "pagePath": "pages/group/group",
+        "iconPath": "/static/image/tab/group.png",
+        "selectedIconPath": "/static/image/tab/group-tap.png",
+        "text": "圈子"
+      },
+      {
+        "pagePath": "pages/square/square",
+        "iconPath": "/static/image/tab/square.png",
+        "selectedIconPath": "/static/image/tab/square-tap.png",
+        "text": "广场"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "/static/image/tab/user.png",
+        "selectedIconPath": "/static/image/tab/user-tap.png",
+        "text": "个人中心"
+      }
+    ]
+  },
+  "navigateToMiniProgramAppIdList": [
+    "wx7dc912994c80d9ac",
+    "wxb90a2375e2c7b52a",
+    "wxb34a8a040639df9f",
+    "wx0f567ae09209c9c2"
+  ],
+  "usingComponents": {
+    "load-icon-component": "/components/loadIconComponent"
+  },
+  "sitemapLocation": "sitemap93.json"
+}

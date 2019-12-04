@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "幸运大抽奖",
+  "usingComponents": {
+    "btn-component": "/components/btnComponent",
+    "modal-component": "/components/modalComponent"
+  }
+}

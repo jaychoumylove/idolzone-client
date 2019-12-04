@@ -1,0 +1,61 @@
+.starinfo-page-container .title.data-v-6602ab95 {
+  background-color: #FCF2F1;
+  padding: 30rpx;
+  font-size: 30rpx;
+  color: #686868;
+}
+.starinfo-page-container .item.data-v-6602ab95 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 20rpx;
+  margin: 0 20rpx;
+  border-bottom: 1px solid #eee;
+  min-height: 120rpx;
+  position: relative;
+}
+.starinfo-page-container .item .right.data-v-6602ab95 {
+    -webkit-box-shadow: 0 2rpx 8rpx rgba(102, 102, 102, 0.3);
+            box-shadow: 0 2rpx 8rpx rgba(102, 102, 102, 0.3);
+}
+.starinfo-page-container .item .tips.data-v-6602ab95 {
+    position: absolute;
+    bottom: 16rpx;
+    font-size: 26rpx;
+    color: #bbb;
+    width: 400rpx;
+}
+.starinfo-page-container .item .avatar.data-v-6602ab95 {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 50%;
+}
+.starinfo-page-container .item .open-img.data-v-6602ab95 {
+    width: 180rpx;
+    height: 348rpx;
+}
+.starinfo-page-container .item .share-img.data-v-6602ab95 {
+    width: 250rpx;
+    height: 200rpx;
+}
+.starinfo-page-container .item .index-banner.data-v-6602ab95 {
+    width: 345rpx;
+    height: 125rpx;
+}
+.starinfo-page-container .btn-wrap.data-v-6602ab95 {
+  margin: 40rpx auto 80rpx;
+}
+.starinfo-page-container .btn-wrap .btn-inner.data-v-6602ab95 {
+    padding: 10rpx 40rpx;
+    font-size: 32rpx;
+}
+

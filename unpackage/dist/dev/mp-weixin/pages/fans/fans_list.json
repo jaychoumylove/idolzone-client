@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "粉丝团",
+  "usingComponents": {
+    "btn-component": "/components/btnComponent"
+  }
+}

@@ -1,0 +1,1 @@
+<view class="{{['badge data-v-4574a8e2',(!numComputed)?'circle':'']}}" style="{{'padding:'+(sizeComputed)+';'}}">{{numComputed}}</view>

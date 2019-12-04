@@ -1,0 +1,1 @@
+<view data-event-opts="{{[['tap',[['goPage']]]]}}" class="open-container data-v-6237d5c0" catchtap="__e"><image class="img data-v-6237d5c0" src="{{imgUrl}}" mode="aspectFill"></image><view class="cut-time data-v-6237d5c0">{{time+"跳过"}}</view></view>
