@@ -1,0 +1,56 @@
+.game-container.data-v-a55e93e0 {
+  padding: 20rpx;
+}
+.game-container .item-wrap.data-v-a55e93e0 {
+    margin-bottom: 20rpx;
+    padding: 20rpx;
+    background-color: rgba(255, 255, 255, 0.3);
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+.game-container .item-wrap .img.data-v-a55e93e0 {
+      width: 120rpx;
+      height: 120rpx;
+      border-radius: 50%;
+}
+.game-container .item-wrap .text.data-v-a55e93e0 {
+      width: 345rpx;
+      height: 100%;
+      margin: 0 20rpx;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      -webkit-box-pack: justify;
+      -webkit-justify-content: space-between;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
+}
+.game-container .item-wrap .text .big.data-v-a55e93e0 {
+        font-size: 40rpx;
+}
+.game-container .item-wrap .btn.data-v-a55e93e0 {
+      background: -webkit-gradient(linear, left top, left bottom, from(#ff7f94), to(#ff6684));
+      background: -o-linear-gradient(top, #ff7f94, #ff6684);
+      background: linear-gradient(to bottom, #ff7f94, #ff6684);
+      border-radius: 10rpx;
+      color: #FFF;
+      text-align: center;
+      width: 140rpx;
+      height: 70rpx;
+}
+.game-container .item-wrap.ad.data-v-a55e93e0 {
+    padding: 0;
+}
+

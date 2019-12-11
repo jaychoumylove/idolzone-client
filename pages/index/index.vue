@@ -13,7 +13,6 @@
 		<!-- banner风云榜 -->
 		<view class="swiper-container" v-if="topImg.star" @tap="$app.goPage('/pages/index/fengyun')">
 			<image class='img' :src="topImg.star.head_img_l" mode="aspectFill"></image>
-
 			<view class="bottom-hold">
 				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5TZUvVibQBxK00NyCdWmK7QNRDKdkAn4xFuXtEYgY4ib2gL4dEh0RIyIg/0"
 				 mode=""></image>
@@ -346,6 +345,13 @@
 			overflow: hidden;
 			position: relative;
 			z-index: 1;
+			
+			.banner{
+				width: 690upx;
+				height: 250upx;
+				background:url('https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERVpWtSSpwicFERRz0Wa4Nw9AG4iaH5mBbnjW6zmm26oETkLm86mfk8srw/0') no-repeat left top;
+				background-size:cover;
+			}
 
 			.bottom-hold {
 				position: absolute;

@@ -1,0 +1,32 @@
+.container.data-v-43dbd510 {
+  padding: 20rpx 40rpx;
+}
+.container .article-title.data-v-43dbd510 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: 40rpx;
+    margin-bottom: 20rpx;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    font-size: 32rpx;
+    border-left: 10rpx solid #fbcc3e;
+    padding-left: 20rpx;
+    font-weight: 700;
+    line-height: 1.0;
+}
+.container .article-content.data-v-43dbd510 {
+    text-indent: 30rpx;
+    margin: 10rpx;
+    display: block;
+}
+.container .article-image.data-v-43dbd510 {
+    width: 60%;
+    margin: 30rpx auto;
+    display: block;
+    border-radius: 10rpx;
+}
+

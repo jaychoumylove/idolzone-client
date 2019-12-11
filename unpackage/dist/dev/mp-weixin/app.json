@@ -15,7 +15,7 @@
     "pages/user/log",
     "pages/user/rank",
     "pages/user/birth_rank",
-    "pages/user/excharge",
+    "pages/user/exchange",
     "pages/user/setting",
     "pages/user/starinfo",
     "pages/user/edit_user",
@@ -97,5 +97,5 @@
   "usingComponents": {
     "load-icon-component": "/components/loadIconComponent"
   },
-  "sitemapLocation": "sitemap93.json"
+  "sitemapLocation": "sitemap10.json"
 }

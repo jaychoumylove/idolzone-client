@@ -1,4 +1,4 @@
-.container.data-v-88a7e572 {
+.container.data-v-511871ce {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -15,11 +15,11 @@
   background-color: #FFF;
   width: 100%;
 }
-.container .left-container .rank-num.data-v-88a7e572 {
+.container .left-container .rank-num.data-v-511871ce {
     text-align: center;
     width: 90rpx;
 }
-.container .left-container .avatar.data-v-88a7e572 {
+.container .left-container .avatar.data-v-511871ce {
     width: 80rpx;
     height: 80rpx;
     border-radius: 50%;

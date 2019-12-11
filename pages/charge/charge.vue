@@ -1,8 +1,14 @@
 <template>
+	<!-- #ifndef H5 -->
 	<view class="no-data" v-if="~$app.getData('sysInfo').system.indexOf('iOS')&&$app.getData('config').ios_switch!=0">
 		由于Apple政策原因，不支持在小程序内购买
 	</view>
-	<view class="charge-page-container" v-else>
+	<view class="charge-page-container" v-else>	
+	<!-- #endif -->
+	
+	<!-- #ifdef H5 -->
+	<view class="charge-page-container">	
+	<!-- #endif -->	
 		<view class="top-row flex-set">
 			<view class="left-wrap flex-set">
 				<image class="avatar" :src="userInfo.avatarurl" mode="aspectFill"></image>
@@ -72,12 +78,25 @@
 		</block>
 		<!-- 鲜花钻石充值 -->
 		<block v-if="tabActive==1">
+			
+			<view class="select-container">
+				<picker @change="bindPickerChange" :range-key="'title'" :value="discount_option_index" :range="discount_option">
+				<view class="picker" v-if="discount_option[discount_option_index].status==0">
+					<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JUmpAKCVJ2Npw9ISkVxibZZ2Ye5b9VZyn7PuK2Pglkic4ZzvCz8pF461k7sp1SUgzmhBFu9Hr55pDXA/0"
+					 mode="aspectFill"></image>{{discount_option[discount_option_index].prop.name}}
+					<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXX6zqzjkSn01fIlGmzJw6uVHXlUbGEEBfTW8ysG5j7xhWREa7dc3wTXQfYlDmF30e7iazribbekpIA/0"
+					 mode="aspectFill"></image>
+				 </view>
+				</picker>
+			</view>
+			
+			
 			<view class="title-top" v-if="$app.getData('config').recharge_title">{{$app.getData('config').recharge_title}}</view>
 			<view class="tips">购买的鲜花钻石不会被清零</view>
 			<view class="list-container">
 				<view class="item-wrap" v-if="item.category==0" v-for="(item,index) in rechargeList" :key="index" @tap="payment(item.id)">
 					<view class="row top" v-if="discount.discount<1">{{discount.discount*10}}折优惠</view>
-					<view class="row flower-count flex-set"><text class="num">{{$app.formatNumber(item.flower,0)}}</text>鲜花</view>
+					<view class="row flower-count flex-set"><text class="num">{{$app.formatNumber(item.flower,1)}}</text>鲜花</view>
 					<view class="row">
 						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBL1oVeg1YBz2QeHPIunT0CkpeGpUvc67X4uJbiaSEicXHJcLLLTJRdOiaaw/0"
 						 mode="aspectFill"></image>
@@ -146,6 +165,8 @@
 				},
 				rechargeList: this.$app.getData('goodsList') || [], // 充值列表
 				discount: {}, // 充值优惠
+				discount_option: [], //可选充值优惠
+				discount_option_index: 0,
 
 				currentUser: {},
 				currentUserid: '',
@@ -153,7 +174,7 @@
 		},
 		onLoad() {
 
-			this.getGoodsList()
+			this.getGoodsList(0)
 			let timeId = setInterval(() => {
 				if (this.$app.getData('userInfo').nickname) {
 					clearInterval(timeId)
@@ -209,6 +230,7 @@
 				}
 				this.$app.request(this.$app.API.PAY_ORDER, {
 					goods_id,
+					userprop_id:this.discount.userprop_id,
 					user_id: this.userInfo.id
 				}, res => {
 					// #ifdef H5
@@ -251,7 +273,7 @@
 								this.userCurrency = this.$app.getData('userCurrency')
 								this.modal = ''
 							})
-							this.getGoodsList()
+							this.getGoodsList(0)
 						},
 						fail: err => {
 							this.$app.toast('支付失败')
@@ -262,13 +284,19 @@
 
 			},
 			// HTTP
-			getGoodsList() {
-				this.$app.request(this.$app.API.PAY_GOODS, {}, res => {
-
+			getGoodsList(userprop_id) {
+				this.$app.request(this.$app.API.PAY_GOODS, {
+					userprop_id,					
+				}, res => {
 					this.rechargeList = res.data.list
 					this.discount = res.data.discount
+					this.discount_option = res.data.discount_option
 					this.$app.setData('goodsList', this.rechargeList)
 				})
+			},			
+			bindPickerChange: function(e) {
+				this.discount_option_index = e.target.value
+				this.getGoodsList(this.discount_option[this.discount_option_index].id)
 			},
 		}
 	}
@@ -563,6 +591,28 @@
 			}
 		}
 		
-		
+		.select-container {
+			position: relative;
+			display:flex;
+			flex-direction:row;
+			justify-content: flex-end;
+			padding-right:20upx;
+			
+			.picker {
+				border: 1px solid #CCC;
+				background-color: #EEE;
+				border-radius: 60upx;
+				text-align: center;
+				font-size: 32upx;
+				padding: 0 10upx 0 30upx;
+				
+				image {
+					margin-top: 24upx;
+					width: 30upx;
+					height: 30upx;
+					transform: translateY(-50%);
+				}
+			}
+		}
 	}
 </style>

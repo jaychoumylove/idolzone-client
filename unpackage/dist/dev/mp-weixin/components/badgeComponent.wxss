@@ -1,4 +1,4 @@
-.badge.data-v-4574a8e2 {
+.badge.data-v-533292fd {
   border-radius: 30rpx;
   background-color: #f00;
   position: absolute;
@@ -11,7 +11,7 @@
       -ms-transform: translate(50%, -50%);
           transform: translate(50%, -50%);
 }
-.badge.circle.data-v-4574a8e2 {
+.badge.circle.data-v-533292fd {
   border-radius: 50%;
 }
 

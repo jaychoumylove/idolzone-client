@@ -23,7 +23,10 @@
 						<view class="user-level-text" v-if="danmaku.level>=9&&danmaku.level<=11" :class="['level'+danmaku.level]">高级粉</view>
 						<view class="user-level-text" v-if="danmaku.level>=12&&danmaku.level<=14" :class="['level'+danmaku.level]">核心粉</view>
 						<view class="user-level-text" v-if="danmaku.level>=15&&danmaku.level<=15" :class="['level'+danmaku.level]">元老粉</view>
-						<view class="user-level-text" v-if="danmaku.level>=16&&danmaku.level<=16" :class="['level'+danmaku.level]">至尊粉</view>
+						<view class="user-level-text" v-if="danmaku.level>=16&&danmaku.level<=16" :class="['level'+danmaku.level]">至尊粉</view>						
+						<view class="user-level-text" v-if="danmaku.level>=17&&danmaku.level<=17" :class="['level'+danmaku.level]">帝王粉</view>					
+						<view class="user-level-text" v-if="danmaku.level>=18&&danmaku.level<=18" :class="['level'+danmaku.level]">神级粉</view>
+						
 					</view>
 				</view>
 			</view>
@@ -193,6 +196,8 @@
 									<view class="user-level-text" v-if="item.level>=12&&item.level<=14" :class="['level'+item.level]">核心粉</view>
 									<view class="user-level-text" v-if="item.level>=15&&item.level<=15" :class="['level'+item.level]">元老粉</view>
 									<view class="user-level-text" v-if="item.level>=16&&item.level<=16" :class="['level'+item.level]">至尊粉</view>
+									<view class="user-level-text" v-if="item.level>=17&&item.level<=17" :class="['level'+item.level]">帝王粉</view>
+									<view class="user-level-text" v-if="item.level>=18&&item.level<=18" :class="['level'+item.level]">神级粉</view>
 								</view>
 							</view>
 						</view>
@@ -209,21 +214,6 @@
 
 			</view>
 		</scroll-view>
-		<!-- <view class="chart-container rank-list" v-else>
-			<view class="item" v-for="(item,index) in userRankList['thisday_count']" :key="index">
-				<view class="rank-num">
-					<view>{{index+1}}</view>
-				</view>
-				<view class='avatar'>
-					<image :src="item.avatar" mode="aspectFill"></image>
-				</view>
-				<view class="text-container">
-					<view class="star-name text-overflow">{{item.nickname}}</view>
-
-				</view>
-				<view class="count">{{item.hot}}</view>
-			</view>
-		</view> -->
 
 		<!-- 聊天输入 -->
 		<view class="chart-btn-container" v-if="$app.getData('userStar').id == star.id" @tap.stop="inputing=true">
@@ -250,9 +240,11 @@
 				<view class="tips" v-if="sendFansNoSettle">{{sendFansNoSettle}}</view>
 			</view>
 			<!-- 充值礼包 -->
-			<view class="btn-wrap" @tap="newboyOpen" v-if="$app.getData('config').login_active_open=='1'">
-				<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXrp67BbdomXFY6zcFAibp9GUSr02iarZZVvnNx8NicibSvyNgLiaaIKbCib2bBFJXKtkE1nK4CdMNVIgmA/0"
+			<view class="btn-wrap" @tap="newboyOpen" v-if="signGift_title">
+				<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqialbpTRo5ruTVPqJia3fSOwpicSaJsWRhmEFftWM7z1QEV8ucFMjaZEOg/0"
 				 mode="aspectFill"></image>
+				 <view class="title">{{signGift_title}}</view>
+				 <view class="tips dot" v-if="signGift_tips==1"></view>
 			</view>
 
 		</view>
@@ -514,16 +506,20 @@
 					<!-- <view class="iconfont iconjiantou"></view> -->
 					<image class="img" @tap.stop="sendFansChange" v-if="sendFansBoxUseCurrency==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
 					 mode="aspectFill"></image>
-					<image class="img" @tap.stop="sendFansChange" v-if="sendFansBoxUseCurrency==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FbErFHtQGqUFhHAAsBqKtb1s9Tia2iaQibSQRBDMib6JgsF1Lhg6X4lbxWB8q9GW3pKgF5nqetvzYN6Q/0"
+					<image class="img" @tap.stop="sendFansChange" v-else-if="sendFansBoxUseCurrency==1" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXX6zqzjkSn01fIlGmzJw6u6spsa2iclibKUibzkneYdS4CE4FGmmysZiaW3V3rz08MFNsIY8hFsXoKgg/0"
 					 mode="aspectFill"></image>
-					<image class="img" @tap.stop="sendFansChange" v-if="sendFansBoxUseCurrency==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
+					<image class="img" @tap.stop="sendFansChange" v-else-if="sendFansBoxUseCurrency==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
 					 mode="aspectFill"></image>
+					 
+					 <image  @tap.stop="sendFansChange" style="right: 20upx;width: 30upx;height: 30upx;padding-bottom:10upx;" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXX6zqzjkSn01fIlGmzJw6uVHXlUbGEEBfTW8ysG5j7xhWREa7dc3wTXQfYlDmF30e7iazribbekpIA/0"
+					  mode="aspectFill"></image>
+										   
 				</view>
 				<view class="tips">你需要消耗一定的钻石或积分</view>
 
 				<view class="send-input">
 					<input type="number" placeholder="人数" @input="sendFansboxPeople = $event.detail.value" />
-					<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JWYnDaLq93R8UIIWZiaOQkoN5ksdRaVV1kzssymXAiboSqhU64HFf7BkeW7HKtBaQpWGnwBg5cDxoSQ/0"
+					<image src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JWYnDaLq93R8UIIWZiaOQkoN5ksdRaVV1kzssymXAiboSqhU64HFf7BkeW7HKtBaQpWGnwBg5cDxoSQ/0"
 					 mode="aspectFill"></image>
 				</view>
 				<view class="tips">多少人可以开这个宝箱</view>
@@ -544,32 +540,36 @@
 		<!-- 新人礼包 -->
 		<view class="open-ad-container flex-set" v-if="modal=='newboy'">
 			<view class="top-wrap">
-				<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JWfz7h1eL4zmo7QuvgHicH0XLBCXlUfDCntZGlF3RnHlA0JSm64KUaayQGsm0q4nicYhBSEy0icrOrZQ/0"
+				<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqYIU6WHzGGSorecfYTRL5UjOiaZtEFPzEuCS4S19b7QibqUoiahd0UDPKw/0"
 				 mode=""></image>
+				 <view class="category-title">{{signGift_currentCategoryTitle}}</view>
 			</view>
 			<!-- <image class="main" :src="newboyBg" mode="aspectFill"></image> -->
 			<!-- 列表 -->
 			<view class="content-wrap">
 				<view class="left-container">
 					<view class="row-item" v-for="(item,index) in signGift_categoryList" :key="index" @tap="changeSignGift(index)"
-					 :class="{active:signGift_currentCategory==index}">{{item.name}}</view>
+					 :class="{active:signGift_currentCategory==index}" v-if="item.status==1">{{item.name}}
+					 <view class="tips dot" v-if="item.tips"></view>
+					 </view>
 				</view>
 
 				<scroll-view class="right-container" scroll-y>
-					<view class="row-item" @tap="signGiftSettle" v-for="(item,index) in signGift_list" :key="index">
-						<view class="row-wrap" :class="{over:item.over}">
+					<view class="row-item" @tap="signGiftSettle(index)" v-for="(item,index) in signGift_list" :key="index" v-if="item.over!=2">
+						<view class="row-wrap" :class="'over'+item.over">
 							<view class="left-wrap">
 								<view class="text">{{item.title}}</view>
 								<view class="award">
 									<view class="item" v-if="item.awards.coin">
 										<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnJ1XEVTJDGicZsIeBdM5x6sZMZY6tc71lbzRVFBp4ichpsgIamP8SaaeQ/0"
 										 mode="aspectFill"></image>
-										<view class="num">x{{item.awards.coin >= 10000?  Math.round(item.awards.coin / 10000) + '万': item.awards.coin}}</view>
+										<view class="num outbox" v-if="item.category_id==2">x{{item.awards.coin}}</view>
+										<view class="num" v-else>x{{item.awards.coin >= 10000?  Math.round(item.awards.coin / 10000) + '万': item.awards.coin}}</view>
 									</view>
 									<view class="item" v-if="item.awards.flower">
 										<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnIlhbglkgjd33dibmAHP7nNmBr4pNaYMk4j4LvRej3yMjz6hMuYWLEtA/0"
 										 mode="aspectFill"></image>
-										<view class="num">x{{item.awards.flower}}</view>
+										<view class="num">x{{item.awards.flower >= 10000?  Math.round(item.awards.flower / 10000) + '万': item.awards.flower}}</view>
 									</view>
 									<view class="item" v-if="item.awards.stone">
 										<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnjwMndLlukEAL0ibGJpUwxXOJ7qOKtuyD42Sn73x9dfvmgmb0CUB6S3g/0"
@@ -581,14 +581,20 @@
 										 mode="aspectFill"></image>
 										<view class="num">x{{item.awards.trumpet}}</view>
 									</view>
+									<view class="item" v-if="item.awards.ticket">
+										<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnRvCnXIZtJtzPZx7z4ETD3W4I4At8r1QJa5U8iaEYMHBGSzSPMibXEcPA/0"
+										 mode="aspectFill"></image>
+										<view class="num">{{item.awards.ticket*10}}折</view>
+									</view>
 								</view>
 							</view>
 							<view class="right-wrap">
-								<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnP1hkQAa5f5qCja7NrupItFNIKwCyvKBUmGJDx4q4KLLcFkTBMEwvLA/0"
-								 mode="aspectFill"></image>
+								 <view :class="'btn'+item.over" v-if="!~$app.getData('sysInfo').system.indexOf('iOS') || $app.getData('config').ios_switch==0">{{item.btn_text}}</view>
+								 <view :class="'btn'+item.over" v-else>{{item.btn_text.replace('去充值','未完成')}}</view>
+								 <view v-if="item.over==0" class="tips" >{{item.name_addon}}</view>
 							</view>
 						</view>
-						<image v-if="item.over" class="chapter" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnO0xnPeniag7enShoUchSSKxDWXVECwZyPPk6ibyrLLA4XuHcUicUcje1Q/0"
+						<image v-if="item.over==2" class="chapter" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnO0xnPeniag7enShoUchSSKxDWXVECwZyPPk6ibyrLLA4XuHcUicUcje1Q/0"
 						 mode="aspectFill"></image>
 					</view>
 				</scroll-view>
@@ -700,15 +706,18 @@
 				sendFansNoticeId: 0, // 说明id
 
 				// 新人礼包
-				newboyList: [],
-				newboyBg: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Ep3RhxrWX9ibdRVKkjMQibIDNy4g4CU7wJTicw6PiaPhZmIsxMhu2kkD5iaDgmdFpDyg5yZYwJwibYXAUw/0',
-				newboyCurrent: 0,
-				newboyRemainTime: '',
+				// newboyList: [],
+				// newboyBg: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Ep3RhxrWX9ibdRVKkjMQibIDNy4g4CU7wJTicw6PiaPhZmIsxMhu2kkD5iaDgmdFpDyg5yZYwJwibYXAUw/0',
+				// newboyCurrent: 0,
+				// newboyRemainTime: '',
 
 				// 任务礼包
-				signGift_currentCategory: 0,
+				signGift_title: '',
+				signGift_tips: 0,
+				signGift_currentCategory: 1,
 				signGift_categoryList: [],
 				signGift_list: [],
+				signGift_currentCategoryTitle: '',
 			};
 		},
 		created() {
@@ -812,6 +821,8 @@
 								this.sendFansBoxList = res.data.list
 								this.sendFansNoSettle = res.data.can_settle
 								this.isJoinFanclub = res.data.isJoinFanclub
+								this.signGift_title = res.data.signGift_title
+								this.signGift_tips = res.data.signGift_tips
 							})
 						}
 					})
@@ -1032,7 +1043,7 @@
 										canvasId: 'mycanvas',
 										success: res => {
 											this.canvasImg = res.tempFilePath
-											console.log(this.canvasImg);
+											//console.log(this.canvasImg);
 
 										}
 									}, this);
@@ -1141,7 +1152,7 @@
 			newboyOpen() {
 				this.modal = 'newboy'
 				this.$app.request('task/taskgiftCategory', {}, res => {
-					this.signGift_categoryList = res.data
+					this.signGift_categoryList = res.data.list
 					this.getsignGift()
 				})
 			},
@@ -1150,11 +1161,27 @@
 					cid: this.signGift_categoryList[this.signGift_currentCategory].id
 				}, res => {
 					this.signGift_list = res.data.list
+					this.signGift_categoryList = res.data.category.list
+					this.signGift_title = res.data.category.all_title
+					this.signGift_tips = res.data.category.all_tips
+					this.signGift_currentCategoryTitle = this.signGift_categoryList[this.signGift_currentCategory].title
 				})
 			},
-			signGiftSettle() {
+			signGiftSettle(index) {
+				const cid = this.signGift_categoryList[this.signGift_currentCategory].id;
+				const taskover = this.signGift_list[index].over;
+				//如果未完成 0
+				if(taskover==0){
+					if(cid==2) this.modal = 'send'//2粉丝等级
+					if(cid==3 && (!~this.$app.getData('sysInfo').system.indexOf('iOS') || this.$app.getData('config').ios_switch==0)) this.$app.goPage(`/pages/charge/charge`)//3充值
+					return
+				}
+				//如果已完成 2
+				else if(taskover==2) return
+				
 				this.$app.request('task/taskGiftSettle', {
-					cid: this.signGift_categoryList[this.signGift_currentCategory].id
+					cid: cid,
+					task_id: this.signGift_list[index].id
 				}, res => {
 					this.$app.toast('领取成功', 'success')
 					this.getsignGift()
@@ -1761,10 +1788,17 @@
 							color: #EB5AFF;
 							background: linear-gradient(to right, rgba(224, 137, 255, 0), rgba(224, 137, 255, 0.6));
 						}
-
 						.level16 {
 							color: #e8b12a;
 							background: linear-gradient(to right, rgba(224, 137, 255, 0), rgba(226, 186, 84, 0.6));
+						}
+						.level17 {
+							color: #FF7C00;
+							background: linear-gradient(to right, rgba(255, 230, 245, 0), rgba(255, 230, 194, 0.6));
+						}
+						.level18 {
+							color: #FF0019;
+							background: linear-gradient(to right, rgba(255, 230, 230, 0), rgba(255, 194, 194, 0.6));
 						}
 
 					}
@@ -1924,7 +1958,6 @@
 
 				.right-wrap {
 					margin-left: 50upx;
-
 					.send-btn {
 						position: relative;
 
@@ -2098,6 +2131,14 @@
 									.level16 {
 										color: #e8b12a;
 										background: linear-gradient(to right, rgba(224, 137, 255, 0), rgba(226, 186, 84, 0.6));
+									}									
+									.level17 {
+										color: #FF7C00;
+										background: linear-gradient(to right, rgba(255, 230, 245, 0), rgba(255, 230, 194, 0.6));
+									}
+									.level18 {
+										color: #FF0019;
+										background: linear-gradient(to right, rgba(255, 230, 230, 0), rgba(255, 194, 194, 0.6));
 									}
 
 								}
@@ -2257,20 +2298,6 @@
 					height: 80upx;
 				}
 
-				// 				.img.shine {
-				// 					animation: shine 0.1s infinite;
-				// 				}
-				// 
-				// 				@keyframes shine {
-				// 					from {
-				// 						transform: translateX(-2%);
-				// 					}
-				// 
-				// 					to {
-				// 						transform: translateX(2%);
-				// 					}
-				// 				}
-
 				.tips {
 					font-size: 18upx;
 					color: #fff;
@@ -2282,6 +2309,18 @@
 					border-radius: 30upx;
 					padding: 0 15upx;
 					background-color: #f00;
+				}
+				
+				.tips.dot {
+					width: 20upx;
+					height: 20upx;
+					padding: 0;
+				}
+				
+				.title{
+					font-size: 20upx;
+					margin-top: -18upx;
+					text-shadow: 2upx 0upx 5upx white,-2upx 0upx 5upx white,0upx 2upx 5upx white,0upx -2upx 5upx white;
 				}
 			}
 
@@ -2907,6 +2946,10 @@
 					top: 50%;
 					transform: translateY(-50%);
 				}
+				
+				image.img {
+					right: 50upx;
+				}
 			}
 
 			.count {
@@ -2944,44 +2987,20 @@
 			.top-wrap {
 				.img {
 					width: 600upx;
-					height: 364upx;
+					height: 240upx;
+				}
+				.category-title{
+					text-align: center;
+					font-size: 30upx;
+					margin-top: -64upx;
+					text-shadow: 10upx 0upx 20upx #C63703,-10upx 0upx 20upx #C63703,0upx 10upx 20upx #C63703,0upx -10upx 10upx #C63703;
 				}
 			}
 
-			// .main {
-			// 	width: 600upx;
-			// 	height: 1067upx;
-			// 	border-radius: 20upx;
-			// }
-
-			// .remain_time {
-			// 	position: absolute;
-			// 	top: 50%;
-			// 	left: 50%;
-			// 	transform: translate(-15%, -1035%);
-			// 	color: #fff;
-			// 	z-index: 1;
-			// 	font-size: 22upx;
-			// }
-
-			// 			.content-wrap {
-			// 				position: absolute;
-			// 				width: 530upx;
-			// 				height: 705upx;
-			// 				top: 50%;
-			// 				left: 50%;
-			// 				transform: translate(-50%, -30%);
-			// 				display: flex;
-			// 				flex-wrap: wrap;
-			// 
-			// 				.item {
-			// 					width: 50%;
-			// 					height: 165upx;
-			// 					padding: 0 10upx;
-			// 				}
-			// 			}
 			.content-wrap {
 				width: 600upx;
+				height: 700upx;
+				overflow: hidden;
 				flex: 1;
 				display: flex;
 				background-color: #fbb831;
@@ -3004,6 +3023,23 @@
 						margin: 10upx 0;
 						border-top-left-radius: 10upx;
 						border-bottom-left-radius: 10upx;
+						
+						.tips {
+							font-size: 18upx;
+							color: #fff;
+							position: absolute;
+							z-index: 1;
+							margin: -60rpx 0 0 10rpx;
+							transform: translateX(-50%);
+							border-radius: 30upx;
+							padding: 0 15upx;
+							background-color: #f00;
+						}
+						.tips.dot {
+							width: 20upx;
+							height: 20upx;
+							padding: 0;
+						}
 					}
 
 					.row-item.active {
@@ -3043,8 +3079,8 @@
 										margin: 10upx 10upx 10upx 0;
 
 										.img {
-											width: 70upx;
-											height: 70upx;
+											width: 80upx;
+											height: 80upx;
 										}
 
 										.num {
@@ -3052,21 +3088,44 @@
 											bottom: 0;
 											right: 0;
 											color: #fff;
-											font-size: 18upx;
+											font-size: 24upx;
+										}
+										.num.outbox{
+											left: 0;
+											color: #818286;
+											margin-left: 100upx;
 										}
 									}
 								}
 							}
 
 							.right-wrap {
-								.img {
-									width: 130upx;
-									height: 50upx;
+								.btn0,.btn1,.btn2{
+									width: 131upx;
+									height: 53upx;
+									font-size: 23rpx;
+									line-height: 53rpx;
+									text-align: center;
+									color: #FFFFFF;
+									background:url('https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqicU7icqjTIuAic0Tc9L9t1cUbL2GNO5wzwaoguDcXpSRWjHiaHQJKQdK8g/0') no-repeat left top;
+									background-size:contain;
+								}
+								.btn0{
+									background:url('https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqFt8q2x4Emjd6agcIsxWs5icbnzFax4tB4T28uicuefyiaiaSm0LLovQGGA/0') no-repeat left top;
+									background-size:contain;
+								}
+								.tips{
+									color: #818286;
+									font-size: 20upx;
+									text-align: right;
+									margin-right: 20upx;
+									margin-top: 5upx;
+
 								}
 							}
 						}
 
-						.row-wrap.over {
+						.row-wrap.over2 {
 							filter: grayscale(100%);
 						}
 					}
@@ -3084,7 +3143,7 @@
 
 			.close-btn {
 				width: 80upx;
-				height: 80upx;
+				height: 140upx;
 				z-index: 10;
 				border-radius: 50%;
 				color: #ccc;

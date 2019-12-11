@@ -66,6 +66,18 @@
 		background: linear-gradient(to right bottom, #f8648a, #F00);
 		box-shadow: none;
 	}
+	
+	.button.green {
+		color: #FFF;
+		background: linear-gradient(to right bottom, #4EE059,#199B1A);
+		box-shadow: none;
+	}
+	
+	.button.yellow {
+		color: #000;
+		background: linear-gradient(to right bottom, #FDEBB2,#fbcc3e);
+		box-shadow: none;
+	}
 
 	.button.none {
 		box-shadow: none;

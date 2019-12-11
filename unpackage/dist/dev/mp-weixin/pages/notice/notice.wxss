@@ -1,7 +1,7 @@
-.container.data-v-1251bf80 {
+.container.data-v-06ac9ba4 {
   padding: 20rpx 40rpx;
 }
-.container .article-title.data-v-1251bf80 {
+.container .article-title.data-v-06ac9ba4 {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -18,12 +18,12 @@
     font-weight: 700;
     line-height: 1.0;
 }
-.container .article-content.data-v-1251bf80 {
+.container .article-content.data-v-06ac9ba4 {
     text-indent: 30rpx;
     margin: 10rpx;
     display: block;
 }
-.container .article-image.data-v-1251bf80 {
+.container .article-image.data-v-06ac9ba4 {
     width: 60%;
     margin: 30rpx auto;
     display: block;

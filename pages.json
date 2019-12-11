@@ -88,8 +88,10 @@
 		},
 
 		{
-			"path": "pages/user/excharge",
-			"style": {}
+			"path": "pages/user/exchange",
+			"style": {
+				"navigationBarTitleText": "积分商城"
+			}
 		},
 
 		{
@@ -98,7 +100,7 @@
 		}, {
 			"path": "pages/user/starinfo",
 			"style": {}
-		},  {
+		}, {
 			"path": "pages/user/edit_user",
 			"style": {}
 		}, {

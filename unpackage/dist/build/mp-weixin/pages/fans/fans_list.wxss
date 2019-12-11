@@ -1,0 +1,151 @@
+.list-page-container .item-content.data-v-329a83f9 {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin: 0 20rpx;
+}
+.list-page-container .item-content .top.data-v-329a83f9 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+.list-page-container .item-content .top .clubname.data-v-329a83f9 {
+      font-weight: 700;
+      font-size: 30rpx;
+}
+.list-page-container .item-content .top .starname.data-v-329a83f9 {
+      background: -webkit-gradient(linear, left top, left bottom, from(#ff7e00), to(#fccd9f));
+      background: -o-linear-gradient(#ff7e00, #fccd9f);
+      background: linear-gradient(#ff7e00, #fccd9f);
+      color: #fff;
+      padding: 0 12rpx;
+      border-radius: 12rpx;
+      font-size: 20rpx;
+      -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+              box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+      line-height: 34rpx;
+      margin: 0 5rpx;
+      white-space: nowrap;
+}
+.list-page-container .item-content .bottom.data-v-329a83f9 {
+    font-size: 24rpx;
+    color: #888;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+.list-page-container .item-content .bottom .highlight.data-v-329a83f9 {
+      color: #edce14;
+      margin: 0 8rpx;
+}
+.list-page-container .top-container.data-v-329a83f9 {
+  background-color: #f4f4f4;
+  padding: 20rpx;
+}
+.list-page-container .top-container .top-wrap.data-v-329a83f9 {
+    border-radius: 20rpx;
+    background-color: #fff;
+}
+.list-page-container .top-container .top-wrap.no-data.data-v-329a83f9 {
+    padding: 40rpx;
+    text-align: center;
+}
+.list-page-container .top-container .top-wrap.no-data .btn-img.data-v-329a83f9 {
+      margin: 20rpx;
+      width: 120rpx;
+      height: 120rpx;
+}
+.list-page-container .top-container .top-wrap.club-item.data-v-329a83f9 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    border-bottom: 2rpx solid #efefef;
+    padding: 20rpx;
+}
+.list-page-container .top-container .top-wrap.club-item .avatar-wrap .avatar.data-v-329a83f9 {
+      width: 120rpx;
+      height: 120rpx;
+      border-radius: 50%;
+}
+.list-page-container .top-container .top-wrap.club-item .btn-add.data-v-329a83f9 {
+      width: 80rpx;
+      height: 80rpx;
+}
+.list-page-container .scroll-wrap.data-v-329a83f9 {
+  margin: 20rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  overflow-y: auto;
+}
+.list-page-container .scroll-wrap .item.data-v-329a83f9 {
+    color: #9a9a9a;
+    border: 2rpx solid #9a9a9a;
+    border-radius: 40rpx;
+    padding: 5rpx 20rpx;
+    white-space: nowrap;
+    margin-right: 20rpx;
+}
+.list-page-container .scroll-wrap .item.active.data-v-329a83f9 {
+    border-color: #ff89ad;
+    color: #ff89ad;
+}
+.list-page-container .search-wrap.data-v-329a83f9 {
+  margin: 20rpx;
+  position: relative;
+}
+.list-page-container .search-wrap .input.data-v-329a83f9 {
+    width: 100%;
+    height: 70rpx;
+    background-color: #f7f7f7;
+    border-radius: 40rpx;
+    text-align: center;
+}
+.list-page-container .search-wrap .input-text.data-v-329a83f9 {
+    color: #999;
+}
+.list-page-container .search-wrap .input-text .text.data-v-329a83f9 {
+      margin: 0 10rpx;
+}
+.list-page-container .list-wrap.data-v-329a83f9 {
+  margin: 20rpx;
+}
+.list-page-container .list-wrap .item.data-v-329a83f9 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    border-bottom: 2rpx solid #efefef;
+    padding: 20rpx;
+}
+.list-page-container .list-wrap .item .avatar-wrap .avatar.data-v-329a83f9 {
+      width: 120rpx;
+      height: 120rpx;
+      border-radius: 50%;
+}
+.list-page-container .list-wrap .item .btn-add.data-v-329a83f9 {
+      width: 80rpx;
+      height: 80rpx;
+}
+

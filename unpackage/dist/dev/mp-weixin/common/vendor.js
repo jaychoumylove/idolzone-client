@@ -1,9 +1,9 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],{
 
 /***/ 0:
-/*!*****************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js ***!
-  \*****************************************/
+/*!*************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js ***!
+  \*************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1519,9 +1519,9 @@ uni$1;exports.default = _default;
 /***/ }),
 
 /***/ 10:
-/*!*****************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/lib/js/base_func.js ***!
-  \*****************************************************/
+/*!*************************************************!*\
+  !*** E:/wx/idolzone-weixin/lib/js/base_func.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1596,6 +1596,13 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     return parts.join(".");
   },
 
+  /** 小数点后保留几位，不足4位保留原位数*/
+  formatFloatNum: function formatFloatNum(number) {
+    number = String(number).replace(/^(.*\..{4}).*$/, "$1");
+    number = Number(number);
+    return number;
+  },
+
   getWeek: function getWeek() {
     var time = new Date();
     var Monday = time.getDate() - time.getDay() + 1;
@@ -1622,9 +1629,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /***/ }),
 
 /***/ 101:
-/*!************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fuser%2Fuser"} ***!
-  \************************************************************************/
+/*!********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fuser"} ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1639,9 +1646,9 @@ createPage(_user.default);
 /***/ }),
 
 /***/ 109:
-/*!****************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fuser%2Fheadwear"} ***!
-  \****************************************************************************/
+/*!************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fheadwear"} ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1656,9 +1663,9 @@ createPage(_headwear.default);
 /***/ }),
 
 /***/ 11:
-/*!************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/lib/js/func.js ***!
-  \************************************************/
+/*!********************************************!*\
+  !*** E:/wx/idolzone-weixin/lib/js/func.js ***!
+  \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1926,9 +1933,9 @@ var _default = {
 /***/ }),
 
 /***/ 117:
-/*!***********************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fuser%2Flog"} ***!
-  \***********************************************************************/
+/*!*******************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Flog"} ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1943,9 +1950,9 @@ createPage(_log.default);
 /***/ }),
 
 /***/ 12:
-/*!****************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/lib/js/ext_func.js ***!
-  \****************************************************/
+/*!************************************************!*\
+  !*** E:/wx/idolzone-weixin/lib/js/ext_func.js ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2002,6 +2009,7 @@ var _default = {
   /**将数字格式化*/
   formatNumber: function formatNumber(num) {var fix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
     if (num >= 10000) {
+      if (num % 10000 == 0) fix = 0;
       return (num / 10000).toFixed(fix) + '万';
     } else {
       return num;
@@ -2218,9 +2226,9 @@ var _default = {
 /***/ }),
 
 /***/ 125:
-/*!************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fuser%2Frank"} ***!
-  \************************************************************************/
+/*!********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Frank"} ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2235,9 +2243,9 @@ createPage(_rank.default);
 /***/ }),
 
 /***/ 133:
-/*!******************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fuser%2Fbirth_rank"} ***!
-  \******************************************************************************/
+/*!**************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fbirth_rank"} ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2252,9 +2260,9 @@ createPage(_birth_rank.default);
 /***/ }),
 
 /***/ 141:
-/*!****************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fuser%2Fexcharge"} ***!
-  \****************************************************************************/
+/*!************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fexchange"} ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2262,16 +2270,16 @@ createPage(_birth_rank.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _excharge = _interopRequireDefault(__webpack_require__(/*! ./pages/user/excharge.vue */ 142));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_excharge.default);
+var _exchange = _interopRequireDefault(__webpack_require__(/*! ./pages/user/exchange.vue */ 142));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_exchange.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
 /***/ 149:
-/*!***************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fuser%2Fsetting"} ***!
-  \***************************************************************************/
+/*!***********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fsetting"} ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2393,9 +2401,9 @@ function normalizeComponent (
 /***/ }),
 
 /***/ 157:
-/*!****************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fuser%2Fstarinfo"} ***!
-  \****************************************************************************/
+/*!************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fstarinfo"} ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2410,9 +2418,9 @@ createPage(_starinfo.default);
 /***/ }),
 
 /***/ 16:
-/*!*******************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/lib/utils/ald-stat.js ***!
-  \*******************************************************/
+/*!***************************************************!*\
+  !*** E:/wx/idolzone-weixin/lib/utils/ald-stat.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2422,9 +2430,9 @@ createPage(_starinfo.default);
 /***/ }),
 
 /***/ 165:
-/*!*****************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fuser%2Fedit_user"} ***!
-  \*****************************************************************************/
+/*!*************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fedit_user"} ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2439,9 +2447,9 @@ createPage(_edit_user.default);
 /***/ }),
 
 /***/ 17:
-/*!************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/lib/utils/ald-stat-conf.js ***!
-  \************************************************************/
+/*!********************************************************!*\
+  !*** E:/wx/idolzone-weixin/lib/utils/ald-stat-conf.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2455,9 +2463,9 @@ exports.useOpen = false; //默认不启用，是否启用openid计算，开启�
 /***/ }),
 
 /***/ 173:
-/*!*****************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fsquare%2Farticle"} ***!
-  \*****************************************************************************/
+/*!*************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fsquare%2Farticle"} ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2472,9 +2480,9 @@ createPage(_article.default);
 /***/ }),
 
 /***/ 18:
-/*!************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/lib/utils/xhtad_sdk.min.js ***!
-  \************************************************************/
+/*!********************************************************!*\
+  !*** E:/wx/idolzone-weixin/lib/utils/xhtad_sdk.min.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2488,9 +2496,9 @@ createPage(_article.default);
 /***/ }),
 
 /***/ 181:
-/*!************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Ftask%2Ftask"} ***!
-  \************************************************************************/
+/*!********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ftask%2Ftask"} ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2505,9 +2513,9 @@ createPage(_task.default);
 /***/ }),
 
 /***/ 189:
-/*!************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Ftask%2Fgame"} ***!
-  \************************************************************************/
+/*!********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ftask%2Fgame"} ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2522,9 +2530,9 @@ createPage(_game.default);
 /***/ }),
 
 /***/ 19:
-/*!*********************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/lib/utils/xhtad_conf.js ***!
-  \*********************************************************/
+/*!*****************************************************!*\
+  !*** E:/wx/idolzone-weixin/lib/utils/xhtad_conf.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2534,9 +2542,9 @@ exports.app_key = 'xhutuice82873f0d3568a4'; //app_key可从小虎推后台接入
 /***/ }),
 
 /***/ 197:
-/*!****************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fnotice%2Fnotice"} ***!
-  \****************************************************************************/
+/*!************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fnotice%2Fnotice"} ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8500,9 +8508,9 @@ internalMixin(Vue);
 /***/ }),
 
 /***/ 20:
-/*!********************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/lib/utils/xhtad_md5.js ***!
-  \********************************************************/
+/*!****************************************************!*\
+  !*** E:/wx/idolzone-weixin/lib/utils/xhtad_md5.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8512,9 +8520,9 @@ function safe_add(e, f) {var g = (65535 & e) + (65535 & f);return (e >> 16) + (f
 /***/ }),
 
 /***/ 205:
-/*!**************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fnotice%2Flist"} ***!
-  \**************************************************************************/
+/*!**********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fnotice%2Flist"} ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8529,9 +8537,9 @@ createPage(_list.default);
 /***/ }),
 
 /***/ 21:
-/*!************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fopen%2Fopen"} ***!
-  \************************************************************************/
+/*!********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fopen%2Fopen"} ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8546,9 +8554,9 @@ createPage(_open.default);
 /***/ }),
 
 /***/ 213:
-/*!**************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fpk%2Fpk_index"} ***!
-  \**************************************************************************/
+/*!**********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fpk%2Fpk_index"} ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8563,9 +8571,9 @@ createPage(_pk_index.default);
 /***/ }),
 
 /***/ 221:
-/*!*************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fpk%2Fpk_rank"} ***!
-  \*************************************************************************/
+/*!*********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fpk%2Fpk_rank"} ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8580,9 +8588,9 @@ createPage(_pk_rank.default);
 /***/ }),
 
 /***/ 229:
-/*!******************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fpk%2Fpk_rank_user"} ***!
-  \******************************************************************************/
+/*!**************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fpk%2Fpk_rank_user"} ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8597,9 +8605,9 @@ createPage(_pk_rank_user.default);
 /***/ }),
 
 /***/ 237:
-/*!******************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Flottery%2Flottery"} ***!
-  \******************************************************************************/
+/*!**************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Flottery%2Flottery"} ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8614,9 +8622,9 @@ createPage(_lottery.default);
 /***/ }),
 
 /***/ 245:
-/*!**************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Flottery%2Flog"} ***!
-  \**************************************************************************/
+/*!**********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Flottery%2Flog"} ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8631,9 +8639,9 @@ createPage(_log.default);
 /***/ }),
 
 /***/ 253:
-/*!**************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Flottery%2Fbox"} ***!
-  \**************************************************************************/
+/*!**********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Flottery%2Fbox"} ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8648,9 +8656,9 @@ createPage(_box.default);
 /***/ }),
 
 /***/ 261:
-/*!*******************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Flottery%2Fbox_open"} ***!
-  \*******************************************************************************/
+/*!***************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Flottery%2Fbox_open"} ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8665,9 +8673,9 @@ createPage(_box_open.default);
 /***/ }),
 
 /***/ 269:
-/*!************************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Factive_one%2Factive_one"} ***!
-  \************************************************************************************/
+/*!********************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Factive_one%2Factive_one"} ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8682,9 +8690,9 @@ createPage(_active_one.default);
 /***/ }),
 
 /***/ 277:
-/*!*****************************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Factive_one%2Factive_one_list"} ***!
-  \*****************************************************************************************/
+/*!*************************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Factive_one%2Factive_one_list"} ***!
+  \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8699,9 +8707,9 @@ createPage(_active_one_list.default);
 /***/ }),
 
 /***/ 285:
-/*!**************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fscore%2Fscore"} ***!
-  \**************************************************************************/
+/*!**********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fscore%2Fscore"} ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8716,9 +8724,9 @@ createPage(_score.default);
 /***/ }),
 
 /***/ 29:
-/*!**************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Findex%2Findex"} ***!
-  \**************************************************************************/
+/*!**********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Findex%2Findex"} ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8733,9 +8741,9 @@ createPage(_index.default);
 /***/ }),
 
 /***/ 293:
-/*!******************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fredress%2Fredress"} ***!
-  \******************************************************************************/
+/*!**************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fredress%2Fredress"} ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8781,9 +8789,9 @@ module.exports = g;
 /***/ }),
 
 /***/ 301:
-/*!*****************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Ffans%2Ffans_list"} ***!
-  \*****************************************************************************/
+/*!*************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ffans%2Ffans_list"} ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8798,9 +8806,9 @@ createPage(_fans_list.default);
 /***/ }),
 
 /***/ 309:
-/*!*****************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Ffans%2Ffans_club"} ***!
-  \*****************************************************************************/
+/*!*************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ffans%2Ffans_club"} ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8815,9 +8823,9 @@ createPage(_fans_club.default);
 /***/ }),
 
 /***/ 317:
-/*!************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Ffans%2Fmass"} ***!
-  \************************************************************************/
+/*!********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ffans%2Fmass"} ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8832,9 +8840,9 @@ createPage(_mass.default);
 /***/ }),
 
 /***/ 325:
-/*!****************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Ffans%2Ffans_new"} ***!
-  \****************************************************************************/
+/*!************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ffans%2Ffans_new"} ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8849,9 +8857,9 @@ createPage(_fans_new.default);
 /***/ }),
 
 /***/ 333:
-/*!**************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Ffans%2Fmember"} ***!
-  \**************************************************************************/
+/*!**********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ffans%2Fmember"} ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8866,9 +8874,9 @@ createPage(_member.default);
 /***/ }),
 
 /***/ 341:
-/*!****************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fcharge%2Fcharge"} ***!
-  \****************************************************************************/
+/*!************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fcharge%2Fcharge"} ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8883,9 +8891,9 @@ createPage(_charge.default);
 /***/ }),
 
 /***/ 37:
-/*!*************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Findex%2Frank"} ***!
-  \*************************************************************************/
+/*!*********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Findex%2Frank"} ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8900,9 +8908,9 @@ createPage(_rank.default);
 /***/ }),
 
 /***/ 4:
-/*!********************************************!*\
-  !*** D:/Develop/uni-app/f_1008/pages.json ***!
-  \********************************************/
+/*!****************************************!*\
+  !*** E:/wx/idolzone-weixin/pages.json ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8912,9 +8920,9 @@ createPage(_rank.default);
 /***/ }),
 
 /***/ 45:
-/*!****************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Findex%2Ffengyun"} ***!
-  \****************************************************************************/
+/*!************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Findex%2Ffengyun"} ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8929,9 +8937,9 @@ createPage(_fengyun.default);
 /***/ }),
 
 /***/ 53:
-/*!************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Ffarm%2Ffarm"} ***!
-  \************************************************************************/
+/*!********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ffarm%2Ffarm"} ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8946,9 +8954,9 @@ createPage(_farm.default);
 /***/ }),
 
 /***/ 61:
-/*!************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Ffarm%2Fhelp"} ***!
-  \************************************************************************/
+/*!********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ffarm%2Fhelp"} ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8963,9 +8971,9 @@ createPage(_help.default);
 /***/ }),
 
 /***/ 69:
-/*!*************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fgroup%2Fstar"} ***!
-  \*************************************************************************/
+/*!*********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fgroup%2Fstar"} ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8980,9 +8988,9 @@ createPage(_star.default);
 /***/ }),
 
 /***/ 77:
-/*!**************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fgroup%2Fgroup"} ***!
-  \**************************************************************************/
+/*!**********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fgroup%2Fgroup"} ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8997,9 +9005,9 @@ createPage(_group.default);
 /***/ }),
 
 /***/ 8:
-/*!********************************************!*\
-  !*** D:/Develop/uni-app/f_1008/lib/lib.js ***!
-  \********************************************/
+/*!****************************************!*\
+  !*** E:/wx/idolzone-weixin/lib/lib.js ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9018,9 +9026,9 @@ _ext_func.default);exports.default = _default;
 /***/ }),
 
 /***/ 85:
-/*!*********************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fgroup%2Frank_history"} ***!
-  \*********************************************************************************/
+/*!*****************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fgroup%2Frank_history"} ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9035,17 +9043,17 @@ createPage(_rank_history.default);
 /***/ }),
 
 /***/ 9:
-/*!*************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/lib/js/const.js ***!
-  \*************************************************/
+/*!*********************************************!*\
+  !*** E:/wx/idolzone-weixin/lib/js/const.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 基础常量
-// const HOST = 'idolzone.cyoor.com';
+var HOST = 'idolzone.cyoor.com';
 // const HOST = 'cs.adqz.xiaolishu.com';
-var HOST = 'cs.ouridol.xiaolishu.com';
+// const HOST = 'cs.ouridol.xiaolishu.com';
 var VERSION = 'v1';var _default =
 
 {
@@ -9146,9 +9154,9 @@ var VERSION = 'v1';var _default =
 /***/ }),
 
 /***/ 93:
-/*!****************************************************************************!*\
-  !*** D:/Develop/uni-app/f_1008/main.js?{"page":"pages%2Fsquare%2Fsquare"} ***!
-  \****************************************************************************/
+/*!************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fsquare%2Fsquare"} ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 

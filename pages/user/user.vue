@@ -84,7 +84,7 @@
 					 mode="aspectFill"></image>
 					<view class="text">应援</view>
 				</view>
-				<view class="item-wrap" @tap="$app.goPage('/pages/user/excharge')">
+				<view class="item-wrap" @tap="$app.goPage('/pages/user/exchange')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxaonPdq5wuw0mcjvxg7fiaH9U9f5HX3D4VTVJibsHHf8MB4C2nAIELfog/0"
 					 mode="aspectFill"></image>
 					<view class="text">积分商城</view>
@@ -99,7 +99,7 @@
 
 		<!-- 功能区 -->
 		<view class="func-container">
-			<view class="item-wrap" @tap="$app.preImg('https://mmbiz.qpic.cn/mmbiz_jpg/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQqu0I5ZYNcIZmyEDibZP6hicheN1po0KLI9p6nCLwxFVDq7Vc8rM3HXCBmg/0')">
+			<view class="item-wrap" @tap="$app.preImg('https://mmbiz.qpic.cn/mmbiz_jpg/h9gCibVJa7JWh9kicrjHxwae75myNP7juRd5dQdAxjex8dKWSXiakDTyCyCKMpBfAtICOh4sJzXJUCteU1AiaJpOYw/0')">
 				<view class="left-wrap">
 					<image class="icon" :src="`/static/image/user_level/lv${userLevel.level}.png`" mode="aspectFill"></image>
 					<view class="text">

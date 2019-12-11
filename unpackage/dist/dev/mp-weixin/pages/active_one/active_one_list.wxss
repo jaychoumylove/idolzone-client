@@ -1,24 +1,24 @@
-.active-one-list-container .list-wrap.data-v-c2049ee6 {
+.active-one-list-container .list-wrap.data-v-8c5f9d42 {
   padding: 20rpx 0;
 }
-.active-one-list-container .list-wrap .item-wrap.data-v-c2049ee6 {
+.active-one-list-container .list-wrap .item-wrap.data-v-8c5f9d42 {
     padding: 20rpx;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
 }
-.active-one-list-container .list-wrap .item-wrap .left-img.data-v-c2049ee6 {
+.active-one-list-container .list-wrap .item-wrap .left-img.data-v-8c5f9d42 {
       border-radius: 30rpx;
       position: relative;
       z-index: 1;
       overflow: hidden;
 }
-.active-one-list-container .list-wrap .item-wrap .left-img .img.data-v-c2049ee6 {
+.active-one-list-container .list-wrap .item-wrap .left-img .img.data-v-8c5f9d42 {
         width: 314rpx;
         height: 227rpx;
 }
-.active-one-list-container .list-wrap .item-wrap .left-img .remain.data-v-c2049ee6 {
+.active-one-list-container .list-wrap .item-wrap .left-img .remain.data-v-8c5f9d42 {
         position: absolute;
         top: 0;
         left: 0;
@@ -30,7 +30,7 @@
         padding-left: 20rpx;
         color: #fff;
 }
-.active-one-list-container .list-wrap .item-wrap .right-content.data-v-c2049ee6 {
+.active-one-list-container .list-wrap .item-wrap .right-content.data-v-8c5f9d42 {
       color: #a8a8a8;
       font-size: 26rpx;
       -webkit-box-flex: 1;
@@ -48,7 +48,7 @@
           -ms-flex-direction: column;
               flex-direction: column;
 }
-.active-one-list-container .list-wrap .item-wrap .right-content .title.data-v-c2049ee6 {
+.active-one-list-container .list-wrap .item-wrap .right-content .title.data-v-8c5f9d42 {
         color: #000;
         font-size: 30rpx;
         font-weight: 700;
@@ -57,10 +57,10 @@
             -ms-flex: 1;
                 flex: 1;
 }
-.active-one-list-container .list-wrap .item-wrap .right-content .title .tips.data-v-c2049ee6 {
+.active-one-list-container .list-wrap .item-wrap .right-content .title .tips.data-v-8c5f9d42 {
           font-size: 18rpx;
 }
-.active-one-list-container .list-wrap .item-wrap .right-content .progress-wrap.data-v-c2049ee6 {
+.active-one-list-container .list-wrap .item-wrap .right-content .progress-wrap.data-v-8c5f9d42 {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -70,7 +70,7 @@
             -ms-flex-align: center;
                 align-items: center;
 }
-.active-one-list-container .list-wrap .item-wrap .right-content .progress-wrap .progress.data-v-c2049ee6 {
+.active-one-list-container .list-wrap .item-wrap .right-content .progress-wrap .progress.data-v-8c5f9d42 {
           background-color: #f9f9f9;
           -webkit-box-flex: 1;
           -webkit-flex: 1;
@@ -80,15 +80,15 @@
           border-radius: 20rpx;
           overflow: hidden;
 }
-.active-one-list-container .list-wrap .item-wrap .right-content .progress-wrap .progress .progress-inner.data-v-c2049ee6 {
+.active-one-list-container .list-wrap .item-wrap .right-content .progress-wrap .progress .progress-inner.data-v-8c5f9d42 {
             height: 100%;
             border-radius: 20rpx;
 }
-.active-one-list-container .list-wrap .item-wrap .right-content .progress-wrap .text.data-v-c2049ee6 {
+.active-one-list-container .list-wrap .item-wrap .right-content .progress-wrap .text.data-v-8c5f9d42 {
           width: 60rpx;
           text-align: center;
 }
-.active-one-list-container .list-wrap .item-wrap .right-content .bottom-wrap.data-v-c2049ee6 {
+.active-one-list-container .list-wrap .item-wrap .right-content .bottom-wrap.data-v-8c5f9d42 {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -102,10 +102,10 @@
             -ms-flex-align: center;
                 align-items: center;
 }
-.active-one-list-container .list-wrap .item-wrap .right-content .bottom-wrap .text.data-v-c2049ee6 {
+.active-one-list-container .list-wrap .item-wrap .right-content .bottom-wrap .text.data-v-8c5f9d42 {
           text-align: center;
 }
-.active-one-list-container .list-wrap .item-wrap .right-content .bottom-wrap .split.data-v-c2049ee6 {
+.active-one-list-container .list-wrap .item-wrap .right-content .bottom-wrap .split.data-v-8c5f9d42 {
           height: 30rpx;
           width: 1px;
           background-color: #efefef;

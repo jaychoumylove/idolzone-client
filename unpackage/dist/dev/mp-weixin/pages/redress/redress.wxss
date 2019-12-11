@@ -1,4 +1,4 @@
-.help-container.data-v-bab0b86c {
+.help-container.data-v-7e1d7238 {
   width: 100%;
   padding-top: 175rpx;
   display: -webkit-box;
@@ -19,12 +19,12 @@
       -ms-flex-align: center;
           align-items: center;
 }
-.help-container .img.data-v-bab0b86c {
+.help-container .img.data-v-7e1d7238 {
   width: 190rpx;
   height: 210rpx;
   display: block;
 }
-.show-status.data-v-bab0b86c {
+.show-status.data-v-7e1d7238 {
   width: 400rpx;
   text-align: center;
   line-height: 2;
@@ -32,7 +32,7 @@
   font-weight: 600;
   color: #666;
 }
-.msg.data-v-bab0b86c {
+.msg.data-v-7e1d7238 {
   width: 100%;
   height: 110rpx;
   display: -webkit-box;
@@ -52,14 +52,14 @@
   font-size: 28rpx;
   text-align: center;
 }
-.continue.data-v-bab0b86c {
+.continue.data-v-7e1d7238 {
   width: 100%;
   line-height: 50rpx;
   font-size: 30rpx;
   color: #9f9b9f;
   text-align: center;
 }
-.continue-btn.data-v-bab0b86c {
+.continue-btn.data-v-7e1d7238 {
   width: 450rpx;
   height: 90rpx;
   margin: 10rpx auto;
@@ -71,7 +71,7 @@
   color: #6c3800;
   font-weight: bold;
 }
-.bottom-btn.data-v-bab0b86c {
+.bottom-btn.data-v-7e1d7238 {
   width: 250rpx;
   position: fixed;
   bottom: 80rpx;

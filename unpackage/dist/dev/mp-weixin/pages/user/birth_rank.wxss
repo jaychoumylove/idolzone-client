@@ -1,4 +1,4 @@
-.container .tab-container.data-v-1f65e801 {
+.container .tab-container.data-v-0a489322 {
   padding: 25rpx;
   display: -webkit-box;
   display: -webkit-flex;
@@ -13,7 +13,7 @@
           justify-content: space-around;
   border-bottom: 1rpx solid #eee;
 }
-.container .tab-container .tab-item.data-v-1f65e801 {
+.container .tab-container .tab-item.data-v-0a489322 {
     border-radius: 32rpx;
     border: 1rpx solid #FF7E00;
     padding: 10rpx 30rpx;
@@ -33,15 +33,15 @@
             flex: 1;
     color: #FF7E00;
 }
-.container .tab-container .tab-item.active.data-v-1f65e801 {
+.container .tab-container .tab-item.active.data-v-0a489322 {
     background-color: #FF7E00;
     text-align: center;
     color: #fff;
 }
-.container .list-container.data-v-1f65e801 {
+.container .list-container.data-v-0a489322 {
   padding-bottom: 130rpx;
 }
-.container .list-container .item.data-v-1f65e801 {
+.container .list-container .item.data-v-0a489322 {
     height: 130rpx;
     display: -webkit-box;
     display: -webkit-flex;
@@ -52,24 +52,24 @@
         -ms-flex-align: center;
             align-items: center;
 }
-.container .list-container .item .rank-num.data-v-1f65e801 {
+.container .list-container .item .rank-num.data-v-0a489322 {
       text-align: center;
       width: 100rpx;
 }
-.container .list-container .item .rank-num .icon.data-v-1f65e801 {
+.container .list-container .item .rank-num .icon.data-v-0a489322 {
         width: 50rpx;
         height: 50rpx;
 }
-.container .list-container .item .avatar image.data-v-1f65e801 {
+.container .list-container .item .avatar image.data-v-0a489322 {
       width: 100rpx;
       height: 100rpx;
       border-radius: 50%;
 }
-.container .list-container .item .text-container.data-v-1f65e801 {
+.container .list-container .item .text-container.data-v-0a489322 {
       margin: 0 20rpx;
       width: 250rpx;
 }
-.container .list-container .item .text-container .bottom-text.data-v-1f65e801 {
+.container .list-container .item .text-container .bottom-text.data-v-0a489322 {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -80,7 +80,7 @@
                 align-items: center;
         color: #333333;
 }
-.container .list-container .item .text-container .starname.data-v-1f65e801 {
+.container .list-container .item .text-container .starname.data-v-0a489322 {
         background: -webkit-gradient(linear, left top, left bottom, from(#ff7e00), to(#fccd9f));
         background: -o-linear-gradient(#ff7e00, #fccd9f);
         background: linear-gradient(#ff7e00, #fccd9f);
@@ -93,11 +93,11 @@
         margin: 0 5rpx;
         display: inline-block;
 }
-.container .list-container .item .count.data-v-1f65e801 {
+.container .list-container .item .count.data-v-0a489322 {
       margin-left: 30rpx;
       color: #ff8421;
 }
-.container .my-container.data-v-1f65e801 {
+.container .my-container.data-v-0a489322 {
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -112,24 +112,24 @@
           align-items: center;
   background-color: #FFF;
 }
-.container .my-container .rank-num.data-v-1f65e801 {
+.container .my-container .rank-num.data-v-0a489322 {
     text-align: center;
     width: 100rpx;
 }
-.container .my-container .rank-num .icon.data-v-1f65e801 {
+.container .my-container .rank-num .icon.data-v-0a489322 {
       width: 50rpx;
       height: 50rpx;
 }
-.container .my-container .avatar image.data-v-1f65e801 {
+.container .my-container .avatar image.data-v-0a489322 {
     width: 100rpx;
     height: 100rpx;
     border-radius: 50%;
 }
-.container .my-container .text-container.data-v-1f65e801 {
+.container .my-container .text-container.data-v-0a489322 {
     margin: 0 20rpx;
     width: 250rpx;
 }
-.container .my-container .text-container .bottom-text.data-v-1f65e801 {
+.container .my-container .text-container .bottom-text.data-v-0a489322 {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -140,7 +140,7 @@
               align-items: center;
       color: #333333;
 }
-.container .my-container .count.data-v-1f65e801 {
+.container .my-container .count.data-v-0a489322 {
     margin-left: 30rpx;
     color: #ff8421;
 }

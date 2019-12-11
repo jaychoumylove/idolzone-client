@@ -34,6 +34,12 @@
 						<view class="add-count add" v-if="item.trumpet > 0">+{{item.trumpet}}</view>
 						<view class="add-count" v-else>{{item.trumpet}}</view>
 					</view>
+					
+					<view class="right-item" v-if="item.point">
+						<image src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXX6zqzjkSn01fIlGmzJw6u6spsa2iclibKUibzkneYdS4CE4FGmmysZiaW3V3rz08MFNsIY8hFsXoKgg/0" mode="widthFix"></image>
+						<view class="add-count add" v-if="item.point > 0">+{{$app.formatFloatNum(item.point/10000)}}</view>
+						<view class="add-count" v-else>{{$app.formatFloatNum(item.point/10000)}}</view>
+					</view>
 
 				</view>
 			</view>
