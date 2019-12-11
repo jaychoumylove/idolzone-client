@@ -7,8 +7,7 @@
 		</view> -->
 
 
-		<view class="item" v-for="(item,index) in taskList" :key="index" 
-			v-if="!(item.id==7&&~$app.getData('sysInfo').system.indexOf('iOS')&&$app.getData('config').ios_switch==1)">
+		<view class="item" v-for="(item,index) in taskList" :key="index">
 			<!-- 有些任务不显示 -->
 			<view v-if="current != 2" class="left-content">
 				<image class="img" :src="item.icon" mode=""></image>

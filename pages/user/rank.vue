@@ -3,6 +3,7 @@
 
 		<view class='tab-container'>
 			<view class="tab-item" :class='{active:current==0}' @tap='switchAct(0)'>日榜</view>
+			<view class="tab-item" :class='{active:current==3}' @tap='switchAct(3)'>上周</view>
 			<view class="tab-item" :class='{active:current==1}' @tap='switchAct(1)'>周榜</view>
 			<view class="tab-item" :class='{active:current==2}' @tap='switchAct(2)'>总榜</view>
 		</view>
@@ -29,7 +30,7 @@
 						<image class="img-s" :src="`/static/image/user_level/lv${item.level}.png`" mode=""></image>
 					</view>
 				</view>
-				<view class="count">贡献值 {{item.hot}}</view>
+				<view class="count">贡献值{{item.hot}}</view>
 			</view>
 		</view>
 		<!-- 我的 -->
@@ -88,6 +89,8 @@
 					field = 'thisweek_count'
 				} else if (this.current == 2) {
 					field = 'total_count'
+				} else if (this.current == 3) {
+					field = 'lastweek_count'
 				}
 				this.$app.request(this.$app.API.USER_RANK, {
 					starid: this.starid,
@@ -190,7 +193,7 @@
 				}
 
 				.count {
-					margin-left: 30upx;
+					margin:0 30upx;
 					color: #ff8421;
 				}
 

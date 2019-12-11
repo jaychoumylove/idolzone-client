@@ -75,9 +75,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   var g0 = _vm.$app.getData("sysInfo").system.indexOf("iOS")
   var g1 = _vm.$app.getData("config")
-  var g2 = _vm.$app.getData("sysInfo").system.indexOf("iOS")
-  var g3 = _vm.$app.getData("config")
-  var g4 = _vm.$app.getData("config")
+  var g2 = _vm.$app.getData("config")
 
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
@@ -107,9 +105,7 @@ var render = function() {
       $root: {
         g0: g0,
         g1: g1,
-        g2: g2,
-        g3: g3,
-        g4: g4
+        g2: g2
       }
     }
   )
@@ -146,7 +142,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var btnComponent = function btnComponent() {return __webpack_require__.e(/*! import() | components/btnComponent */ "components/btnComponent").then(__webpack_require__.bind(null, /*! @/components/btnComponent.vue */ 370));};var modalComponent = function modalComponent() {return __webpack_require__.e(/*! import() | components/modalComponent */ "components/modalComponent").then(__webpack_require__.bind(null, /*! @/components/modalComponent.vue */ 356));};var _default =
-
 
 
 

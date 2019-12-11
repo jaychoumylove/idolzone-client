@@ -173,6 +173,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
+//
 var _default =
 {
   data: function data() {
@@ -208,6 +209,8 @@ var _default =
         field = 'thisweek_count';
       } else if (this.current == 2) {
         field = 'total_count';
+      } else if (this.current == 3) {
+        field = 'lastweek_count';
       }
       this.$app.request(this.$app.API.USER_RANK, {
         starid: this.starid,
