@@ -1,5 +1,5 @@
 @charset "UTF-8";
-.guild-component-container.data-v-285dc2e9 {
+.guild-component-container.data-v-2d5faaeb {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -11,7 +11,7 @@
           flex-direction: column;
   height: 100%;
 }
-.guild-component-container .top-bg.data-v-285dc2e9 {
+.guild-component-container .top-bg.data-v-2d5faaeb {
     background-color: #fbcc3e;
     height: 250rpx;
     width: 100%;
@@ -21,24 +21,24 @@
     position: absolute;
     z-index: -1;
 }
-.guild-component-container .top-container.data-v-285dc2e9 {
+.guild-component-container .top-container.data-v-2d5faaeb {
     background-color: #544f4b;
     color: #fff;
     position: relative;
 }
-.guild-component-container .top-container .danmaku-wrapper.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper.data-v-2d5faaeb {
       position: absolute;
       height: 50rpx;
       width: 100%;
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku.data-v-2d5faaeb {
         margin-top: 10rpx;
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
-        -webkit-animation: sayworld-data-v-285dc2e9 10s linear infinite;
-                animation: sayworld-data-v-285dc2e9 10s linear infinite;
+        -webkit-animation: sayworld-data-v-2d5faaeb 10s linear infinite;
+                animation: sayworld-data-v-2d5faaeb 10s linear infinite;
         -webkit-box-align: center;
         -webkit-align-items: center;
             -ms-flex-align: center;
@@ -47,7 +47,7 @@
         z-index: 9;
         border-radius: 50rpx;
 }
-@-webkit-keyframes sayworld-data-v-285dc2e9 {
+@-webkit-keyframes sayworld-data-v-2d5faaeb {
 0% {
     -webkit-transform: translateX(750rpx);
             transform: translateX(750rpx);
@@ -62,7 +62,7 @@
             transform: translateX(-750rpx);
 }
 }
-@keyframes sayworld-data-v-285dc2e9 {
+@keyframes sayworld-data-v-2d5faaeb {
 0% {
     -webkit-transform: translateX(750rpx);
             transform: translateX(750rpx);
@@ -77,27 +77,27 @@
             transform: translateX(-750rpx);
 }
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku .bg.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku .bg.data-v-2d5faaeb {
           position: absolute;
           z-index: -1;
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku .avatar.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku .avatar.data-v-2d5faaeb {
           width: 44rpx;
           height: 44rpx;
           border-radius: 50%;
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku .content.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku .content.data-v-2d5faaeb {
           padding: 0 10rpx;
           padding-right: 50rpx;
           min-width: 200rpx;
           color: #FFF;
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku.in.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku.in.data-v-2d5faaeb {
         padding: 8rpx 16rpx;
         background: #564da9;
         font-size: 26rpx;
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap.data-v-2d5faaeb {
           display: -webkit-box;
           display: -webkit-flex;
           display: -ms-flexbox;
@@ -107,91 +107,91 @@
               -ms-flex-align: center;
                   align-items: center;
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .img.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .img.data-v-2d5faaeb {
             width: 28rpx;
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .user-level-text.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .user-level-text.data-v-2d5faaeb {
             border-radius: 30rpx;
             padding-right: 10rpx;
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level1.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level1.data-v-2d5faaeb {
             color: #B8CAD6;
             background: -webkit-gradient(linear, left top, right top, from(rgba(206, 223, 232, 0)), to(rgba(206, 223, 232, 0.6)));
             background: -o-linear-gradient(left, rgba(206, 223, 232, 0), rgba(206, 223, 232, 0.6));
             background: linear-gradient(to right, rgba(206, 223, 232, 0), rgba(206, 223, 232, 0.6));
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level2.data-v-285dc2e9,
-          .guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level3.data-v-285dc2e9,
-          .guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level4.data-v-285dc2e9,
-          .guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level5.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level2.data-v-2d5faaeb,
+          .guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level3.data-v-2d5faaeb,
+          .guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level4.data-v-2d5faaeb,
+          .guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level5.data-v-2d5faaeb {
             color: #74D0FF;
             background: -webkit-gradient(linear, left top, right top, from(rgba(112, 228, 254, 0)), to(rgba(112, 228, 254, 0.6)));
             background: -o-linear-gradient(left, rgba(112, 228, 254, 0), rgba(112, 228, 254, 0.6));
             background: linear-gradient(to right, rgba(112, 228, 254, 0), rgba(112, 228, 254, 0.6));
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level6.data-v-285dc2e9,
-          .guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level7.data-v-285dc2e9,
-          .guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level8.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level6.data-v-2d5faaeb,
+          .guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level7.data-v-2d5faaeb,
+          .guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level8.data-v-2d5faaeb {
             color: #09EA71;
             background: -webkit-gradient(linear, left top, right top, from(rgba(102, 240, 123, 0)), to(rgba(102, 240, 123, 0.6)));
             background: -o-linear-gradient(left, rgba(102, 240, 123, 0), rgba(102, 240, 123, 0.6));
             background: linear-gradient(to right, rgba(102, 240, 123, 0), rgba(102, 240, 123, 0.6));
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level9.data-v-285dc2e9,
-          .guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level10.data-v-285dc2e9,
-          .guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level11.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level9.data-v-2d5faaeb,
+          .guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level10.data-v-2d5faaeb,
+          .guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level11.data-v-2d5faaeb {
             color: #FD8465;
             background: -webkit-gradient(linear, left top, right top, from(rgba(255, 161, 161, 0)), to(rgba(255, 161, 161, 0.6)));
             background: -o-linear-gradient(left, rgba(255, 161, 161, 0), rgba(255, 161, 161, 0.6));
             background: linear-gradient(to right, rgba(255, 161, 161, 0), rgba(255, 161, 161, 0.6));
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level12.data-v-285dc2e9,
-          .guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level13.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level12.data-v-2d5faaeb,
+          .guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level13.data-v-2d5faaeb {
             color: #F76134;
             background: -webkit-gradient(linear, left top, right top, from(rgba(255, 160, 128, 0)), to(rgba(255, 160, 128, 0.6)));
             background: -o-linear-gradient(left, rgba(255, 160, 128, 0), rgba(255, 160, 128, 0.6));
             background: linear-gradient(to right, rgba(255, 160, 128, 0), rgba(255, 160, 128, 0.6));
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level14.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level14.data-v-2d5faaeb {
             color: #FD75A1;
             background: -webkit-gradient(linear, left top, right top, from(rgba(255, 151, 197, 0)), to(rgba(255, 151, 197, 0.6)));
             background: -o-linear-gradient(left, rgba(255, 151, 197, 0), rgba(255, 151, 197, 0.6));
             background: linear-gradient(to right, rgba(255, 151, 197, 0), rgba(255, 151, 197, 0.6));
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level15.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level15.data-v-2d5faaeb {
             color: #EB5AFF;
             background: -webkit-gradient(linear, left top, right top, from(rgba(224, 137, 255, 0)), to(rgba(224, 137, 255, 0.6)));
             background: -o-linear-gradient(left, rgba(224, 137, 255, 0), rgba(224, 137, 255, 0.6));
             background: linear-gradient(to right, rgba(224, 137, 255, 0), rgba(224, 137, 255, 0.6));
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level16.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level16.data-v-2d5faaeb {
             color: #e8b12a;
             background: -webkit-gradient(linear, left top, right top, from(rgba(224, 137, 255, 0)), to(rgba(226, 186, 84, 0.6)));
             background: -o-linear-gradient(left, rgba(224, 137, 255, 0), rgba(226, 186, 84, 0.6));
             background: linear-gradient(to right, rgba(224, 137, 255, 0), rgba(226, 186, 84, 0.6));
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level17.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level17.data-v-2d5faaeb {
             color: #FF7C00;
             background: -webkit-gradient(linear, left top, right top, from(rgba(255, 230, 245, 0)), to(rgba(255, 230, 194, 0.6)));
             background: -o-linear-gradient(left, rgba(255, 230, 245, 0), rgba(255, 230, 194, 0.6));
             background: linear-gradient(to right, rgba(255, 230, 245, 0), rgba(255, 230, 194, 0.6));
 }
-.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level18.data-v-285dc2e9 {
+.guild-component-container .top-container .danmaku-wrapper .danmaku.in .user-level-wrap .level18.data-v-2d5faaeb {
             color: #FF0019;
             background: -webkit-gradient(linear, left top, right top, from(rgba(255, 230, 230, 0)), to(rgba(255, 194, 194, 0.6)));
             background: -o-linear-gradient(left, rgba(255, 230, 230, 0), rgba(255, 194, 194, 0.6));
             background: linear-gradient(to right, rgba(255, 230, 230, 0), rgba(255, 194, 194, 0.6));
 }
-.guild-component-container .top-container .send-danmaku-wrap.data-v-285dc2e9 {
+.guild-component-container .top-container .send-danmaku-wrap.data-v-2d5faaeb {
       position: absolute;
       width: 100%;
       height: 150rpx;
       top: 40rpx;
 }
-.guild-component-container .top-container .send-danmaku-wrap .row.data-v-285dc2e9 {
+.guild-component-container .top-container .send-danmaku-wrap .row.data-v-2d5faaeb {
         height: 33.33%;
 }
-.guild-component-container .top-container .send-danmaku-wrap .row .danmaku.data-v-285dc2e9 {
+.guild-component-container .top-container .send-danmaku-wrap .row .danmaku.data-v-2d5faaeb {
           position: absolute;
           display: -webkit-box;
           display: -webkit-flex;
@@ -205,11 +205,11 @@
           border-radius: 50rpx;
           background-color: rgba(255, 153, 153, 0.8);
           z-index: 1;
-          -webkit-animation: trans-data-v-285dc2e9 10s linear forwards;
-                  animation: trans-data-v-285dc2e9 10s linear forwards;
+          -webkit-animation: trans-data-v-2d5faaeb 10s linear forwards;
+                  animation: trans-data-v-2d5faaeb 10s linear forwards;
           font-size: 24rpx;
 }
-@-webkit-keyframes trans-data-v-285dc2e9 {
+@-webkit-keyframes trans-data-v-2d5faaeb {
 0% {
     -webkit-transform: translateX(750rpx);
             transform: translateX(750rpx);
@@ -219,7 +219,7 @@
             transform: translateX(-750rpx);
 }
 }
-@keyframes trans-data-v-285dc2e9 {
+@keyframes trans-data-v-2d5faaeb {
 0% {
     -webkit-transform: translateX(750rpx);
             transform: translateX(750rpx);
@@ -229,20 +229,20 @@
             transform: translateX(-750rpx);
 }
 }
-.guild-component-container .top-container .send-danmaku-wrap .row .danmaku .avatar.data-v-285dc2e9 {
+.guild-component-container .top-container .send-danmaku-wrap .row .danmaku .avatar.data-v-2d5faaeb {
             width: 30rpx;
             height: 30rpx;
             border-radius: 50%;
             margin: 5rpx;
 }
-.guild-component-container .top-container .send-danmaku-wrap .row .danmaku .content.data-v-285dc2e9 {
+.guild-component-container .top-container .send-danmaku-wrap .row .danmaku .content.data-v-2d5faaeb {
             padding: 0 10rpx;
             color: #FFF;
 }
-.guild-component-container .top-container .send-danmaku-wrap .row .danmaku.flower.data-v-285dc2e9 {
+.guild-component-container .top-container .send-danmaku-wrap .row .danmaku.flower.data-v-2d5faaeb {
           background-color: rgba(250, 49, 66, 0.6);
 }
-.guild-component-container .top-container .top-row.data-v-285dc2e9 {
+.guild-component-container .top-container .top-row.data-v-2d5faaeb {
       padding: 30rpx 30rpx 0;
       display: -webkit-box;
       display: -webkit-flex;
@@ -253,12 +253,12 @@
           -ms-flex-align: center;
               align-items: center;
 }
-.guild-component-container .top-container .top-row .avatar-wrap .avatar.data-v-285dc2e9 {
+.guild-component-container .top-container .top-row .avatar-wrap .avatar.data-v-2d5faaeb {
         width: 130rpx;
         height: 130rpx;
         border-radius: 50%;
 }
-.guild-component-container .top-container .top-row .center-wrap.data-v-285dc2e9 {
+.guild-component-container .top-container .top-row .center-wrap.data-v-2d5faaeb {
         margin-left: 20rpx;
         display: -webkit-box;
         display: -webkit-flex;
@@ -277,15 +277,15 @@
             -ms-flex-pack: justify;
                 justify-content: space-between;
 }
-.guild-component-container .top-container .top-row .center-wrap .row.data-v-285dc2e9 {
+.guild-component-container .top-container .top-row .center-wrap .row.data-v-2d5faaeb {
           text-align: center;
 }
-.guild-component-container .top-container .top-row .center-wrap .split.data-v-285dc2e9 {
+.guild-component-container .top-container .top-row .center-wrap .split.data-v-2d5faaeb {
           width: 1px;
           height: 60rpx;
           background-color: #6e6965;
 }
-.guild-component-container .top-container .bottom-wrap.data-v-285dc2e9 {
+.guild-component-container .top-container .bottom-wrap.data-v-2d5faaeb {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -300,10 +300,10 @@
               justify-content: space-between;
       padding: 0 30rpx;
 }
-.guild-component-container .top-container .bottom-wrap .left-wrap.data-v-285dc2e9 {
+.guild-component-container .top-container .bottom-wrap .left-wrap.data-v-2d5faaeb {
         padding: 15rpx 0;
 }
-.guild-component-container .top-container .bottom-wrap .left-wrap .top-wrap.data-v-285dc2e9 {
+.guild-component-container .top-container .bottom-wrap .left-wrap .top-wrap.data-v-2d5faaeb {
           display: -webkit-box;
           display: -webkit-flex;
           display: -ms-flexbox;
@@ -318,10 +318,10 @@
                   align-items: flex-end;
           padding-bottom: 10rpx;
 }
-.guild-component-container .top-container .bottom-wrap .left-wrap .top-wrap .right.data-v-285dc2e9 {
+.guild-component-container .top-container .bottom-wrap .left-wrap .top-wrap .right.data-v-2d5faaeb {
             font-size: 22rpx;
 }
-.guild-component-container .top-container .bottom-wrap .left-wrap .fans-rank-wrap.data-v-285dc2e9 {
+.guild-component-container .top-container .bottom-wrap .left-wrap .fans-rank-wrap.data-v-2d5faaeb {
           min-height: 60rpx;
           display: -webkit-box;
           display: -webkit-flex;
@@ -332,49 +332,49 @@
               -ms-flex-pack: justify;
                   justify-content: space-between;
 }
-.guild-component-container .top-container .bottom-wrap .left-wrap .fans-rank-wrap .avatar-wrap.data-v-285dc2e9 {
+.guild-component-container .top-container .bottom-wrap .left-wrap .fans-rank-wrap .avatar-wrap.data-v-2d5faaeb {
             margin-left: -10rpx;
             position: relative;
 }
-.guild-component-container .top-container .bottom-wrap .left-wrap .fans-rank-wrap .avatar-wrap .avatar.data-v-285dc2e9 {
+.guild-component-container .top-container .bottom-wrap .left-wrap .fans-rank-wrap .avatar-wrap .avatar.data-v-2d5faaeb {
               width: 60rpx;
               height: 60rpx;
               border-radius: 50%;
 }
-.guild-component-container .top-container .bottom-wrap .left-wrap .fans-rank-wrap .avatar-wrap .rank.data-v-285dc2e9 {
+.guild-component-container .top-container .bottom-wrap .left-wrap .fans-rank-wrap .avatar-wrap .rank.data-v-2d5faaeb {
               position: absolute;
               right: -15rpx;
               bottom: -15rpx;
               width: 50rpx;
               height: 50rpx;
 }
-.guild-component-container .top-container .bottom-wrap .left-wrap .fans-rank-wrap .avatar-wrap.s-1.data-v-285dc2e9 {
+.guild-component-container .top-container .bottom-wrap .left-wrap .fans-rank-wrap .avatar-wrap.s-1.data-v-2d5faaeb {
             margin: 0;
 }
-.guild-component-container .top-container .bottom-wrap .left-wrap .fans-rank-wrap .avatar-wrap.s-1 .avatar.data-v-285dc2e9 {
+.guild-component-container .top-container .bottom-wrap .left-wrap .fans-rank-wrap .avatar-wrap.s-1 .avatar.data-v-2d5faaeb {
               border: 4rpx solid #f9de48;
 }
-.guild-component-container .top-container .bottom-wrap .left-wrap .fans-rank-wrap .avatar-wrap.s-2 .avatar.data-v-285dc2e9 {
+.guild-component-container .top-container .bottom-wrap .left-wrap .fans-rank-wrap .avatar-wrap.s-2 .avatar.data-v-2d5faaeb {
             border: 4rpx solid #dae0e9;
 }
-.guild-component-container .top-container .bottom-wrap .left-wrap .fans-rank-wrap .avatar-wrap.s-3 .avatar.data-v-285dc2e9 {
+.guild-component-container .top-container .bottom-wrap .left-wrap .fans-rank-wrap .avatar-wrap.s-3 .avatar.data-v-2d5faaeb {
             border: 4rpx solid #f6c382;
 }
-.guild-component-container .top-container .bottom-wrap .right-wrap.data-v-285dc2e9 {
+.guild-component-container .top-container .bottom-wrap .right-wrap.data-v-2d5faaeb {
         margin-left: 50rpx;
 }
-.guild-component-container .top-container .bottom-wrap .right-wrap .send-btn.data-v-285dc2e9 {
+.guild-component-container .top-container .bottom-wrap .right-wrap .send-btn.data-v-2d5faaeb {
           position: relative;
 }
-.guild-component-container .top-container .bottom-wrap .right-wrap .send-btn image.data-v-285dc2e9 {
+.guild-component-container .top-container .bottom-wrap .right-wrap .send-btn image.data-v-2d5faaeb {
             width: 240rpx;
             height: 120rpx;
 }
-.guild-component-container .center-container.data-v-285dc2e9 {
+.guild-component-container .center-container.data-v-2d5faaeb {
     padding: 10rpx 30rpx;
     border-bottom: 10rpx solid #efefef;
 }
-.guild-component-container .center-container .row-info.data-v-285dc2e9 {
+.guild-component-container .center-container .row-info.data-v-2d5faaeb {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -384,48 +384,48 @@
           -ms-flex-pack: justify;
               justify-content: space-between;
 }
-.guild-component-container .center-container .row-1.data-v-285dc2e9 {
+.guild-component-container .center-container .row-1.data-v-2d5faaeb {
       padding: 5rpx 10rpx;
 }
-.guild-component-container .center-container .row-1 .btn-item.data-v-285dc2e9 {
+.guild-component-container .center-container .row-1 .btn-item.data-v-2d5faaeb {
         text-align: center;
 }
-.guild-component-container .center-container .row-1 .btn-item .icon.data-v-285dc2e9 {
+.guild-component-container .center-container .row-1 .btn-item .icon.data-v-2d5faaeb {
           width: 70rpx;
           height: 70rpx;
 }
-.guild-component-container .center-container .row-1 .btn-item .text.data-v-285dc2e9 {
+.guild-component-container .center-container .row-1 .btn-item .text.data-v-2d5faaeb {
           margin-top: 5rpx;
           font-size: 24rpx;
 }
-.guild-component-container .center-container .row-2.data-v-285dc2e9 {
+.guild-component-container .center-container .row-2.data-v-2d5faaeb {
       -webkit-box-align: center;
       -webkit-align-items: center;
           -ms-flex-align: center;
               align-items: center;
       font-size: 26rpx;
 }
-.guild-component-container .center-container .row-2 .left-wrap.data-v-285dc2e9 {
+.guild-component-container .center-container .row-2 .left-wrap.data-v-2d5faaeb {
         color: #e3ba0c;
 }
-.guild-component-container .center-container .row-2 .center-wrap.data-v-285dc2e9 {
+.guild-component-container .center-container .row-2 .center-wrap.data-v-2d5faaeb {
         color: #666666;
         -webkit-box-flex: 1;
         -webkit-flex: 1;
             -ms-flex: 1;
                 flex: 1;
 }
-.guild-component-container .center-container .row-2 .right-wrap.data-v-285dc2e9 {
+.guild-component-container .center-container .row-2 .right-wrap.data-v-2d5faaeb {
         color: #b1b1b1;
 }
-.guild-component-container .chart-container.data-v-285dc2e9 {
+.guild-component-container .chart-container.data-v-2d5faaeb {
     -webkit-box-flex: 1;
     -webkit-flex: 1;
         -ms-flex: 1;
             flex: 1;
     overflow-y: auto;
 }
-.guild-component-container .chart-container .chart-item.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item.data-v-2d5faaeb {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -437,7 +437,7 @@
       padding: 16rpx 40rpx;
       position: relative;
 }
-.guild-component-container .chart-container .chart-item .left-wrap.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap.data-v-2d5faaeb {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -451,20 +451,20 @@
             -ms-flex: 1;
                 flex: 1;
 }
-.guild-component-container .chart-container .chart-item .left-wrap .avatar-wrap.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .avatar-wrap.data-v-2d5faaeb {
           position: relative;
           height: auto;
 }
-.guild-component-container .chart-container .chart-item .left-wrap .avatar-wrap .avatar.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .avatar-wrap .avatar.data-v-2d5faaeb {
             width: 86rpx;
             height: 86rpx;
             border-radius: 50rpx;
 }
-.guild-component-container .chart-container .chart-item .left-wrap .avatar-wrap .headwear.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .avatar-wrap .headwear.data-v-2d5faaeb {
             width: 150%;
             height: 150%;
 }
-.guild-component-container .chart-container .chart-item .left-wrap .avatar-wrap.leader.data-v-285dc2e9::after {
+.guild-component-container .chart-container .chart-item .left-wrap .avatar-wrap.leader.data-v-2d5faaeb::after {
           content: "\56E2";
           position: absolute;
           background-color: rgba(249, 145, 82, 0.8);
@@ -476,10 +476,10 @@
           right: 0;
           bottom: 0;
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap.data-v-2d5faaeb {
           margin-left: 20rpx;
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top.data-v-2d5faaeb {
             color: #737373;
             display: -webkit-box;
             display: -webkit-flex;
@@ -491,95 +491,127 @@
                     align-items: center;
             font-size: 24rpx;
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght0.data-v-2d5faaeb {
+              max-width: 316rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght1.data-v-2d5faaeb {
+              max-width: 280rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght2.data-v-2d5faaeb {
+              max-width: 244rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght3.data-v-2d5faaeb {
+              max-width: 212rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght4.data-v-2d5faaeb {
+              max-width: 178rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght5.data-v-2d5faaeb {
+              max-width: 142rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght6.data-v-2d5faaeb {
+              max-width: 106rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght7.data-v-2d5faaeb {
+              max-width: 76rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght8.data-v-2d5faaeb {
+              max-width: 42rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap.data-v-2d5faaeb {
               padding: 0 2rpx;
               display: -webkit-box;
               display: -webkit-flex;
               display: -ms-flexbox;
               display: flex;
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap.data-v-2d5faaeb {
                 display: -webkit-box;
                 display: -webkit-flex;
                 display: -ms-flexbox;
                 display: flex;
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .img.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .img.data-v-2d5faaeb {
                   width: 34rpx;
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .user-level-text.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .user-level-text.data-v-2d5faaeb {
                   border-radius: 30rpx;
                   padding-right: 10rpx;
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level1.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level1.data-v-2d5faaeb {
                   color: #B8CAD6;
                   background: -webkit-gradient(linear, left top, right top, from(rgba(206, 223, 232, 0)), to(rgba(206, 223, 232, 0.6)));
                   background: -o-linear-gradient(left, rgba(206, 223, 232, 0), rgba(206, 223, 232, 0.6));
                   background: linear-gradient(to right, rgba(206, 223, 232, 0), rgba(206, 223, 232, 0.6));
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level2.data-v-285dc2e9,
-                .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level3.data-v-285dc2e9,
-                .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level4.data-v-285dc2e9,
-                .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level5.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level2.data-v-2d5faaeb,
+                .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level3.data-v-2d5faaeb,
+                .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level4.data-v-2d5faaeb,
+                .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level5.data-v-2d5faaeb {
                   color: #74D0FF;
                   background: -webkit-gradient(linear, left top, right top, from(rgba(112, 228, 254, 0)), to(rgba(112, 228, 254, 0.6)));
                   background: -o-linear-gradient(left, rgba(112, 228, 254, 0), rgba(112, 228, 254, 0.6));
                   background: linear-gradient(to right, rgba(112, 228, 254, 0), rgba(112, 228, 254, 0.6));
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level6.data-v-285dc2e9,
-                .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level7.data-v-285dc2e9,
-                .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level8.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level6.data-v-2d5faaeb,
+                .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level7.data-v-2d5faaeb,
+                .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level8.data-v-2d5faaeb {
                   color: #09EA71;
                   background: -webkit-gradient(linear, left top, right top, from(rgba(102, 240, 123, 0)), to(rgba(102, 240, 123, 0.6)));
                   background: -o-linear-gradient(left, rgba(102, 240, 123, 0), rgba(102, 240, 123, 0.6));
                   background: linear-gradient(to right, rgba(102, 240, 123, 0), rgba(102, 240, 123, 0.6));
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level9.data-v-285dc2e9,
-                .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level10.data-v-285dc2e9,
-                .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level11.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level9.data-v-2d5faaeb,
+                .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level10.data-v-2d5faaeb,
+                .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level11.data-v-2d5faaeb {
                   color: #FD8465;
                   background: -webkit-gradient(linear, left top, right top, from(rgba(255, 161, 161, 0)), to(rgba(255, 161, 161, 0.6)));
                   background: -o-linear-gradient(left, rgba(255, 161, 161, 0), rgba(255, 161, 161, 0.6));
                   background: linear-gradient(to right, rgba(255, 161, 161, 0), rgba(255, 161, 161, 0.6));
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level12.data-v-285dc2e9,
-                .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level13.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level12.data-v-2d5faaeb,
+                .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level13.data-v-2d5faaeb {
                   color: #F76134;
                   background: -webkit-gradient(linear, left top, right top, from(rgba(255, 160, 128, 0)), to(rgba(255, 160, 128, 0.6)));
                   background: -o-linear-gradient(left, rgba(255, 160, 128, 0), rgba(255, 160, 128, 0.6));
                   background: linear-gradient(to right, rgba(255, 160, 128, 0), rgba(255, 160, 128, 0.6));
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level14.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level14.data-v-2d5faaeb {
                   color: #FD75A1;
                   background: -webkit-gradient(linear, left top, right top, from(rgba(255, 151, 197, 0)), to(rgba(255, 151, 197, 0.6)));
                   background: -o-linear-gradient(left, rgba(255, 151, 197, 0), rgba(255, 151, 197, 0.6));
                   background: linear-gradient(to right, rgba(255, 151, 197, 0), rgba(255, 151, 197, 0.6));
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level15.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level15.data-v-2d5faaeb {
                   color: #EB5AFF;
                   background: -webkit-gradient(linear, left top, right top, from(rgba(224, 137, 255, 0)), to(rgba(224, 137, 255, 0.6)));
                   background: -o-linear-gradient(left, rgba(224, 137, 255, 0), rgba(224, 137, 255, 0.6));
                   background: linear-gradient(to right, rgba(224, 137, 255, 0), rgba(224, 137, 255, 0.6));
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level16.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level16.data-v-2d5faaeb {
                   color: #e8b12a;
                   background: -webkit-gradient(linear, left top, right top, from(rgba(224, 137, 255, 0)), to(rgba(226, 186, 84, 0.6)));
                   background: -o-linear-gradient(left, rgba(224, 137, 255, 0), rgba(226, 186, 84, 0.6));
                   background: linear-gradient(to right, rgba(224, 137, 255, 0), rgba(226, 186, 84, 0.6));
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level17.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level17.data-v-2d5faaeb {
                   color: #FF7C00;
                   background: -webkit-gradient(linear, left top, right top, from(rgba(255, 230, 245, 0)), to(rgba(255, 230, 194, 0.6)));
                   background: -o-linear-gradient(left, rgba(255, 230, 245, 0), rgba(255, 230, 194, 0.6));
                   background: linear-gradient(to right, rgba(255, 230, 245, 0), rgba(255, 230, 194, 0.6));
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level18.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-level-wrap .level18.data-v-2d5faaeb {
                   color: #FF0019;
                   background: -webkit-gradient(linear, left top, right top, from(rgba(255, 230, 230, 0)), to(rgba(255, 194, 194, 0.6)));
                   background: -o-linear-gradient(left, rgba(255, 230, 230, 0), rgba(255, 194, 194, 0.6));
                   background: linear-gradient(to right, rgba(255, 230, 230, 0), rgba(255, 194, 194, 0.6));
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .bottom.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-badge .badge-item.data-v-2d5faaeb {
+                width: 33rpx;
+                height: 32rpx;
+                margin-left: 3rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .bottom.data-v-2d5faaeb {
             margin-top: 10rpx;
             border-radius: 20rpx;
             border: 2rpx solid #cecece;
@@ -587,7 +619,7 @@
             padding: 10rpx 20rpx;
             font-size: 30rpx;
 }
-.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .bottom .angle.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .bottom .angle.data-v-2d5faaeb {
               position: absolute;
               width: 16rpx;
               height: 16rpx;
@@ -600,11 +632,11 @@
                   -ms-transform: rotate(45deg);
                       transform: rotate(45deg);
 }
-.guild-component-container .chart-container .chart-item .right-wrap.data-v-285dc2e9 {
+.guild-component-container .chart-container .chart-item .right-wrap.data-v-2d5faaeb {
         font-size: 22rpx;
         color: #797979;
 }
-.guild-component-container .chart-container.rank-list .item.data-v-285dc2e9 {
+.guild-component-container .chart-container.rank-list .item.data-v-2d5faaeb {
     padding: 20rpx 0;
     height: 130rpx;
     display: -webkit-box;
@@ -617,25 +649,25 @@
             align-items: center;
     border-bottom: 6rpx solid #efefef;
 }
-.guild-component-container .chart-container.rank-list .item .rank-num.data-v-285dc2e9 {
+.guild-component-container .chart-container.rank-list .item .rank-num.data-v-2d5faaeb {
       margin-left: 60rpx;
 }
-.guild-component-container .chart-container.rank-list .item .rank-num image.data-v-285dc2e9 {
+.guild-component-container .chart-container.rank-list .item .rank-num image.data-v-2d5faaeb {
         width: 40rpx;
         min-height: 40rpx;
 }
-.guild-component-container .chart-container.rank-list .item .avatar image.data-v-285dc2e9 {
+.guild-component-container .chart-container.rank-list .item .avatar image.data-v-2d5faaeb {
       margin-left: 60rpx;
       width: 100rpx;
       height: 100rpx;
       border-radius: 50%;
 }
-.guild-component-container .chart-container.rank-list .item .text-container.data-v-285dc2e9 {
+.guild-component-container .chart-container.rank-list .item .text-container.data-v-2d5faaeb {
       margin-left: 30rpx;
       width: 250rpx;
       line-height: 44rpx;
 }
-.guild-component-container .chart-container.rank-list .item .text-container .bottom-text.data-v-285dc2e9 {
+.guild-component-container .chart-container.rank-list .item .text-container .bottom-text.data-v-2d5faaeb {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -646,10 +678,10 @@
                 align-items: center;
         color: #333333;
 }
-.guild-component-container .chart-container.rank-list .item .count.data-v-285dc2e9 {
+.guild-component-container .chart-container.rank-list .item .count.data-v-2d5faaeb {
       margin-left: 30rpx;
 }
-.guild-component-container .chart-btn-container .top-wrap.data-v-285dc2e9 {
+.guild-component-container .chart-btn-container .top-wrap.data-v-2d5faaeb {
     padding: 20rpx 40rpx;
     padding-bottom: 0;
     display: -webkit-box;
@@ -661,7 +693,7 @@
         -ms-flex-align: center;
             align-items: center;
 }
-.guild-component-container .chart-btn-container .top-wrap .trumpet-wrap.data-v-285dc2e9 {
+.guild-component-container .chart-btn-container .top-wrap .trumpet-wrap.data-v-2d5faaeb {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -671,20 +703,20 @@
           -ms-flex-align: center;
               align-items: center;
 }
-.guild-component-container .chart-btn-container .top-wrap .trumpet-wrap .icon.data-v-285dc2e9 {
+.guild-component-container .chart-btn-container .top-wrap .trumpet-wrap .icon.data-v-2d5faaeb {
         width: 40rpx;
         height: 40rpx;
         margin: 0 10rpx;
 }
-.guild-component-container .chart-btn-container .top-wrap .space.data-v-285dc2e9 {
+.guild-component-container .chart-btn-container .top-wrap .space.data-v-2d5faaeb {
       padding: 0 20rpx;
       color: #e0e0e0;
 }
-.guild-component-container .chart-btn-container .top-wrap .tips.data-v-285dc2e9 {
+.guild-component-container .chart-btn-container .top-wrap .tips.data-v-2d5faaeb {
       font-size: 24rpx;
       color: #999999;
 }
-.guild-component-container .chart-btn-container .bottom-wrap.data-v-285dc2e9 {
+.guild-component-container .chart-btn-container .bottom-wrap.data-v-2d5faaeb {
     padding: 0 20rpx;
     display: -webkit-box;
     display: -webkit-flex;
@@ -695,7 +727,7 @@
         -ms-flex-align: center;
             align-items: center;
 }
-.guild-component-container .chart-btn-container .bottom-wrap .input.data-v-285dc2e9 {
+.guild-component-container .chart-btn-container .bottom-wrap .input.data-v-2d5faaeb {
       border-radius: 30rpx;
       border: 2rpx solid #e0e0e0;
       background-color: #f0f0f0;
@@ -709,26 +741,26 @@
       margin: 20rpx 0;
       margin-right: 20rpx;
 }
-.guild-component-container .chart-btn-container .bottom-wrap .btn.data-v-285dc2e9 {
+.guild-component-container .chart-btn-container .bottom-wrap .btn.data-v-2d5faaeb {
       border-radius: 30rpx;
       width: 176rpx;
       height: 63rpx;
       background-color: #ffd524;
 }
-.guild-component-container .side-container.data-v-285dc2e9 {
+.guild-component-container .side-container.data-v-2d5faaeb {
     position: absolute;
     bottom: 120rpx;
     right: 20rpx;
 }
-.guild-component-container .side-container .btn-wrap.data-v-285dc2e9 {
+.guild-component-container .side-container .btn-wrap.data-v-2d5faaeb {
       position: relative;
       margin: 20rpx 0;
 }
-.guild-component-container .side-container .btn-wrap .img.data-v-285dc2e9 {
+.guild-component-container .side-container .btn-wrap .img.data-v-2d5faaeb {
         width: 80rpx;
         height: 80rpx;
 }
-.guild-component-container .side-container .btn-wrap .tips.data-v-285dc2e9 {
+.guild-component-container .side-container .btn-wrap .tips.data-v-2d5faaeb {
         font-size: 18rpx;
         color: #fff;
         position: absolute;
@@ -742,17 +774,17 @@
         padding: 0 15rpx;
         background-color: #f00;
 }
-.guild-component-container .side-container .btn-wrap .tips.dot.data-v-285dc2e9 {
+.guild-component-container .side-container .btn-wrap .tips.dot.data-v-2d5faaeb {
         width: 20rpx;
         height: 20rpx;
         padding: 0;
 }
-.guild-component-container .side-container .btn-wrap .title.data-v-285dc2e9 {
+.guild-component-container .side-container .btn-wrap .title.data-v-2d5faaeb {
         font-size: 20rpx;
         margin-top: -18rpx;
-        text-shadow: 2rpx 0rpx 5rpx white,-2rpx 0rpx 5rpx white,0rpx 2rpx 5rpx white,0rpx -2rpx 5rpx white;
+        text-shadow: 2rpx 0rpx 5rpx white, -2rpx 0rpx 5rpx white, 0rpx 2rpx 5rpx white, 0rpx -2rpx 5rpx white;
 }
-.guild-component-container .send-modal-container.data-v-285dc2e9 {
+.guild-component-container .send-modal-container.data-v-2d5faaeb {
     width: 100%;
     display: -webkit-box;
     display: -webkit-flex;
@@ -773,7 +805,7 @@
             align-items: center;
     position: relative;
 }
-.guild-component-container .send-modal-container .switch-wrap.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .switch-wrap.data-v-2d5faaeb {
       position: absolute;
       top: -60rpx;
       left: 20rpx;
@@ -782,42 +814,42 @@
           -ms-transform: scale(0.7);
               transform: scale(0.7);
 }
-.guild-component-container .send-modal-container .explain-wrapper.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .explain-wrapper.data-v-2d5faaeb {
       font-size: 24rpx;
 }
-.guild-component-container .send-modal-container .swiper-change.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .swiper-change.data-v-2d5faaeb {
       margin: 30rpx;
       border-radius: 30rpx;
       overflow: hidden;
       -webkit-box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
               box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
 }
-.guild-component-container .send-modal-container .swiper-change .item.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .swiper-change .item.data-v-2d5faaeb {
         width: 200rpx;
         height: 50rpx;
         line-height: 50rpx;
         background-color: #FFF;
         text-align: center;
 }
-.guild-component-container .send-modal-container .swiper-change .item.select.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .swiper-change .item.select.data-v-2d5faaeb {
         background-color: #ffc918;
         color: #2d1408;
 }
-.guild-component-container .send-modal-container swiper.data-v-285dc2e9 {
+.guild-component-container .send-modal-container swiper.data-v-2d5faaeb {
       width: 100%;
       height: 100%;
 }
-.guild-component-container .send-modal-container .swiper-item.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .swiper-item.data-v-2d5faaeb {
       -webkit-box-flex: 1;
       -webkit-flex: 1;
           -ms-flex: 1;
               flex: 1;
 }
-.guild-component-container .send-modal-container .swiper-item .wrap.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .swiper-item .wrap.data-v-2d5faaeb {
         position: relative;
         width: 100%;
 }
-.guild-component-container .send-modal-container .btn-wrapper.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .btn-wrapper.data-v-2d5faaeb {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -830,7 +862,7 @@
           -ms-flex-pack: center;
               justify-content: center;
 }
-.guild-component-container .send-modal-container .btn-wrapper .btn.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .btn-wrapper .btn.data-v-2d5faaeb {
         border-radius: 10rpx;
         margin: 8rpx 16rpx;
         width: 190rpx;
@@ -838,27 +870,27 @@
         color: #333333;
         border: 2rpx solid #333333;
 }
-.guild-component-container .send-modal-container .btn-wrapper .btn image.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .btn-wrapper .btn image.data-v-2d5faaeb {
           width: 40rpx;
           height: 40rpx;
 }
-.guild-component-container .send-modal-container .btn-wrapper .btn.self-input.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .btn-wrapper .btn.self-input.data-v-2d5faaeb {
         width: 412rpx;
 }
-.guild-component-container .send-modal-container .btn-wrapper .btn.self-input input.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .btn-wrapper .btn.self-input input.data-v-2d5faaeb {
           border-radius: 60rpx;
           width: 100%;
           height: 110rpx;
           text-align: center;
           line-height: 110rpx;
 }
-.guild-component-container .send-modal-container .btn-wrapper .btn.pick.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .btn-wrapper .btn.pick.data-v-2d5faaeb {
         font-size: 34rpx;
         font-weight: 700;
         background-color: #f8648a;
         color: #FFF;
 }
-.guild-component-container .send-modal-container .bottom-wrapper.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .bottom-wrapper.data-v-2d5faaeb {
       border-top: 2rpx solid #EEE;
       margin: 20rpx 60rpx;
       padding: 20rpx 0;
@@ -877,17 +909,17 @@
               align-items: center;
       width: 80%;
 }
-.guild-component-container .send-modal-container .bottom-wrapper .btn.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .bottom-wrapper .btn.data-v-2d5faaeb {
         text-decoration: underline;
         margin: 10rpx;
 }
-.guild-component-container .send-modal-container .bottom-wrapper .right.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .bottom-wrapper .right.data-v-2d5faaeb {
         font-weight: 700;
 }
-.guild-component-container .send-modal-container .bottom-wrapper .right .iconfont.data-v-285dc2e9 {
+.guild-component-container .send-modal-container .bottom-wrapper .right .iconfont.data-v-2d5faaeb {
           font-size: 24rpx;
 }
-.guild-component-container .invit-modal-container.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container.data-v-2d5faaeb {
     width: 100%;
     height: 100%;
     display: -webkit-box;
@@ -901,11 +933,11 @@
             flex-direction: column;
     color: #000;
 }
-.guild-component-container .invit-modal-container .explain-wrapper.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .explain-wrapper.data-v-2d5faaeb {
       padding: 20rpx 40rpx;
       padding-top: 0;
 }
-.guild-component-container .invit-modal-container .explain-wrapper .top.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .explain-wrapper .top.data-v-2d5faaeb {
         -webkit-box-pack: justify;
         -webkit-justify-content: space-between;
             -ms-flex-pack: justify;
@@ -913,18 +945,18 @@
         font-size: 34rpx;
         font-weight: 700;
 }
-.guild-component-container .invit-modal-container .explain-wrapper .top text.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .explain-wrapper .top text.data-v-2d5faaeb {
           color: orange;
 }
-.guild-component-container .invit-modal-container .explain-wrapper .title.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .explain-wrapper .title.data-v-2d5faaeb {
         font-size: 30rpx;
         font-weight: 600;
         padding: 10rpx;
 }
-.guild-component-container .invit-modal-container .explain-wrapper .bottom.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .explain-wrapper .bottom.data-v-2d5faaeb {
         font-size: 22rpx;
 }
-.guild-component-container .invit-modal-container .explain-wrapper .row.between.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .explain-wrapper .row.between.data-v-2d5faaeb {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -934,7 +966,7 @@
             -ms-flex-pack: justify;
                 justify-content: space-between;
 }
-.guild-component-container .invit-modal-container .info.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .info.data-v-2d5faaeb {
       width: 100%;
       background-color: #f7f7f7;
       display: -webkit-box;
@@ -947,11 +979,11 @@
       padding: 10rpx;
       font-size: 26rpx;
 }
-.guild-component-container .invit-modal-container .list-wrapper.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .list-wrapper.data-v-2d5faaeb {
       overflow-y: auto;
       height: 536rpx;
 }
-.guild-component-container .invit-modal-container .list-wrapper .item.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .list-wrapper .item.data-v-2d5faaeb {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -968,21 +1000,21 @@
         border-bottom: 1px solid #EEE;
         padding: 20rpx 60rpx;
 }
-.guild-component-container .invit-modal-container .list-wrapper .item .rank-num.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .list-wrapper .item .rank-num.data-v-2d5faaeb {
           width: 90rpx;
           text-align: center;
 }
-.guild-component-container .invit-modal-container .list-wrapper .item .avatar image.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .list-wrapper .item .avatar image.data-v-2d5faaeb {
           width: 90rpx;
           height: 90rpx;
           border-radius: 50%;
 }
-.guild-component-container .invit-modal-container .list-wrapper .item .text-container.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .list-wrapper .item .text-container.data-v-2d5faaeb {
           width: 450rpx;
           padding: 0 30rpx;
           line-height: 44rpx;
 }
-.guild-component-container .invit-modal-container .list-wrapper .item .text-container .bottom-text.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .list-wrapper .item .text-container .bottom-text.data-v-2d5faaeb {
             display: -webkit-box;
             display: -webkit-flex;
             display: -ms-flexbox;
@@ -992,24 +1024,24 @@
                 -ms-flex-align: center;
                     align-items: center;
 }
-.guild-component-container .invit-modal-container .list-wrapper .item .text-container .bottom-text .hot-count.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .list-wrapper .item .text-container .bottom-text .hot-count.data-v-2d5faaeb {
               color: #333333;
               margin-right: 4rpx;
 }
-.guild-component-container .invit-modal-container .list-wrapper .item .text-container .bottom-text .icon-heart.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .list-wrapper .item .text-container .bottom-text .icon-heart.data-v-2d5faaeb {
               width: 30rpx;
               height: 30rpx;
 }
-.guild-component-container .invit-modal-container .user-list.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .user-list.data-v-2d5faaeb {
       width: 100%;
 }
-.guild-component-container .invit-modal-container .user-list .user-list-avatar.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .user-list .user-list-avatar.data-v-2d5faaeb {
         width: 80rpx;
         height: 80rpx;
         border-radius: 50%;
         margin: 20rpx;
 }
-.guild-component-container .invit-modal-container .btn-wrap.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .btn-wrap.data-v-2d5faaeb {
       margin-top: 40rpx;
       margin-bottom: 40rpx;
       display: -webkit-box;
@@ -1022,7 +1054,7 @@
       width: 100%;
       padding: 0 60rpx;
 }
-.guild-component-container .invit-modal-container .btn-wrap .fsend-btn.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .btn-wrap .fsend-btn.data-v-2d5faaeb {
         color: #333;
         padding: 0 20rpx;
         -webkit-box-orient: vertical;
@@ -1031,18 +1063,18 @@
             -ms-flex-direction: column;
                 flex-direction: column;
 }
-.guild-component-container .invit-modal-container .btn-wrap .fsend-btn image.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .btn-wrap .fsend-btn image.data-v-2d5faaeb {
           width: 80rpx;
           height: 80rpx;
 }
-.guild-component-container .invit-modal-container .btn-wrap .save-btn.data-v-285dc2e9 {
+.guild-component-container .invit-modal-container .btn-wrap .save-btn.data-v-2d5faaeb {
         background-color: #FF7E00;
         border-radius: 10rpx;
         font-size: 32rpx;
         color: #FFF;
         padding: 0 20rpx;
 }
-.guild-component-container .userinfo-modal-container.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container.data-v-2d5faaeb {
     height: 640rpx;
     display: -webkit-box;
     display: -webkit-flex;
@@ -1062,7 +1094,7 @@
             justify-content: space-around;
     padding: 40rpx;
 }
-.guild-component-container .userinfo-modal-container .top.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .top.data-v-2d5faaeb {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -1078,25 +1110,25 @@
               align-items: center;
       line-height: 1.6;
 }
-.guild-component-container .userinfo-modal-container .top .avatar.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .top .avatar.data-v-2d5faaeb {
         width: 160rpx;
         height: 160rpx;
         border-radius: 50%;
 }
-.guild-component-container .userinfo-modal-container .top .nickname.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .top .nickname.data-v-2d5faaeb {
         font-size: 36rpx;
         font-weight: 600;
 }
-.guild-component-container .userinfo-modal-container .top .badge-wrap .badge.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .top .badge-wrap .badge.data-v-2d5faaeb {
         position: relative;
         width: 40rpx;
         height: 40rpx;
 }
-.guild-component-container .userinfo-modal-container .top .badge-wrap .level.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .top .badge-wrap .level.data-v-2d5faaeb {
         color: #FFF;
         font-size: 26rpx;
 }
-.guild-component-container .userinfo-modal-container .top .badge-wrap .text.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .top .badge-wrap .text.data-v-2d5faaeb {
         margin-top: 15rpx;
         height: 70%;
         font-size: 20rpx;
@@ -1106,43 +1138,43 @@
         margin-left: -30rpx;
         color: #FFF;
 }
-.guild-component-container .userinfo-modal-container .top .badge-wrap .text.i-1.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .top .badge-wrap .text.i-1.data-v-2d5faaeb {
         background: -webkit-gradient(linear, left top, right top, from(#FFF), to(#8d8f91));
         background: -o-linear-gradient(left, #FFF, #8d8f91);
         background: linear-gradient(to right, #FFF, #8d8f91);
 }
-.guild-component-container .userinfo-modal-container .top .badge-wrap .text.i-2.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .top .badge-wrap .text.i-2.data-v-2d5faaeb {
         background: -webkit-gradient(linear, left top, right top, from(#FFF), to(#234232));
         background: -o-linear-gradient(left, #FFF, #234232);
         background: linear-gradient(to right, #FFF, #234232);
 }
-.guild-component-container .userinfo-modal-container .top .badge-wrap .text.i-3.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .top .badge-wrap .text.i-3.data-v-2d5faaeb {
         background: -webkit-gradient(linear, left top, right top, from(#FFF), to(#860d3d));
         background: -o-linear-gradient(left, #FFF, #860d3d);
         background: linear-gradient(to right, #FFF, #860d3d);
 }
-.guild-component-container .userinfo-modal-container .top .badge-wrap .text.i-4.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .top .badge-wrap .text.i-4.data-v-2d5faaeb {
         background: -webkit-gradient(linear, left top, right top, from(#FFF), to(#b51688));
         background: -o-linear-gradient(left, #FFF, #b51688);
         background: linear-gradient(to right, #FFF, #b51688);
 }
-.guild-component-container .userinfo-modal-container .top .badge-wrap .text.i-5.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .top .badge-wrap .text.i-5.data-v-2d5faaeb {
         background: -webkit-gradient(linear, left top, right top, from(#FFF), to(#612f29));
         background: -o-linear-gradient(left, #FFF, #612f29);
         background: linear-gradient(to right, #FFF, #612f29);
 }
-.guild-component-container .userinfo-modal-container .top .badge-wrap .text.i-6.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .top .badge-wrap .text.i-6.data-v-2d5faaeb {
         background: -webkit-gradient(linear, left top, right top, from(#FFF), to(#730056));
         background: -o-linear-gradient(left, #FFF, #730056);
         background: linear-gradient(to right, #FFF, #730056);
 }
-.guild-component-container .userinfo-modal-container .btn-list.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .btn-list.data-v-2d5faaeb {
       width: 100%;
       -webkit-justify-content: space-around;
           -ms-flex-pack: distribute;
               justify-content: space-around;
 }
-.guild-component-container .userinfo-modal-container .btn-list .btn-item.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .btn-list .btn-item.data-v-2d5faaeb {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -1157,41 +1189,41 @@
             -ms-flex-align: center;
                 align-items: center;
 }
-.guild-component-container .userinfo-modal-container .btn-list .btn-item .bg.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .btn-list .btn-item .bg.data-v-2d5faaeb {
           background-color: #EEE;
           border-radius: 20rpx;
           width: 100rpx;
           height: 100rpx;
 }
-.guild-component-container .userinfo-modal-container .btn-list .btn-item .bg image.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .btn-list .btn-item .bg image.data-v-2d5faaeb {
             width: 60rpx;
             height: 60rpx;
 }
-.guild-component-container .userinfo-modal-container .btn-list .btn-item .text.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .btn-list .btn-item .text.data-v-2d5faaeb {
           margin-top: 10rpx;
 }
-.guild-component-container .userinfo-modal-container .content.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .content.data-v-2d5faaeb {
       line-height: 1.6;
 }
-.guild-component-container .userinfo-modal-container .btn.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .btn.data-v-2d5faaeb {
       font-size: 32rpx;
       font-weight: 700;
       width: 300rpx;
       height: 80rpx;
 }
-.guild-component-container .userinfo-modal-container .row.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .row.data-v-2d5faaeb {
       width: 100%;
       -webkit-justify-content: space-around;
           -ms-flex-pack: distribute;
               justify-content: space-around;
 }
-.guild-component-container .userinfo-modal-container .row .btn.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .row .btn.data-v-2d5faaeb {
         width: 200rpx;
 }
-.guild-component-container .userinfo-modal-container .send-input.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .send-input.data-v-2d5faaeb {
       position: relative;
 }
-.guild-component-container .userinfo-modal-container .send-input input.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .send-input input.data-v-2d5faaeb {
         border: 1px solid #CCC;
         background-color: #EEE;
         border-radius: 60rpx;
@@ -1201,7 +1233,7 @@
         font-size: 32rpx;
         font-weight: 700;
 }
-.guild-component-container .userinfo-modal-container .send-input image.data-v-285dc2e9 {
+.guild-component-container .userinfo-modal-container .send-input image.data-v-2d5faaeb {
         position: absolute;
         width: 50rpx;
         height: 50rpx;
@@ -1211,19 +1243,19 @@
             -ms-transform: translateY(-50%);
                 transform: translateY(-50%);
 }
-.guild-component-container .sendover-modal-container.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container.data-v-2d5faaeb {
     margin-top: -80rpx;
 }
-.guild-component-container .sendover-modal-container .top-wrap.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .top-wrap.data-v-2d5faaeb {
       background-color: #54483f;
       color: #fff;
 }
-.guild-component-container .sendover-modal-container .top-wrap .title.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .top-wrap .title.data-v-2d5faaeb {
         text-align: center;
         padding-top: 30rpx;
         font-size: 32rpx;
 }
-.guild-component-container .sendover-modal-container .top-wrap .content.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .top-wrap .content.data-v-2d5faaeb {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -1238,39 +1270,39 @@
                 justify-content: flex-start;
         padding: 20rpx 30rpx;
 }
-.guild-component-container .sendover-modal-container .top-wrap .content .rank.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .top-wrap .content .rank.data-v-2d5faaeb {
           width: 100rpx;
           text-align: center;
 }
-.guild-component-container .sendover-modal-container .top-wrap .content .rank .text.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .top-wrap .content .rank .text.data-v-2d5faaeb {
             font-size: 22rpx;
 }
-.guild-component-container .sendover-modal-container .top-wrap .content .avatar.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .top-wrap .content .avatar.data-v-2d5faaeb {
           width: 110rpx;
           height: 110rpx;
           border-radius: 50%;
           margin: 0 20rpx;
 }
-.guild-component-container .sendover-modal-container .top-wrap .content .text-wrap.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .top-wrap .content .text-wrap.data-v-2d5faaeb {
           width: 240rpx;
 }
-.guild-component-container .sendover-modal-container .top-wrap .content .heart.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .top-wrap .content .heart.data-v-2d5faaeb {
           text-align: center;
           line-height: 1.3;
 }
-.guild-component-container .sendover-modal-container .top-wrap .content .heart .heart-icon.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .top-wrap .content .heart .heart-icon.data-v-2d5faaeb {
             color: #ff5b01;
             font-size: 32rpx;
 }
-.guild-component-container .sendover-modal-container .top-wrap .content .heart .count.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .top-wrap .content .heart .count.data-v-2d5faaeb {
             font-weight: 700;
             color: #cc961d;
 }
-.guild-component-container .sendover-modal-container .list-wrapper.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .list-wrapper.data-v-2d5faaeb {
       overflow-y: auto;
       height: 500rpx;
 }
-.guild-component-container .sendover-modal-container .list-wrapper .item.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .list-wrapper .item.data-v-2d5faaeb {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -1286,32 +1318,85 @@
         padding: 20rpx 30rpx;
         border-bottom: 2rpx solid #efefef;
 }
-.guild-component-container .sendover-modal-container .list-wrapper .item .rank.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .list-wrapper .item .rank.data-v-2d5faaeb {
           text-align: center;
           width: 60rpx;
 }
-.guild-component-container .sendover-modal-container .list-wrapper .item .avatar.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .list-wrapper .item .avatar.data-v-2d5faaeb {
           width: 100rpx;
           height: 100rpx;
           border-radius: 50%;
           margin: 0 20rpx;
 }
-.guild-component-container .sendover-modal-container .list-wrapper .item .text-wrap.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .list-wrapper .item .text-wrap.data-v-2d5faaeb {
           width: 240rpx;
 }
-.guild-component-container .sendover-modal-container .list-wrapper .item .heart.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .list-wrapper .item .heart.data-v-2d5faaeb {
           text-align: center;
 }
-.guild-component-container .sendover-modal-container .list-wrapper .item .heart .heart-icon.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .list-wrapper .item .heart .heart-icon.data-v-2d5faaeb {
             color: #ff5b01;
             font-size: 32rpx;
             margin: 0 10rpx;
 }
-.guild-component-container .sendover-modal-container .list-wrapper .item .heart .count.data-v-285dc2e9 {
+.guild-component-container .sendover-modal-container .list-wrapper .item .heart .count.data-v-2d5faaeb {
             font-weight: 700;
             color: #cc961d;
 }
-.guild-component-container .fansbox-modal-container.data-v-285dc2e9 {
+.guild-component-container .achievebadge-modal-container.data-v-2d5faaeb {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    text-align: center;
+    color: #FFFFFF;
+}
+.guild-component-container .achievebadge-modal-container .flaring.data-v-2d5faaeb {
+      background: url(https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FJ38hIoViapUZ9oviafyEXQoGUqBl4DOkqHRV7VBRQv5Kr8ia9Hx9ibFzcwYKAhk28BK9RO81sOZk6MA/0) center center/100% 100% no-repeat;
+      width: 489rpx;
+      height: 537rpx;
+}
+.guild-component-container .achievebadge-modal-container .flaring image.data-v-2d5faaeb {
+        margin-top: 150rpx;
+        width: 265rpx;
+        height: 230rpx;
+}
+.guild-component-container .achievebadge-modal-container .text .title.data-v-2d5faaeb {
+      font-size: 40rpx;
+      font-weight: 700;
+}
+.guild-component-container .achievebadge-modal-container .btn.data-v-2d5faaeb {
+      margin: 30rpx 0;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: row;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+}
+.guild-component-container .achievebadge-modal-container .btn button.data-v-2d5faaeb {
+      margin-right: 30rpx;
+      padding: 10rpx 20rpx;
+      background-color: #fbcc3e;
+      border-radius: 30rpx;
+}
+.guild-component-container .fansbox-modal-container.data-v-2d5faaeb {
     margin-top: -100rpx;
     padding: 40rpx;
     display: -webkit-box;
@@ -1328,17 +1413,17 @@
         -ms-flex-direction: column;
             flex-direction: column;
 }
-.guild-component-container .fansbox-modal-container .title.data-v-285dc2e9 {
+.guild-component-container .fansbox-modal-container .title.data-v-2d5faaeb {
       font-size: 32rpx;
       font-weight: 700;
       margin: 20rpx;
 }
-.guild-component-container .fansbox-modal-container .title .iconfont.data-v-285dc2e9 {
+.guild-component-container .fansbox-modal-container .title .iconfont.data-v-2d5faaeb {
         color: #888;
         margin: 0 10rpx;
         font-size: 26rpx;
 }
-.guild-component-container .fansbox-modal-container .scroll-wrap.data-v-285dc2e9 {
+.guild-component-container .fansbox-modal-container .scroll-wrap.data-v-2d5faaeb {
       height: 420rpx;
       width: 100%;
       overflow: scroll;
@@ -1352,7 +1437,7 @@
       margin: 20rpx;
       white-space: nowrap;
 }
-.guild-component-container .fansbox-modal-container .scroll-wrap .box-item.data-v-285dc2e9 {
+.guild-component-container .fansbox-modal-container .scroll-wrap .box-item.data-v-2d5faaeb {
         width: 33%;
         display: -webkit-box;
         display: -webkit-flex;
@@ -1368,11 +1453,11 @@
             -ms-flex-align: center;
                 align-items: center;
 }
-.guild-component-container .fansbox-modal-container .scroll-wrap .box-item .img.data-v-285dc2e9 {
+.guild-component-container .fansbox-modal-container .scroll-wrap .box-item .img.data-v-2d5faaeb {
           width: 154rpx;
           height: 126rpx;
 }
-.guild-component-container .fansbox-modal-container .scroll-wrap .box-item .name.data-v-285dc2e9 {
+.guild-component-container .fansbox-modal-container .scroll-wrap .box-item .name.data-v-2d5faaeb {
           font-weight: 700;
           color: #fff;
           text-align: center;
@@ -1387,21 +1472,21 @@
           margin-bottom: 40rpx;
           padding-right: 20rpx;
 }
-.guild-component-container .fansbox-modal-container .scroll-wrap .box-item .name .img.data-v-285dc2e9 {
+.guild-component-container .fansbox-modal-container .scroll-wrap .box-item .name .img.data-v-2d5faaeb {
             border-radius: 50%;
             width: 40rpx;
             height: 40rpx;
             margin-right: 10rpx;
 }
-.guild-component-container .fansbox-modal-container .btn-wrap.data-v-285dc2e9 {
+.guild-component-container .fansbox-modal-container .btn-wrap.data-v-2d5faaeb {
       margin: 0 20rpx;
 }
-.guild-component-container .fansbox-modal-container .btn-wrap .btn.data-v-285dc2e9 {
+.guild-component-container .fansbox-modal-container .btn-wrap .btn.data-v-2d5faaeb {
         font-size: 34rpx;
         font-weight: 700;
         padding: 10rpx 40rpx;
 }
-.guild-component-container .sendfansbox-modal-container.data-v-285dc2e9 {
+.guild-component-container .sendfansbox-modal-container.data-v-2d5faaeb {
     margin-top: -50rpx;
     padding: 40rpx;
     display: -webkit-box;
@@ -1418,15 +1503,15 @@
         -ms-flex-direction: column;
             flex-direction: column;
 }
-.guild-component-container .sendfansbox-modal-container .tips.data-v-285dc2e9 {
+.guild-component-container .sendfansbox-modal-container .tips.data-v-2d5faaeb {
       font-size: 22rpx;
       color: #999;
       margin: 20rpx 0 40rpx;
 }
-.guild-component-container .sendfansbox-modal-container .send-input.data-v-285dc2e9 {
+.guild-component-container .sendfansbox-modal-container .send-input.data-v-2d5faaeb {
       position: relative;
 }
-.guild-component-container .sendfansbox-modal-container .send-input input.data-v-285dc2e9 {
+.guild-component-container .sendfansbox-modal-container .send-input input.data-v-2d5faaeb {
         border: 1px solid #CCC;
         background-color: #EEE;
         border-radius: 60rpx;
@@ -1437,7 +1522,7 @@
         font-weight: 700;
         padding: 0 80rpx 0 40rpx;
 }
-.guild-component-container .sendfansbox-modal-container .send-input image.data-v-285dc2e9 {
+.guild-component-container .sendfansbox-modal-container .send-input image.data-v-2d5faaeb {
         position: absolute;
         width: 50rpx;
         height: 50rpx;
@@ -1447,23 +1532,23 @@
             -ms-transform: translateY(-50%);
                 transform: translateY(-50%);
 }
-.guild-component-container .sendfansbox-modal-container .send-input image.img.data-v-285dc2e9 {
+.guild-component-container .sendfansbox-modal-container .send-input image.img.data-v-2d5faaeb {
         right: 50rpx;
 }
-.guild-component-container .sendfansbox-modal-container .count .highlight.data-v-285dc2e9 {
+.guild-component-container .sendfansbox-modal-container .count .highlight.data-v-2d5faaeb {
       font-size: 40rpx;
       font-weight: 700;
       color: #FC7025;
 }
-.guild-component-container .sendfansbox-modal-container .btn-wrap.data-v-285dc2e9 {
+.guild-component-container .sendfansbox-modal-container .btn-wrap.data-v-2d5faaeb {
       margin: 0 20rpx;
 }
-.guild-component-container .sendfansbox-modal-container .btn-wrap .btn.data-v-285dc2e9 {
+.guild-component-container .sendfansbox-modal-container .btn-wrap .btn.data-v-2d5faaeb {
         font-size: 34rpx;
         font-weight: 700;
         padding: 10rpx 40rpx;
 }
-.guild-component-container .open-ad-container.data-v-285dc2e9 {
+.guild-component-container .open-ad-container.data-v-2d5faaeb {
     position: fixed;
     top: 0;
     left: 0;
@@ -1482,17 +1567,17 @@
             flex-direction: column;
     padding: 60rpx;
 }
-.guild-component-container .open-ad-container .top-wrap .img.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .top-wrap .img.data-v-2d5faaeb {
       width: 600rpx;
       height: 240rpx;
 }
-.guild-component-container .open-ad-container .top-wrap .category-title.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .top-wrap .category-title.data-v-2d5faaeb {
       text-align: center;
       font-size: 30rpx;
       margin-top: -64rpx;
-      text-shadow: 10rpx 0rpx 20rpx #C63703,-10rpx 0rpx 20rpx #C63703,0rpx 10rpx 20rpx #C63703,0rpx -10rpx 10rpx #C63703;
+      text-shadow: 10rpx 0rpx 20rpx #C63703, -10rpx 0rpx 20rpx #C63703, 0rpx 10rpx 20rpx #C63703, 0rpx -10rpx 10rpx #C63703;
 }
-.guild-component-container .open-ad-container .content-wrap.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap.data-v-2d5faaeb {
       width: 600rpx;
       height: 700rpx;
       overflow: hidden;
@@ -1509,7 +1594,7 @@
       border-bottom-left-radius: 10rpx;
       border-bottom-right-radius: 10rpx;
 }
-.guild-component-container .open-ad-container .content-wrap .left-container.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .left-container.data-v-2d5faaeb {
         height: 100%;
         display: -webkit-box;
         display: -webkit-flex;
@@ -1522,7 +1607,7 @@
                 flex-direction: column;
         font-size: 24rpx;
 }
-.guild-component-container .open-ad-container .content-wrap .left-container .row-item.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .left-container .row-item.data-v-2d5faaeb {
           padding: 20rpx 10rpx;
           text-align: center;
           width: 130rpx;
@@ -1532,7 +1617,7 @@
           border-top-left-radius: 10rpx;
           border-bottom-left-radius: 10rpx;
 }
-.guild-component-container .open-ad-container .content-wrap .left-container .row-item .tips.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .left-container .row-item .tips.data-v-2d5faaeb {
             font-size: 18rpx;
             color: #fff;
             position: absolute;
@@ -1545,16 +1630,16 @@
             padding: 0 15rpx;
             background-color: #f00;
 }
-.guild-component-container .open-ad-container .content-wrap .left-container .row-item .tips.dot.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .left-container .row-item .tips.dot.data-v-2d5faaeb {
             width: 20rpx;
             height: 20rpx;
             padding: 0;
 }
-.guild-component-container .open-ad-container .content-wrap .left-container .row-item.active.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .left-container .row-item.active.data-v-2d5faaeb {
           background-color: #fff;
           color: #333;
 }
-.guild-component-container .open-ad-container .content-wrap .right-container.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .right-container.data-v-2d5faaeb {
         height: 100%;
         -webkit-box-flex: 1;
         -webkit-flex: 1;
@@ -1563,7 +1648,7 @@
         background-color: #fff;
         border-radius: 10rpx;
 }
-.guild-component-container .open-ad-container .content-wrap .right-container .row-item.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .right-container .row-item.data-v-2d5faaeb {
           border-radius: 10rpx;
           -webkit-box-shadow: 0 0 8rpx rgba(102, 102, 102, 0.6) inset;
                   box-shadow: 0 0 8rpx rgba(102, 102, 102, 0.6) inset;
@@ -1571,7 +1656,7 @@
           margin: 10rpx;
           padding: 10rpx;
 }
-.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap.data-v-2d5faaeb {
             display: -webkit-box;
             display: -webkit-flex;
             display: -ms-flexbox;
@@ -1585,36 +1670,38 @@
                 -ms-flex-align: center;
                     align-items: center;
 }
-.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .left-wrap .text.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .left-wrap .text.data-v-2d5faaeb {
               font-weight: 700;
 }
-.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .left-wrap .award.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .left-wrap .award.data-v-2d5faaeb {
               display: -webkit-box;
               display: -webkit-flex;
               display: -ms-flexbox;
               display: flex;
 }
-.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .left-wrap .award .item.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .left-wrap .award .item.data-v-2d5faaeb {
                 position: relative;
                 margin: 10rpx 10rpx 10rpx 0;
 }
-.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .left-wrap .award .item .img.data-v-285dc2e9 {
-                  width: 80rpx;
-                  height: 80rpx;
+.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .left-wrap .award .item .img.data-v-2d5faaeb {
+                  width: 66rpx;
+                  height: 66rpx;
 }
-.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .left-wrap .award .item .num.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .left-wrap .award .item .num.data-v-2d5faaeb {
                   position: absolute;
                   bottom: 0;
                   right: 0;
                   color: #fff;
-                  font-size: 24rpx;
+                  font-size: 21rpx;
 }
-.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .left-wrap .award .item .num.outbox.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .left-wrap .award .item .num.outbox.data-v-2d5faaeb {
                   left: 0;
                   color: #818286;
                   margin-left: 100rpx;
 }
-.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .right-wrap .btn0.data-v-285dc2e9, .guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .right-wrap .btn1.data-v-285dc2e9, .guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .right-wrap .btn2.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .right-wrap .btn0.data-v-2d5faaeb,
+            .guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .right-wrap .btn1.data-v-2d5faaeb,
+            .guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .right-wrap .btn2.data-v-2d5faaeb {
               width: 131rpx;
               height: 53rpx;
               font-size: 23rpx;
@@ -1624,22 +1711,22 @@
               background: url("https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqicU7icqjTIuAic0Tc9L9t1cUbL2GNO5wzwaoguDcXpSRWjHiaHQJKQdK8g/0") no-repeat left top;
               background-size: contain;
 }
-.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .right-wrap .btn0.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .right-wrap .btn0.data-v-2d5faaeb {
               background: url("https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqFt8q2x4Emjd6agcIsxWs5icbnzFax4tB4T28uicuefyiaiaSm0LLovQGGA/0") no-repeat left top;
               background-size: contain;
 }
-.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .right-wrap .tips.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .right-wrap .tips.data-v-2d5faaeb {
               color: #818286;
               font-size: 20rpx;
               text-align: right;
               margin-right: 20rpx;
               margin-top: 5rpx;
 }
-.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap.over2.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap.over2.data-v-2d5faaeb {
             -webkit-filter: grayscale(100%);
                     filter: grayscale(100%);
 }
-.guild-component-container .open-ad-container .content-wrap .chapter.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .content-wrap .chapter.data-v-2d5faaeb {
         position: absolute;
         width: 120rpx;
         height: 120rpx;
@@ -1649,7 +1736,7 @@
             -ms-transform: translate(-50%, -50%) rotate(-10deg);
                 transform: translate(-50%, -50%) rotate(-10deg);
 }
-.guild-component-container .open-ad-container .close-btn.data-v-285dc2e9 {
+.guild-component-container .open-ad-container .close-btn.data-v-2d5faaeb {
       width: 80rpx;
       height: 140rpx;
       z-index: 10;

@@ -10,7 +10,7 @@
 		<!-- 列表 -->
 		<view class="rank-list-container">
 
-			<view class="rank-list-item" v-for="(item,index) in rankList" :key="index" @tap="goGroup(item.id)">
+			<view class="rank-list-item" v-for="(item,index) in rankList" :key="index" @tap="goGroup(item.star_id)">
 				<view class="num">{{index+1}}</view>
 				<image class="avatar" :src="item.star.head_img_s" mode=""></image>
 				<view class="content">

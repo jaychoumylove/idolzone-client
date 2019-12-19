@@ -54,7 +54,7 @@
 		width: 100%;
 		height: 100%;
 		z-index: 99;
-		background-color: rgba(0, 0, 0, .6);
+		background-color: rgba(0, 0, 0, 1);
 		transition: .2s;
 		opacity: 0;
 
@@ -113,6 +113,18 @@
 			border-bottom-left-radius: 30upx;
 			border-bottom-right-radius: 30upx;
 		}
+		
+		// 中心弹出透明
+		.modal-container.centerNobg {
+			width: 600upx;
+			left: 50%;
+			top: 50%;
+			bottom: auto;
+			transform: translate(-50%, -50%);
+			background-color:transparent;
+			box-shadow:none;
+			border: none;
+		}
 
 	}
 
@@ -124,6 +136,10 @@
 		}
 		
 		.modal-container.center {
+			transform: translate(-50%, -50%);
+		}
+		
+		.modal-container.centerNobg {
 			transform: translate(-50%, -50%);
 		}
 	}

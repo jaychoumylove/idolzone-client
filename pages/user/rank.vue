@@ -22,10 +22,10 @@
 				</view>
 				<view class='avatar-wrap'>
 					<image class="avatar" :src="item.avatar" mode="aspectFill"></image>
-					<image class="headwear position-set" :src="item.headwear" mode=""></image>
+					<image v-if="item.headwear" class="headwear position-set" :src="item.headwear" mode=""></image>
 				</view>
 				<view class="text-container">
-					<view class="star-name text-overflow">
+					<view>
 						{{item.nickname}}
 						<image class="img-s" :src="`/static/image/user_level/lv${item.level}.png`" mode=""></image>
 					</view>
@@ -40,10 +40,10 @@
 			</view>
 			<view class='avatar-wrap'>
 				<image class="avatar" :src="$app.getData('userInfo').avatarurl" mode="aspectFill"></image>
-				<image class="headwear position-set" :src="myInfo.headwear&&myInfo.headwear.img" mode=""></image>
+				<image v-if="myInfo.headwear&&myInfo.headwear.img" class="headwear position-set" :src="myInfo.headwear&&myInfo.headwear.img" mode=""></image>
 			</view>
 			<view class="text-container">
-				<view class="star-name text-overflow">
+				<view>
 					{{$app.getData('userInfo').nickname}}
 					<image class="img-s" :src="`/static/image/user_level/lv${myInfo.level}.png`" mode=""></image>
 				</view>

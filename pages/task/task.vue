@@ -7,7 +7,8 @@
 		</view> -->
 
 
-		<view class="item" v-for="(item,index) in taskList" :key="index">
+		<view class="item" v-for="(item,index) in taskList" :key="index"
+			v-if="(item.id!=7) || (item.id==7&&$app.getData('config').version != $app.getVal('VERSION'))">
 			<!-- 有些任务不显示 -->
 			<view v-if="current != 2" class="left-content">
 				<image class="img" :src="item.icon" mode=""></image>

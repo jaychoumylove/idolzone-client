@@ -278,7 +278,7 @@
 	.pk-page-container {
 
 		.top-swiper-container {
-			height: 500rpx;
+			height: 500upx;
 			border-bottom: 2upx solid #efefef;
 
 			.swiper-item {
@@ -391,25 +391,25 @@
 	}
 
 	.rank-item {
-		height: 140rpx;
+		height: 140upx;
 		display: flex;
-		font-size: 32rpx;
+		font-size: 32upx;
 		color: #323232;
 		align-items: center;
-		padding: 6rpx 35rpx;
+		padding: 6upx 35upx;
 	}
 
 	.rank-item .index1 {
-		/* margin: 0 20rpx; */
-		font-size: 34rpx;
+		/* margin: 0 20upx; */
+		font-size: 34upx;
 		color: #686868;
-		width: 50rpx;
+		width: 50upx;
 		text-align: center
 	}
 
 	.pai {
-		width: 55rpx;
-		height: 55rpx;
+		width: 55upx;
+		height: 55upx;
 	}
 
 	.rank-item .index2 {
@@ -425,7 +425,7 @@
 	}
 
 	.visiting-card .index4 {
-		margin-right: 20rpx;
+		margin-right: 20upx;
 	}
 
 	.rank-item .index5 {
@@ -437,10 +437,10 @@
 	}
 
 	.head-img {
-		width: 111rpx;
-		height: 107rpx;
+		width: 111upx;
+		height: 107upx;
 		position: relative;
-		top: 6rpx;
+		top: 6upx;
 		background-color: transparent;
 		line-height: 1.5;
 		text-align: left;
@@ -456,27 +456,27 @@
 
 	.avatar-wrap {
 		position: relative;
-		width: 95rpx;
-		height: 95rpx;
-		margin-right: 10rpx;
+		width: 95upx;
+		height: 95upx;
+		margin-right: 10upx;
 	}
 
 	.avatar-wrap .headwear {
-		width: 145rpx;
-		height: 145rpx;
+		width: 145upx;
+		height: 145upx;
 	}
 
 	.head-img image.s {
-		width: 58rpx;
-		height: 58rpx;
+		width: 58upx;
+		height: 58upx;
 		position: absolute;
 		right: 0;
-		bottom: -2rpx;
+		bottom: -2upx;
 	}
 
 	.visiting-card {
 		line-height: 150%;
-		width: 290rpx;
+		width: 290upx;
 	}
 
 	.my-rank .visiting-card {
@@ -488,7 +488,7 @@
 
 	.visiting-card .flower {
 		color: #686868;
-		font-size: 24rpx;
+		font-size: 24upx;
 		display: flex;
 		align-items: center;
 	}
@@ -499,14 +499,14 @@
 	}
 
 	.visiting-card .share {
-		font-size: 22rpx;
-		width: 334rpx;
+		font-size: 22upx;
+		width: 334upx;
 	}
 
 	.rank-item .zan .icon {
-		width: 40rpx;
-		height: 40rpx;
-		margin-right: 10rpx;
+		width: 40upx;
+		height: 40upx;
+		margin-right: 10upx;
 	}
 
 	.rank-item .zan {
@@ -518,18 +518,18 @@
 	}
 
 	.flower image {
-		width: 30rpx;
-		height: 30rpx;
+		width: 30upx;
+		height: 30upx;
 		vertical-align: middle;
-		margin-right: 6rpx;
-		margin-left: 6rpx;
+		margin-right: 6upx;
+		margin-left: 6upx;
 
 	}
 
 
 	.my-rank {
 		background-color: #fff;
-		border-top: 1rpx solid #eee;
+		border-top: 1upx solid #eee;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-around;
@@ -549,12 +549,12 @@
 	.starname {
 		background: -webkit-linear-gradient(#ff7e00, #fccd9f);
 		color: #fff;
-		padding: 0 12rpx;
-		border-radius: 12rpx;
-		font-size: 20rpx;
+		padding: 0 12upx;
+		border-radius: 12upx;
+		font-size: 20upx;
 		box-shadow: 0 0 1px rgba(0, 0, 0, .3);
-		line-height: 34rpx;
-		margin: 0 5rpx;
+		line-height: 34upx;
+		margin: 0 5upx;
 		white-space: nowrap;
 	}
 
@@ -565,14 +565,14 @@
 	}
 
 	.nickname-text.self {
-		max-width: 250rpx;
+		max-width: 250upx;
 	}
 
 	.explain-long {
 		display: flex;
 		justify-content: space-between;
-		font-size: 26rpx;
-		padding: 20rpx 60rpx;
+		font-size: 26upx;
+		padding: 20upx 60upx;
 	}
 
 	.explain-long .col {
@@ -580,34 +580,34 @@
 	}
 
 	.explain-long .col .col-top .icon {
-		width: 25rpx;
-		height: 25rpx;
-		margin-left: 10rpx;
+		width: 25upx;
+		height: 25upx;
+		margin-left: 10upx;
 	}
 
 	.explain-row {
 		position: relative;
-		margin: 10rpx 0;
+		margin: 10upx 0;
 	}
 
 	.explain-row .explain {
 		position: absolute;
-		right: 50rpx;
+		right: 50upx;
 		top: 50%;
 		transform: translateY(-50%);
-		font-size: 20rpx;
+		font-size: 20upx;
 	}
 
 	.give-btn {
-		width: 160rpx;
-		height: 65rpx;
+		width: 160upx;
+		height: 65upx;
 		margin: auto;
 		background: #FF7E00;
-		border-radius: 50rpx;
+		border-radius: 50upx;
 		text-align: center;
-		line-height: 65rpx;
+		line-height: 65upx;
 		color: #fff;
-		font-size: 28rpx;
+		font-size: 28upx;
 	}
 
 	.give-btn.disable {
@@ -621,62 +621,62 @@
 	}
 
 	.space-line {
-		height: 1rpx;
+		height: 1upx;
 		background-color: #EEE;
 	}
 
 
 	.title-bottom {
 		position: relative;
-		font-size: 26rpx;
+		font-size: 26upx;
 		width: 100%;
-		height: 80rpx;
+		height: 80upx;
 		justify-content: center;
 	}
 
 	.title-bottom .item {
 		flex: 1;
 		text-align: center;
-		margin: 0 30rpx;
+		margin: 0 30upx;
 	}
 
 	.title-bottom .item.left {
 		line-height: 1.5;
-		font-size: 28rpx;
+		font-size: 28upx;
 		padding: 0;
 		background-color: transparent;
 		/* background-color: #FF7E00;
-	  border-radius: 30rpx;
+	  border-radius: 30upx;
 	  box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
 	  color: #FFF; */
 
 	}
 
 	.title-bottom .left image {
-		width: 30rpx;
-		height: 30rpx;
-		margin: 0 10rpx;
+		width: 30upx;
+		height: 30upx;
+		margin: 0 10upx;
 	}
 
 	.title-bottom .bi-title {
-		border-bottom: 2rpx solid #FF7E00;
-		font-size: 30rpx;
+		border-bottom: 2upx solid #FF7E00;
+		font-size: 30upx;
 		color: #FF7E00;
 	}
 
 	.rank-item .award {
-		font-size: 26rpx;
-		width: 120rpx;
+		font-size: 26upx;
+		width: 120upx;
 	}
 
 	.rank-item .award.big image {
-		width: 50rpx;
-		height: 50rpx;
+		width: 50upx;
+		height: 50upx;
 	}
 
 	.rank-item .award image {
-		width: 35rpx;
-		height: 35rpx;
+		width: 35upx;
+		height: 35upx;
 	}
 
 	.color {

@@ -491,6 +491,33 @@
                     align-items: center;
             font-size: 24rpx;
 }
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght0.data-v-82d416a6 {
+              max-width: 316rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght1.data-v-82d416a6 {
+              max-width: 280rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght2.data-v-82d416a6 {
+              max-width: 244rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght3.data-v-82d416a6 {
+              max-width: 212rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght4.data-v-82d416a6 {
+              max-width: 178rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght5.data-v-82d416a6 {
+              max-width: 142rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght6.data-v-82d416a6 {
+              max-width: 106rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght7.data-v-82d416a6 {
+              max-width: 76rpx;
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .nickname_lenght8.data-v-82d416a6 {
+              max-width: 42rpx;
+}
 .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap.data-v-82d416a6 {
               padding: 0 2rpx;
               display: -webkit-box;
@@ -578,6 +605,11 @@
                   background: -webkit-gradient(linear, left top, right top, from(rgba(255, 230, 230, 0)), to(rgba(255, 194, 194, 0.6)));
                   background: -o-linear-gradient(left, rgba(255, 230, 230, 0), rgba(255, 194, 194, 0.6));
                   background: linear-gradient(to right, rgba(255, 230, 230, 0), rgba(255, 194, 194, 0.6));
+}
+.guild-component-container .chart-container .chart-item .left-wrap .center-wrap .top .badge-wrap .user-badge .badge-item.data-v-82d416a6 {
+                width: 33rpx;
+                height: 32rpx;
+                margin-left: 3rpx;
 }
 .guild-component-container .chart-container .chart-item .left-wrap .center-wrap .bottom.data-v-82d416a6 {
             margin-top: 10rpx;
@@ -750,7 +782,7 @@
 .guild-component-container .side-container .btn-wrap .title.data-v-82d416a6 {
         font-size: 20rpx;
         margin-top: -18rpx;
-        text-shadow: 2rpx 0rpx 5rpx white,-2rpx 0rpx 5rpx white,0rpx 2rpx 5rpx white,0rpx -2rpx 5rpx white;
+        text-shadow: 2rpx 0rpx 5rpx white, -2rpx 0rpx 5rpx white, 0rpx 2rpx 5rpx white, 0rpx -2rpx 5rpx white;
 }
 .guild-component-container .send-modal-container.data-v-82d416a6 {
     width: 100%;
@@ -1311,6 +1343,59 @@
             font-weight: 700;
             color: #cc961d;
 }
+.guild-component-container .achievebadge-modal-container.data-v-82d416a6 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    text-align: center;
+    color: #FFFFFF;
+}
+.guild-component-container .achievebadge-modal-container .flaring.data-v-82d416a6 {
+      background: url(https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FJ38hIoViapUZ9oviafyEXQoGUqBl4DOkqHRV7VBRQv5Kr8ia9Hx9ibFzcwYKAhk28BK9RO81sOZk6MA/0) center center/100% 100% no-repeat;
+      width: 489rpx;
+      height: 537rpx;
+}
+.guild-component-container .achievebadge-modal-container .flaring image.data-v-82d416a6 {
+        margin-top: 150rpx;
+        width: 265rpx;
+        height: 230rpx;
+}
+.guild-component-container .achievebadge-modal-container .text .title.data-v-82d416a6 {
+      font-size: 40rpx;
+      font-weight: 700;
+}
+.guild-component-container .achievebadge-modal-container .btn.data-v-82d416a6 {
+      margin: 30rpx 0;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: row;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+}
+.guild-component-container .achievebadge-modal-container .btn button.data-v-82d416a6 {
+      margin-right: 30rpx;
+      padding: 10rpx 20rpx;
+      background-color: #fbcc3e;
+      border-radius: 30rpx;
+}
 .guild-component-container .fansbox-modal-container.data-v-82d416a6 {
     margin-top: -100rpx;
     padding: 40rpx;
@@ -1490,7 +1575,7 @@
       text-align: center;
       font-size: 30rpx;
       margin-top: -64rpx;
-      text-shadow: 10rpx 0rpx 20rpx #C63703,-10rpx 0rpx 20rpx #C63703,0rpx 10rpx 20rpx #C63703,0rpx -10rpx 10rpx #C63703;
+      text-shadow: 10rpx 0rpx 20rpx #C63703, -10rpx 0rpx 20rpx #C63703, 0rpx 10rpx 20rpx #C63703, 0rpx -10rpx 10rpx #C63703;
 }
 .guild-component-container .open-ad-container .content-wrap.data-v-82d416a6 {
       width: 600rpx;
@@ -1599,22 +1684,24 @@
                 margin: 10rpx 10rpx 10rpx 0;
 }
 .guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .left-wrap .award .item .img.data-v-82d416a6 {
-                  width: 80rpx;
-                  height: 80rpx;
+                  width: 66rpx;
+                  height: 66rpx;
 }
 .guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .left-wrap .award .item .num.data-v-82d416a6 {
                   position: absolute;
                   bottom: 0;
                   right: 0;
                   color: #fff;
-                  font-size: 24rpx;
+                  font-size: 21rpx;
 }
 .guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .left-wrap .award .item .num.outbox.data-v-82d416a6 {
                   left: 0;
                   color: #818286;
                   margin-left: 100rpx;
 }
-.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .right-wrap .btn0.data-v-82d416a6, .guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .right-wrap .btn1.data-v-82d416a6, .guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .right-wrap .btn2.data-v-82d416a6 {
+.guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .right-wrap .btn0.data-v-82d416a6,
+            .guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .right-wrap .btn1.data-v-82d416a6,
+            .guild-component-container .open-ad-container .content-wrap .right-container .row-item .row-wrap .right-wrap .btn2.data-v-82d416a6 {
               width: 131rpx;
               height: 53rpx;
               font-size: 23rpx;

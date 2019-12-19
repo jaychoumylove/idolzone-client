@@ -23,10 +23,10 @@
 						<view class="user-level-text" v-if="danmaku.level>=9&&danmaku.level<=11" :class="['level'+danmaku.level]">高级粉</view>
 						<view class="user-level-text" v-if="danmaku.level>=12&&danmaku.level<=14" :class="['level'+danmaku.level]">核心粉</view>
 						<view class="user-level-text" v-if="danmaku.level>=15&&danmaku.level<=15" :class="['level'+danmaku.level]">元老粉</view>
-						<view class="user-level-text" v-if="danmaku.level>=16&&danmaku.level<=16" :class="['level'+danmaku.level]">至尊粉</view>						
-						<view class="user-level-text" v-if="danmaku.level>=17&&danmaku.level<=17" :class="['level'+danmaku.level]">帝王粉</view>					
+						<view class="user-level-text" v-if="danmaku.level>=16&&danmaku.level<=16" :class="['level'+danmaku.level]">至尊粉</view>
+						<view class="user-level-text" v-if="danmaku.level>=17&&danmaku.level<=17" :class="['level'+danmaku.level]">帝王粉</view>
 						<view class="user-level-text" v-if="danmaku.level>=18&&danmaku.level<=18" :class="['level'+danmaku.level]">神级粉</view>
-						
+
 					</view>
 				</view>
 			</view>
@@ -180,7 +180,15 @@
 
 					<view class="center-wrap">
 						<view class="top">
-							<view class="nickname text-overflow" style="max-width: 250upx;">{{item.nickname}}</view>
+							<view v-if="item.userBadge.length==0" class="nickname_lenght0 text-overflow">{{item.nickname}}</view>
+							<view v-else-if="item.userBadge.length==1" class="nickname_lenght1 text-overflow">{{item.nickname}}</view>
+							<view v-else-if="item.userBadge.length==2" class="nickname_lenght2 text-overflow">{{item.nickname}}</view>
+							<view v-else-if="item.userBadge.length==3" class="nickname_lenght3 text-overflow">{{item.nickname}}</view>
+							<view v-else-if="item.userBadge.length==4" class="nickname_lenght4 text-overflow">{{item.nickname}}</view>
+							<view v-else-if="item.userBadge.length==5" class="nickname_lenght5 text-overflow">{{item.nickname}}</view>
+							<view v-else-if="item.userBadge.length==6" class="nickname_lenght6 text-overflow">{{item.nickname}}</view>
+							<view v-else-if="item.userBadge.length==7" class="nickname_lenght7 text-overflow">{{item.nickname}}</view>
+							<view v-else-if="item.userBadge.length==8" class="nickname_lenght8 text-overflow">{{item.nickname}}</view>
 							<view class="badge-wrap flex-set">
 								<view class="captain" v-if="item.captain">
 									<image class="img-s" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9ENOOBmxXTF9huYYxQSQ5K6BCW8AZyc2DE39VjH2j5KoEKjPiaPbFT2NesdMAmh7xuNfwOK8AOChtQ/0"
@@ -198,6 +206,11 @@
 									<view class="user-level-text" v-if="item.level>=16&&item.level<=16" :class="['level'+item.level]">至尊粉</view>
 									<view class="user-level-text" v-if="item.level>=17&&item.level<=17" :class="['level'+item.level]">帝王粉</view>
 									<view class="user-level-text" v-if="item.level>=18&&item.level<=18" :class="['level'+item.level]">神级粉</view>
+								</view>
+								<view class="user-badge">
+									<block v-for="(badge, badgeIndex) in item.userBadge" :key="badgeIndex">
+										<image class="badge-item" v-if="badge.simg" :src="badge.simg"></image>
+									</block>
 								</view>
 							</view>
 						</view>
@@ -240,11 +253,11 @@
 				<view class="tips" v-if="sendFansNoSettle">{{sendFansNoSettle}}</view>
 			</view>
 			<!-- 充值礼包 -->
-			<view class="btn-wrap" @tap="newboyOpen" v-if="signGift_title">
+			<view class="btn-wrap" @tap="newboyOpen" v-if="$app.getData('config').version != $app.VERSION && signGift_title">
 				<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqialbpTRo5ruTVPqJia3fSOwpicSaJsWRhmEFftWM7z1QEV8ucFMjaZEOg/0"
 				 mode="aspectFill"></image>
-				 <view class="title">{{signGift_title}}</view>
-				 <view class="tips dot" v-if="signGift_tips==1"></view>
+				<view class="title">{{signGift_title}}</view>
+				<view class="tips dot" v-if="signGift_tips==1"></view>
 			</view>
 
 		</view>
@@ -258,7 +271,7 @@
 				</view>
 				<view class="swiper-change flex-set">
 					<view class="item" :class="{select:current==0}" @tap="current = 0;this.sendCount=''">送金豆</view>
-					<view class="item" :class="{select:current==1}" @tap="current = 1;this.sendCount=''">送鲜花</view>
+					<view v-if="$app.getData('config').version != $app.VERSION" class="item" :class="{select:current==1}" @tap="current = 1;this.sendCount=''">送鲜花</view>
 					<view class="item" v-if="$app.getData('config').old_coin_open=='1'&&userCurrency.old_coin>0" :class="{select:current==2}"
 					 @tap="current = 2;this.sendCount=''">送旧豆</view>
 				</view>
@@ -469,6 +482,29 @@
 			</view>
 		</modalComponent>
 
+		<!-- 徽章达成弹窗 -->
+		<modalComponent v-if="modal == 'achieveBadge'" type="centerNobg" @closeModal="modal=''">
+			<view class="achievebadge-modal-container">
+				<view class="flaring">
+					<image :src="achieveBadge.cfg_badge.bimg" mode="aspectFill"></image>
+				</view>
+
+				<view class="text">
+					<view class="title">恭喜您，获得徽章</view>
+					<view>“{{achieveBadge.cfg_badge.text}}”</view>
+					<view>{{achieveBadge.create_time}}获得</view>
+				</view>
+
+				<view class="btn">
+					<button open-type="share">
+						<view>晒出我的徽章</view>
+					</button>
+					<view class="row-text" @tap="$app.goPage('/pages/user/badge')">查看徽章</view>
+				</view>
+
+			</view>
+		</modalComponent>
+
 		<!-- 粉丝团宝箱 -->
 		<modalComponent v-if="modal == 'fansBox'" @closeModal="modal=''">
 			<view class="fansbox-modal-container">
@@ -510,10 +546,10 @@
 					 mode="aspectFill"></image>
 					<image class="img" @tap.stop="sendFansChange" v-else-if="sendFansBoxUseCurrency==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
 					 mode="aspectFill"></image>
-					 
-					 <image  @tap.stop="sendFansChange" style="right: 20upx;width: 30upx;height: 30upx;padding-bottom:10upx;" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXX6zqzjkSn01fIlGmzJw6uVHXlUbGEEBfTW8ysG5j7xhWREa7dc3wTXQfYlDmF30e7iazribbekpIA/0"
-					  mode="aspectFill"></image>
-										   
+
+					<image @tap.stop="sendFansChange" style="right: 20upx;width: 30upx;height: 30upx;padding-bottom:10upx;" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXX6zqzjkSn01fIlGmzJw6uVHXlUbGEEBfTW8ysG5j7xhWREa7dc3wTXQfYlDmF30e7iazribbekpIA/0"
+					 mode="aspectFill"></image>
+
 				</view>
 				<view class="tips">你需要消耗一定的钻石或积分</view>
 
@@ -542,7 +578,7 @@
 			<view class="top-wrap">
 				<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqYIU6WHzGGSorecfYTRL5UjOiaZtEFPzEuCS4S19b7QibqUoiahd0UDPKw/0"
 				 mode=""></image>
-				 <view class="category-title">{{signGift_currentCategoryTitle}}</view>
+				<view class="category-title">{{signGift_currentCategoryTitle}}</view>
 			</view>
 			<!-- <image class="main" :src="newboyBg" mode="aspectFill"></image> -->
 			<!-- 列表 -->
@@ -550,8 +586,8 @@
 				<view class="left-container">
 					<view class="row-item" v-for="(item,index) in signGift_categoryList" :key="index" @tap="changeSignGift(index)"
 					 :class="{active:signGift_currentCategory==index}" v-if="item.status==1">{{item.name}}
-					 <view class="tips dot" v-if="item.tips"></view>
-					 </view>
+						<view class="tips dot" v-if="item.tips"></view>
+					</view>
 				</view>
 
 				<scroll-view class="right-container" scroll-y>
@@ -581,17 +617,15 @@
 										 mode="aspectFill"></image>
 										<view class="num">x{{item.awards.trumpet}}</view>
 									</view>
-									<view class="item" v-if="item.awards.ticket">
-										<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnRvCnXIZtJtzPZx7z4ETD3W4I4At8r1QJa5U8iaEYMHBGSzSPMibXEcPA/0"
-										 mode="aspectFill"></image>
-										<view class="num">{{item.awards.ticket*10}}折</view>
+									<view class="item" v-if="item.awards.badge">
+										<image class="img" :src="item.awards.badge.img" mode="aspectFill"></image>
 									</view>
 								</view>
 							</view>
 							<view class="right-wrap">
-								 <view :class="'btn'+item.over" v-if="!~$app.getData('sysInfo').system.indexOf('iOS') || $app.getData('config').ios_switch==0">{{item.btn_text}}</view>
-								 <view :class="'btn'+item.over" v-else>{{item.btn_text.replace('去充值','未完成')}}</view>
-								 <view v-if="item.over==0" class="tips" >{{item.name_addon}}</view>
+								<view :class="'btn'+item.over" v-if="!~$app.getData('sysInfo').system.indexOf('iOS') || $app.getData('config').ios_switch==0">{{item.btn_text}}</view>
+								<view :class="'btn'+item.over" v-else>{{item.btn_text.replace('去充值','未完成')}}</view>
+								<view v-if="item.over==0" class="tips">{{item.name_addon}}</view>
 							</view>
 						</view>
 						<image v-if="item.over==2" class="chapter" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnO0xnPeniag7enShoUchSSKxDWXVECwZyPPk6ibyrLLA4XuHcUicUcje1Q/0"
@@ -718,6 +752,9 @@
 				signGift_categoryList: [],
 				signGift_list: [],
 				signGift_currentCategoryTitle: '',
+
+				//徽章
+				achieveBadge: [],
 			};
 		},
 		created() {
@@ -786,7 +823,8 @@
 								level: e.user && e.user.level,
 								badgeId: e.user && e.user.user_ext && e.user.user_ext.badge_id,
 								sendtime: e.create_time.slice(11),
-								headwear: e.user && e.user.headwear && e.user.headwear.img
+								headwear: e.user && e.user.headwear && e.user.headwear.img,
+								userBadge: e.user && e.user.userBadge
 							}
 
 							chartList.push(item)
@@ -816,6 +854,7 @@
 
 						}, 300)
 
+						//宝箱及成长礼包
 						if (this.$app.getData('config').fansbox_open == '1') {
 							this.$app.request('fans/mybox', {}, res => {
 								this.sendFansBoxList = res.data.list
@@ -825,6 +864,15 @@
 								this.signGift_tips = res.data.signGift_tips
 							})
 						}
+
+						//徽章获得
+						this.$app.request('badge/achieve', {}, res => {
+							if (res.data.badge_id>0) {
+								this.achieveBadge = res.data,
+								this.modal = 'achieveBadge'
+							}
+						})
+
 					})
 				}
 
@@ -1083,7 +1131,8 @@
 					level: data.user && data.user.level,
 					badgeId: data.user && data.user.user_ext && data.user.user_ext.badge_id,
 					sendtime: data.create_time.slice(11),
-					headwear: data.user && data.user.headwear && data.user.headwear.img
+					headwear: data.user && data.user.headwear && data.user.headwear.img,
+					userBadge: data.user && data.user.userBadge
 				}
 
 				this.chartList.push(item)
@@ -1171,14 +1220,15 @@
 				const cid = this.signGift_categoryList[this.signGift_currentCategory].id;
 				const taskover = this.signGift_list[index].over;
 				//如果未完成 0
-				if(taskover==0){
-					if(cid==2) this.modal = 'send'//2粉丝等级
-					if(cid==3 && (!~this.$app.getData('sysInfo').system.indexOf('iOS') || this.$app.getData('config').ios_switch==0)) this.$app.goPage(`/pages/charge/charge`)//3充值
+				if (taskover == 0) {
+					if (cid == 2) this.modal = 'send' //2粉丝等级
+					if (cid == 3 && (!~this.$app.getData('sysInfo').system.indexOf('iOS') || this.$app.getData('config').ios_switch ==
+							0)) this.$app.goPage(`/pages/charge/charge`) //3充值
 					return
 				}
 				//如果已完成 2
-				else if(taskover==2) return
-				
+				else if (taskover == 2) return
+
 				this.$app.request('task/taskGiftSettle', {
 					cid: cid,
 					task_id: this.signGift_list[index].id
@@ -1382,18 +1432,17 @@
 					this.modal = ''
 					this.getStarInfo()
 					this.userRankPage = 1
-					this.getUserRank('thisday_count')
-					if (this.star.id == this.$app.getData('userStar').id) {
-						// 弹窗
-						this.getUserRank()
-						this.modal = 'sendOver'
-					}
-
+					//this.getUserRank('thisday_count')
+					this.getUserRank()
 					this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {
 						this.$app.setData('userCurrency', res.data)
 						this.userCurrency = res.data
 					})
-
+					if (this.star.id == this.$app.getData('userStar').id) {
+						// 弹窗
+						this.modal = 'sendOver'
+						return
+					}
 					this.$app.toast('打榜成功', 'success')
 
 				}, 'POST', true)
@@ -1788,14 +1837,17 @@
 							color: #EB5AFF;
 							background: linear-gradient(to right, rgba(224, 137, 255, 0), rgba(224, 137, 255, 0.6));
 						}
+
 						.level16 {
 							color: #e8b12a;
 							background: linear-gradient(to right, rgba(224, 137, 255, 0), rgba(226, 186, 84, 0.6));
 						}
+
 						.level17 {
 							color: #FF7C00;
 							background: linear-gradient(to right, rgba(255, 230, 245, 0), rgba(255, 230, 194, 0.6));
 						}
+
 						.level18 {
 							color: #FF0019;
 							background: linear-gradient(to right, rgba(255, 230, 230, 0), rgba(255, 194, 194, 0.6));
@@ -1958,6 +2010,7 @@
 
 				.right-wrap {
 					margin-left: 50upx;
+
 					.send-btn {
 						position: relative;
 
@@ -2068,7 +2121,35 @@
 							display: flex;
 							align-items: center;
 							font-size: 24upx;
-
+							
+							.nickname_lenght0{
+								max-width: 316upx;
+							}
+							.nickname_lenght1{
+								max-width: 280upx;
+							}
+							.nickname_lenght2{
+								max-width: 244upx;
+							}
+							.nickname_lenght3{
+								max-width: 212upx;
+							}
+							.nickname_lenght4{
+								max-width: 178upx;
+							}
+							.nickname_lenght5{
+								max-width: 142upx;
+							}
+							.nickname_lenght6{
+								max-width: 106upx;
+							}
+							.nickname_lenght7{
+								max-width: 76upx;
+							}
+							.nickname_lenght8{
+								max-width: 42upx;
+							}
+							
 							.badge-wrap {
 								padding: 0 2upx;
 								display: flex;
@@ -2131,16 +2212,24 @@
 									.level16 {
 										color: #e8b12a;
 										background: linear-gradient(to right, rgba(224, 137, 255, 0), rgba(226, 186, 84, 0.6));
-									}									
+									}
+
 									.level17 {
 										color: #FF7C00;
 										background: linear-gradient(to right, rgba(255, 230, 245, 0), rgba(255, 230, 194, 0.6));
 									}
+
 									.level18 {
 										color: #FF0019;
 										background: linear-gradient(to right, rgba(255, 230, 230, 0), rgba(255, 194, 194, 0.6));
 									}
 
+								}
+								
+								.user-badge .badge-item {
+									width: 33upx;
+									height: 32upx;
+									margin-left: 3upx;
 								}
 
 							}
@@ -2310,17 +2399,17 @@
 					padding: 0 15upx;
 					background-color: #f00;
 				}
-				
+
 				.tips.dot {
 					width: 20upx;
 					height: 20upx;
 					padding: 0;
 				}
-				
-				.title{
+
+				.title {
 					font-size: 20upx;
 					margin-top: -18upx;
-					text-shadow: 2upx 0upx 5upx white,-2upx 0upx 5upx white,0upx 2upx 5upx white,0upx -2upx 5upx white;
+					text-shadow: 2upx 0upx 5upx white, -2upx 0upx 5upx white, 0upx 2upx 5upx white, 0upx -2upx 5upx white;
 				}
 			}
 
@@ -2837,6 +2926,44 @@
 			}
 		}
 
+		.achievebadge-modal-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			color:#FFFFFF;
+
+			.flaring {
+				background: url(https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FJ38hIoViapUZ9oviafyEXQoGUqBl4DOkqHRV7VBRQv5Kr8ia9Hx9ibFzcwYKAhk28BK9RO81sOZk6MA/0) center center/100% 100% no-repeat;
+				width: 489rpx;
+				height: 537rpx;
+								
+				image {
+					margin-top: 150rpx;
+					width: 265upx;
+					height: 230upx;
+				}
+			}
+			.text .title{
+				font-size: 40upx;
+				font-weight: 700;
+			}
+			.btn{
+				margin: 30upx 0;
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+			}
+			
+			.btn button{
+				margin-right: 30upx;
+				padding: 10upx 20upx;
+				background-color: #fbcc3e;
+				border-radius: 30upx;
+			}
+			
+		}
+
 		.fansbox-modal-container {
 			margin-top: -100upx;
 			padding: 40upx;
@@ -2946,7 +3073,7 @@
 					top: 50%;
 					transform: translateY(-50%);
 				}
-				
+
 				image.img {
 					right: 50upx;
 				}
@@ -2989,11 +3116,12 @@
 					width: 600upx;
 					height: 240upx;
 				}
-				.category-title{
+
+				.category-title {
 					text-align: center;
 					font-size: 30upx;
 					margin-top: -64upx;
-					text-shadow: 10upx 0upx 20upx #C63703,-10upx 0upx 20upx #C63703,0upx 10upx 20upx #C63703,0upx -10upx 10upx #C63703;
+					text-shadow: 10upx 0upx 20upx #C63703, -10upx 0upx 20upx #C63703, 0upx 10upx 20upx #C63703, 0upx -10upx 10upx #C63703;
 				}
 			}
 
@@ -3023,7 +3151,7 @@
 						margin: 10upx 0;
 						border-top-left-radius: 10upx;
 						border-bottom-left-radius: 10upx;
-						
+
 						.tips {
 							font-size: 18upx;
 							color: #fff;
@@ -3035,6 +3163,7 @@
 							padding: 0 15upx;
 							background-color: #f00;
 						}
+
 						.tips.dot {
 							width: 20upx;
 							height: 20upx;
@@ -3079,8 +3208,8 @@
 										margin: 10upx 10upx 10upx 0;
 
 										.img {
-											width: 80upx;
-											height: 80upx;
+											width: 66upx;
+											height: 66upx;
 										}
 
 										.num {
@@ -3088,9 +3217,10 @@
 											bottom: 0;
 											right: 0;
 											color: #fff;
-											font-size: 24upx;
+											font-size: 21upx;
 										}
-										.num.outbox{
+
+										.num.outbox {
 											left: 0;
 											color: #818286;
 											margin-left: 100upx;
@@ -3100,21 +3230,26 @@
 							}
 
 							.right-wrap {
-								.btn0,.btn1,.btn2{
+
+								.btn0,
+								.btn1,
+								.btn2 {
 									width: 131upx;
 									height: 53upx;
 									font-size: 23rpx;
 									line-height: 53rpx;
 									text-align: center;
 									color: #FFFFFF;
-									background:url('https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqicU7icqjTIuAic0Tc9L9t1cUbL2GNO5wzwaoguDcXpSRWjHiaHQJKQdK8g/0') no-repeat left top;
-									background-size:contain;
+									background: url('https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqicU7icqjTIuAic0Tc9L9t1cUbL2GNO5wzwaoguDcXpSRWjHiaHQJKQdK8g/0') no-repeat left top;
+									background-size: contain;
 								}
-								.btn0{
-									background:url('https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqFt8q2x4Emjd6agcIsxWs5icbnzFax4tB4T28uicuefyiaiaSm0LLovQGGA/0') no-repeat left top;
-									background-size:contain;
+
+								.btn0 {
+									background: url('https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqFt8q2x4Emjd6agcIsxWs5icbnzFax4tB4T28uicuefyiaiaSm0LLovQGGA/0') no-repeat left top;
+									background-size: contain;
 								}
-								.tips{
+
+								.tips {
 									color: #818286;
 									font-size: 20upx;
 									text-align: right;

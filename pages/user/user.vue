@@ -58,26 +58,28 @@
 					<view class="text">任务</view>
 				</view>
 
-				<block v-if="~$app.getData('sysInfo').system.indexOf('iOS')">
-					<view v-if="$app.getData('config').ios_switch==0" class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
+				<block v-if="$app.getData('config').version != $app.getVal('VERSION')">
+					<block v-if="~$app.getData('sysInfo').system.indexOf('iOS')">
+						<view v-if="$app.getData('config').ios_switch==0" class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
+							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
+							 mode="aspectFill"></image>
+							<view class="text">充值</view>
+						</view>
+
+						<view v-else-if="$app.getData('config').ios_switch==2" class="item-wrap">
+							<button open-type="contact">
+								<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
+								 mode="aspectFill"></image>
+								<view class="text">补充鲜花</view>
+							</button>
+						</view>
+					</block>
+					<view class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
 						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
 						 mode="aspectFill"></image>
 						<view class="text">充值</view>
 					</view>
-
-					<view v-else-if="$app.getData('config').ios_switch==2" class="item-wrap">
-						<button open-type="contact">
-							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
-							 mode="aspectFill"></image>
-							<view class="text">补充鲜花</view>
-						</button>
-					</view>
 				</block>
-				<view v-else class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
-					 mode="aspectFill"></image>
-					<view class="text">充值</view>
-				</view>
 
 				<view class="item-wrap" @tap="goPage('/pages/active_one/active_one')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxdFQIHP8nzN8tBsJuicHWgbLdFhlU5Xn0ZtnATnAHny4NGLRYtD76mfw/0"
@@ -126,6 +128,15 @@
 				</view>
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</button>
+			
+			<view class="item-wrap" @tap="$app.goPage('/pages/user/badge')">
+				<view class="left-wrap">
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9G95njnZp6t7hkcfsoraFhyFkjhRwv6OG00pSKo7DLXZAUibrL8SldBmf7kdCFB1icsWHxc0n34AGrA/0"
+					 mode="aspectFill"></image>
+					<view class="text">荣誉徽章</view>
+				</view>
+				<view class="right-wrap iconfont iconjiantou"></view>
+			</view>
 
 			<view class="item-wrap" @tap="$app.goPage('/pages/user/setting')">
 				<view class="left-wrap">

@@ -236,13 +236,12 @@
 				<view class="btn-wrap">
 					<button open-type="share" data-share="10">
 						<btnComponent type="fangde">
-							<view class="btn" style="width: 300upx;">召唤好友加速</view>
+							<view class="btn">召唤好友加速</view>
 						</btnComponent>
 					</button>
-				</view>
-				<view class="btn-wrap">
+					
 					<btnComponent type="fangde">
-						<view class="btn" style="width: 300upx;" @tap="helpstart">立即加速</view>
+						<view class="btn" @tap="helpstart">立即加速</view>
 					</btnComponent>
 				</view>
 			</view>
@@ -1319,8 +1318,8 @@
 		}
 
 		.btn {
-			padding: 10upx 40upx;
-			font-size: 36upx;
+			padding: 10upx 30upx;
+			font-size: 30upx;
 			font-weight: 600;
 		}
 

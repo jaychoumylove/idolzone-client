@@ -77,6 +77,7 @@ var render = function() {
   var g1 = _vm.$app.getData("config")
   var g2 = _vm.$app.getData("config")
   var g3 = _vm.$app.getData("config")
+  var g4 = _vm.$app.getData("config")
 
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
@@ -107,15 +108,19 @@ var render = function() {
     }
 
     _vm.e6 = function($event) {
-      return _vm.$app.goPage("/pages/index/rank")
+      return _vm.$app.goPage("/pages/user/dashen_rank")
     }
 
     _vm.e7 = function($event) {
+      return _vm.$app.goPage("/pages/index/rank")
+    }
+
+    _vm.e8 = function($event) {
       _vm.modal = ""
       _vm.$app.goPage(_vm.$app.getData("config").index_open.url)
     }
 
-    _vm.e8 = function($event) {
+    _vm.e9 = function($event) {
       _vm.modal = ""
     }
   }
@@ -127,7 +132,8 @@ var render = function() {
         g0: g0,
         g1: g1,
         g2: g2,
-        g3: g3
+        g3: g3,
+        g4: g4
       }
     }
   )
@@ -163,7 +169,8 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var modalComponent = function modalComponent() {return __webpack_require__.e(/*! import() | components/modalComponent */ "components/modalComponent").then(__webpack_require__.bind(null, /*! @/components/modalComponent.vue */ 356));};var bannerComponent = function bannerComponent() {return __webpack_require__.e(/*! import() | components/bannerComponent */ "components/bannerComponent").then(__webpack_require__.bind(null, /*! @/components/bannerComponent.vue */ 363));};var btnComponent = function btnComponent() {return __webpack_require__.e(/*! import() | components/btnComponent */ "components/btnComponent").then(__webpack_require__.bind(null, /*! @/components/btnComponent.vue */ 370));};var listItemComponent = function listItemComponent() {return __webpack_require__.e(/*! import() | components/listItemComponent */ "components/listItemComponent").then(__webpack_require__.bind(null, /*! @/components/listItemComponent.vue */ 377));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var modalComponent = function modalComponent() {return __webpack_require__.e(/*! import() | components/modalComponent */ "components/modalComponent").then(__webpack_require__.bind(null, /*! @/components/modalComponent.vue */ 372));};var bannerComponent = function bannerComponent() {return __webpack_require__.e(/*! import() | components/bannerComponent */ "components/bannerComponent").then(__webpack_require__.bind(null, /*! @/components/bannerComponent.vue */ 379));};var btnComponent = function btnComponent() {return __webpack_require__.e(/*! import() | components/btnComponent */ "components/btnComponent").then(__webpack_require__.bind(null, /*! @/components/btnComponent.vue */ 386));};var listItemComponent = function listItemComponent() {return __webpack_require__.e(/*! import() | components/listItemComponent */ "components/listItemComponent").then(__webpack_require__.bind(null, /*! @/components/listItemComponent.vue */ 393));};var _default =
+
 
 
 

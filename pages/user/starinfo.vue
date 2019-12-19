@@ -1,7 +1,7 @@
 <template>
 	<view class="starinfo-page-container">
 
-		<view class='title'>每一项内容单独修改;图片尺寸务必按要求提交，一般一个工作日审核通过，加急请联系小程序客服。</view>
+		<view class='title'>爱豆信息直接修改（无需审核），每次修改一项<br>图片尺寸务必按要求提交<br>提交之前请征求大多数粉丝的意见<br>恶意提交图片经粉丝举报，将撤销领袖粉</view>
 		<view class='item' @tap='chooseImg("head_img_s", "头像")'>
 			<view class='left'>头像</view>
 			<image class='right avatar' mode="aspectFill" :src="starInfo.head_img_s" />
@@ -51,7 +51,6 @@
 		},
 		onLoad() {},
 		onShow() {
-
 		},
 		onShareAppMessage(e) {
 			const shareType = e.target && e.target.dataset.share
@@ -60,7 +59,12 @@
 		methods: {
 			submit() {
 				this.$app.request('star/editimg', this.postData, res => {
-					this.$app.toast('提交成功', 'success')
+					if(res.code) this.$app.toast('修改失败', 'none')
+					else{	
+						this.$app.setData('userStar', res.data.userStar)
+						this.$app.toast('修改成功', 'success')
+					}
+					
 				}, 'POST', true)
 			},
 			chooseImg(field, targetText) {

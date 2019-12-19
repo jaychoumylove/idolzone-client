@@ -2,6 +2,7 @@
   "pages": [
     "pages/open/open",
     "pages/index/index",
+    "pages/user/dashen_rank",
     "pages/index/rank",
     "pages/index/fengyun",
     "pages/farm/farm",
@@ -12,6 +13,7 @@
     "pages/square/square",
     "pages/user/user",
     "pages/user/headwear",
+    "pages/user/badge",
     "pages/user/log",
     "pages/user/rank",
     "pages/user/birth_rank",

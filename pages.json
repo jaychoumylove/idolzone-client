@@ -14,6 +14,9 @@
 			}
 		},
 		{
+			"path": "pages/user/dashen_rank"
+		},
+		{
 			"path": "pages/index/rank",
 			"style": {
 				"navigationBarTitleText": "往期榜单"
@@ -72,6 +75,12 @@
 			"path": "pages/user/headwear",
 			"style": {
 				"navigationBarTitleText": "头像挂饰"
+			}
+		},
+		{
+			"path": "pages/user/badge",
+			"style": {
+				"navigationBarTitleText": "荣誉徽章"
 			}
 		},
 		{

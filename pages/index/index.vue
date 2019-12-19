@@ -32,6 +32,7 @@
 				<view class="tab-item" :class="{active:rankField == 'week_hot'}" @tap="changeField('week_hot');getSunday();">周榜</view>
 				<view class="tab-item" :class="{active:rankField == 'month_hot_flower'}" @tap="changeField('month_hot_flower');getLast();">鲜花月榜</view>
 				<view class="tab-item" :class="{active:rankField == 'month_hot_coin'}" @tap="changeField('month_hot_coin');getLast()">金豆月榜</view>
+				<view v-if="$app.getData('config').dashen_rank_switch==1" class="tab-item"  @tap="$app.goPage('/pages/user/dashen_rank')">大神榜</view>
 			</view>
 			<view class="right-wrap" @tap="$app.goPage('/pages/index/rank')">往期榜单<text class="iconfont iconicon_workmore"></text></view>
 		</view>
@@ -390,7 +391,7 @@
 		.tab-container {
 			font-size: 28upx;
 			display: flex;
-			padding: 20upx 40upx;
+			padding: 20upx 20upx;
 			align-items: center;
 			justify-content: space-between;
 

@@ -40,11 +40,10 @@
 	}
 
 	.button.big {
-		background: url(http://tva1.sinaimg.cn/large/0060lm7Tly1g2dxu4igebg303v02cgld.gif) center no-repeat/100% 100%;
+		background: url(http://tva1.sinaimg.cn/large/0060lm7Tly1g2dxu4igebg303v02cgld.gif) center center/100% 100% no-repeat;
 	}
 
 	.button.success {
-		// background: url(http://tva1.sinaimg.cn/large/0060lm7Tly1g2ey5oz2oag303s01p741.gif) center no-repeat/100% 100%;
 		color: #FFF;
 		background: linear-gradient(to right bottom, #962de0, #962de0);
 	}
@@ -58,7 +57,7 @@
 		color: #412b13;
 		box-shadow: none;
 		border-radius: 0;
-		background: url(https://mmbiz.qpic.cn/mmbiz_jpg/w5pLFvdua9FsWnev2aG6T492FpDr5HAaXcd90tJhNX454ZhD1HhuMcEK0T5Suuva8yI7TvicibBTcw8CvEYibzl6w/0) center no-repeat/100% 100%;
+		background: url(https://mmbiz.qpic.cn/mmbiz_jpg/w5pLFvdua9FsWnev2aG6T492FpDr5HAaXcd90tJhNX454ZhD1HhuMcEK0T5Suuva8yI7TvicibBTcw8CvEYibzl6w/0) center center/100% 100% no-repeat;
 	}
 
 	.button.css {

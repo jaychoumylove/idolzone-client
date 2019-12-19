@@ -806,8 +806,8 @@ image.bg.data-v-5f15222e {
     height: 300rpx;
 }
 .modal-container .btn.data-v-5f15222e {
-    padding: 10rpx 40rpx;
-    font-size: 36rpx;
+    padding: 10rpx 30rpx;
+    font-size: 30rpx;
     font-weight: 600;
 }
 .modal-container .btn.s.data-v-5f15222e {

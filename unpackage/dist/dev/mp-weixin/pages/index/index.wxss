@@ -88,7 +88,7 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  padding: 20rpx 40rpx;
+  padding: 20rpx 20rpx;
   -webkit-box-align: center;
   -webkit-align-items: center;
       -ms-flex-align: center;

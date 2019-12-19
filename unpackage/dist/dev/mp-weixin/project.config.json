@@ -6,8 +6,20 @@
 	"setting": {
 		"urlCheck": true,
 		"es6": true,
+		"postcss": true,
 		"minified": true,
-		"postcss": true
+		"newFeature": true,
+		"coverView": true,
+		"autoAudits": true,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		},
+		"uglifyFileName": true
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.7.0",
