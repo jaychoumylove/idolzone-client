@@ -7,7 +7,7 @@
 				<input class="input" type="text" :value="keywords" @input="searchInput" placeholder="搜索爱豆名字" />
 			</view>
 
-			<view class="right-wrap" @tap="$app.goPage('/pages/notice/notice?id=1')">榜单福利<text class="iconfont iconinfo"></text></view>
+			<view v-if="$app.getData('config').version != $app.VERSION" class="right-wrap" @tap="$app.goPage('/pages/notice/notice?id=1')">榜单福利<text class="iconfont iconinfo"></text></view>
 		</view>
 
 		<!-- banner风云榜 -->
@@ -30,9 +30,9 @@
 		<view class="tab-container">
 			<view class="left-wrap">
 				<view class="tab-item" :class="{active:rankField == 'week_hot'}" @tap="changeField('week_hot');getSunday();">周榜</view>
-				<view class="tab-item" :class="{active:rankField == 'month_hot_flower'}" @tap="changeField('month_hot_flower');getLast();">鲜花月榜</view>
+				<view v-if="$app.getData('config').version != $app.VERSION" class="tab-item" :class="{active:rankField == 'month_hot_flower'}" @tap="changeField('month_hot_flower');getLast();">鲜花月榜</view>
 				<view class="tab-item" :class="{active:rankField == 'month_hot_coin'}" @tap="changeField('month_hot_coin');getLast()">金豆月榜</view>
-				<view v-if="$app.getData('config').dashen_rank_switch==1" class="tab-item"  @tap="$app.goPage('/pages/user/dashen_rank')">大神榜</view>
+				<view v-if="$app.getData('config').version != $app.VERSION && $app.getData('config').dashen_rank_switch==1" class="tab-item"  @tap="$app.goPage('/pages/user/dashen_rank')">大神榜</view>
 			</view>
 			<view class="right-wrap" @tap="$app.goPage('/pages/index/rank')">往期榜单<text class="iconfont iconicon_workmore"></text></view>
 		</view>
@@ -42,40 +42,40 @@
 				<view class="remaintime">本期截止：{{cutOffDate}}</view>
 				<view class="row-info">
 
-					<view class="content" @tap="goGroup(rankList[1]&&rankList[1].starid)">
+					<view class="content" @tap="goGroup(rankList[1]&&rankList[1].star.id)">
 						<view class="avatar-wrap">
 							<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9eJFfnnRCICicicZI1QKbEwDTLpCAqbUlCFhYFp0okTicNRpoZHaxXJXNQ/0"
 							 mode=""></image>
-							<image class='avatar position-set' :src="rankList[1]&&rankList[1].avatar" mode="aspectFill"></image>
+							<image class='avatar position-set' :src="rankList[1]&&rankList[1].star.head_img_s" mode="aspectFill"></image>
 						</view>
-						<view class="starname">{{rankList[1]&&rankList[1].name}}</view>
+						<view class="starname">{{rankList[1]&&rankList[1].star.name}}</view>
 						<view class="hot">
 							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERabwYgrRn5cjV3uoOa8BonlDPGMn7icL9icvz43XsbexzcqkCcrTcdZqw/0"
-							 mode=""></image>{{rankList[1]&&rankList[1].hot||0}}
+							 mode=""></image>{{$app.formatNumber(rankList[1]&&rankList[1].hot||0)}}
 						</view>
 					</view>
-					<view class="content mid" @tap="goGroup(rankList[0]&&rankList[0].starid)">
+					<view class="content mid" @tap="goGroup(rankList[0]&&rankList[0].star.id)">
 						<view class="avatar-wrap">
 							<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9D0G7NbQic3qWC5phiaopNWhKb9a2IY29hBLbOtqRblDq7kA98uz4GYiaA/0"
 							 mode=""></image>
-							<image class='avatar position-set' :src="rankList[0]&&rankList[0].avatar" mode="aspectFill"></image>
+							<image class='avatar position-set' :src="rankList[0]&&rankList[0].star.head_img_s" mode="aspectFill"></image>
 						</view>
-						<view class="starname">{{rankList[0]&&rankList[0].name}}</view>
+						<view class="starname">{{rankList[0]&&rankList[0].star.name}}</view>
 						<view class="hot">
 							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERabwYgrRn5cjV3uoOa8BonlDPGMn7icL9icvz43XsbexzcqkCcrTcdZqw/0"
-							 mode=""></image>{{rankList[0]&&rankList[0].hot||0}}
+							 mode=""></image>{{$app.formatNumber(rankList[0]&&rankList[0].hot||0)}}
 						</view>
 					</view>
-					<view class="content" @tap="goGroup(rankList[2]&&rankList[2].starid)">
+					<view class="content" @tap="goGroup(rankList[2]&&rankList[2].star.id)">
 						<view class="avatar-wrap">
 							<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9WneYzo7nmBCMjaicxicaSRQKU3xytQClx6t9kuM4HTg5P4YLxNhmhzcw/0"
 							 mode=""></image>
-							<image class='avatar position-set' :src="rankList[2]&&rankList[2].avatar" mode="aspectFill"></image>
+							<image class='avatar position-set' :src="rankList[2]&&rankList[2].star.head_img_s" mode="aspectFill"></image>
 						</view>
-						<view class="starname">{{rankList[2]&&rankList[2].name}}</view>
+						<view class="starname">{{rankList[2]&&rankList[2].star.name}}</view>
 						<view class="hot">
 							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERabwYgrRn5cjV3uoOa8BonlDPGMn7icL9icvz43XsbexzcqkCcrTcdZqw/0"
-							 mode=""></image>{{rankList[2]&&rankList[2].hot||0}}
+							 mode=""></image>{{$app.formatNumber(rankList[2]&&rankList[2].hot||0)}}
 						</view>
 					</view>
 
@@ -86,15 +86,15 @@
 
 			<!-- 列表 -->
 			<view class="rank-list-container">
-				<view class="rank-list-item" v-for="(item,index) in rankList" :key="index" v-if="keywords || index>2" @tap="goGroup(item.starid)">
+				<view class="rank-list-item" v-for="(item,index) in rankList" :key="index" v-if="keywords || index>2" @tap="goGroup(item.star.id)">
 
-					<listItemComponent :rank="!keywords?index+1:''" :avatar="item.avatar">
+					<listItemComponent :rank="!keywords?index+1:''" :avatar="item.star.head_img_s">
 
 						<template v-slot:left-container>
 							<view class="left-container">
-								<view class="star-name">{{item.name}}</view>
+								<view class="star-name">{{item.star.name}}</view>
 								<view class="bottom-text">
-									<view class="hot-count">{{item.hot}}</view>
+									<view class="hot-count">{{$app.formatNumber(item.hot)}}</view>
 									<image class="icon-heart" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERabwYgrRn5cjV3uoOa8BonlDPGMn7icL9icvz43XsbexzcqkCcrTcdZqw/0"
 									 mode=""></image>
 								</view>
@@ -128,7 +128,7 @@
 
 		</view>
 
-		<view class="open-ad-container flex-set" v-if="modal=='indexBanner' && $app.getData('config').index_open && $app.getData('config').index_open.img">
+		<view class="open-ad-container flex-set" v-if="$app.getData('config').version != $app.VERSION && modal=='indexBanner' && $app.getData('config').index_open && $app.getData('config').index_open.img">
 			<image class="main" :src="$app.getData('config').index_open.img" mode="aspectFill" @tap="modal='';$app.goPage($app.getData('config').index_open.url)">
 			</image>
 			<view class="close-btn flex-set iconfont iconclose" @tap="modal = ''"></view>
@@ -150,6 +150,7 @@
 		},
 		data() {
 			return {
+				$app:this.$app,
 				theme: this.$app.getData('theme') || 0,
 				modal: 'indexBanner',
 				showBottomLoading: true,
@@ -270,21 +271,12 @@
 							this.showBottomLoading = false
 						}
 
-						const rankList = []
-						res.data.forEach(e => {
-							const item = {}
-							item.starid = e.star.id
-							item.name = e.star.name
-							item.avatar = e.star.head_img_s ? e.star.head_img_s : e.star.head_img_l
-							item.hot = this.$app.formatNumber(e['hot'])
-							rankList.push(item)
-						})
 						if (this.page == 1) {
-							this.rankList = rankList
-							this.$app.setData('index_rankList', this.rankList)
+							this.rankList = res.data
+							this.$app.setData('index_rankList', res.data)
 						} else {
 							// 追加data
-							this.rankList = this.rankList.concat(rankList)
+							this.rankList = this.rankList.concat(res.data)
 						}
 					} else {
 						// 小时贡献榜
@@ -613,8 +605,8 @@
 			flex-direction: column;
 
 			.main {
-				width: 540rpx;
-				height: 960upx;
+				width: 500rpx;
+				height: 800upx;
 				border-radius: 20upx;
 
 			}

@@ -1,6 +1,6 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		// #ifndef H5
+		
 		{
 			"path": "pages/open/open",
 			"style": {
@@ -11,21 +11,36 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "爱豆圈子"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		},
 		{
-			"path": "pages/user/dashen_rank"
+			"path": "pages/user/dashen_rank",
+			"style": {
+				"navigationBarTitleText": "大神榜"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
+			}
 		},
 		{
 			"path": "pages/index/rank",
 			"style": {
 				"navigationBarTitleText": "往期榜单"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		},
 		{
 			"path": "pages/index/fengyun",
 			"style": {
 				"navigationBarTitleText": "鲜花小时榜"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		},
 
@@ -35,10 +50,19 @@
 				"navigationBarTitleText": "农场",
 				"disableScroll": true,
 				"navigationBarBackgroundColor": "#42B6E7"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		},
 		{
-			"path": "pages/farm/help"
+			"path": "pages/farm/help",
+			"style": {
+				"navigationBarTitleText": "农场帮助"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
+			}
 		},
 		{
 			"path": "pages/group/star",
@@ -46,6 +70,9 @@
 				"disableScroll": true,
 				"navigationBarBackgroundColor": "#544f4b",
 				"navigationBarTextStyle": "white"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		},
 		{
@@ -54,103 +81,214 @@
 				"disableScroll": true,
 				"navigationBarBackgroundColor": "#544f4b",
 				"navigationBarTextStyle": "white"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		}, {
 			"path": "pages/group/rank_history",
-			"style": {}
+			"style": {
+				// #ifdef H5
+				"navigationStyle":"custom"
+				// #endif
+			}
 		},
 		{
 			"path": "pages/square/square",
 			"style": {
 				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "广场"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		}, {
 			"path": "pages/user/user",
 			"style": {
-				"navigationBarTitleText": "我的"
+				"navigationBarTitleText": "个人中心"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		},
 		{
 			"path": "pages/user/headwear",
 			"style": {
 				"navigationBarTitleText": "头像挂饰"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		},
 		{
 			"path": "pages/user/badge",
 			"style": {
 				"navigationBarTitleText": "荣誉徽章"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		},
 		{
-			"path": "pages/user/log"
+			"path": "pages/user/badge_rank",
+			"style": {
+				"navigationBarTitleText": "圈内徽章排行"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
+			}
+		},
+		{
+			"path": "pages/user/log",
+			"style": {
+				"navigationBarTitleText": "记录明细"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
+			}
 		},
 		{
 			"path": "pages/user/rank",
-			"style": {}
-		}, {
+			"style": {
+				"navigationBarTitleText": "粉丝排行"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
+			}
+		},
+		{
 			"path": "pages/user/birth_rank",
 			"style": {
 				"navigationBarTitleText": "生日应援榜"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		},
 
 		{
 			"path": "pages/user/exchange",
 			"style": {
-				"navigationBarTitleText": "积分商城"
+				"navigationBarTitleText": "积分兑换"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		},
 
 		{
 			"path": "pages/user/setting",
-			"style": {}
-		}, {
+			"style": {
+				"navigationBarTitleText": "设置"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
+			}
+		}, 
+		{
 			"path": "pages/user/starinfo",
-			"style": {}
-		}, {
+			"style": {
+				"navigationBarTitleText": "爱豆信息"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
+			}
+		},
+		{
 			"path": "pages/user/edit_user",
-			"style": {}
+			"style": {
+				"navigationBarTitleText": "修改信息"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
+			}
 		}, {
 			"path": "pages/square/article",
-			"style": {}
-		}, {
+			"style": {
+				"navigationBarTitleText": "广场"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
+			}
+		}, 
+		{
 			"path": "pages/task/task",
 			"style": {
 				"navigationBarTitleText": "每日必做任务"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
+			}
+		},
+		{
+			"path": "pages/task/game",
+			"style": {
+				"navigationBarTitleText": "游戏试玩"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		}, {
-			"path": "pages/task/game",
-			"style": {}
-		}, {
 			"path": "pages/notice/notice",
-			"style": {}
-		}, {
+			"style": {
+				"navigationBarTitleText": "公告详情"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
+			}
+		},
+		{
 			"path": "pages/notice/list",
-			"style": {}
-		}, {
+			"style": {
+				"navigationBarTitleText": "公告列表"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
+			}
+		},
+		{
 			"path": "pages/pk/pk_index",
 			"style": {
 				"navigationBarTitleText": "来PK"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
-		}, {
+		}, 
+		{
 			"path": "pages/pk/pk_rank",
-			"style": {}
-		}, {
+			"style": {
+				"navigationBarTitleText": "PK排行"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
+			}
+		}, 
+		{
 			"path": "pages/pk/pk_rank_user",
-			"style": {}
+			"style": {
+				"navigationBarTitleText": "粉丝排名"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
+			}
 		}
 
 		, {
 			"path": "pages/lottery/lottery",
 			"style": {
 				"navigationBarTitleText": "幸运大抽奖"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		}, {
 			"path": "pages/lottery/log",
 			"style": {
 				"navigationBarTitleText": "抽奖明细"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		},
 
@@ -178,11 +316,17 @@
 			"path": "pages/fans/fans_list",
 			"style": {
 				"navigationBarTitleText": "粉丝团"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		}, {
 			"path": "pages/fans/fans_club",
 			"style": {
 				"navigationBarTitleText": "粉丝团"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		}, {
 			"path": "pages/fans/mass"
@@ -192,12 +336,19 @@
 			"path": "pages/fans/member",
 			"style": {
 				"navigationBarTitleText": "粉丝团成员"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
 			}
 		},
-		// #endif
 		{
 			"path": "pages/charge/charge",
-			"style": {}
+			"style": {
+				"navigationBarTitleText": "充值"
+				// #ifdef H5
+				,"navigationStyle":"custom"
+				// #endif
+			}
 		}
 
 	],

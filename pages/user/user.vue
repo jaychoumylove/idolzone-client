@@ -22,7 +22,7 @@
 		</view>
 
 		<!-- 顶部浮 -->
-		<view class="top-float-container">
+		<view class="top-float-container" v-if="$app.getData('config').version != $app.getVal('VERSION')">
 			<view class="row row-1">
 
 				<view class="item-wrap">
@@ -86,16 +86,16 @@
 					 mode="aspectFill"></image>
 					<view class="text">应援</view>
 				</view>
-				<view class="item-wrap" @tap="$app.goPage('/pages/user/exchange')">
+				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="item-wrap" @tap="$app.goPage('/pages/user/exchange')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxaonPdq5wuw0mcjvxg7fiaH9U9f5HX3D4VTVJibsHHf8MB4C2nAIELfog/0"
 					 mode="aspectFill"></image>
-					<view class="text">积分商城</view>
+					<view class="text">积分兑换</view>
 				</view>
 
 			</view>
 		</view>
 		<!-- 广告位 -->
-		<view v-if="$app.getData('config').user_ad" class="ad-container flex-set" @tap="$app.goPage($app.getData('config').user_ad.url)">
+		<view v-if="$app.getData('config').version != $app.getVal('VERSION') && $app.getData('config').user_ad" class="ad-container flex-set" @tap="$app.goPage($app.getData('config').user_ad.url)">
 			<image :src="$app.getData('config').user_ad.img" mode="widthFix"></image>
 		</view>
 
@@ -154,15 +154,7 @@
 </template>
 
 <script>
-	import badgeComponent from "@/components/badgeComponent.vue"
-	import btnComponent from "@/components/btnComponent.vue"
-	import modalComponent from "@/components/modalComponent.vue"
 	export default {
-		components: {
-			badgeComponent,
-			modalComponent,
-			btnComponent
-		},
 		data() {
 			return {
 				requestCount: 0,

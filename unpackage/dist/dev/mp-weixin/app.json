@@ -14,6 +14,7 @@
     "pages/user/user",
     "pages/user/headwear",
     "pages/user/badge",
+    "pages/user/badge_rank",
     "pages/user/log",
     "pages/user/rank",
     "pages/user/birth_rank",
@@ -99,5 +100,5 @@
   "usingComponents": {
     "load-icon-component": "/components/loadIconComponent"
   },
-  "sitemapLocation": "sitemap5.json"
+  "sitemapLocation": "sitemap29.json"
 }

@@ -26,7 +26,7 @@
 			</view>
 
 			<view class='farmerhouse' @tap='getSkill(5)'>
-				<image class='house' :src='`/static/image/farm/house/${farm.house_level||1}.png`'></image>
+				<image class='house' :src="farm.house_img || primary_house_img"></image>
 				<image class='up-icon house' v-if="farm.house_level<5" src='https://mmbiz.qpic.cn/mmbiz_gif/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxbemFNAA89E03EbTcPAT3Q9m8ERr6sZRGtDpJ1uKPDV2JG0jLXricW2w/0'></image>
 			</view>
 
@@ -43,21 +43,18 @@
 				<image class='up-icon land1' v-if="farm.land_1_level<22" @tap='farm.tree_1_level==15?getSkill(8):getSkill(6)' src='https://mmbiz.qpic.cn/mmbiz_gif/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxbemFNAA89E03EbTcPAT3Q9m8ERr6sZRGtDpJ1uKPDV2JG0jLXricW2w/0'></image>
 				<image class='up-icon land2' v-if="farm.land_2_level<22" @tap='farm.tree_2_level==15?getSkill(9):getSkill(7)' src='https://mmbiz.qpic.cn/mmbiz_gif/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxbemFNAA89E03EbTcPAT3Q9m8ERr6sZRGtDpJ1uKPDV2JG0jLXricW2w/0'></image>
 				<view class='lands'>
-					<image class='land ld1 img' :src='`/static/image/farm/land/${farm.land_1_level||1}.png`'></image>
-					<image class='land ld2 img' :src='`/static/image/farm/land/${farm.land_2_level||1}.png`'></image>
+					<image class='land ld1 img' :src="farm.land_1_img || primary_land1_img"></image>
+					<image class='land ld2 img' :src="farm.land_2_img || primary_land2_img"></image>
 				</view>
 				<view class='sprites'>
-					<image mode='aspectFit img' @tap='farm.tree_1_level==15?getSkill(8):getSkill(6)' class='sprite sp1' :src='`/static/image/farm/tree/${farm.tree_1_level||1}.png`'></image>
-					<image mode='aspectFit img' @tap='farm.tree_2_level==15?getSkill(9):getSkill(7)' class='sprite sp2' :src='`/static/image/farm/tree/${farm.tree_2_level||1}.png`'></image>
+					<image mode='aspectFit img' @tap='farm.tree_1_level==15?getSkill(8):getSkill(6)' class='sprite sp1' :src="farm.tree_1_img || primary_tree1_img"></image>
+					<image mode='aspectFit img' @tap='farm.tree_2_level==15?getSkill(9):getSkill(7)' class='sprite sp2' :src="farm.tree_2_img || primary_tree2_img"></image>
 				</view>
 			</view>
-
+			
 			<!-- 用户铭牌 -->
 			<view class='jackstraw'>
-				<image class='uname' src='/static/image/farm/farm-notice.png'></image>
-				<!-- <button v-if="!$app.getData('userInfo').nickname" open-type='getUserInfo' @getuserinfo='getUserInfo' class='give-box'>
-					<image class='sp3-up' src='/static/image/farm/sprite-up.gif'></image>
-				</button> -->
+				<image class='uname' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45e1qO0BV6XgibeLhyfuTHSMQYw61cgKmNOzj13OCOlKXe2YgdPZfUuUA/0'></image>
 				<view class='welcome'>
 					<block v-if="$app.getData('userInfo').nickname">
 						<view class='nickname'>{{$app.getData('userInfo').nickname}}</view>'S
@@ -67,10 +64,8 @@
 			</view>
 
 			<!-- 狗 -->
-			<!-- <image class="dog-hand" src="https://mmbiz.qpic.cn/mmbiz_gif/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxibfGic7XDXkbPLCEhcIMIzNcNuX2mCODkKUibOwoibZb4IJ1KY9ovdNbYw/0"
-			 mode=""></image> -->
-			<image v-if="skillOneRemainTime=='领取钻石'" class='dog' @tap="skillShow=!skillShow" src='http://tva1.sinaimg.cn/large/007X8olVly1g8ua8c4dp9g307007ct8v.gif'></image>
-			<image v-else class='dog' @tap="skillShow=!skillShow" src='http://tva1.sinaimg.cn/large/007X8olVly1g8u9po94z0g307007cmx9.gif'></image>
+			<image v-if="skillOneRemainTime=='领取钻石'" class='dog' @tap="skillShow=!skillShow" src='https://tva1.sinaimg.cn/large/007X8olVly1g8ua8c4dp9g307007ct8v.gif'></image>
+			<image v-else class='dog' @tap="skillShow=!skillShow" src='https://tva1.sinaimg.cn/large/007X8olVly1g8u9po94z0g307007cmx9.gif'></image>
 
 			<view class="mask-wrap" v-if="skillShow" @tap="skillShow=!skillShow"></view>
 			<!-- 狗的技能 -->
@@ -100,9 +95,7 @@
 			</view>
 
 			<!-- 左侧fix按钮 -->
-			<!-- <image class='charge-btn' src='/static/image/farm/charge.png' @tap.stop='shareModel' data-name='aniShareModel'
-			 data-showname='showShareModel' @touchstart="mytouchstart" @touchend="mytouchend" data-num="3" animation="touchAnimate3"></image> -->
-			<image class='charge-btn help-btn' src='/static/image/farm/help.png' @tap="$app.goPage('/pages/notice/notice?id=2')"></image>
+			<image class='charge-btn help-btn' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45O9VISGePLn218y3vGBpeopmcRsia3Wicjib3Qnib7rAz7YL4ozyduPduUg/0' @tap="$app.goPage('/pages/notice/notice?id=2')"></image>
 			<image class='charge-btn help-btn btn3' src='http://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HwicF1tVq5W0eW4Ow73MEzIwbLFt1AHBiawQgPt2ficIOq9bic15hMylyQDAsczJicArnyxyfaec1wMtQ/0'
 			 @tap='speedModal'></image>
 			<view class="speed-content">农场加速</view>
@@ -120,23 +113,19 @@
 				<!-- 挖钻石 -->
 				<image v-if="skillType==1" class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HUWa4ibYRGeP9Kkz6Vd4icsiaYhw3c8VbuhCrUW0xLiaGRyeV7Dle0ZuLN9LW0hh47BQiaDr4icqf361Yg/0"
 				 mode="aspectFill"></image>
-				<!-- 挖金豆 -->
-				<!-- <image v-if="skillType==2" class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HUWa4ibYRGeP9Kkz6Vd4icsiaYpD3ibbGnqhb5tK3xEm7q35pVl5QibibGUtaGkmtvzA5zRlb0Re6VtNvg/0"
-				 mode="aspectFill"></image> -->
 				<!-- 离线收益 -->
 				<image v-if="skillType==3" class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F3NAxlopF2oyvfuiaEjgJIt5WfJDfUDFicqFqjs0GGoK5icRRflIj1oU27Ad4HrpQP3TutO28z1brGg/0"
 				 mode="aspectFill"></image>
-
 				<!-- 房子 -->
-				<image v-if="skillType==5" class="bg" :src="`/static/image/farm/house/${farm.house_level}.png`" mode="widthFix"></image><!-- 房子 -->
+				<image v-if="skillType==5" class="bg" :src="farm.house_img" mode="widthFix"></image><!-- 房子 -->
 				<!-- 树1 -->
-				<image v-if="skillType==6" class="bg" :src="`/static/image/farm/tree/${farm.tree_1_level}.png`" mode="widthFix"></image>
+				<image v-if="skillType==6" class="bg" :src="farm.tree_1_img" mode="widthFix"></image>
 				<!-- 树2 -->
-				<image v-if="skillType==7" class="bg" :src="`/static/image/farm/tree/${farm.tree_2_level}.png`" mode="widthFix"></image><!-- 树1 -->
+				<image v-if="skillType==7" class="bg" :src="farm.tree_2_img || primary_tree2_img" mode="widthFix"></image><!-- 树1 -->
 				<!-- 地1 -->
-				<image v-if="skillType==8" class="bg" :src="`/static/image/farm/land/${farm.land_1_level}.png`" mode="widthFix"></image>
+				<image v-if="skillType==8" class="bg" :src="farm.land_1_img" mode="widthFix"></image>
 				<!-- 地2 -->
-				<image v-if="skillType==9" class="bg" :src="`/static/image/farm/land/${farm.land_2_level}.png`" mode="widthFix"></image>
+				<image v-if="skillType==9" class="bg" :src="farm.land_2_img" mode="widthFix"></image>
 
 				<!-- 主动技能 -->
 				<!-- 挖钻石 -->
@@ -286,6 +275,11 @@
 
 				helperList: [],
 				offlinePercent: '',
+				primary_house_img:'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45awPD7e5IuDzoBoks0fLjVdwsUXliamwQDb6M1kHbtja6I7ogz2p2AQA/0',
+				primary_land1_img:'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45DbvLwianQO7amMCrjEoPbyZyQX1HD3getqlCaqElzFV0Xianf5XufuoQ/0',
+				primary_land2_img:'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45DbvLwianQO7amMCrjEoPbyZyQX1HD3getqlCaqElzFV0Xianf5XufuoQ/0',
+				primary_tree1_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45ibdoeICBZgic5qIAmx5VTA9amISbmU2KIrFaaVd4EIgnmQ7h4HL8uXMg/0',
+				primary_tree2_img:'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45NwbKYxUZT69EbL1ic7EU8JF6Y184rhuzuKLCibHKyzOouqa74DX834YA/0',
 			};
 		},
 		onShareAppMessage(e) {
@@ -1275,7 +1269,7 @@
 
 	.locg-img::before {
 		content: '';
-		background-image: url(/static/image/farm/lock.png);
+		background-image: url(https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45YXT5dPiaM9suUYDSlH623Wv3THBDArlvS1I2vZias7OSh58usP1XtS8Q/0);
 	}
 
 	.offline-model .btn-wrapper {

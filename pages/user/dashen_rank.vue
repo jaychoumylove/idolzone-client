@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view class="title">
-			<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EFgQAIpRVCHpawBuWnGAH7bxaH6wy77e0GI22k8bplXE9ePibSichPcjoQGpQLiagN6zqC2pGfBoPzA/0"
+			<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FqaxHyorzbibFBO38fUYaoKMMj8XVy3YN8Jdz8gHYtvX2gCl1RJIKCBYFb3W45k3W11GNLVe47o0w/0"
 			 mode=""></image>
 		</view>
 		<!-- <view class="tab-container">
@@ -24,17 +24,20 @@
 					<view v-else>{{index+1}}</view>
 				</view>
 				<view class='avatar-wrap'>
-					<image class="avatar" :src="item.avatar" mode="aspectFill"></image>
-					<image v-if="item.headwear" class="headwear position-set" :src="item.headwear" mode=""></image>
+					<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
+					<image v-if="item.user.headwear.img" class="headwear position-set" :src="item.user.headwear.img" mode=""></image>
 				</view>
 				<view class="text-container">
 					<view>
-						{{item.nickname}}
-						<image class="img-s" :src="`/static/image/user_level/lv${item.level}.png`" mode=""></image>
+						{{item.user.nickname || NICKNAME}}
+						<image class="img-s" :src="`/static/image/user_level/lv${item.user.level}.png`" mode=""></image>
 					</view>					
-					<view v-if='item.starname' class='starname'>{{item.starname}}</view>
+					<view v-if='item.star.name' class='starname'>{{item.star.name}}</view>
 				</view>
-				<view class="count">贡献值{{item.hot}}</view>
+				<view class="count">					
+					<view>贡献值</view>
+					<view>{{item.hot}}</view>
+				</view>
 			</view>
 		</view>
 		<!-- 我的 -->
@@ -68,6 +71,8 @@
 				userRank: [],
 				page: 1,
 				myInfo: {},
+				AVATAR:this.$app.AVATAR,
+				NICKNAME: this.$app.NICKNAME,
 			};
 		},
 		onLoad(option) {
@@ -102,22 +107,11 @@
 					field,
 				}, res => {
 					this.myInfo = res.data.my
-					const resList = []
-					res.data.list.forEach((e, i) => {
-						resList.push({
-							avatar: e.user && e.user.avatarurl || this.$app.AVATAR,
-							nickname: e.user && e.user.nickname || this.$app.NICKNAME,
-							hot: e.hot,
-							level: e.user && e.user.level,
-							headwear: e.user && e.user.headwear && e.user.headwear.img,
-							starname: e.star && e.star.name
-						})
-					})
-
+					if(this.myInfo.rank>100) this.myInfo.rank ='99+';
 					if (this.page == 1) {
-						this.userRank = resList
+						this.userRank = res.data.list
 					} else {
-						this.userRank = this.userRank.concat(resList)
+						this.userRank = this.userRank.concat(res.data.list)
 					}
 				})
 			},

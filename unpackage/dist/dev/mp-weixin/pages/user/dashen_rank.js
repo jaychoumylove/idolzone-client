@@ -176,6 +176,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -185,7 +188,9 @@ var _default =
       starid: null,
       userRank: [],
       page: 1,
-      myInfo: {} };
+      myInfo: {},
+      AVATAR: this.$app.AVATAR,
+      NICKNAME: this.$app.NICKNAME };
 
   },
   onLoad: function onLoad(option) {
@@ -220,22 +225,11 @@ var _default =
         field: field },
       function (res) {
         _this.myInfo = res.data.my;
-        var resList = [];
-        res.data.list.forEach(function (e, i) {
-          resList.push({
-            avatar: e.user && e.user.avatarurl || _this.$app.AVATAR,
-            nickname: e.user && e.user.nickname || _this.$app.NICKNAME,
-            hot: e.hot,
-            level: e.user && e.user.level,
-            headwear: e.user && e.user.headwear && e.user.headwear.img,
-            starname: e.star && e.star.name });
-
-        });
-
+        if (_this.myInfo.rank > 100) _this.myInfo.rank = '99+';
         if (_this.page == 1) {
-          _this.userRank = resList;
+          _this.userRank = res.data.list;
         } else {
-          _this.userRank = _this.userRank.concat(resList);
+          _this.userRank = _this.userRank.concat(res.data.list);
         }
       });
     } } };exports.default = _default;

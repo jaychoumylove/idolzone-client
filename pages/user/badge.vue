@@ -5,12 +5,14 @@
 			<view class="avatar-block">
 				<image class="avatar" :src="$app.getData('userInfo').avatarurl"></image>
 			</view>
-			<view>{{$app.getData('userInfo').nickname||''}}</view>			
+			<view>{{$app.getData('userInfo').nickname||''}}</view>
 			<view class="badge-box">
-			<block v-for="(item, index) in curBadge" :key="index">
-				<image class="badge-item" v-if="item.simg" :src="item.simg"></image>
-			</block>
+				<block v-for="(item, index) in curBadge" :key="index">
+					<image class="badge-item" v-if="item.simg" :src="item.simg"></image>
+				</block>
 			</view>
+			<view>已解锁 <text class="num"> {{badgeCount}} </text> 个徽章</view>
+			<view class="badge-rank" @tap.stop="$app.goPage('/pages/user/badge_rank?stype=1')">圈内徽章排行</view>
 		</view>
 
 		<view class="swiper-change flex-set">
@@ -39,20 +41,22 @@
 				<view v-else-if="stype==6" class="item-title">
 					<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GwUKKwxfCN8b4IqicoNG1hJXwcdrekISpWAcFkQ7GU0LezsPaJWcdshDhcgR6s1Rnib3FbZqcMbNNg/0"></image>
 				</view>
-				
+
 				<view class="item" v-for="(item, index) in slist" :key="index">
-				<view class="top-wrap flex-set" :class="{use:item.status==1}">
-					<image :class="{gray:item.status==-1}" :src="item.bimg"></image>
+					<view class="top-wrap flex-set" :class="{use:item.status==1}">
+						<view v-if="item.add_count" class="add-count">+{{item.add_count}}</view>
+						<image :class="{gray:item.status==-1}" :src="item.bimg" lazy-load></image>
+					</view>
+					<text>{{item.name}}</text>
+					<view v-if="item.status==-1">
+						<progress :percent="[item.percent]" activeColor="#09BB07" border-radius="30" />
+					</view>
+					<view v-else class="fee">{{item.create_time_has}}获得</view>
+					<view v-if="item.stype==7">加速截止{{item.end_time}}</view>
+					<view v-if="item.status==-1" class="btn flex-set" @tap="goPage(item)">去解锁</view>
+					<view v-if="item.status==0" class="btn flex-set success" @tap="use(item)">佩戴</view>
+					<view v-if="item.status==1" class="btn flex-set disable" @tap="cancel(item)">摘下</view>
 				</view>
-				<text>{{item.name}}</text>
-				<view v-if="item.status==-1">
-					<progress :percent="[item.percent]" activeColor="#09BB07" border-radius="30"/>
-				</view>
-				<view v-else class="fee">{{item.create_time_has}}获得</view>
-				<view v-if="item.status==-1" class="btn flex-set" @tap="goPage(item)">去解锁</view>
-				<view v-if="item.status==0" class="btn flex-set success" @tap="use(item)">佩戴</view>
-				<view v-if="item.status==1" class="btn flex-set disable" @tap="cancel(item)">摘下</view>
-			</view>
 			</block>
 
 		</view>
@@ -60,21 +64,14 @@
 </template>
 
 <script>
-	import badgeComponent from "@/components/badgeComponent.vue"
-	import btnComponent from "@/components/btnComponent.vue"
-	import modalComponent from "@/components/modalComponent.vue"
 	export default {
-		components: {
-			badgeComponent,
-			modalComponent,
-			btnComponent
-		},
 		data() {
 			return {
-				btype: 0,//徽章大类
-				list: [],//徽章列表
-				curBadge: [],//当前佩戴的
-				
+				btype: 0, //徽章大类
+				list: [], //徽章列表
+				curBadge: [], //当前佩戴的
+				badgeCount: 0, //拥有的徽章数
+
 			};
 		},
 		onLoad() {
@@ -103,7 +100,7 @@
 			cancel(item) {
 				this.$app.request('badge/cancel', {
 					badgeId: item.id
-				},(res) => {
+				}, (res) => {
 					this.$app.toast(res.msg)
 					this.loadData()
 				}, 'POST', true)
@@ -114,6 +111,7 @@
 				}, (res) => {
 					this.list = res.data.list
 					this.curBadge = res.data.curBadge
+					this.badgeCount = res.data.badgeCount
 				}, 'POST', true)
 			}
 		}
@@ -138,6 +136,21 @@
 			background-size: cover;
 		}
 
+		.avatar-wrap .num {
+			background-color: #FBCC3E;
+			border-radius: 30upx;
+			padding: 6upx;
+			font-size: 30upx;
+		}
+
+		.avatar-wrap .badge-rank {
+			background-color: #FBCC3E;
+			border-radius: 30upx;
+			padding: 10upx 20upx;
+			font-size: 30upx;
+			margin-top: 20upx;
+		}
+
 		.avatar-wrap .avatar-block {
 			margin: 20upx;
 			width: 140upx;
@@ -150,8 +163,9 @@
 			height: 100%;
 			border-radius: 50%;
 		}
+
 		.avatar-wrap .badge-box {
-			margin-top: 30upx;
+			margin: 10upx 0;
 		}
 
 		.avatar-wrap .badge-item {
@@ -165,7 +179,7 @@
 			border-radius: 30upx;
 			overflow: hidden;
 			box-shadow: 0 2upx 4upx rgba(0, 0, 0, .3);
-		
+
 			.swiper-item {
 				flex: 1;
 				height: 70upx;
@@ -173,14 +187,14 @@
 				background-color: #f5f5f5;
 				color: #ff648d;
 				text-align: center;
-		
+
 			}
-		
+
 			.swiper-item.select {
 				background-color: #fbcc3e;
 				color: #000;
 			}
-		
+
 		}
 
 		.list-wrap {
@@ -196,7 +210,6 @@
 			width: 714upx;
 			height: 67upx;
 			margin: 40upx 0 10upx 0;
-
 		}
 
 		.list-wrap .item {
@@ -210,23 +223,35 @@
 			margin-right: -1px;
 			margin-bottom: -1px;
 		}
-		
+
 		.list-wrap .item image {
 			width: 80%;
 			height: 80%;
 		}
-		
+
+		.list-wrap .item .add-count {
+			background: #fbcc3e;
+			color: #333333;
+			border-radius: 100%;
+			padding: 10rpx;
+			position: absolute;
+			top: 10upx;
+			z-index: 1;
+			;
+		}
+
 		.list-wrap .item image.gray {
 			filter: grayscale(100%);
 		}
-		
+
 		.list-wrap progress {
 			width: 140upx;
 			height: 20upx;
 			margin: 12upx 0;
 		}
+
 		.list-wrap .fee {
-			word-break:break-all; 
+			word-break: break-all;
 		}
 
 		.list-wrap .item .top-wrap {

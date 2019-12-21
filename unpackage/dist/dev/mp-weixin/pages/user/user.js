@@ -75,13 +75,19 @@ var render = function() {
   var _c = _vm._self._c || _h
   var g0 = _vm.$app.getData("config")
   var g1 = _vm.$app.getVal("VERSION")
-  var g2 = _vm.$app.getData("sysInfo").system.indexOf("iOS")
-  var g3 = _vm.$app.getData("config")
-  var g4 = _vm.$app.getData("config")
+  var g2 = _vm.$app.getData("config")
+  var g3 = _vm.$app.getVal("VERSION")
+  var g4 = _vm.$app.getData("sysInfo").system.indexOf("iOS")
   var g5 = _vm.$app.getData("config")
   var g6 = _vm.$app.getData("config")
-  var g7 = (_vm.userLevel.gap / 10000).toFixed(1)
-  var g8 = _vm.$app.getData("userInfo")
+  var g7 = _vm.$app.getData("config")
+  var g8 = _vm.$app.getVal("VERSION")
+  var g9 = _vm.$app.getData("config")
+  var g10 = _vm.$app.getVal("VERSION")
+  var g11 = _vm.$app.getData("config")
+  var g12 = _vm.$app.getData("config")
+  var g13 = (_vm.userLevel.gap / 10000).toFixed(1)
+  var g14 = _vm.$app.getData("userInfo")
 
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
@@ -143,7 +149,13 @@ var render = function() {
         g5: g5,
         g6: g6,
         g7: g7,
-        g8: g8
+        g8: g8,
+        g9: g9,
+        g10: g10,
+        g11: g11,
+        g12: g12,
+        g13: g13,
+        g14: g14
       }
     }
   )
@@ -179,171 +191,163 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var badgeComponent = function badgeComponent() {return __webpack_require__.e(/*! import() | components/badgeComponent */ "components/badgeComponent").then(__webpack_require__.bind(null, /*! @/components/badgeComponent.vue */ 407));};var btnComponent = function btnComponent() {return __webpack_require__.e(/*! import() | components/btnComponent */ "components/btnComponent").then(__webpack_require__.bind(null, /*! @/components/btnComponent.vue */ 386));};var modalComponent = function modalComponent() {return __webpack_require__.e(/*! import() | components/modalComponent */ "components/modalComponent").then(__webpack_require__.bind(null, /*! @/components/modalComponent.vue */ 372));};var _default =
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default =
 {
-  components: {
-    badgeComponent: badgeComponent,
-    modalComponent: modalComponent,
-    btnComponent: btnComponent },
-
   data: function data() {
     return {
       requestCount: 0,

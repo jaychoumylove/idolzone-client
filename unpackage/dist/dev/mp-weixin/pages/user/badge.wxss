@@ -31,6 +31,19 @@
     background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GwUKKwxfCN8b4IqicoNG1hJ39AibGo1zzZEYt679yBmcloibNm4eMOCDm0Quf7DDvc3ZKjs98Iz9VhQ/0") no-repeat top left;
     background-size: cover;
 }
+.container .avatar-wrap .num.data-v-679268a0 {
+    background-color: #FBCC3E;
+    border-radius: 30rpx;
+    padding: 6rpx;
+    font-size: 30rpx;
+}
+.container .avatar-wrap .badge-rank.data-v-679268a0 {
+    background-color: #FBCC3E;
+    border-radius: 30rpx;
+    padding: 10rpx 20rpx;
+    font-size: 30rpx;
+    margin-top: 20rpx;
+}
 .container .avatar-wrap .avatar-block.data-v-679268a0 {
     margin: 20rpx;
     width: 140rpx;
@@ -43,7 +56,7 @@
     border-radius: 50%;
 }
 .container .avatar-wrap .badge-box.data-v-679268a0 {
-    margin-top: 30rpx;
+    margin: 10rpx 0;
 }
 .container .avatar-wrap .badge-item.data-v-679268a0 {
     width: 55rpx;
@@ -119,6 +132,15 @@
 .container .list-wrap .item image.data-v-679268a0 {
     width: 80%;
     height: 80%;
+}
+.container .list-wrap .item .add-count.data-v-679268a0 {
+    background: #fbcc3e;
+    color: #333333;
+    border-radius: 100%;
+    padding: 10rpx;
+    position: absolute;
+    top: 10rpx;
+    z-index: 1;
 }
 .container .list-wrap .item image.gray.data-v-679268a0 {
     -webkit-filter: grayscale(100%);

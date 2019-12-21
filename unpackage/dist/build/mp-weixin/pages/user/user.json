@@ -1,8 +1,4 @@
 {
-  "navigationBarTitleText": "我的",
-  "usingComponents": {
-    "badge-component": "/components/badgeComponent",
-    "modal-component": "/components/modalComponent",
-    "btn-component": "/components/btnComponent"
-  }
+  "navigationBarTitleText": "个人中心",
+  "usingComponents": {}
 }

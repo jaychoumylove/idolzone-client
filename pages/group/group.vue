@@ -21,21 +21,20 @@
 
 				<scroll-view scroll-x>
 					<view class="starlist-wrapper">
-						<view class="item" v-for="(item,index) in rankList" v-if="index<25" :key="index" @tap="goPage(item.starid)">
-							<image :src="item.avatar" mode="aspectFill"></image>
-							<view class="name text-overflow">{{item.name}}</view>
+						<view class="item" v-for="(item,index) in rankList" v-if="index<25" :key="index" @tap="goPage(item.star.id)">
+							<image :src="item.star.head_img_s" mode="aspectFill"></image>
+							<view class="name text-overflow">{{item.star.name}}</view>
 						</view>
 					</view>
 					<view class="starlist-wrapper">
-						<view class="item" v-for="(item,index) in rankList" :key="index" v-if="index>=25" @tap="goPage(item.starid)">
-							<image :src="item.avatar" mode="aspectFill"></image>
-							<view class="name text-overflow">{{item.name}}</view>
+						<view class="item" v-for="(item,index) in rankList" :key="index" v-if="index>=25" @tap="goPage(item.star.id)">
+							<image :src="item.star.head_img_s" mode="aspectFill"></image>
+							<view class="name text-overflow">{{item.star.name}}</view>
 						</view>
 					</view>
 				</scroll-view>
 
 				<view class="blank-bottom flex-set">
-					<!-- <image src="/static/image/user/blank.png" mode="aspectFill"></image> -->
 					<view>亲！您还没有加入任何圈子！</view>
 					<view>搜索爱豆名字，点头像加入！</view>
 				</view>
@@ -110,18 +109,11 @@
 					size: 50,
 					keywords: this.keywords,
 				}, res => {
-					const resList = []
-					res.data.forEach(e => {
-						const item = {}
-						item.starid = e.star.id
-						item.name = e.star.name
-						item.avatar = e.star.head_img_s ? e.star.head_img_s : e.star.head_img_l
-						resList.push(item)
-					})
+					
 					if(this.page == 1) {
-						this.rankList = resList
+						this.rankList = res.data
 					} else {
-						this.rankList = this.rankList.concat(resList)
+						this.rankList = this.rankList.concat(res.data)
 					}
 
 					this.$app.setData('group_rankList', this.rankList)

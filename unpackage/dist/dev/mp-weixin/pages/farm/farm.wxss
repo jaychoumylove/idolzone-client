@@ -751,7 +751,7 @@ image.bg.data-v-5f15222e {
 }
 .locg-img.data-v-5f15222e::before {
   content: '';
-  background-image: url(/static/image/farm/lock.png);
+  background-image: url(https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45YXT5dPiaM9suUYDSlH623Wv3THBDArlvS1I2vZias7OSh58usP1XtS8Q/0);
 }
 .offline-model .btn-wrapper.data-v-5f15222e {
   display: -webkit-box;

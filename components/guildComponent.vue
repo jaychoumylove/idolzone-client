@@ -76,11 +76,7 @@
 					</view>
 				</view>
 			</view>
-
-			<!-- <view class="row-info row-2" @tap="$app.goPage('/pages/user/rank?starid='+star.id)">
-				<view class="left-wrap">{{star.name||''}}粉丝贡献榜</view>
-				<view class="right-wrap">全部></view>
-			</view> -->
+			
 			<!-- 粉丝排名 -->
 			<view class="bottom-wrap">
 				<view class="left-wrap" @tap="$app.goPage('/pages/user/rank?starid='+star.id)">
@@ -91,7 +87,7 @@
 					<view class="fans-rank-wrap">
 						<view class="avatar-wrap" :style="{zIndex:6-index}" :class="['s-'+(index+1)]" v-for="(item,index) in userRankList['thisday_count']"
 						 :key="index" v-if="index<6">
-							<image class="avatar" :src="item.avatar" mode="aspectFill"></image>
+							<image class="avatar" :src="item.user.avatarurl || $app.AVATAR" mode="aspectFill"></image>
 							<image class="rank" v-if="index<=2" :src="'/static/image/rank/rank-'+(index+1)+'.png'" mode=""></image>
 						</view>
 					</view>
@@ -135,7 +131,7 @@
 					 mode=""></image>
 					<view class="text">任务</view>
 				</view>
-				<view class="btn-item" @tap="invitFakePage=1;modal = 'invit_desert';getFakeInviteList()">
+				<view v-if="$app.getData('config').version != $app.VERSION" class="btn-item" @tap="invitFakePage=1;modal = 'invit_desert';getFakeInviteList()">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5UuhH4Via2LvZLDvjUXk1BTQW6p1mkbxNuAFqaIFuKKSS9MTicctuJUsg/0"
 					 mode=""></image>
 					<view class="text">拉票</view>
@@ -145,7 +141,7 @@
 					 mode=""></image>
 					<view class="text">粉丝团</view>
 				</view>
-				<view class="btn-item" @tap="goPageHasStar('/pages/active_one/active_one')">
+				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="btn-item" @tap="goPageHasStar('/pages/active_one/active_one')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQquUweIHJ2hkGoLic007iakqBJCyJjsHtbyicFRcibN0S88wkn2yBR1PsOzpw/0"
 					 mode=""></image>
 					<view class="text">应援</view>
@@ -162,7 +158,7 @@
 				</view> -->
 			</view>
 			<!-- 公告 -->
-			<view class="row-info row-2" @tap="$app.goPage('/pages/notice/notice?id='+article.id)">
+			<view v-if="$app.getData('config').version != $app.VERSION" class="row-info row-2" @tap="$app.goPage('/pages/notice/notice?id='+article.id)">
 				<text class="left-wrap">【公告】</text>
 				<text class="center-wrap">{{article.name}}</text>
 				<text class="right-wrap" @tap.stop="$app.goPage('/pages/notice/list')">更多></text>
@@ -173,42 +169,42 @@
 		<scroll-view class="chart-container" scroll-y scroll-with-animation :scroll-into-view="'index_'+chartIndex">
 			<view class="chart-item" :id="'index_'+index" v-for="(item,index) in chartList" :key="index">
 				<view class="left-wrap">
-					<view class="avatar-wrap" :class="{leader:item.leader}" @tap="tapUser(item.uid)">
-						<image class="avatar" :src="item.avatar" mode="aspectFill"></image>
-						<image class="headwear position-set" :src="item.headwear" mode="aspectFill"></image>
+					<view class="avatar-wrap" :class="{leader:item.user.isLeader}" @tap="tapUser(item.user.id)">
+						<image class="avatar" :src="item.user.avatarurl || $app.AVATAR" mode="aspectFill"></image>
+						<image v-if="item.user.headwear" class="headwear position-set" :src="item.user.headwear.img" mode="aspectFill"></image>
 					</view>
 
 					<view class="center-wrap">
 						<view class="top">
-							<view v-if="item.userBadge.length==0" class="nickname_lenght0 text-overflow">{{item.nickname}}</view>
-							<view v-else-if="item.userBadge.length==1" class="nickname_lenght1 text-overflow">{{item.nickname}}</view>
-							<view v-else-if="item.userBadge.length==2" class="nickname_lenght2 text-overflow">{{item.nickname}}</view>
-							<view v-else-if="item.userBadge.length==3" class="nickname_lenght3 text-overflow">{{item.nickname}}</view>
-							<view v-else-if="item.userBadge.length==4" class="nickname_lenght4 text-overflow">{{item.nickname}}</view>
-							<view v-else-if="item.userBadge.length==5" class="nickname_lenght5 text-overflow">{{item.nickname}}</view>
-							<view v-else-if="item.userBadge.length==6" class="nickname_lenght6 text-overflow">{{item.nickname}}</view>
-							<view v-else-if="item.userBadge.length==7" class="nickname_lenght7 text-overflow">{{item.nickname}}</view>
-							<view v-else-if="item.userBadge.length==8" class="nickname_lenght8 text-overflow">{{item.nickname}}</view>
+							<view v-if="item.user.userBadge.length==0" class="nickname_lenght0 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
+							<view v-else-if="item.user.userBadge.length==1" class="nickname_lenght1 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
+							<view v-else-if="item.user.userBadge.length==2" class="nickname_lenght2 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
+							<view v-else-if="item.user.userBadge.length==3" class="nickname_lenght3 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
+							<view v-else-if="item.user.userBadge.length==4" class="nickname_lenght4 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
+							<view v-else-if="item.user.userBadge.length==5" class="nickname_lenght5 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
+							<view v-else-if="item.user.userBadge.length==6" class="nickname_lenght6 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
+							<view v-else-if="item.user.userBadge.length==7" class="nickname_lenght7 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
+							<view v-else-if="item.user.userBadge.length==8" class="nickname_lenght8 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
 							<view class="badge-wrap flex-set">
-								<view class="captain" v-if="item.captain">
+								<view class="captain" v-if="item.user.user_star && item.user.user_star.captain">
 									<image class="img-s" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9ENOOBmxXTF9huYYxQSQ5K6BCW8AZyc2DE39VjH2j5KoEKjPiaPbFT2NesdMAmh7xuNfwOK8AOChtQ/0"
 									 mode=""></image>
 								</view>
 								<view class="user-level-wrap">
-									<image class="img" :src="'/static/image/user_level/lv'+item.level+'.png'" mode="widthFix"></image>
-									<view class="user-level-text" v-if="item.level>=1&&item.level<=1" :class="['level'+item.level]">实习粉</view>
-									<view class="user-level-text" v-if="item.level>=2&&item.level<=2" :class="['level'+item.level]">助理粉</view>
-									<view class="user-level-text" v-if="item.level>=3&&item.level<=5" :class="['level'+item.level]">初级粉</view>
-									<view class="user-level-text" v-if="item.level>=6&&item.level<=8" :class="['level'+item.level]">中级粉</view>
-									<view class="user-level-text" v-if="item.level>=9&&item.level<=11" :class="['level'+item.level]">高级粉</view>
-									<view class="user-level-text" v-if="item.level>=12&&item.level<=14" :class="['level'+item.level]">核心粉</view>
-									<view class="user-level-text" v-if="item.level>=15&&item.level<=15" :class="['level'+item.level]">元老粉</view>
-									<view class="user-level-text" v-if="item.level>=16&&item.level<=16" :class="['level'+item.level]">至尊粉</view>
-									<view class="user-level-text" v-if="item.level>=17&&item.level<=17" :class="['level'+item.level]">帝王粉</view>
-									<view class="user-level-text" v-if="item.level>=18&&item.level<=18" :class="['level'+item.level]">神级粉</view>
+									<image class="img" :src="'/static/image/user_level/lv'+item.user.level+'.png'" mode="widthFix"></image>
+									<view class="user-level-text" v-if="item.user.level>=1&&item.user.level<=1" :class="['level'+item.user.level]">实习粉</view>
+									<view class="user-level-text" v-if="item.user.level>=2&&item.user.level<=2" :class="['level'+item.user.level]">助理粉</view>
+									<view class="user-level-text" v-if="item.user.level>=3&&item.user.level<=5" :class="['level'+item.user.level]">初级粉</view>
+									<view class="user-level-text" v-if="item.user.level>=6&&item.user.level<=8" :class="['level'+item.user.level]">中级粉</view>
+									<view class="user-level-text" v-if="item.user.level>=9&&item.user.level<=11" :class="['level'+item.user.level]">高级粉</view>
+									<view class="user-level-text" v-if="item.user.level>=12&&item.user.level<=14" :class="['level'+item.user.level]">核心粉</view>
+									<view class="user-level-text" v-if="item.user.level>=15&&item.user.level<=15" :class="['level'+item.user.level]">元老粉</view>
+									<view class="user-level-text" v-if="item.user.level>=16&&item.user.level<=16" :class="['level'+item.user.level]">至尊粉</view>
+									<view class="user-level-text" v-if="item.user.level>=17&&item.user.level<=17" :class="['level'+item.user.level]">帝王粉</view>
+									<view class="user-level-text" v-if="item.user.level>=18&&item.user.level<=18" :class="['level'+item.user.level]">神级粉</view>
 								</view>
 								<view class="user-badge">
-									<block v-for="(badge, badgeIndex) in item.userBadge" :key="badgeIndex">
+									<block v-for="(badge, badgeIndex) in item.user.userBadge" :key="badgeIndex">
 										<image class="badge-item" v-if="badge.simg" :src="badge.simg"></image>
 									</block>
 								</view>
@@ -223,7 +219,7 @@
 					</view>
 
 				</view>
-				<view class="right-wrap">{{item.sendtime}}</view>
+				<view class="right-wrap">{{$app.strToHour(item.create_time)}}</view>
 
 			</view>
 		</scroll-view>
@@ -247,7 +243,7 @@
 		<!-- 右下角按钮区域 -->
 		<view class="side-container">
 			<!-- 粉丝团宝箱 -->
-			<view class="btn-wrap" @tap="fansBoxOpen" v-if="$app.getData('config').fansbox_open=='1'">
+			<view class="btn-wrap" @tap="fansBoxOpen" v-if="$app.getData('config').version != $app.VERSION && $app.getData('config').fansbox_open=='1'">
 				<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Ep3RhxrWX9ibdRVKkjMQibIDXFuAk08uV2BgHKn9RO8fLoS8zM0z12ic0SjzHd1IxYNhUibyy5fJEllQ/0"
 				 mode="aspectFill"></image>
 				<view class="tips" v-if="sendFansNoSettle">{{sendFansNoSettle}}</view>
@@ -269,9 +265,9 @@
 				<view class="switch-wrap">
 					<switch :checked="!danmakuClosed" @change="danmakuSwitch" />弹幕
 				</view>
-				<view class="swiper-change flex-set">
+				<view v-if="$app.getData('config').version != $app.VERSION" class="swiper-change flex-set">
 					<view class="item" :class="{select:current==0}" @tap="current = 0;this.sendCount=''">送金豆</view>
-					<view v-if="$app.getData('config').version != $app.VERSION" class="item" :class="{select:current==1}" @tap="current = 1;this.sendCount=''">送鲜花</view>
+					<view class="item" :class="{select:current==1}" @tap="current = 1;this.sendCount=''">送鲜花</view>
 					<view class="item" v-if="$app.getData('config').old_coin_open=='1'&&userCurrency.old_coin>0" :class="{select:current==2}"
 					 @tap="current = 2;this.sendCount=''">送旧豆</view>
 				</view>
@@ -309,7 +305,7 @@
 									<view class="right">补充鲜花回复“1”<text class="iconfont iconjiantou"></text></view>
 								</button>
 							</block>
-							<view v-else class="right" @tap="$app.goPage('/pages/charge/charge')">充值<text class="iconfont iconjiantou"></text></view>
+							<view v-else-if="$app.getData('config').version != $app.VERSION" class="right" @tap="$app.goPage('/pages/charge/charge')">充值<text class="iconfont iconjiantou"></text></view>
 
 						</view>
 					</view>
@@ -339,10 +335,10 @@
 				<scroll-view scroll-y class="list-wrapper" @scrolltolower="invitFakePage++;getFakeInviteList();" v-if="fakeinvitList.length>0">
 					<view class="item" v-for="(item,index) in fakeinvitList" :key="index" v-if="hasEarnCount+index+1<=300">
 						<view class='avatar'>
-							<image :src="item.avatar" mode="aspectFill"></image>
+							<image :src="item.user.avatarurl || $app.AVATAR" mode="aspectFill"></image>
 						</view>
 						<view class="text-container">
-							<view class="star-name">{{item.nickname}}</view>
+							<view class="star-name">{{item.user.nickname  || $app.NICKNAME}}</view>
 							<view class="bottom-text">
 								<view class="hot-count">金豆+{{invitAward.coin}}</view>
 								<view class="hot-count" v-if="invitAward.stone">钻石+{{invitAward.stone}}</view>
@@ -354,8 +350,8 @@
 									<view class="flex-set" style="width: 130upx;height: 65upx;">去邀请</view>
 								</button>
 							</btnComponent>
-							<btnComponent v-if="item.status == 1" type="success" @tap="getInvitAward(item.uid,item.status,index)">
-								<view class="flex-set" style="width: 130upx;height: 65upx;">去领取</view>
+							<btnComponent v-if="item.status == 1" type="success" @tap="getInvitAward(item.ral_user_id,item.status,index)">
+								<view class="flex-set" style="width: 130upx;height: 65upx;">领取</view>
 							</btnComponent>
 							<btnComponent v-if="item.status == 2" type="disable">
 								<view class="flex-set" style="width: 130upx;height: 65upx;">已领取</view>
@@ -465,14 +461,14 @@
 							<image class="num img-l" v-if="index<=2" :src="'/static/image/rank/rank-'+(index+1)+'.png'" mode=""></image>
 							<view v-else class="num">{{index+1}}</view>
 						</view>
-						<image class='avatar' :src="item.avatar" mode="aspectFill"></image>
+						<image class='avatar' :src="item.user.avatarurl || $app.AVATAR" mode="aspectFill"></image>
 						<view class="text-wrap">
-							<view class="nickname">{{item.nickname}}</view>
+							<view class="nickname">{{item.user.nickname || $app.NICKNAME}}</view>
 							<view class="count">贡献{{item.hot}}</view>
 						</view>
 						<view class="heart flex-set" @tap="like(item.user_id,index)">
 							<view class="heart-icon iconfont iconxin"></view>
-							<view class="count">{{item.like_count}}</view>
+							<view class="count">{{item.like_count || 0}}</view>
 						</view>
 
 					</view>
@@ -674,10 +670,7 @@
 				sendCount: '', // 赠送人气数额
 				starRankList: [],
 				invitAward: {}, // 邀请奖励
-				invitList: [], // 我的邀请列表
-				invitNum: 10, // 拉票列表数量
 				hasEarnCount: 0,
-				invitListPage: 1,
 				hasInvitcount: 0,
 				spriteEarn: false,
 				rechargeList: [], // 充值商品列表
@@ -686,13 +679,9 @@
 
 				fakeinvitList: [],
 				invitFakePage: 1,
-				fatherEarn: 0,
-
-				mass: {}, // 集结相关
-
+				
 				activeInfo: null,
 				current: 0,
-
 				itemList: [],
 
 				giftItemList: [],
@@ -809,28 +798,8 @@
 							isBirth: star.isBirth || false,
 						}
 						// 聊天
-						const chartList = []
-						res.data.chartList.forEach((e, i) => {
-							const item = {
-								uid: e.user && e.user.id,
-								avatar: e.user && e.user.avatarurl || this.$app.AVATAR,
-								nickname: e.user && e.user.nickname || this.$app.NICKNAME,
-								content: e.content,
-								// 领袖粉
-								captain: e.user && e.user.user_star && e.user.user_star.captain || 0,
-								// 粉丝团团长
-								leader: e.user && e.user.isLeader,
-								level: e.user && e.user.level,
-								badgeId: e.user && e.user.user_ext && e.user.user_ext.badge_id,
-								sendtime: e.create_time.slice(11),
-								headwear: e.user && e.user.headwear && e.user.headwear.img,
-								userBadge: e.user && e.user.userBadge
-							}
-
-							chartList.push(item)
-						})
 						this.disLeastCount = res.data.disLeastCount
-						this.chartList = chartList
+						this.chartList = res.data.chartList
 						this.$nextTick(function() {
 							this.chartIndex = this.chartList.length - 1
 						})
@@ -838,15 +807,7 @@
 						setTimeout(() => {
 							this.captain = res.data.captain
 							// 用户排行
-							const userRankList = []
-							res.data.userRank.forEach((e, i) => {
-								userRankList.push({
-									avatar: e.user && e.user.avatarurl || this.$app.AVATAR,
-									nickname: e.user && e.user.nickname || this.$app.NICKNAME,
-									hot: e.thisweek_count,
-								})
-							})
-							this.userRankList['thisday_count'] = userRankList
+							this.userRankList['thisday_count'] = res.data.userRank
 
 							// 公告
 							this.article.name = res.data.article.name
@@ -949,16 +910,6 @@
 					}, 'POST', true)
 				})
 			},
-			// 删除好友
-			deleteFriend(item, index) {
-				this.$app.modal('确认删除好友【' + item.nickname + '】？', () => {
-					this.$app.request('user/delFriend', {
-						user_id: item.uid
-					}, res => {
-						this.invitList.splice(index, 1)
-					}, 'POST', true)
-				})
-			},
 			// 加粉丝团
 			addFanclub(id) {
 				this.$app.request('fans/join', {
@@ -999,14 +950,6 @@
 					}
 
 				}, 'POST', true)
-			},
-
-			getActiveInfo() {
-				this.$app.request(this.$app.API.EXT_ACTIVEINFO, {
-					starid: this.star.id
-				}, res => {
-					this.activeInfo = res.data
-				})
 			},
 
 			getLocalImg(src, callback) {
@@ -1119,29 +1062,28 @@
 			 * 添加聊天内容
 			 */
 			addChartMsg(data) {
-				const item = {
-					uid: data.user_id,
-					avatar: data.user && data.user.avatarurl || this.$app.AVATAR,
-					nickname: data.user && data.user.nickname || this.$app.NICKNAME,
-					content: data.content,
-					// 领袖粉
-					captain: data.user && data.user.user_star && data.user.user_star.captain || 0,
-					// 粉丝团团长
-					leader: data.user && data.user.isLeader,
-					level: data.user && data.user.level,
-					badgeId: data.user && data.user.user_ext && data.user.user_ext.badge_id,
-					sendtime: data.create_time.slice(11),
-					headwear: data.user && data.user.headwear && data.user.headwear.img,
-					userBadge: data.user && data.user.userBadge
-				}
+				// const item = {
+				// 	uid: data.user_id,
+				// 	avatar: data.user && data.user.avatarurl || this.$app.AVATAR,
+				// 	nickname: data.user && data.user.nickname || this.$app.NICKNAME,
+				// 	content: data.content,
+				// 	// 领袖粉
+				// 	captain: data.user && data.user.user_star && data.user.user_star.captain || 0,
+				// 	// 粉丝团团长
+				// 	leader: data.user && data.user.isLeader,
+				// 	level: data.user && data.user.level,
+				// 	badgeId: data.user && data.user.user_ext && data.user.user_ext.badge_id,
+				// 	sendtime: data.create_time.slice(11),
+				// 	headwear: data.user && data.user.headwear && data.user.headwear.img,
+				// 	userBadge: data.user && data.user.userBadge
+				// }
 
-				this.chartList.push(item)
-
+				this.chartList.push(data)
 				this.$nextTick(function() {
 					this.chartIndex = this.chartList.length - 1
 				})
 			},
-			// 定时显示弹幕
+			// 定时显示喇叭弹幕
 			initDanmaku() {
 				clearInterval(this.timeId_danmaku)
 				this.danmaku = this.$app.danmakuQueue.shift() || null
@@ -1341,54 +1283,10 @@
 					// 已领取人次
 					this.hasEarnCount = res.data.list.hasEarnCount
 
-					const resList = []
-					res.data.list.list.forEach((e, i) => {
-						resList.push({
-							avatar: e.user && e.user.avatarurl || this.$app.AVATAR,
-							nickname: e.user && e.user.nickname || this.$app.NICKNAME,
-							status: e.status,
-							uid: e.ral_user_id
-						})
-					})
-
 					if (this.invitFakePage == 1) {
-						this.fakeinvitList = resList
+						this.fakeinvitList = res.data.list.list
 					} else {
-						this.fakeinvitList = this.fakeinvitList.concat(resList)
-					}
-
-					this.$app.closeLoading(this)
-				})
-			},
-			// 好友列表
-			getInvitList() {
-				this.$app.request(this.$app.API.USER_INVITLIST, {
-					type: 1,
-					page: this.invitListPage || 1
-				}, res => {
-					this.invitAward = res.data.award
-					const resList = []
-					this.spriteEarn = false
-					this.friendTotal = res.data.list.total_count
-					res.data.list.list.forEach((e, i) => {
-						resList.push({
-							avatar: e.user && e.user.avatarurl || this.$app.AVATAR,
-							status: e.status,
-							uid: e.user && e.user.id || 0,
-							nickname: e.user && e.user.nickname || this.$app.NICKNAME,
-							earn: e.sprite.earn,
-							off: e.off,
-						})
-
-						if (e.sprite.earn >= 100) {
-							// 显示红点
-							this.spriteEarn = true
-						}
-					})
-					if (this.invitListPage == 1) {
-						this.invitList = resList
-					} else {
-						this.invitList = this.invitList.concat(resList)
+						this.fakeinvitList = this.fakeinvitList.concat(res.data.list.list)
 					}
 
 					this.$app.closeLoading(this)
@@ -1432,7 +1330,6 @@
 					this.modal = ''
 					this.getStarInfo()
 					this.userRankPage = 1
-					//this.getUserRank('thisday_count')
 					this.getUserRank()
 					this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {
 						this.$app.setData('userCurrency', res.data)
@@ -1604,29 +1501,18 @@
 					this.starRankList = resList
 				})
 			},
-			getUserRank(field = 'thisweek_count') {
+			getUserRank(field='thisweek_count') {
 				if (this.userRankPage > 10) return
 				this.$app.request(this.$app.API.USER_RANK, {
 					starid: this.star.id,
 					page: this.userRankPage || 1,
 					field,
 				}, res => {
-					const resList = []
-					res.data.list.forEach((e, i) => {
-						resList.push({
-							user_id: e.user_id,
-							avatar: e.user && e.user.avatarurl || this.$app.AVATAR,
-							nickname: e.user && e.user.nickname || this.$app.NICKNAME,
-							hot: e[field],
-							like_count: e.like_count || 0,
-						})
-					})
-
 					this.myRank = res.data.my
 					if (this.userRankPage == 1) {
-						this.userRankList[field] = resList
+						this.userRankList[field] = res.data.list
 					} else {
-						this.userRankList[field] = this.userRankList[field].concat(resList)
+						this.userRankList[field] = this.userRankList[field].concat(res.data.list)
 					}
 
 
@@ -1648,24 +1534,7 @@
 				this.$app.request(this.$app.API.STAR_CHART, {
 					starid: this.star.id,
 				}, res => {
-					const resList = []
-					res.data.forEach((e, i) => {
-						const item = {
-							uid: e.user && e.user.id,
-							avatar: e.user && e.user.avatarurl || this.$app.AVATAR,
-							nickname: e.user && e.user.nickname || this.$app.NICKNAME,
-							content: e.content,
-							// 领袖粉
-							captain: e.user && e.user.user_star && e.user.user_star.captain || 0,
-							// 粉丝团团长
-							leader: e.user && e.user.isLeader,
-							sendtimeInt: this.$app.strToTime(e.create_time),
-						}
-
-						resList.push(item)
-					})
-
-					this.chartList = resList
+					this.chartList = res.data
 					this.$nextTick(function() {
 						this.chartIndex = this.chartList.length - 1
 					})

@@ -1,4 +1,5 @@
 {
+  "navigationBarTitleText": "充值",
   "usingComponents": {
     "btn-component": "/components/btnComponent",
     "badge-component": "/components/badgeComponent",

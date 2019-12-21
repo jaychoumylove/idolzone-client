@@ -110,8 +110,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var guildComponent = function guildComponent() {return __webpack_require__.e(/*! import() | components/guildComponent */ "components/guildComponent").then(__webpack_require__.bind(null, /*! @/components/guildComponent.vue */ 400));};var _default =
-
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var guildComponent = function guildComponent() {return __webpack_require__.e(/*! import() | components/guildComponent */ "components/guildComponent").then(__webpack_require__.bind(null, /*! @/components/guildComponent.vue */ 408));};var _default =
 
 
 
@@ -222,18 +221,11 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
         size: 50,
         keywords: this.keywords },
       function (res) {
-        var resList = [];
-        res.data.forEach(function (e) {
-          var item = {};
-          item.starid = e.star.id;
-          item.name = e.star.name;
-          item.avatar = e.star.head_img_s ? e.star.head_img_s : e.star.head_img_l;
-          resList.push(item);
-        });
+
         if (_this2.page == 1) {
-          _this2.rankList = resList;
+          _this2.rankList = res.data;
         } else {
-          _this2.rankList = _this2.rankList.concat(resList);
+          _this2.rankList = _this2.rankList.concat(res.data);
         }
 
         _this2.$app.setData('group_rankList', _this2.rankList);

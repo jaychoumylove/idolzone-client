@@ -1,6 +1,6 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["components/guildComponent"],{
 
-/***/ 400:
+/***/ 408:
 /*!***********************************************************!*\
   !*** E:/wx/idolzone-weixin/components/guildComponent.vue ***!
   \***********************************************************/
@@ -9,10 +9,10 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _guildComponent_vue_vue_type_template_id_82d416a6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./guildComponent.vue?vue&type=template&id=82d416a6&scoped=true& */ 401);
-/* harmony import */ var _guildComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./guildComponent.vue?vue&type=script&lang=js& */ 403);
+/* harmony import */ var _guildComponent_vue_vue_type_template_id_82d416a6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./guildComponent.vue?vue&type=template&id=82d416a6&scoped=true& */ 409);
+/* harmony import */ var _guildComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./guildComponent.vue?vue&type=script&lang=js& */ 411);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _guildComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _guildComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _guildComponent_vue_vue_type_style_index_0_id_82d416a6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./guildComponent.vue?vue&type=style&index=0&id=82d416a6&lang=scss&scoped=true& */ 405);
+/* harmony import */ var _guildComponent_vue_vue_type_style_index_0_id_82d416a6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./guildComponent.vue?vue&type=style&index=0&id=82d416a6&lang=scss&scoped=true& */ 413);
 /* harmony import */ var _D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/lib/runtime/componentNormalizer.js */ 15);
 
 
@@ -40,7 +40,7 @@ component.options.__file = "E:/wx/idolzone-weixin/components/guildComponent.vue"
 
 /***/ }),
 
-/***/ 401:
+/***/ 409:
 /*!******************************************************************************************************!*\
   !*** E:/wx/idolzone-weixin/components/guildComponent.vue?vue&type=template&id=82d416a6&scoped=true& ***!
   \******************************************************************************************************/
@@ -49,7 +49,7 @@ component.options.__file = "E:/wx/idolzone-weixin/components/guildComponent.vue"
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_template_id_82d416a6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./guildComponent.vue?vue&type=template&id=82d416a6&scoped=true& */ 402);
+/* harmony import */ var _D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_template_id_82d416a6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./guildComponent.vue?vue&type=template&id=82d416a6&scoped=true& */ 410);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_template_id_82d416a6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_template_id_82d416a6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
@@ -58,7 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 402:
+/***/ 410:
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!E:/wx/idolzone-weixin/components/guildComponent.vue?vue&type=template&id=82d416a6&scoped=true& ***!
   \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -75,28 +75,43 @@ var render = function() {
   var _c = _vm._self._c || _h
   var g0 = _vm.$app.formatNumber(_vm.disLeastCount)
   var g1 = _vm.$app.getData("userInfo")
-  var g2 = _vm.$app.getData("userStar")
+  var g2 = _vm.$app.getData("config")
   var g3 = _vm.$app.getData("config")
-  var g4 = _vm.$app.getData("config")
+  var g4 = _vm.$app.getVal("VERSION")
   var g5 = _vm.$app.getData("config")
-  var g6 = _vm.$app.getData("config")
-  var g7 = _vm.$app.getData("sysInfo").system.indexOf("iOS")
-  var g8 = _vm.$app.getData("config")
-  var g9 = _vm.$app.getData("config")
-  var g10 = _vm.$app.getData("userInfo")
-  var g11 = _vm.$app.getData("userInfo")
-  var g14 = _vm.$app.getData("sysInfo").system.indexOf("iOS")
-  var g15 = _vm.$app.getData("config")
 
-  var l0 = _vm.__map(_vm.signGift_list, function(item, index) {
-    var g12 = Math.round(item.awards.coin / 10000)
-    var g13 = Math.round(item.awards.flower / 10000)
-    var g16 = item.btn_text.replace("去充值", "未完成")
+  var l0 = _vm.__map(_vm.chartList, function(item, index) {
+    var g6 = _vm.$app.strToHour(item.create_time)
     return {
       $orig: _vm.__get_orig(item),
-      g12: g12,
-      g13: g13,
-      g16: g16
+      g6: g6
+    }
+  })
+
+  var g7 = _vm.$app.getData("userStar")
+  var g8 = _vm.$app.getData("config")
+  var g9 = _vm.$app.getData("config")
+  var g10 = _vm.$app.getData("config")
+  var g11 = _vm.$app.getData("config")
+  var g12 = _vm.$app.getData("config")
+  var g13 = _vm.$app.getData("sysInfo").system.indexOf("iOS")
+  var g14 = _vm.$app.getData("config")
+  var g15 = _vm.$app.getData("config")
+  var g16 = _vm.$app.getData("config")
+  var g17 = _vm.$app.getData("userInfo")
+  var g18 = _vm.$app.getData("userInfo")
+  var g21 = _vm.$app.getData("sysInfo").system.indexOf("iOS")
+  var g22 = _vm.$app.getData("config")
+
+  var l1 = _vm.__map(_vm.signGift_list, function(item, index) {
+    var g19 = Math.round(item.awards.coin / 10000)
+    var g20 = Math.round(item.awards.flower / 10000)
+    var g23 = item.btn_text.replace("去充值", "未完成")
+    return {
+      $orig: _vm.__get_orig(item),
+      g19: g19,
+      g20: g20,
+      g23: g23
     }
   })
 
@@ -255,15 +270,22 @@ var render = function() {
         g3: g3,
         g4: g4,
         g5: g5,
-        g6: g6,
+        l0: l0,
         g7: g7,
         g8: g8,
         g9: g9,
         g10: g10,
         g11: g11,
+        g12: g12,
+        g13: g13,
         g14: g14,
         g15: g15,
-        l0: l0
+        g16: g16,
+        g17: g17,
+        g18: g18,
+        g21: g21,
+        g22: g22,
+        l1: l1
       }
     }
   )
@@ -275,7 +297,7 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ 403:
+/***/ 411:
 /*!************************************************************************************!*\
   !*** E:/wx/idolzone-weixin/components/guildComponent.vue?vue&type=script&lang=js& ***!
   \************************************************************************************/
@@ -284,14 +306,14 @@ render._withStripped = true
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./guildComponent.vue?vue&type=script&lang=js& */ 404);
+/* harmony import */ var _D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./guildComponent.vue?vue&type=script&lang=js& */ 412);
 /* harmony import */ var _D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ 404:
+/***/ 412:
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!E:/wx/idolzone-weixin/components/guildComponent.vue?vue&type=script&lang=js& ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -299,11 +321,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var modalComponent = function modalComponent() {return __webpack_require__.e(/*! import() | components/modalComponent */ "components/modalComponent").then(__webpack_require__.bind(null, /*! @/components/modalComponent.vue */ 372));};var btnComponent = function btnComponent() {return __webpack_require__.e(/*! import() | components/btnComponent */ "components/btnComponent").then(__webpack_require__.bind(null, /*! @/components/btnComponent.vue */ 386));};var listItemComponent = function listItemComponent() {return __webpack_require__.e(/*! import() | components/listItemComponent */ "components/listItemComponent").then(__webpack_require__.bind(null, /*! @/components/listItemComponent.vue */ 393));};var badgeComponent = function badgeComponent() {return __webpack_require__.e(/*! import() | components/badgeComponent */ "components/badgeComponent").then(__webpack_require__.bind(null, /*! @/components/badgeComponent.vue */ 407));};var countToComponent = function countToComponent() {return __webpack_require__.e(/*! import() | components/countToComponent */ "components/countToComponent").then(__webpack_require__.bind(null, /*! @/components/countToComponent.vue */ 421));};var _default =
-
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var modalComponent = function modalComponent() {return __webpack_require__.e(/*! import() | components/modalComponent */ "components/modalComponent").then(__webpack_require__.bind(null, /*! @/components/modalComponent.vue */ 380));};var btnComponent = function btnComponent() {return __webpack_require__.e(/*! import() | components/btnComponent */ "components/btnComponent").then(__webpack_require__.bind(null, /*! @/components/btnComponent.vue */ 394));};var listItemComponent = function listItemComponent() {return __webpack_require__.e(/*! import() | components/listItemComponent */ "components/listItemComponent").then(__webpack_require__.bind(null, /*! @/components/listItemComponent.vue */ 401));};var badgeComponent = function badgeComponent() {return __webpack_require__.e(/*! import() | components/badgeComponent */ "components/badgeComponent").then(__webpack_require__.bind(null, /*! @/components/badgeComponent.vue */ 415));};var countToComponent = function countToComponent() {return __webpack_require__.e(/*! import() | components/countToComponent */ "components/countToComponent").then(__webpack_require__.bind(null, /*! @/components/countToComponent.vue */ 429));};var _default =
 
 
 
@@ -975,10 +993,7 @@ __webpack_require__.r(__webpack_exports__);
       sendCount: '', // 赠送人气数额
       starRankList: [],
       invitAward: {}, // 邀请奖励
-      invitList: [], // 我的邀请列表
-      invitNum: 10, // 拉票列表数量
       hasEarnCount: 0,
-      invitListPage: 1,
       hasInvitcount: 0,
       spriteEarn: false,
       rechargeList: [], // 充值商品列表
@@ -987,13 +1002,9 @@ __webpack_require__.r(__webpack_exports__);
 
       fakeinvitList: [],
       invitFakePage: 1,
-      fatherEarn: 0,
-
-      mass: {}, // 集结相关
 
       activeInfo: null,
       current: 0,
-
       itemList: [],
 
       giftItemList: [],
@@ -1110,28 +1121,8 @@ __webpack_require__.r(__webpack_exports__);
             isBirth: star.isBirth || false
 
             // 聊天
-          };var chartList = [];
-          res.data.chartList.forEach(function (e, i) {
-            var item = {
-              uid: e.user && e.user.id,
-              avatar: e.user && e.user.avatarurl || _this.$app.AVATAR,
-              nickname: e.user && e.user.nickname || _this.$app.NICKNAME,
-              content: e.content,
-              // 领袖粉
-              captain: e.user && e.user.user_star && e.user.user_star.captain || 0,
-              // 粉丝团团长
-              leader: e.user && e.user.isLeader,
-              level: e.user && e.user.level,
-              badgeId: e.user && e.user.user_ext && e.user.user_ext.badge_id,
-              sendtime: e.create_time.slice(11),
-              headwear: e.user && e.user.headwear && e.user.headwear.img,
-              userBadge: e.user && e.user.userBadge };
-
-
-            chartList.push(item);
-          });
-          _this.disLeastCount = res.data.disLeastCount;
-          _this.chartList = chartList;
+          };_this.disLeastCount = res.data.disLeastCount;
+          _this.chartList = res.data.chartList;
           _this.$nextTick(function () {
             this.chartIndex = this.chartList.length - 1;
           });
@@ -1139,15 +1130,7 @@ __webpack_require__.r(__webpack_exports__);
           setTimeout(function () {
             _this.captain = res.data.captain;
             // 用户排行
-            var userRankList = [];
-            res.data.userRank.forEach(function (e, i) {
-              userRankList.push({
-                avatar: e.user && e.user.avatarurl || _this.$app.AVATAR,
-                nickname: e.user && e.user.nickname || _this.$app.NICKNAME,
-                hot: e.thisweek_count });
-
-            });
-            _this.userRankList['thisday_count'] = userRankList;
+            _this.userRankList['thisday_count'] = res.data.userRank;
 
             // 公告
             _this.article.name = res.data.article.name;
@@ -1250,34 +1233,24 @@ __webpack_require__.r(__webpack_exports__);
         }, 'POST', true);
       });
     },
-    // 删除好友
-    deleteFriend: function deleteFriend(item, index) {var _this5 = this;
-      this.$app.modal('确认删除好友【' + item.nickname + '】？', function () {
-        _this5.$app.request('user/delFriend', {
-          user_id: item.uid },
-        function (res) {
-          _this5.invitList.splice(index, 1);
-        }, 'POST', true);
-      });
-    },
     // 加粉丝团
-    addFanclub: function addFanclub(id) {var _this6 = this;
+    addFanclub: function addFanclub(id) {var _this5 = this;
       this.$app.request('fans/join', {
         id: id },
       function (res) {
-        _this6.$app.toast('加入成功！', 'success');
-        _this6.modal = '';
+        _this5.$app.toast('加入成功！', 'success');
+        _this5.modal = '';
       }, 'POST', true);
     },
     // 点击聊天室用户头像
-    tapUser: function tapUser(uid) {var _this7 = this;
+    tapUser: function tapUser(uid) {var _this6 = this;
       if (uid == this.$app.getData('userInfo').id) return;
       this.currentUser = {};
       this.modal = 'userInfo';
       this.$app.request('user/info', {
         user_id: uid },
       function (res) {
-        _this7.currentUser = res.data;
+        _this6.currentUser = res.data;
       });
     },
 
@@ -1289,25 +1262,17 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
 
-    like: function like(user_id, index) {var _this8 = this;
+    like: function like(user_id, index) {var _this7 = this;
       this.$app.request('user/like', {
         user_id: user_id },
       function (res) {
         if (index == -1) {
-          _this8.myRank.like_count++;
+          _this7.myRank.like_count++;
         } else {
-          _this8.userRankList['thisweek_count'][index].like_count++;
+          _this7.userRankList['thisweek_count'][index].like_count++;
         }
 
       }, 'POST', true);
-    },
-
-    getActiveInfo: function getActiveInfo() {var _this9 = this;
-      this.$app.request(this.$app.API.EXT_ACTIVEINFO, {
-        starid: this.star.id },
-      function (res) {
-        _this9.activeInfo = res.data;
-      });
     },
 
     getLocalImg: function getLocalImg(src, callback) {
@@ -1322,16 +1287,16 @@ __webpack_require__.r(__webpack_exports__);
         callback && callback(src);
       }
     },
-    getShareText: function getShareText(type) {var _this10 = this;
+    getShareText: function getShareText(type) {var _this8 = this;
       this.$app.request(this.$app.API.EXT_SHARETEXT, {
         type: type },
       function (res) {
-        _this10.modal = '';
-        _this10.$app.copy(res.data.share_text);
+        _this8.modal = '';
+        _this8.$app.copy(res.data.share_text);
       });
     },
     // 绘制canvas海报
-    drawCanvas: function drawCanvas() {var _this11 = this;
+    drawCanvas: function drawCanvas() {var _this9 = this;
       if (this.star.id != this.$app.getData('userStar').id) return;
       this.modal = 'canvas';
       var rate = this.$app.getData('sysInfo').windowWidth / 375 / 2.0;
@@ -1364,10 +1329,10 @@ __webpack_require__.r(__webpack_exports__);
       this.getLocalImg('/static/image/canvas-bg.png', function (src) {
         ctx.drawImage(src, 0, 0, 480 * rate, 854 * rate);
         // 明星 
-        _this11.getLocalImg(_this11.star.share_img || _this11.star.avatar, function (src) {
+        _this9.getLocalImg(_this9.star.share_img || _this9.star.avatar, function (src) {
           ctx.drawImage(src, 48 * rate, 286 * rate, 382 * rate, 305 * rate);
           // 用户头像
-          _this11.getLocalImg(_this11.$app.getData('userInfo').avatarurl || _this11.$app.AVATAR, function (src) {
+          _this9.getLocalImg(_this9.$app.getData('userInfo').avatarurl || _this9.$app.AVATAR, function (src) {
             ctx.save(); //保存当前的绘图上下文。
             ctx.beginPath(); //开始创建一个路径
             ctx.arc(79 * rate, 784 * rate, 40 * rate, 0, 2 * Math.PI, false); //画一个圆形裁剪区域
@@ -1375,7 +1340,7 @@ __webpack_require__.r(__webpack_exports__);
             ctx.drawImage(src, 38 * rate, 744 * rate, 80 * rate, 80 * rate); //绘制图片
             ctx.restore(); //恢复之前保存的绘图上下文
             // 二维码
-            _this11.getLocalImg(_this11.$app.getData('qrcode') || _this11.$app.QRCODE, function (src) {
+            _this9.getLocalImg(_this9.$app.getData('qrcode') || _this9.$app.QRCODE, function (src) {
               ctx.save(); //保存当前的绘图上下文。
               ctx.beginPath(); //开始创建一个路径
               ctx.arc(400 * rate, 780 * rate, 50 * rate, 0, 2 * Math.PI, false); //画一个圆形裁剪区域
@@ -1391,11 +1356,11 @@ __webpack_require__.r(__webpack_exports__);
                 uni.canvasToTempFilePath({
                   canvasId: 'mycanvas',
                   success: function success(res) {
-                    _this11.canvasImg = res.tempFilePath;
+                    _this9.canvasImg = res.tempFilePath;
                     //console.log(this.canvasImg);
 
                   } },
-                _this11);
+                _this9);
               });
 
 
@@ -1406,12 +1371,12 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     //保存的画布
-    saveCanvas: function saveCanvas() {var _this12 = this;
+    saveCanvas: function saveCanvas() {var _this10 = this;
       // 保存图片到用户相册
       uni.saveImageToPhotosAlbum({
         filePath: this.canvasImg,
         success: function success() {
-          _this12.$app.toast('保存成功', 'success');
+          _this10.$app.toast('保存成功', 'success');
         } });
 
     },
@@ -1420,39 +1385,38 @@ __webpack_require__.r(__webpack_exports__);
         * 添加聊天内容
         */
     addChartMsg: function addChartMsg(data) {
-      var item = {
-        uid: data.user_id,
-        avatar: data.user && data.user.avatarurl || this.$app.AVATAR,
-        nickname: data.user && data.user.nickname || this.$app.NICKNAME,
-        content: data.content,
-        // 领袖粉
-        captain: data.user && data.user.user_star && data.user.user_star.captain || 0,
-        // 粉丝团团长
-        leader: data.user && data.user.isLeader,
-        level: data.user && data.user.level,
-        badgeId: data.user && data.user.user_ext && data.user.user_ext.badge_id,
-        sendtime: data.create_time.slice(11),
-        headwear: data.user && data.user.headwear && data.user.headwear.img,
-        userBadge: data.user && data.user.userBadge };
+      // const item = {
+      // 	uid: data.user_id,
+      // 	avatar: data.user && data.user.avatarurl || this.$app.AVATAR,
+      // 	nickname: data.user && data.user.nickname || this.$app.NICKNAME,
+      // 	content: data.content,
+      // 	// 领袖粉
+      // 	captain: data.user && data.user.user_star && data.user.user_star.captain || 0,
+      // 	// 粉丝团团长
+      // 	leader: data.user && data.user.isLeader,
+      // 	level: data.user && data.user.level,
+      // 	badgeId: data.user && data.user.user_ext && data.user.user_ext.badge_id,
+      // 	sendtime: data.create_time.slice(11),
+      // 	headwear: data.user && data.user.headwear && data.user.headwear.img,
+      // 	userBadge: data.user && data.user.userBadge
+      // }
 
-
-      this.chartList.push(item);
-
+      this.chartList.push(data);
       this.$nextTick(function () {
         this.chartIndex = this.chartList.length - 1;
       });
     },
-    // 定时显示弹幕
-    initDanmaku: function initDanmaku() {var _this13 = this;
+    // 定时显示喇叭弹幕
+    initDanmaku: function initDanmaku() {var _this11 = this;
       clearInterval(this.timeId_danmaku);
       this.danmaku = this.$app.danmakuQueue.shift() || null;
       this.timeId_danmaku = setInterval(function () {
-        _this13.danmaku = _this13.$app.danmakuQueue.shift() || null;
+        _this11.danmaku = _this11.$app.danmakuQueue.shift() || null;
       }, 10000);
     },
 
     // 喊话
-    sayworld: function sayworld() {var _this14 = this;
+    sayworld: function sayworld() {var _this12 = this;
       if (!this.chartMsg.trim()) return;
       if (this.chartMsg.trim().length > 16) {
         this.$app.toast('内容过长');
@@ -1462,15 +1426,15 @@ __webpack_require__.r(__webpack_exports__);
       this.$app.request(this.$app.API.USER_SAYWORLD, {
         content: this.chartMsg.trim() },
       function (res) {
-        _this14.chartMsg = '';
-        _this14.$app.request(_this14.$app.API.USER_CURRENCY, {}, function (res) {
-          if (_this14.$app.getData('userCurrency')['trumpet'] == res.data.trumpet) {
-            _this14.$app.toast('喊话失败，请稍后再试');
+        _this12.chartMsg = '';
+        _this12.$app.request(_this12.$app.API.USER_CURRENCY, {}, function (res) {
+          if (_this12.$app.getData('userCurrency')['trumpet'] == res.data.trumpet) {
+            _this12.$app.toast('喊话失败，请稍后再试');
           } else {
-            _this14.$app.toast('喊话成功', 'success');
+            _this12.$app.toast('喊话成功', 'success');
           }
-          _this14.$app.setData('userCurrency', res.data);
-          _this14.userCurrency = _this14.$app.getData('userCurrency');
+          _this12.$app.setData('userCurrency', res.data);
+          _this12.userCurrency = _this12.$app.getData('userCurrency');
         });
 
       }, 'POST', true);
@@ -1478,18 +1442,18 @@ __webpack_require__.r(__webpack_exports__);
     /**
         * 保存用户详细信息
         */
-    getUserInfo: function getUserInfo(e) {var _this15 = this;
+    getUserInfo: function getUserInfo(e) {var _this13 = this;
       var userInfo = e.detail.userInfo;
       if (userInfo) {
         this.$app.request(this.$app.API.USER_SAVEINFO, {
           iv: e.detail.iv,
           encryptedData: e.detail.encryptedData },
         function (res) {
-          _this15.$app.request(_this15.$app.API.USER_INFO, {
-            user_id: _this15.$app.getData('userInfo').id },
+          _this13.$app.request(_this13.$app.API.USER_INFO, {
+            user_id: _this13.$app.getData('userInfo').id },
           function (res) {
-            _this15.$app.setData('userInfo', res.data, true);
-            _this15.sendOrFollow();
+            _this13.$app.setData('userInfo', res.data, true);
+            _this13.sendOrFollow();
           });
         }, 'POST', true);
       }
@@ -1499,25 +1463,25 @@ __webpack_require__.r(__webpack_exports__);
       this.signGift_currentCategory = index;
       this.getsignGift();
     },
-    newboyOpen: function newboyOpen() {var _this16 = this;
+    newboyOpen: function newboyOpen() {var _this14 = this;
       this.modal = 'newboy';
       this.$app.request('task/taskgiftCategory', {}, function (res) {
-        _this16.signGift_categoryList = res.data.list;
-        _this16.getsignGift();
+        _this14.signGift_categoryList = res.data.list;
+        _this14.getsignGift();
       });
     },
-    getsignGift: function getsignGift() {var _this17 = this;
+    getsignGift: function getsignGift() {var _this15 = this;
       this.$app.request('task/taskGift', {
         cid: this.signGift_categoryList[this.signGift_currentCategory].id },
       function (res) {
-        _this17.signGift_list = res.data.list;
-        _this17.signGift_categoryList = res.data.category.list;
-        _this17.signGift_title = res.data.category.all_title;
-        _this17.signGift_tips = res.data.category.all_tips;
-        _this17.signGift_currentCategoryTitle = _this17.signGift_categoryList[_this17.signGift_currentCategory].title;
+        _this15.signGift_list = res.data.list;
+        _this15.signGift_categoryList = res.data.category.list;
+        _this15.signGift_title = res.data.category.all_title;
+        _this15.signGift_tips = res.data.category.all_tips;
+        _this15.signGift_currentCategoryTitle = _this15.signGift_categoryList[_this15.signGift_currentCategory].title;
       });
     },
-    signGiftSettle: function signGiftSettle(index) {var _this18 = this;
+    signGiftSettle: function signGiftSettle(index) {var _this16 = this;
       var cid = this.signGift_categoryList[this.signGift_currentCategory].id;
       var taskover = this.signGift_list[index].over;
       //如果未完成 0
@@ -1534,17 +1498,17 @@ __webpack_require__.r(__webpack_exports__);
         cid: cid,
         task_id: this.signGift_list[index].id },
       function (res) {
-        _this18.$app.toast('领取成功', 'success');
-        _this18.getsignGift();
+        _this16.$app.toast('领取成功', 'success');
+        _this16.getsignGift();
       }, 'POST', true);
     },
 
-    sendFansChange: function sendFansChange() {var _this19 = this;
+    sendFansChange: function sendFansChange() {var _this17 = this;
       uni.showActionSheet({
         itemList: ['钻石', '积分'],
         success: function success(res) {
-          _this19.sendFansBoxUseCurrency = res.tapIndex;
-          _this19.sendFansBoxCoinNum = 0;
+          _this17.sendFansBoxUseCurrency = res.tapIndex;
+          _this17.sendFansBoxCoinNum = 0;
         } });
 
     },
@@ -1562,7 +1526,7 @@ __webpack_require__.r(__webpack_exports__);
         this.sendFansBoxCoinNum = this.sendFansboxNum * 1;
       }
     },
-    sendFansBoxBtn: function sendFansBoxBtn() {var _this20 = this;
+    sendFansBoxBtn: function sendFansBoxBtn() {var _this18 = this;
       if (this.sendFansBoxCoinNum < 300000) {
         this.$app.toast('最少送出30万金豆');
         return;
@@ -1578,17 +1542,17 @@ __webpack_require__.r(__webpack_exports__);
         consume: this.sendFansboxNum,
         people: this.sendFansboxPeople },
       function (res) {
-        _this20.modal = '';
-        _this20.$app.toast('宝箱已发出', 'success');
+        _this18.modal = '';
+        _this18.$app.toast('宝箱已发出', 'success');
       }, 'POST', true);
     },
-    fansBoxOpen: function fansBoxOpen() {var _this21 = this;
+    fansBoxOpen: function fansBoxOpen() {var _this19 = this;
       // if (this.isJoinFanclub) {
       this.modal = 'fansBox';
       this.$app.request('fans/mybox', {}, function (res) {
-        _this21.sendFansBoxList = res.data.list;
-        _this21.sendFansNoSettle = res.data.can_settle;
-        _this21.sendFansNoticeId = res.data.noticeId;
+        _this19.sendFansBoxList = res.data.list;
+        _this19.sendFansNoSettle = res.data.can_settle;
+        _this19.sendFansNoticeId = res.data.noticeId;
       });
       // } else {
       // 	this.$app.modal(`请先加入一个粉丝团`, () => {
@@ -1601,30 +1565,30 @@ __webpack_require__.r(__webpack_exports__);
       this.$app.goPage("/pages/lottery/box_open?id=".concat(id));
     },
     /**偷金豆*/
-    steal: function steal(starid, index, _steal) {var _this22 = this;
+    steal: function steal(starid, index, _steal) {var _this20 = this;
       if (_steal > 0) return;
       this.$app.request(this.$app.API.STAR_STEAL, {
         starid: starid,
         index: index },
       function (res) {
-        _this22.starRankList[index].steal = 60;
-        _this22.$app.toast("\u5077\u5230\u4E86".concat(res.data.count, "\u91D1\u8C46"));
+        _this20.starRankList[index].steal = 60;
+        _this20.$app.toast("\u5077\u5230\u4E86".concat(res.data.count, "\u91D1\u8C46"));
 
-        _this22.getStarRank();
-        _this22.$app.request(_this22.$app.API.USER_CURRENCY, {}, function (res) {
-          _this22.$app.setData('userCurrency', res.data);
+        _this20.getStarRank();
+        _this20.$app.request(_this20.$app.API.USER_CURRENCY, {}, function (res) {
+          _this20.$app.setData('userCurrency', res.data);
         });
       }, 'POST', true);
     },
-    getInvitAward: function getInvitAward(uid, status, index) {var _this23 = this;
+    getInvitAward: function getInvitAward(uid, status, index) {var _this21 = this;
       if (status != 1) return;
       this.$app.request(this.$app.API.USER_INVITAWARD, {
         ral_user_id: uid },
       function (res) {
-        _this23.fakeinvitList[index].status = 2;
-        _this23.$app.toast('领取成功');
-        _this23.$app.request(_this23.$app.API.USER_CURRENCY, {}, function (res) {
-          _this23.$app.setData('userCurrency', res.data);
+        _this21.fakeinvitList[index].status = 2;
+        _this21.$app.toast('领取成功');
+        _this21.$app.request(_this21.$app.API.USER_CURRENCY, {}, function (res) {
+          _this21.$app.setData('userCurrency', res.data);
         });
       }, 'POST', true);
     },
@@ -1633,66 +1597,22 @@ __webpack_require__.r(__webpack_exports__);
       this.$app.goPage('/pages/subPages/pet/other/other?user_id=' + item.uid + '&off=' + item.off);
     },
     // 拉票
-    getFakeInviteList: function getFakeInviteList() {var _this24 = this;
+    getFakeInviteList: function getFakeInviteList() {var _this22 = this;
       this.$app.request(this.$app.API.USER_INVITLIST, {
         page: this.invitFakePage },
       function (res) {
-        _this24.invitAward = res.data.award;
-        _this24.hasInvitcount = res.data.hasInvitcount;
+        _this22.invitAward = res.data.award;
+        _this22.hasInvitcount = res.data.hasInvitcount;
         // 已领取人次
-        _this24.hasEarnCount = res.data.list.hasEarnCount;
+        _this22.hasEarnCount = res.data.list.hasEarnCount;
 
-        var resList = [];
-        res.data.list.list.forEach(function (e, i) {
-          resList.push({
-            avatar: e.user && e.user.avatarurl || _this24.$app.AVATAR,
-            nickname: e.user && e.user.nickname || _this24.$app.NICKNAME,
-            status: e.status,
-            uid: e.ral_user_id });
-
-        });
-
-        if (_this24.invitFakePage == 1) {
-          _this24.fakeinvitList = resList;
+        if (_this22.invitFakePage == 1) {
+          _this22.fakeinvitList = res.data.list.list;
         } else {
-          _this24.fakeinvitList = _this24.fakeinvitList.concat(resList);
+          _this22.fakeinvitList = _this22.fakeinvitList.concat(res.data.list.list);
         }
 
-        _this24.$app.closeLoading(_this24);
-      });
-    },
-    // 好友列表
-    getInvitList: function getInvitList() {var _this25 = this;
-      this.$app.request(this.$app.API.USER_INVITLIST, {
-        type: 1,
-        page: this.invitListPage || 1 },
-      function (res) {
-        _this25.invitAward = res.data.award;
-        var resList = [];
-        _this25.spriteEarn = false;
-        _this25.friendTotal = res.data.list.total_count;
-        res.data.list.list.forEach(function (e, i) {
-          resList.push({
-            avatar: e.user && e.user.avatarurl || _this25.$app.AVATAR,
-            status: e.status,
-            uid: e.user && e.user.id || 0,
-            nickname: e.user && e.user.nickname || _this25.$app.NICKNAME,
-            earn: e.sprite.earn,
-            off: e.off });
-
-
-          if (e.sprite.earn >= 100) {
-            // 显示红点
-            _this25.spriteEarn = true;
-          }
-        });
-        if (_this25.invitListPage == 1) {
-          _this25.invitList = resList;
-        } else {
-          _this25.invitList = _this25.invitList.concat(resList);
-        }
-
-        _this25.$app.closeLoading(_this25);
+        _this22.$app.closeLoading(_this22);
       });
     },
     setSendCount: function setSendCount(e) {
@@ -1701,7 +1621,7 @@ __webpack_require__.r(__webpack_exports__);
     /**
         * 贡献人气
         */
-    sendHot: function sendHot(count) {var _this26 = this;
+    sendHot: function sendHot(count) {var _this23 = this;
       if (count) {
         if (count == '全送') {
           if (this.current == 0) {
@@ -1730,21 +1650,20 @@ __webpack_require__.r(__webpack_exports__);
         type: this.current + 1,
         danmaku: Number(!this.danmakuClosed) },
       function (res) {
-        _this26.modal = '';
-        _this26.getStarInfo();
-        _this26.userRankPage = 1;
-        //this.getUserRank('thisday_count')
-        _this26.getUserRank();
-        _this26.$app.request(_this26.$app.API.USER_CURRENCY, {}, function (res) {
-          _this26.$app.setData('userCurrency', res.data);
-          _this26.userCurrency = res.data;
+        _this23.modal = '';
+        _this23.getStarInfo();
+        _this23.userRankPage = 1;
+        _this23.getUserRank();
+        _this23.$app.request(_this23.$app.API.USER_CURRENCY, {}, function (res) {
+          _this23.$app.setData('userCurrency', res.data);
+          _this23.userCurrency = res.data;
         });
-        if (_this26.star.id == _this26.$app.getData('userStar').id) {
+        if (_this23.star.id == _this23.$app.getData('userStar').id) {
           // 弹窗
-          _this26.modal = 'sendOver';
+          _this23.modal = 'sendOver';
           return;
         }
-        _this26.$app.toast('打榜成功', 'success');
+        _this23.$app.toast('打榜成功', 'success');
 
       }, 'POST', true);
     },
@@ -1770,7 +1689,7 @@ __webpack_require__.r(__webpack_exports__);
     /**
         * 加入明星圈子或弹出打榜
         */
-    sendOrFollow: function sendOrFollow(e) {var _this27 = this;
+    sendOrFollow: function sendOrFollow(e) {var _this24 = this;
       // if (!this.$app.getData('userInfo').nickname) {
       // 	this.$app.toast('请先去个人中心点击头像进行授权')
       // 	return
@@ -1807,32 +1726,32 @@ __webpack_require__.r(__webpack_exports__);
       }
       // 加入圈子
       this.$app.modal("\u6BCF\u4E2A\u4EBA\u53EA\u80FD\u52A0\u5165\u4E00\u4E2A\u5708\u5B50\n\u662F\u5426\u52A0\u5165".concat(this.star.name, "\u7684\u5708\u5B50\uFF1F"), function () {
-        _this27.$app.request(_this27.$app.API.STAR_FOLLOW, {
-          starid: _this27.star.id,
-          rer_user_id: _this27.$app.getData('referrer') // 推荐人
+        _this24.$app.request(_this24.$app.API.STAR_FOLLOW, {
+          starid: _this24.star.id,
+          rer_user_id: _this24.$app.getData('referrer') // 推荐人
         }, function (res) {
-          if (_this27.$app.getData('userInfo').type == 1) {
+          if (_this24.$app.getData('userInfo').type == 1) {
             // 管理员
-            _this27.$app.token = '';
-            _this27.$app.request(_this27.$app.API.USER_INFO, {}, function (res) {
-              _this27.$app.setData('userInfo', res.data, true);
-              _this27.$app.request(_this27.$app.API.USER_CURRENCY, {}, function (res) {
-                _this27.$app.setData('userCurrency', res.data);
+            _this24.$app.token = '';
+            _this24.$app.request(_this24.$app.API.USER_INFO, {}, function (res) {
+              _this24.$app.setData('userInfo', res.data, true);
+              _this24.$app.request(_this24.$app.API.USER_CURRENCY, {}, function (res) {
+                _this24.$app.setData('userCurrency', res.data);
               });
-              _this27.$app.request(_this27.$app.API.USER_STAR, {}, function (res) {
-                _this27.$app.setData('userStar', res.data, true);
-                _this27.$app.goPage('/pages/group/group?tips=1');
+              _this24.$app.request(_this24.$app.API.USER_STAR, {}, function (res) {
+                _this24.$app.setData('userStar', res.data, true);
+                _this24.$app.goPage('/pages/group/group?tips=1');
               });
             });
           } else {
-            _this27.$app.request(_this27.$app.API.USER_STAR, {}, function (res) {
-              _this27.$app.setData('userStar', res.data);
-              _this27.$app.setData('noob', true);
-              _this27.chartMsg = "\u5927\u5BB6\u597D\uFF0C\u6211\u662F".concat(_this27.$app.getData('userInfo').nickname, "\uFF0C\u8BF7\u591A\u5173\u7167~");
-              _this27.sendMsg();
-              _this27.$app.toast('加入成功');
+            _this24.$app.request(_this24.$app.API.USER_STAR, {}, function (res) {
+              _this24.$app.setData('userStar', res.data);
+              _this24.$app.setData('noob', true);
+              _this24.chartMsg = "\u5927\u5BB6\u597D\uFF0C\u6211\u662F".concat(_this24.$app.getData('userInfo').nickname, "\uFF0C\u8BF7\u591A\u5173\u7167~");
+              _this24.sendMsg();
+              _this24.$app.toast('加入成功');
               setTimeout(function () {
-                _this27.$app.goPage('/pages/group/group?tips=1');
+                _this24.$app.goPage('/pages/group/group?tips=1');
               }, 200);
             });
           }
@@ -1841,17 +1760,17 @@ __webpack_require__.r(__webpack_exports__);
       });
 
     },
-    getStarInfo: function getStarInfo() {var _this28 = this;
+    getStarInfo: function getStarInfo() {var _this25 = this;
       this.$app.request(this.$app.API.STAR_INFO, {
         starid: this.star.id },
       function (res) {
         var star = res.data;
 
-        _this28.star = {
+        _this25.star = {
           id: star.id,
           avatar: star.head_img_s ? star.head_img_s : star.head_img_l,
           name: star.name,
-          weekHot: _this28.$app.formatNumber(star.star_rank.week_hot),
+          weekHot: _this25.$app.formatNumber(star.star_rank.week_hot),
           weekRank: star.star_rank.week_hot_rank,
           share_img: star.share_img, // 海报图片
           qrcode: star.qrcode,
@@ -1859,137 +1778,109 @@ __webpack_require__.r(__webpack_exports__);
 
       });
     },
-    getArticle: function getArticle() {var _this29 = this;
+    getArticle: function getArticle() {var _this26 = this;
       this.$app.request(this.$app.API.ARTICLE, {}, function (res) {
-        _this29.article.name = res.data.name;
-        _this29.article.id = res.data.id;
-        _this29.$app.closeLoading(_this29);
+        _this26.article.name = res.data.name;
+        _this26.article.id = res.data.id;
+        _this26.$app.closeLoading(_this26);
       });
     },
-    getStarRank: function getStarRank() {var _this30 = this;
+    getStarRank: function getStarRank() {var _this27 = this;
       // 偷花
       this.$app.request(this.$app.API.STAR_RANK, {
         type: 1 },
       function (res) {
-        _this30.steal_num = res.data.steal_num;
-        _this30.sprite_level = res.data.sprite_level;
-        _this30.steal_num_max = res.data.steal_num_max;
-        _this30.steal_count = res.data.steal_count;
-        _this30.steal_times = res.data.steal_times;
-        _this30.steal_times_max = res.data.steal_times_max;
+        _this27.steal_num = res.data.steal_num;
+        _this27.sprite_level = res.data.sprite_level;
+        _this27.steal_num_max = res.data.steal_num_max;
+        _this27.steal_count = res.data.steal_count;
+        _this27.steal_times = res.data.steal_times;
+        _this27.steal_times_max = res.data.steal_times_max;
         // 清除steal倒计时定时器
-        if (!_this30.$app.timeId) _this30.$app.timeId = [];var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
-          for (var _iterator = _this30.$app.timeId[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var v = _step.value;
+        if (!_this27.$app.timeId) _this27.$app.timeId = [];var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
+          for (var _iterator = _this27.$app.timeId[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var v = _step.value;
             clearInterval(v);
           }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
-        _this30.$app.timeId = [];
+        _this27.$app.timeId = [];
         var resList = [];
         var index = 0;
         res.data.list.forEach(function (e, i) {
-          if (i < 6 && e.star.id != _this30.$app.getData('userStar')['id']) {
+          if (i < 6 && e.star.id != _this27.$app.getData('userStar')['id']) {
             resList.push({
               starid: e.star.id,
               name: e.star.name,
               steal_count: res.data.steal_count,
               avatar: e.star.head_img_s ? e.star.head_img_s : e.star.head_img_l,
-              hot: _this30.$app.formatNumberRgx(e['week_hot']),
+              hot: _this27.$app.formatNumberRgx(e['week_hot']),
               steal: res.data.steal[index] });
 
             if (res.data.steal[index] > 0) {
-              _this30.startStealTimeInterval(index);
+              _this27.startStealTimeInterval(index);
             }
             index++;
           }
         });
 
-        _this30.starRankList = resList;
+        _this27.starRankList = resList;
       });
     },
-    getUserRank: function getUserRank() {var _this31 = this;var field = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'thisweek_count';
+    getUserRank: function getUserRank() {var _this28 = this;var field = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'thisweek_count';
       if (this.userRankPage > 10) return;
       this.$app.request(this.$app.API.USER_RANK, {
         starid: this.star.id,
         page: this.userRankPage || 1,
         field: field },
       function (res) {
-        var resList = [];
-        res.data.list.forEach(function (e, i) {
-          resList.push({
-            user_id: e.user_id,
-            avatar: e.user && e.user.avatarurl || _this31.$app.AVATAR,
-            nickname: e.user && e.user.nickname || _this31.$app.NICKNAME,
-            hot: e[field],
-            like_count: e.like_count || 0 });
-
-        });
-
-        _this31.myRank = res.data.my;
-        if (_this31.userRankPage == 1) {
-          _this31.userRankList[field] = resList;
+        _this28.myRank = res.data.my;
+        if (_this28.userRankPage == 1) {
+          _this28.userRankList[field] = res.data.list;
         } else {
-          _this31.userRankList[field] = _this31.userRankList[field].concat(resList);
+          _this28.userRankList[field] = _this28.userRankList[field].concat(res.data.list);
         }
 
 
       });
     },
     // 打榜弹幕
-    sendHotDanmaku: function sendHotDanmaku(data) {var _this32 = this;
+    sendHotDanmaku: function sendHotDanmaku(data) {var _this29 = this;
       if (!this.danmakuClosed) {
         this.sendDanmaku[this.sendDanmakuIndex].push(data);
         setTimeout(function () {
           // 12s后销毁这条弹幕
-          _this32.sendDanmaku[_this32.sendDanmakuIndex].shift();
+          _this29.sendDanmaku[_this29.sendDanmakuIndex].shift();
         }, 12000);
         if (++this.sendDanmakuIndex > 2) this.sendDanmakuIndex = 0;
       }
     },
 
-    getChartList: function getChartList() {var _this33 = this;
+    getChartList: function getChartList() {var _this30 = this;
       this.$app.request(this.$app.API.STAR_CHART, {
         starid: this.star.id },
       function (res) {
-        var resList = [];
-        res.data.forEach(function (e, i) {
-          var item = {
-            uid: e.user && e.user.id,
-            avatar: e.user && e.user.avatarurl || _this33.$app.AVATAR,
-            nickname: e.user && e.user.nickname || _this33.$app.NICKNAME,
-            content: e.content,
-            // 领袖粉
-            captain: e.user && e.user.user_star && e.user.user_star.captain || 0,
-            // 粉丝团团长
-            leader: e.user && e.user.isLeader,
-            sendtimeInt: _this33.$app.strToTime(e.create_time) };
-
-
-          resList.push(item);
-        });
-
-        _this33.chartList = resList;
-        _this33.$nextTick(function () {
+        _this30.chartList = res.data;
+        _this30.$nextTick(function () {
           this.chartIndex = this.chartList.length - 1;
         });
 
-        _this33.$app.closeLoading(_this33);
+        _this30.$app.closeLoading(_this30);
       });
     },
     /**
         * 加入聊天室
         */
-    joinGroup: function joinGroup() {var _this34 = this;
+    joinGroup: function joinGroup() {var _this31 = this;
       var clientId = this.$app.getData('clientId');
       if (!clientId) {
         this.$app.invokeSocket();
         setTimeout(function () {
-          _this34.joinGroup();
+          _this31.joinGroup();
         }, 1500);
       } else {
         this.$app.request(this.$app.API.STAR_JOINCHART, {
           star_id: this.star.id,
           client_id: clientId },
         function (res) {
-          _this34.$app.closeLoading(_this34);
+          _this31.$app.closeLoading(_this31);
         });
       }
     },
@@ -2006,7 +1897,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 405:
+/***/ 413:
 /*!*********************************************************************************************************************!*\
   !*** E:/wx/idolzone-weixin/components/guildComponent.vue?vue&type=style&index=0&id=82d416a6&lang=scss&scoped=true& ***!
   \*********************************************************************************************************************/
@@ -2015,14 +1906,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_1_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_index_js_ref_8_oneOf_1_2_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_loaders_stylePostLoader_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_4_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_style_index_0_id_82d416a6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-1!./node_modules/css-loader??ref--8-oneOf-1-2!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/lib/loader.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./guildComponent.vue?vue&type=style&index=0&id=82d416a6&lang=scss&scoped=true& */ 406);
+/* harmony import */ var _D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_1_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_index_js_ref_8_oneOf_1_2_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_loaders_stylePostLoader_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_4_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_style_index_0_id_82d416a6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-1!./node_modules/css-loader??ref--8-oneOf-1-2!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/lib/loader.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./guildComponent.vue?vue&type=style&index=0&id=82d416a6&lang=scss&scoped=true& */ 414);
 /* harmony import */ var _D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_1_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_index_js_ref_8_oneOf_1_2_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_loaders_stylePostLoader_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_4_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_style_index_0_id_82d416a6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_1_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_index_js_ref_8_oneOf_1_2_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_loaders_stylePostLoader_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_4_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_style_index_0_id_82d416a6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_1_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_index_js_ref_8_oneOf_1_2_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_loaders_stylePostLoader_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_4_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_style_index_0_id_82d416a6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_1_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_index_js_ref_8_oneOf_1_2_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_loaders_stylePostLoader_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_4_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_style_index_0_id_82d416a6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_1_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_index_js_ref_8_oneOf_1_2_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_loaders_stylePostLoader_js_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_4_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_index_js_vue_loader_options_D_Program_Files_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_guildComponent_vue_vue_type_style_index_0_id_82d416a6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ 406:
+/***/ 414:
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-1!./node_modules/css-loader??ref--8-oneOf-1-2!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/lib/loader.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!E:/wx/idolzone-weixin/components/guildComponent.vue?vue&type=style&index=0&id=82d416a6&lang=scss&scoped=true& ***!
   \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -2039,7 +1930,7 @@ __webpack_require__.r(__webpack_exports__);
     'components/guildComponent-create-component',
     {
         'components/guildComponent-create-component':(function(module, exports, __webpack_require__){
-            __webpack_require__('1')['createComponent'](__webpack_require__(400))
+            __webpack_require__('1')['createComponent'](__webpack_require__(408))
         })
     },
     [['components/guildComponent-create-component']]

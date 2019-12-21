@@ -14,10 +14,10 @@
 					<view v-else>{{index+1}}</view>
 				</view>
 				<view class='avatar'>
-					<image :src="item.avatar" mode="aspectFill"></image>
+					<image :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
 				</view>
 				<view class="text-container">
-					<view class="star-name text-overflow">{{item.nickname}}</view>
+					<view class="star-name text-overflow">{{item.user.nickname || NICKNAME}}</view>
 					<view class="starname">{{item.starname}}</view>
 				</view>
 				<view class="count">贡献{{item.hot}}鲜花</view>
@@ -50,6 +50,8 @@
 				userRank: [],
 				page: 1,
 				myInfo: {},
+				AVATAR:this.$app.AVATAR,
+				NICKNAME: this.$app.NICKNAME,
 			};
 		},
 		onLoad(option) {
@@ -73,20 +75,11 @@
 					field: 'thisbirth_rank',
 				}, res => {
 					this.myInfo = res.data.my
-					const resList = []
-					res.data.list.forEach((e, i) => {
-						resList.push({
-							avatar: e.user && e.user.avatarurl || this.$app.AVATAR,
-							nickname: e.user && e.user.nickname || this.$app.NICKNAME,
-							hot: e.hot,
-							starname: e.starname,
-						})
-					})
 
 					if (this.page == 1) {
-						this.userRank = resList
+						this.userRank = res.data.list
 					} else {
-						this.userRank = this.userRank.concat(resList)
+						this.userRank = this.userRank.concat(res.data.list)
 					}
 				})
 			},

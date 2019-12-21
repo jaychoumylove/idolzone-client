@@ -178,7 +178,7 @@
 				this.$app.request('page/square', {
 					star_id: this.$app.getData('userStar').id,
 					page: this.page,
-					size: 5
+					size: 3
 				}, res => {
 					this.loadSuccess = true
 					uni.stopPullDownRefresh()

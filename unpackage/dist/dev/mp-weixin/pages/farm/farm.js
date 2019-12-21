@@ -192,18 +192,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var modalComponent = function modalComponent() {return __webpack_require__.e(/*! import() | components/modalComponent */ "components/modalComponent").then(__webpack_require__.bind(null, /*! @/components/modalComponent.vue */ 372));};var btnComponent = function btnComponent() {return __webpack_require__.e(/*! import() | components/btnComponent */ "components/btnComponent").then(__webpack_require__.bind(null, /*! @/components/btnComponent.vue */ 386));};var listItemComponent = function listItemComponent() {return __webpack_require__.e(/*! import() | components/listItemComponent */ "components/listItemComponent").then(__webpack_require__.bind(null, /*! @/components/listItemComponent.vue */ 393));};var _default =
-
-
-
-
-
-
-
-
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var modalComponent = function modalComponent() {return __webpack_require__.e(/*! import() | components/modalComponent */ "components/modalComponent").then(__webpack_require__.bind(null, /*! @/components/modalComponent.vue */ 380));};var btnComponent = function btnComponent() {return __webpack_require__.e(/*! import() | components/btnComponent */ "components/btnComponent").then(__webpack_require__.bind(null, /*! @/components/btnComponent.vue */ 394));};var listItemComponent = function listItemComponent() {return __webpack_require__.e(/*! import() | components/listItemComponent */ "components/listItemComponent").then(__webpack_require__.bind(null, /*! @/components/listItemComponent.vue */ 401));};var _default =
 
 
 
@@ -479,7 +468,12 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       skillThreePercent: '', // 离线增强百分数
 
       helperList: [],
-      offlinePercent: '' };
+      offlinePercent: '',
+      primary_house_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45awPD7e5IuDzoBoks0fLjVdwsUXliamwQDb6M1kHbtja6I7ogz2p2AQA/0',
+      primary_land1_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45DbvLwianQO7amMCrjEoPbyZyQX1HD3getqlCaqElzFV0Xianf5XufuoQ/0',
+      primary_land2_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45DbvLwianQO7amMCrjEoPbyZyQX1HD3getqlCaqElzFV0Xianf5XufuoQ/0',
+      primary_tree1_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45ibdoeICBZgic5qIAmx5VTA9amISbmU2KIrFaaVd4EIgnmQ7h4HL8uXMg/0',
+      primary_tree2_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45NwbKYxUZT69EbL1ic7EU8JF6Y184rhuzuKLCibHKyzOouqa74DX834YA/0' };
 
   },
   onShareAppMessage: function onShareAppMessage(e) {

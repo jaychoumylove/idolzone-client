@@ -1,13 +1,16 @@
 <template>
 	<view class="container">
-
+		
 		<view class='tab-container'>
-			<view class="tab-item" :class='{active:current==0}' @tap='switchAct(0)'>日榜</view>
-			<view class="tab-item" :class='{active:current==3}' @tap='switchAct(3)'>上周</view>
-			<view class="tab-item" :class='{active:current==1}' @tap='switchAct(1)'>周榜</view>
-			<view class="tab-item" :class='{active:current==2}' @tap='switchAct(2)'>总榜</view>
+			<view class="tab-item" :class='{active:current==1}' @tap='switchAct(1)'>爱</view>
+			<view class="tab-item" :class='{active:current==2}' @tap='switchAct(2)'>壕</view>
+			<view class="tab-item" :class='{active:current==3}' @tap='switchAct(3)'>勤</view>
+			<view class="tab-item" :class='{active:current==4}' @tap='switchAct(4)'>豆</view>
+			<view class="tab-item" :class='{active:current==5}' @tap='switchAct(5)'>赞</view>
+			<view class="tab-item" :class='{active:current==6}' @tap='switchAct(6)'>战</view>
 		</view>
-
+		
+		
 		<!-- 列表 -->
 		<view class="list-container">
 			<view class="item" v-for="(item,index) in userRank" :key="index">
@@ -27,32 +30,26 @@
 				<view class="text-container">
 					<view>
 						{{item.user.nickname || NICKNAME}}
-						<image class="img-s" :src="`/static/image/user_level/lv${item.user.level}.png`" mode=""></image>
+						<view v-if='item.star.name' class='starname'>{{item.star.name}}</view>
+					</view>					
+					<view class="tips">
+						<text v-if="item.user.maxBadge.stype==1">打榜守护{{item.hot}}天</text>
+						<text v-if="item.user.maxBadge.stype==2">贡献{{formatFloatNum(item.hot)}}鲜花</text>
+						<text v-if="item.user.maxBadge.stype==3">参与{{item.hot}}次集结</text>
+						<text v-if="item.user.maxBadge.stype==4">农场产量{{item.hot}}</text>
+						<text v-if="item.user.maxBadge.stype==5">获得{{item.hot}}次点赞</text>
+						<text v-if="item.user.maxBadge.stype==6">团战获得{{item.hot}}次冠军</text>
+						<image class="badge-image" v-if="item.user.maxBadge.simg" :src="item.user.maxBadge.simg"></image>
 					</view>
 				</view>
-				<view class="count">
-					<view>贡献值</view>
-					<view>{{item.hot}}</view>
+				<view class="count" v-if="item.user.maxBadge.complete_time">
+					<view>获得时间</view>
+					<view>{{item.user.maxBadge.complete_time}}</view>
 				</view>
+				<view class="count" v-else>未获得</view>
 			</view>
 		</view>
-		<!-- 我的 -->
-		<view class="my-container" v-if="$app.getData('userStar').id == starid">
-			<view class="rank-num">
-				<view>{{myInfo.rank}}</view>
-			</view>
-			<view class='avatar-wrap'>
-				<image class="avatar" :src="$app.getData('userInfo').avatarurl" mode="aspectFill"></image>
-				<image v-if="myInfo.headwear&&myInfo.headwear.img" class="headwear position-set" :src="myInfo.headwear&&myInfo.headwear.img" mode=""></image>
-			</view>
-			<view class="text-container">
-				<view>
-					{{$app.getData('userInfo').nickname}}
-					<image class="img-s" :src="`/static/image/user_level/lv${myInfo.level}.png`" mode=""></image>
-				</view>
-
-			</view>
-			<view class="count">贡献值 {{myInfo.score||''}}</view>
+		
 		</view>
 	</view>
 </template>
@@ -61,18 +58,15 @@
 	export default {
 		data() {
 			return {
-				current: 0,
-
-				starid: null,
+				current: 1,
 				userRank: [],
 				page: 1,
-				myInfo: {},
 				AVATAR:this.$app.AVATAR,
 				NICKNAME: this.$app.NICKNAME,
 			};
 		},
 		onLoad(option) {
-			this.starid = option.starid
+			this.stype = option.stype
 			this.loadData()
 		},
 		onReachBottom() {
@@ -87,23 +81,11 @@
 			},
 			loadData() {
 				if (this.page > 10) return
-				let field;
-				if (this.current == 0) {
-					field = 'thisday_count'
-				} else if (this.current == 1) {
-					field = 'thisweek_count'
-				} else if (this.current == 2) {
-					field = 'total_count'
-				} else if (this.current == 3) {
-					field = 'lastweek_count'
-				}
-				this.$app.request(this.$app.API.USER_RANK, {
-					starid: this.starid,
+				this.$app.request('badge/rank', {
+					starid: this.$app.getData('userStar').id || 0,
+					stype: this.current,
 					page: this.page,
-					field,
 				}, res => {
-					this.myInfo = res.data.my
-
 					if (this.page == 1) {
 						this.userRank = res.data.list
 					} else {
@@ -111,17 +93,25 @@
 					}
 				})
 			},
+			formatFloatNum (num){
+				if(num>10000) num = this.$app.formatFloatNum(num/10000,1) + '万'
+				return num;
+			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	.container {
+		.title image{
+			width: 750upx;
+			height: 191upx;
+		}
 		.tab-container {
 			padding: 25upx;
 			display: flex;
 			align-items: center;
-			justify-content: space-around;
+			justify-content:space-between;
 			border-bottom: 1upx solid #eee;
 
 			.tab-item {
@@ -131,7 +121,7 @@
 				justify-content: center;
 				display: flex;
 				font-size: 30upx;
-				margin: 0 20upx;
+				margin: 0 10upx;
 				flex: 1;
 				color: #FF7E00;
 			}
@@ -178,72 +168,44 @@
 
 				.text-container {
 					margin: 0 20upx;
-					width: 250upx;
-
+					width: 320upx;
+					
+					.tips{
+						color: #ff8421;
+					}
 					.bottom-text {
 						display: flex;
 						align-items: center;
 						color: $text-color-1;
 					}
-				}
+				
+					.starname {
+						background: -webkit-linear-gradient(#ff7e00, #fccd9f);
+						color: #fff;
+						padding: 0 12upx;
+						border-radius: 12upx;
+						font-size: 20upx;
+						box-shadow: 0 0 1px rgba(0, 0, 0, .3);
+						line-height: 34upx;
+						margin: 0 5upx;
+						white-space: nowrap;
+						width: 100upx;
+						text-align: center;
 
+					}
+					.badge-image{
+						width: 42upx;
+						height: 41upx;
+						margin-left: 10upx;
+					}		
+					
+				}	
 				.count {
 					margin:0 30upx;
-					color: #ff8421;
+					width: 200upx;
 				}
 
 
-			}
-		}
-
-		.my-container {
-			position: fixed;
-			bottom: 0;
-			width: 100%;
-			height: 130upx;
-			display: flex;
-			align-items: center;
-			background-color: #FFF;
-
-			.rank-num {
-				text-align: center;
-				width: 100upx;
-
-				.icon {
-					width: 50upx;
-					height: 50upx;
-				}
-			}
-
-			.avatar-wrap {
-				position: relative;
-
-				.avatar {
-					width: 100upx;
-					height: 100upx;
-					border-radius: 50%;
-				}
-
-				.headwear {
-					width: 150%;
-					height: 150%;
-				}
-			}
-
-			.text-container {
-				margin: 0 20upx;
-				width: 250upx;
-
-				.bottom-text {
-					display: flex;
-					align-items: center;
-					color: $text-color-1;
-				}
-			}
-
-			.count {
-				margin-left: 30upx;
-				color: #ff8421;
 			}
 		}
 	}

@@ -1,10 +1,10 @@
-.group-container.data-v-5706775d {
+.group-container.data-v-05ad14e1 {
   height: 100%;
 }
-.group-container .blank-container.data-v-5706775d {
+.group-container .blank-container.data-v-05ad14e1 {
     height: 100%;
 }
-.group-container .blank-container .blank.data-v-5706775d {
+.group-container .blank-container .blank.data-v-05ad14e1 {
       background: rgba(0, 0, 0, 0.9);
       font-size: 34rpx;
       color: #FFF;
@@ -15,11 +15,11 @@
           -ms-flex-direction: column;
               flex-direction: column;
 }
-.group-container .blank-container .blank image.data-v-5706775d {
+.group-container .blank-container .blank image.data-v-05ad14e1 {
         width: 150rpx;
         margin-bottom: 20rpx;
 }
-.group-container .blank-container .select-container.data-v-5706775d {
+.group-container .blank-container .select-container.data-v-05ad14e1 {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -31,7 +31,7 @@
               flex-direction: column;
       height: 100%;
 }
-.group-container .blank-container .select-container .search-wrapper.data-v-5706775d {
+.group-container .blank-container .select-container .search-wrapper.data-v-05ad14e1 {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -41,7 +41,7 @@
             -ms-flex-pack: center;
                 justify-content: center;
 }
-.group-container .blank-container .select-container .search-wrapper input.data-v-5706775d {
+.group-container .blank-container .select-container .search-wrapper input.data-v-05ad14e1 {
           height: 70rpx;
           width: 400rpx;
           background-color: #eee;
@@ -53,7 +53,7 @@
           color: #333333;
           border: 2rpx solid #efefef;
 }
-.group-container .blank-container .select-container .search-wrapper input.data-v-5706775d::after {
+.group-container .blank-container .select-container .search-wrapper input.data-v-05ad14e1::after {
           content: "\E61F";
           position: absolute;
           right: 20rpx;
@@ -64,11 +64,11 @@
           font-family: "iconfont" !important;
           font-size: 40rpx;
 }
-.group-container .blank-container .select-container scroll-view.data-v-5706775d {
+.group-container .blank-container .select-container scroll-view.data-v-05ad14e1 {
         width: 100%;
         border-bottom: 1px solid #333333;
 }
-.group-container .blank-container .select-container .starlist-wrapper.data-v-5706775d {
+.group-container .blank-container .select-container .starlist-wrapper.data-v-05ad14e1 {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -78,7 +78,7 @@
                 flex-wrap: nowrap;
         padding: 10rpx 0;
 }
-.group-container .blank-container .select-container .starlist-wrapper .item.data-v-5706775d {
+.group-container .blank-container .select-container .starlist-wrapper .item.data-v-05ad14e1 {
           display: -webkit-box;
           display: -webkit-flex;
           display: -ms-flexbox;
@@ -94,16 +94,16 @@
                   align-items: center;
           margin: 10rpx;
 }
-.group-container .blank-container .select-container .starlist-wrapper .item image.data-v-5706775d {
+.group-container .blank-container .select-container .starlist-wrapper .item image.data-v-05ad14e1 {
             width: 120rpx;
             height: 120rpx;
             border-radius: 50%;
 }
-.group-container .blank-container .select-container .starlist-wrapper .item .name.data-v-5706775d {
+.group-container .blank-container .select-container .starlist-wrapper .item .name.data-v-05ad14e1 {
             text-align: center;
             width: 100rpx;
 }
-.group-container .blank-container .select-container .blank-bottom.data-v-5706775d {
+.group-container .blank-container .select-container .blank-bottom.data-v-05ad14e1 {
         -webkit-box-flex: 1;
         -webkit-flex: 1;
             -ms-flex: 1;
@@ -120,12 +120,12 @@
                 flex-direction: column;
         color: #b9796e;
 }
-.group-container .blank-container .select-container .blank-bottom image.data-v-5706775d {
+.group-container .blank-container .select-container .blank-bottom image.data-v-05ad14e1 {
           width: 120rpx;
           height: 120rpx;
           margin-bottom: 20rpx;
 }
-.group-container .tips-container.data-v-5706775d {
+.group-container .tips-container.data-v-05ad14e1 {
     position: fixed;
     top: 0;
     left: 0;

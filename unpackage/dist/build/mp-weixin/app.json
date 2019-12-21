@@ -14,6 +14,7 @@
     "pages/user/user",
     "pages/user/headwear",
     "pages/user/badge",
+    "pages/user/badge_rank",
     "pages/user/log",
     "pages/user/rank",
     "pages/user/birth_rank",

@@ -1,4 +1,5 @@
 {
+  "navigationBarTitleText": "公告列表",
   "usingComponents": {
     "list-item-component": "/components/listItemComponent"
   }

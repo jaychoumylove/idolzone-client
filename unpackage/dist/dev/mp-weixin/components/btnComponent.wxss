@@ -19,7 +19,7 @@
   background: linear-gradient(to right bottom, #fed525, #fed525);
 }
 .button.big.data-v-a09348b8 {
-  background: url(http://tva1.sinaimg.cn/large/0060lm7Tly1g2dxu4igebg303v02cgld.gif) center center/100% 100% no-repeat;
+  background: url(https://tva1.sinaimg.cn/large/0060lm7Tly1g2dxu4igebg303v02cgld.gif) center center/100% 100% no-repeat;
 }
 .button.success.data-v-a09348b8 {
   color: #FFF;

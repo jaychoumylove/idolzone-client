@@ -26,7 +26,7 @@ var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 5));
 __webpack_require__(/*! @/lib/utils/ald-stat */ 16);
 
 __webpack_require__(/*! @/lib/utils/xhtad_sdk.min.js */ 18);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}_vue.default.config.productionTip = false;_App.default.mpType = 'app'; // 全局函数
-_vue.default.prototype.$app = _App.default.globalData;var loadIconComponent = function loadIconComponent() {return __webpack_require__.e(/*! import() | components/loadIconComponent */ "components/loadIconComponent").then(__webpack_require__.bind(null, /*! @/components/loadIconComponent.vue */ 365));};_vue.default.component('loadIconComponent', loadIconComponent); // 阿拉丁
+_vue.default.prototype.$app = _App.default.globalData;var loadIconComponent = function loadIconComponent() {return __webpack_require__.e(/*! import() | components/loadIconComponent */ "components/loadIconComponent").then(__webpack_require__.bind(null, /*! @/components/loadIconComponent.vue */ 373));};_vue.default.component('loadIconComponent', loadIconComponent); // 阿拉丁
 
 
 
@@ -773,7 +773,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -1589,6 +1589,10 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     str = str.replace(' ', 'T');
     return Math.round(new Date(str).getTime() / 1000);
   },
+  // 时间字符串转 00:00:00
+  strToHour: function strToHour(str) {
+    return str.slice(11);
+  },
   /** 数字千分号*/
   formatNumberRgx: function formatNumberRgx(num) {
     var parts = num.toString().split(".");
@@ -1597,8 +1601,15 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   },
 
   /** 小数点后保留几位，不足4位保留原位数*/
-  formatFloatNum: function formatFloatNum(number) {
-    number = String(number).replace(/^(.*\..{4}).*$/, "$1");
+  formatFloatNum: function formatFloatNum(number) {var pos = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 4;
+    if (pos == 4)
+    number = String(number).replace(/^(.*\..{4}).*$/, "$1");else
+    if (pos == 3)
+    number = String(number).replace(/^(.*\..{3}).*$/, "$1");else
+    if (pos == 2)
+    number = String(number).replace(/^(.*\..{2}).*$/, "$1");else
+    if (pos == 1)
+    number = String(number).replace(/^(.*\..{1}).*$/, "$1");
     number = Number(number);
     return number;
   },
@@ -2250,6 +2261,23 @@ createPage(_badge.default);
 /***/ }),
 
 /***/ 133:
+/*!**************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fbadge_rank"} ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _badge_rank = _interopRequireDefault(__webpack_require__(/*! ./pages/user/badge_rank.vue */ 134));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_badge_rank.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 141:
 /*!*******************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Flog"} ***!
   \*******************************************************************/
@@ -2260,13 +2288,13 @@ createPage(_badge.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _log = _interopRequireDefault(__webpack_require__(/*! ./pages/user/log.vue */ 134));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _log = _interopRequireDefault(__webpack_require__(/*! ./pages/user/log.vue */ 142));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_log.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 141:
+/***/ 149:
 /*!********************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Frank"} ***!
   \********************************************************************/
@@ -2277,25 +2305,8 @@ createPage(_log.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _rank = _interopRequireDefault(__webpack_require__(/*! ./pages/user/rank.vue */ 142));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _rank = _interopRequireDefault(__webpack_require__(/*! ./pages/user/rank.vue */ 150));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_rank.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 149:
-/*!**************************************************************************!*\
-  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fbirth_rank"} ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _birth_rank = _interopRequireDefault(__webpack_require__(/*! ./pages/user/birth_rank.vue */ 150));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_birth_rank.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -2408,9 +2419,9 @@ function normalizeComponent (
 /***/ }),
 
 /***/ 157:
-/*!************************************************************************!*\
-  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fexchange"} ***!
-  \************************************************************************/
+/*!**************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fbirth_rank"} ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2418,8 +2429,8 @@ function normalizeComponent (
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _exchange = _interopRequireDefault(__webpack_require__(/*! ./pages/user/exchange.vue */ 158));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_exchange.default);
+var _birth_rank = _interopRequireDefault(__webpack_require__(/*! ./pages/user/birth_rank.vue */ 158));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_birth_rank.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -2437,9 +2448,9 @@ createPage(_exchange.default);
 /***/ }),
 
 /***/ 165:
-/*!***********************************************************************!*\
-  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fsetting"} ***!
-  \***********************************************************************/
+/*!************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fexchange"} ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2447,8 +2458,8 @@ createPage(_exchange.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _setting = _interopRequireDefault(__webpack_require__(/*! ./pages/user/setting.vue */ 166));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_setting.default);
+var _exchange = _interopRequireDefault(__webpack_require__(/*! ./pages/user/exchange.vue */ 166));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_exchange.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -2470,9 +2481,9 @@ exports.useOpen = false; //默认不启用，是否启用openid计算，开启�
 /***/ }),
 
 /***/ 173:
-/*!************************************************************************!*\
-  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fstarinfo"} ***!
-  \************************************************************************/
+/*!***********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fsetting"} ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2480,8 +2491,8 @@ exports.useOpen = false; //默认不启用，是否启用openid计算，开启�
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _starinfo = _interopRequireDefault(__webpack_require__(/*! ./pages/user/starinfo.vue */ 174));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_starinfo.default);
+var _setting = _interopRequireDefault(__webpack_require__(/*! ./pages/user/setting.vue */ 174));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_setting.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -2503,6 +2514,23 @@ createPage(_starinfo.default);
 /***/ }),
 
 /***/ 181:
+/*!************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fstarinfo"} ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _starinfo = _interopRequireDefault(__webpack_require__(/*! ./pages/user/starinfo.vue */ 182));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_starinfo.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 189:
 /*!*************************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fuser%2Fedit_user"} ***!
   \*************************************************************************/
@@ -2513,25 +2541,8 @@ createPage(_starinfo.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _edit_user = _interopRequireDefault(__webpack_require__(/*! ./pages/user/edit_user.vue */ 182));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _edit_user = _interopRequireDefault(__webpack_require__(/*! ./pages/user/edit_user.vue */ 190));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_edit_user.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 189:
-/*!*************************************************************************!*\
-  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fsquare%2Farticle"} ***!
-  \*************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _article = _interopRequireDefault(__webpack_require__(/*! ./pages/square/article.vue */ 190));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_article.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -2549,9 +2560,9 @@ exports.app_key = 'xhutuice82873f0d3568a4'; //app_key可从小虎推后台接入
 /***/ }),
 
 /***/ 197:
-/*!********************************************************************!*\
-  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ftask%2Ftask"} ***!
-  \********************************************************************/
+/*!*************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fsquare%2Farticle"} ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2559,8 +2570,8 @@ exports.app_key = 'xhutuice82873f0d3568a4'; //app_key可从小虎推后台接入
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _task = _interopRequireDefault(__webpack_require__(/*! ./pages/task/task.vue */ 198));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_task.default);
+var _article = _interopRequireDefault(__webpack_require__(/*! ./pages/square/article.vue */ 198));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_article.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -8033,7 +8044,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8054,14 +8065,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -8137,7 +8148,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -8528,7 +8539,7 @@ function safe_add(e, f) {var g = (65535 & e) + (65535 & f);return (e >> 16) + (f
 
 /***/ 205:
 /*!********************************************************************!*\
-  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ftask%2Fgame"} ***!
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ftask%2Ftask"} ***!
   \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -8537,8 +8548,8 @@ function safe_add(e, f) {var g = (65535 & e) + (65535 & f);return (e >> 16) + (f
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _game = _interopRequireDefault(__webpack_require__(/*! ./pages/task/game.vue */ 206));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_game.default);
+var _task = _interopRequireDefault(__webpack_require__(/*! ./pages/task/task.vue */ 206));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_task.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -8561,6 +8572,23 @@ createPage(_open.default);
 /***/ }),
 
 /***/ 213:
+/*!********************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ftask%2Fgame"} ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _game = _interopRequireDefault(__webpack_require__(/*! ./pages/task/game.vue */ 214));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_game.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 221:
 /*!************************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fnotice%2Fnotice"} ***!
   \************************************************************************/
@@ -8571,13 +8599,13 @@ createPage(_open.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _notice = _interopRequireDefault(__webpack_require__(/*! ./pages/notice/notice.vue */ 214));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _notice = _interopRequireDefault(__webpack_require__(/*! ./pages/notice/notice.vue */ 222));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_notice.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 221:
+/***/ 229:
 /*!**********************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fnotice%2Flist"} ***!
   \**********************************************************************/
@@ -8588,13 +8616,13 @@ createPage(_notice.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _list = _interopRequireDefault(__webpack_require__(/*! ./pages/notice/list.vue */ 222));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _list = _interopRequireDefault(__webpack_require__(/*! ./pages/notice/list.vue */ 230));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_list.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 229:
+/***/ 237:
 /*!**********************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fpk%2Fpk_index"} ***!
   \**********************************************************************/
@@ -8605,13 +8633,13 @@ createPage(_list.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _pk_index = _interopRequireDefault(__webpack_require__(/*! ./pages/pk/pk_index.vue */ 230));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _pk_index = _interopRequireDefault(__webpack_require__(/*! ./pages/pk/pk_index.vue */ 238));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_pk_index.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 237:
+/***/ 245:
 /*!*********************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fpk%2Fpk_rank"} ***!
   \*********************************************************************/
@@ -8622,13 +8650,13 @@ createPage(_pk_index.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _pk_rank = _interopRequireDefault(__webpack_require__(/*! ./pages/pk/pk_rank.vue */ 238));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _pk_rank = _interopRequireDefault(__webpack_require__(/*! ./pages/pk/pk_rank.vue */ 246));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_pk_rank.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 245:
+/***/ 253:
 /*!**************************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fpk%2Fpk_rank_user"} ***!
   \**************************************************************************/
@@ -8639,13 +8667,13 @@ createPage(_pk_rank.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _pk_rank_user = _interopRequireDefault(__webpack_require__(/*! ./pages/pk/pk_rank_user.vue */ 246));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _pk_rank_user = _interopRequireDefault(__webpack_require__(/*! ./pages/pk/pk_rank_user.vue */ 254));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_pk_rank_user.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 253:
+/***/ 261:
 /*!**************************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Flottery%2Flottery"} ***!
   \**************************************************************************/
@@ -8656,13 +8684,13 @@ createPage(_pk_rank_user.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _lottery = _interopRequireDefault(__webpack_require__(/*! ./pages/lottery/lottery.vue */ 254));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _lottery = _interopRequireDefault(__webpack_require__(/*! ./pages/lottery/lottery.vue */ 262));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_lottery.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 261:
+/***/ 269:
 /*!**********************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Flottery%2Flog"} ***!
   \**********************************************************************/
@@ -8673,13 +8701,13 @@ createPage(_lottery.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _log = _interopRequireDefault(__webpack_require__(/*! ./pages/lottery/log.vue */ 262));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _log = _interopRequireDefault(__webpack_require__(/*! ./pages/lottery/log.vue */ 270));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_log.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 269:
+/***/ 277:
 /*!**********************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Flottery%2Fbox"} ***!
   \**********************************************************************/
@@ -8690,13 +8718,13 @@ createPage(_log.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _box = _interopRequireDefault(__webpack_require__(/*! ./pages/lottery/box.vue */ 270));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _box = _interopRequireDefault(__webpack_require__(/*! ./pages/lottery/box.vue */ 278));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_box.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 277:
+/***/ 285:
 /*!***************************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Flottery%2Fbox_open"} ***!
   \***************************************************************************/
@@ -8707,25 +8735,8 @@ createPage(_box.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _box_open = _interopRequireDefault(__webpack_require__(/*! ./pages/lottery/box_open.vue */ 278));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _box_open = _interopRequireDefault(__webpack_require__(/*! ./pages/lottery/box_open.vue */ 286));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_box_open.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 285:
-/*!********************************************************************************!*\
-  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Factive_one%2Factive_one"} ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _active_one = _interopRequireDefault(__webpack_require__(/*! ./pages/active_one/active_one.vue */ 286));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_active_one.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -8748,9 +8759,9 @@ createPage(_index.default);
 /***/ }),
 
 /***/ 293:
-/*!*************************************************************************************!*\
-  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Factive_one%2Factive_one_list"} ***!
-  \*************************************************************************************/
+/*!********************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Factive_one%2Factive_one"} ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8758,8 +8769,8 @@ createPage(_index.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _active_one_list = _interopRequireDefault(__webpack_require__(/*! ./pages/active_one/active_one_list.vue */ 294));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_active_one_list.default);
+var _active_one = _interopRequireDefault(__webpack_require__(/*! ./pages/active_one/active_one.vue */ 294));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_active_one.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -8796,6 +8807,23 @@ module.exports = g;
 /***/ }),
 
 /***/ 301:
+/*!*************************************************************************************!*\
+  !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Factive_one%2Factive_one_list"} ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _active_one_list = _interopRequireDefault(__webpack_require__(/*! ./pages/active_one/active_one_list.vue */ 302));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_active_one_list.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 309:
 /*!**********************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fscore%2Fscore"} ***!
   \**********************************************************************/
@@ -8806,13 +8834,13 @@ module.exports = g;
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _score = _interopRequireDefault(__webpack_require__(/*! ./pages/score/score.vue */ 302));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _score = _interopRequireDefault(__webpack_require__(/*! ./pages/score/score.vue */ 310));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_score.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 309:
+/***/ 317:
 /*!**************************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fredress%2Fredress"} ***!
   \**************************************************************************/
@@ -8823,13 +8851,13 @@ createPage(_score.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _redress = _interopRequireDefault(__webpack_require__(/*! ./pages/redress/redress.vue */ 310));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _redress = _interopRequireDefault(__webpack_require__(/*! ./pages/redress/redress.vue */ 318));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_redress.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 317:
+/***/ 325:
 /*!*************************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ffans%2Ffans_list"} ***!
   \*************************************************************************/
@@ -8840,13 +8868,13 @@ createPage(_redress.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _fans_list = _interopRequireDefault(__webpack_require__(/*! ./pages/fans/fans_list.vue */ 318));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _fans_list = _interopRequireDefault(__webpack_require__(/*! ./pages/fans/fans_list.vue */ 326));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_fans_list.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 325:
+/***/ 333:
 /*!*************************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ffans%2Ffans_club"} ***!
   \*************************************************************************/
@@ -8857,13 +8885,13 @@ createPage(_fans_list.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _fans_club = _interopRequireDefault(__webpack_require__(/*! ./pages/fans/fans_club.vue */ 326));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _fans_club = _interopRequireDefault(__webpack_require__(/*! ./pages/fans/fans_club.vue */ 334));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_fans_club.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 333:
+/***/ 341:
 /*!********************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ffans%2Fmass"} ***!
   \********************************************************************/
@@ -8874,13 +8902,13 @@ createPage(_fans_club.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _mass = _interopRequireDefault(__webpack_require__(/*! ./pages/fans/mass.vue */ 334));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _mass = _interopRequireDefault(__webpack_require__(/*! ./pages/fans/mass.vue */ 342));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_mass.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 341:
+/***/ 349:
 /*!************************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ffans%2Ffans_new"} ***!
   \************************************************************************/
@@ -8891,13 +8919,13 @@ createPage(_mass.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _fans_new = _interopRequireDefault(__webpack_require__(/*! ./pages/fans/fans_new.vue */ 342));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _fans_new = _interopRequireDefault(__webpack_require__(/*! ./pages/fans/fans_new.vue */ 350));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_fans_new.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 349:
+/***/ 357:
 /*!**********************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Ffans%2Fmember"} ***!
   \**********************************************************************/
@@ -8908,13 +8936,13 @@ createPage(_fans_new.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _member = _interopRequireDefault(__webpack_require__(/*! ./pages/fans/member.vue */ 350));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _member = _interopRequireDefault(__webpack_require__(/*! ./pages/fans/member.vue */ 358));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_member.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 357:
+/***/ 365:
 /*!************************************************************************!*\
   !*** E:/wx/idolzone-weixin/main.js?{"page":"pages%2Fcharge%2Fcharge"} ***!
   \************************************************************************/
@@ -8925,7 +8953,7 @@ createPage(_member.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _charge = _interopRequireDefault(__webpack_require__(/*! ./pages/charge/charge.vue */ 358));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _charge = _interopRequireDefault(__webpack_require__(/*! ./pages/charge/charge.vue */ 366));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_charge.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
@@ -9092,8 +9120,8 @@ createPage(_group.default);
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 基础常量
-var HOST = 'idolzone.cyoor.com';
-// const HOST = 'cs.adqz.xiaolishu.com';
+// const HOST = 'idolzone.cyoor.com';
+var HOST = 'cs.adqz.xiaolishu.com';
 var VERSION = 'v1';var _default =
 
 {

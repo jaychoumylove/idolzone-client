@@ -319,7 +319,7 @@ var _default =
       this.$app.request('page/square', {
         star_id: this.$app.getData('userStar').id,
         page: this.page,
-        size: 5 },
+        size: 3 },
       function (res) {
         _this5.loadSuccess = true;
         uni.stopPullDownRefresh();

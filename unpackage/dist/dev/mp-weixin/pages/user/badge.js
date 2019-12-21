@@ -78,16 +78,21 @@ var render = function() {
 
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
+      $event.stopPropagation()
+      return _vm.$app.goPage("/pages/user/badge_rank?stype=1")
+    }
+
+    _vm.e1 = function($event) {
       _vm.btype = 0
       _vm.loadData(_vm.btype)
     }
 
-    _vm.e1 = function($event) {
+    _vm.e2 = function($event) {
       _vm.btype = 1
       _vm.loadData(_vm.btype)
     }
 
-    _vm.e2 = function($event) {
+    _vm.e3 = function($event) {
       _vm.btype = 2
       _vm.loadData(_vm.btype)
     }
@@ -134,82 +139,79 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var badgeComponent = function badgeComponent() {return __webpack_require__.e(/*! import() | components/badgeComponent */ "components/badgeComponent").then(__webpack_require__.bind(null, /*! @/components/badgeComponent.vue */ 407));};var btnComponent = function btnComponent() {return __webpack_require__.e(/*! import() | components/btnComponent */ "components/btnComponent").then(__webpack_require__.bind(null, /*! @/components/btnComponent.vue */ 386));};var modalComponent = function modalComponent() {return __webpack_require__.e(/*! import() | components/modalComponent */ "components/modalComponent").then(__webpack_require__.bind(null, /*! @/components/modalComponent.vue */ 372));};var _default =
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default =
 {
-  components: {
-    badgeComponent: badgeComponent,
-    modalComponent: modalComponent,
-    btnComponent: btnComponent },
-
   data: function data() {
     return {
       btype: 0, //徽章大类
       list: [], //徽章列表
-      curBadge: [] //当前佩戴的
+      curBadge: [], //当前佩戴的
+      badgeCount: 0 //拥有的徽章数
     };
 
   },
@@ -250,6 +252,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       function (res) {
         _this3.list = res.data.list;
         _this3.curBadge = res.data.curBadge;
+        _this3.badgeCount = res.data.badgeCount;
       }, 'POST', true);
     } } };exports.default = _default;
 

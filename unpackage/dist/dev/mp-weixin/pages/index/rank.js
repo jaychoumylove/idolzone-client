@@ -73,11 +73,13 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var g0 = _vm.$app.getData("config")
+
   var l0 = _vm.__map(_vm.rankList, function(item, index) {
-    var g0 = _vm.$app.formatNumber(item.hot)
+    var g1 = _vm.$app.formatNumber(item.hot)
     return {
       $orig: _vm.__get_orig(item),
-      g0: g0
+      g1: g1
     }
   })
 
@@ -85,6 +87,7 @@ var render = function() {
     {},
     {
       $root: {
+        g0: g0,
         l0: l0
       }
     }
@@ -121,7 +124,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var listItemComponent = function listItemComponent() {return __webpack_require__.e(/*! import() | components/listItemComponent */ "components/listItemComponent").then(__webpack_require__.bind(null, /*! @/components/listItemComponent.vue */ 393));};var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var listItemComponent = function listItemComponent() {return __webpack_require__.e(/*! import() | components/listItemComponent */ "components/listItemComponent").then(__webpack_require__.bind(null, /*! @/components/listItemComponent.vue */ 401));};var _default =
 
 
 
@@ -161,6 +164,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
   data: function data() {
     return {
+      $app: this.$app,
       rankField: 'last_week_hot',
       rankList: [] };
 

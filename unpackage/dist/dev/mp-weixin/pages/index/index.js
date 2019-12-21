@@ -78,6 +78,22 @@ var render = function() {
   var g2 = _vm.$app.getData("config")
   var g3 = _vm.$app.getData("config")
   var g4 = _vm.$app.getData("config")
+  var g5 = _vm.$app.formatNumber((_vm.rankList[1] && _vm.rankList[1].hot) || 0)
+  var g6 = _vm.$app.formatNumber((_vm.rankList[0] && _vm.rankList[0].hot) || 0)
+  var g7 = _vm.$app.formatNumber((_vm.rankList[2] && _vm.rankList[2].hot) || 0)
+
+  var l0 = _vm.__map(_vm.rankList, function(item, index) {
+    var g8 = _vm.$app.formatNumber(item.hot)
+    return {
+      $orig: _vm.__get_orig(item),
+      g8: g8
+    }
+  })
+
+  var g9 = _vm.$app.getData("config")
+  var g10 = _vm.$app.getData("config")
+  var g11 = _vm.$app.getData("config")
+  var g12 = _vm.$app.getData("config")
 
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
@@ -133,7 +149,15 @@ var render = function() {
         g1: g1,
         g2: g2,
         g3: g3,
-        g4: g4
+        g4: g4,
+        g5: g5,
+        g6: g6,
+        g7: g7,
+        l0: l0,
+        g9: g9,
+        g10: g10,
+        g11: g11,
+        g12: g12
       }
     }
   )
@@ -169,7 +193,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var modalComponent = function modalComponent() {return __webpack_require__.e(/*! import() | components/modalComponent */ "components/modalComponent").then(__webpack_require__.bind(null, /*! @/components/modalComponent.vue */ 372));};var bannerComponent = function bannerComponent() {return __webpack_require__.e(/*! import() | components/bannerComponent */ "components/bannerComponent").then(__webpack_require__.bind(null, /*! @/components/bannerComponent.vue */ 379));};var btnComponent = function btnComponent() {return __webpack_require__.e(/*! import() | components/btnComponent */ "components/btnComponent").then(__webpack_require__.bind(null, /*! @/components/btnComponent.vue */ 386));};var listItemComponent = function listItemComponent() {return __webpack_require__.e(/*! import() | components/listItemComponent */ "components/listItemComponent").then(__webpack_require__.bind(null, /*! @/components/listItemComponent.vue */ 393));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var modalComponent = function modalComponent() {return __webpack_require__.e(/*! import() | components/modalComponent */ "components/modalComponent").then(__webpack_require__.bind(null, /*! @/components/modalComponent.vue */ 380));};var bannerComponent = function bannerComponent() {return __webpack_require__.e(/*! import() | components/bannerComponent */ "components/bannerComponent").then(__webpack_require__.bind(null, /*! @/components/bannerComponent.vue */ 387));};var btnComponent = function btnComponent() {return __webpack_require__.e(/*! import() | components/btnComponent */ "components/btnComponent").then(__webpack_require__.bind(null, /*! @/components/btnComponent.vue */ 394));};var listItemComponent = function listItemComponent() {return __webpack_require__.e(/*! import() | components/listItemComponent */ "components/listItemComponent").then(__webpack_require__.bind(null, /*! @/components/listItemComponent.vue */ 401));};var _default =
 
 
 
@@ -321,6 +345,7 @@ __webpack_require__.r(__webpack_exports__);
 
   data: function data() {
     return {
+      $app: this.$app,
       theme: this.$app.getData('theme') || 0,
       modal: 'indexBanner',
       showBottomLoading: true,
@@ -441,21 +466,12 @@ __webpack_require__.r(__webpack_exports__);
             _this2.showBottomLoading = false;
           }
 
-          var rankList = [];
-          res.data.forEach(function (e) {
-            var item = {};
-            item.starid = e.star.id;
-            item.name = e.star.name;
-            item.avatar = e.star.head_img_s ? e.star.head_img_s : e.star.head_img_l;
-            item.hot = _this2.$app.formatNumber(e['hot']);
-            rankList.push(item);
-          });
           if (_this2.page == 1) {
-            _this2.rankList = rankList;
-            _this2.$app.setData('index_rankList', _this2.rankList);
+            _this2.rankList = res.data;
+            _this2.$app.setData('index_rankList', res.data);
           } else {
             // 追加data
-            _this2.rankList = _this2.rankList.concat(rankList);
+            _this2.rankList = _this2.rankList.concat(res.data);
           }
         } else {
           // 小时贡献榜

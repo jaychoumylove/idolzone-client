@@ -337,8 +337,8 @@
           flex-direction: column;
 }
 .index-page-container .open-ad-container .main.data-v-ad7f3f58 {
-    width: 540rpx;
-    height: 960rpx;
+    width: 500rpx;
+    height: 800rpx;
     border-radius: 20rpx;
 }
 .index-page-container .open-ad-container .close-btn.data-v-ad7f3f58 {
