@@ -143,6 +143,8 @@
     color: #bbb;
 }
 .index-page-container .topthree-container .row-info.data-v-ad7f3f58 {
+    position: relative;
+    z-index: 2;
     padding: 0 30rpx;
     display: -webkit-box;
     display: -webkit-flex;
@@ -215,7 +217,7 @@
     height: 210rpx;
     margin-top: -125rpx;
     position: relative;
-    z-index: -1;
+    z-index: 1;
 }
 .index-page-container .rank-list-container .rank-list-item.data-v-ad7f3f58 {
   margin: 20rpx 30rpx;

@@ -17,9 +17,9 @@
 			<view class="right-wrap flex-set" @tap="modal='proxyRecharge'">为好友充值</view>
 		</view>
 
-		<view class="tab-wrap">
-			<view class="item" :class="{active:tabActive==0}" @tap="tabActive=0">特惠礼包</view>
-			<view class="item" :class="{active:tabActive==1}" @tap="tabActive=1">鲜花钻石充值</view>
+		<view v-if="tehui_show" class="tab-wrap">
+			<view class="item" :class="{active:tabActive==1}" @tap="tabActive=1">特惠礼包</view>
+			<view class="item" :class="{active:tabActive==0}" @tap="tabActive=0">鲜花钻石充值</view>
 		</view>
 		<!-- 我的资产 -->
 		<view class="currency-wrap flex-set">
@@ -29,7 +29,7 @@
 			</view>
 		</view>
 		<!-- 特惠礼包 -->
-		<block v-if="tabActive==0">
+		<block v-if="tehui_show&&tabActive==1">
 			<view class="title">—— 每日礼包(限量) ——</view>
 			<view class="list-container">
 				<view class="item-wrap" v-if="item.category==1" v-for="(item,index) in rechargeList" :key="index" @tap="payment(item.id)">
@@ -77,7 +77,7 @@
 			</view>
 		</block>
 		<!-- 鲜花钻石充值 -->
-		<block v-if="tabActive==1">
+		<block v-if="tabActive==0">
 			
 			<view class="select-container">
 				<picker @change="bindPickerChange" :range-key="'title'" :value="discount_option_index" :range="discount_option">
@@ -164,6 +164,7 @@
 					trumpet: 0
 				},
 				rechargeList: this.$app.getData('goodsList') || [], // 充值列表
+				tehui_show: false, // 是否显示特惠礼包
 				discount: {}, // 充值优惠
 				discount_option: [], //可选充值优惠
 				discount_option_index: 0,
@@ -288,6 +289,7 @@
 				this.$app.request(this.$app.API.PAY_GOODS, {
 					userprop_id,					
 				}, res => {
+					this.tehui_show = res.data.tehui_show
 					this.rechargeList = res.data.list
 					this.discount = res.data.discount
 					this.discount_option = res.data.discount_option

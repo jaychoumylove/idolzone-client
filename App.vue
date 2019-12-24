@@ -5,9 +5,11 @@
 			...lib
 		},
 		onLaunch: function() {
+			// #ifndef H5
 			uni.setKeepScreenOn({
 				keepScreenOn: true
-			})
+			})			
+			// #endif			
 			this.setPlatform()
 
 			this.$app.setData('sysInfo', uni.getSystemInfoSync())
@@ -22,9 +24,7 @@
 			// 检查更新
 			this.$app.checkUpdate()
 			// 连接socket
-			// #ifndef H5
 			this.$app.invokeSocket()
-			// #endif
 		},
 		methods: {
 			/**平台判断*/

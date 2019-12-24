@@ -235,8 +235,7 @@
 				<text class="tips">发言可输入32字，喊话可以输入16字</text>
 			</view>
 			<view class="bottom-wrap">
-				<input class="input" type="text" placeholder="聊天一起High!" :value="chartMsg" confirm-type="send" @confirm="sendMsg"
-				 @input="chartMsg=$event.detail.value" />
+				<input class="input" type="text" placeholder="聊天一起High!" :value="chartMsg" confirm-type="send" @confirm="sendMsg" @input="chartMsg=$event.detail.value"/>
 				<view class="btn flex-set" @tap="sendMsg">发言</view>
 			</view>
 		</view>
@@ -266,10 +265,10 @@
 					<switch :checked="!danmakuClosed" @change="danmakuSwitch" />弹幕
 				</view>
 				<view v-if="$app.getData('config').version != $app.VERSION" class="swiper-change flex-set">
-					<view class="item" :class="{select:current==0}" @tap="current = 0;this.sendCount=''">送金豆</view>
-					<view class="item" :class="{select:current==1}" @tap="current = 1;this.sendCount=''">送鲜花</view>
+					<view class="item" :class="{select:current==0}" @tap="current = 0;sendCount=''">送金豆</view>
+					<view class="item" :class="{select:current==1}" @tap="current = 1;sendCount=''">送鲜花</view>
 					<view class="item" v-if="$app.getData('config').old_coin_open=='1'&&userCurrency.old_coin>0" :class="{select:current==2}"
-					 @tap="current = 2;this.sendCount=''">送旧豆</view>
+					 @tap="current = 2;sendCount=''">送旧豆</view>
 				</view>
 
 				<view class="swiper-item">
@@ -335,10 +334,11 @@
 				<scroll-view scroll-y class="list-wrapper" @scrolltolower="invitFakePage++;getFakeInviteList();" v-if="fakeinvitList.length>0">
 					<view class="item" v-for="(item,index) in fakeinvitList" :key="index" v-if="hasEarnCount+index+1<=300">
 						<view class='avatar'>
-							<image :src="item.user.avatarurl || $app.AVATAR" mode="aspectFill"></image>
+							<image v-if="item.user&&item.user.avatarurl" :src="item.user.avatarurl" mode="aspectFill"></image>
+							<image v-else :src="$app.AVATAR" mode="aspectFill"></image>
 						</view>
 						<view class="text-container">
-							<view class="star-name">{{item.user.nickname  || $app.NICKNAME}}</view>
+							<view class="star-name">{{item.user&&item.user.nickname?item.user.nickname:$app.NICKNAME}}</view>
 							<view class="bottom-text">
 								<view class="hot-count">金豆+{{invitAward.coin}}</view>
 								<view class="hot-count" v-if="invitAward.stone">钻石+{{invitAward.stone}}</view>
@@ -479,8 +479,8 @@
 		</modalComponent>
 
 		<!-- 徽章达成弹窗 -->
-		<modalComponent v-if="modal == 'achieveBadge'" type="centerNobg" @closeModal="modal=''">
-			<view class="achievebadge-modal-container">
+		<view class="achievebadge-modal-container flex-set" v-if="modal == 'achieveBadge'">
+			<view class="achievebadge-box">
 				<view class="flaring">
 					<image :src="achieveBadge.cfg_badge.bimg" mode="aspectFill"></image>
 				</view>
@@ -499,7 +499,9 @@
 				</view>
 
 			</view>
-		</modalComponent>
+			
+			<view class="close-btn flex-set iconfont iconclose" @tap="modal = ''"></view>
+		</view>
 
 		<!-- 粉丝团宝箱 -->
 		<modalComponent v-if="modal == 'fansBox'" @closeModal="modal=''">
@@ -571,67 +573,66 @@
 		</modalComponent>
 		<!-- 新人礼包 -->
 		<view class="open-ad-container flex-set" v-if="modal=='newboy'">
-			<view class="top-wrap">
-				<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqYIU6WHzGGSorecfYTRL5UjOiaZtEFPzEuCS4S19b7QibqUoiahd0UDPKw/0"
-				 mode=""></image>
-				<view class="category-title">{{signGift_currentCategoryTitle}}</view>
-			</view>
-			<!-- <image class="main" :src="newboyBg" mode="aspectFill"></image> -->
-			<!-- 列表 -->
-			<view class="content-wrap">
-				<view class="left-container">
-					<view class="row-item" v-for="(item,index) in signGift_categoryList" :key="index" @tap="changeSignGift(index)"
-					 :class="{active:signGift_currentCategory==index}" v-if="item.status==1">{{item.name}}
-						<view class="tips dot" v-if="item.tips"></view>
-					</view>
+			<view class="box-wrap">
+				<view class="top-wrap">
+					<view class="category-title">{{signGift_currentCategoryTitle}}</view>
 				</view>
+				<!-- <image class="main" :src="newboyBg" mode="aspectFill"></image> -->
+				<!-- 列表 -->
+				<view class="content-wrap">
+					<view class="left-container">
+						<view class="row-item" v-for="(item,index) in signGift_categoryList" :key="index" @tap="changeSignGift(index)"
+						 :class="{active:signGift_currentCategory==index}" v-if="item.status==1">{{item.name}}
+							<view class="tips dot" v-if="item.tips"></view>
+						</view>
+					</view>
 
-				<scroll-view class="right-container" scroll-y>
-					<view class="row-item" @tap="signGiftSettle(index)" v-for="(item,index) in signGift_list" :key="index" v-if="item.over!=2">
-						<view class="row-wrap" :class="'over'+item.over">
-							<view class="left-wrap">
-								<view class="text">{{item.title}}</view>
-								<view class="award">
-									<view class="item" v-if="item.awards.coin">
-										<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnJ1XEVTJDGicZsIeBdM5x6sZMZY6tc71lbzRVFBp4ichpsgIamP8SaaeQ/0"
-										 mode="aspectFill"></image>
-										<view class="num outbox" v-if="item.category_id==2">x{{item.awards.coin}}</view>
-										<view class="num" v-else>x{{item.awards.coin >= 10000?  Math.round(item.awards.coin / 10000) + '万': item.awards.coin}}</view>
-									</view>
-									<view class="item" v-if="item.awards.flower">
-										<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnIlhbglkgjd33dibmAHP7nNmBr4pNaYMk4j4LvRej3yMjz6hMuYWLEtA/0"
-										 mode="aspectFill"></image>
-										<view class="num">x{{item.awards.flower >= 10000?  Math.round(item.awards.flower / 10000) + '万': item.awards.flower}}</view>
-									</view>
-									<view class="item" v-if="item.awards.stone">
-										<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnjwMndLlukEAL0ibGJpUwxXOJ7qOKtuyD42Sn73x9dfvmgmb0CUB6S3g/0"
-										 mode="aspectFill"></image>
-										<view class="num">x{{item.awards.stone}}</view>
-									</view>
-									<view class="item" v-if="item.awards.trumpet">
-										<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnRvCnXIZtJtzPZx7z4ETD3W4I4At8r1QJa5U8iaEYMHBGSzSPMibXEcPA/0"
-										 mode="aspectFill"></image>
-										<view class="num">x{{item.awards.trumpet}}</view>
-									</view>
-									<view class="item" v-if="item.awards.badge">
-										<image class="img" :src="item.awards.badge.img" mode="aspectFill"></image>
+					<scroll-view class="right-container" scroll-y>
+						<view class="row-item" @tap="signGiftSettle(index)" v-for="(item,index) in signGift_list" :key="index" v-if="item.over!=2">
+							<view class="row-wrap" :class="'over'+item.over">
+								<view class="left-wrap">
+									<view class="text">{{item.title}}</view>
+									<view class="award">
+										<view class="item" v-if="item.awards.coin">
+											<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnJ1XEVTJDGicZsIeBdM5x6sZMZY6tc71lbzRVFBp4ichpsgIamP8SaaeQ/0"
+											 mode="aspectFill"></image>
+											<view class="num outbox" v-if="item.category_id==2">x{{item.awards.coin}}</view>
+											<view class="num" v-else>x{{item.awards.coin >= 10000?  Math.round(item.awards.coin / 10000) + '万': item.awards.coin}}</view>
+										</view>
+										<view class="item" v-if="item.awards.flower">
+											<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnIlhbglkgjd33dibmAHP7nNmBr4pNaYMk4j4LvRej3yMjz6hMuYWLEtA/0"
+											 mode="aspectFill"></image>
+											<view class="num">x{{item.awards.flower >= 10000?  Math.round(item.awards.flower / 10000) + '万': item.awards.flower}}</view>
+										</view>
+										<view class="item" v-if="item.awards.stone">
+											<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnjwMndLlukEAL0ibGJpUwxXOJ7qOKtuyD42Sn73x9dfvmgmb0CUB6S3g/0"
+											 mode="aspectFill"></image>
+											<view class="num">x{{item.awards.stone}}</view>
+										</view>
+										<view class="item" v-if="item.awards.trumpet">
+											<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnRvCnXIZtJtzPZx7z4ETD3W4I4At8r1QJa5U8iaEYMHBGSzSPMibXEcPA/0"
+											 mode="aspectFill"></image>
+											<view class="num">x{{item.awards.trumpet}}</view>
+										</view>
+										<view class="item" v-if="item.awards.badge">
+											<image class="img" :src="item.awards.badge.img" mode="aspectFill"></image>
+										</view>
 									</view>
 								</view>
+								<view class="right-wrap">
+									<view :class="'btn'+item.over" v-if="!~$app.getData('sysInfo').system.indexOf('iOS') || $app.getData('config').ios_switch==0">{{item.btn_text}}</view>
+									<view :class="'btn'+item.over" v-else>{{item.btn_text.replace('去充值','未完成')}}</view>
+									<view v-if="item.over==0" class="tips">{{item.name_addon}}</view>
+								</view>
 							</view>
-							<view class="right-wrap">
-								<view :class="'btn'+item.over" v-if="!~$app.getData('sysInfo').system.indexOf('iOS') || $app.getData('config').ios_switch==0">{{item.btn_text}}</view>
-								<view :class="'btn'+item.over" v-else>{{item.btn_text.replace('去充值','未完成')}}</view>
-								<view v-if="item.over==0" class="tips">{{item.name_addon}}</view>
-							</view>
+							<image v-if="item.over==2" class="chapter" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnO0xnPeniag7enShoUchSSKxDWXVECwZyPPk6ibyrLLA4XuHcUicUcje1Q/0"
+							 mode="aspectFill"></image>
 						</view>
-						<image v-if="item.over==2" class="chapter" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnO0xnPeniag7enShoUchSSKxDWXVECwZyPPk6ibyrLLA4XuHcUicUcje1Q/0"
-						 mode="aspectFill"></image>
-					</view>
-				</scroll-view>
+					</scroll-view>
+				</view>
+				<view class="close-btn flex-set iconfont iconclose" @tap="modal = ''"></view>
 			</view>
-			<view class="close-btn flex-set iconfont iconclose" @tap="modal = ''"></view>
 		</view>
-
 	</view>
 </template>
 
@@ -1062,22 +1063,6 @@
 			 * 添加聊天内容
 			 */
 			addChartMsg(data) {
-				// const item = {
-				// 	uid: data.user_id,
-				// 	avatar: data.user && data.user.avatarurl || this.$app.AVATAR,
-				// 	nickname: data.user && data.user.nickname || this.$app.NICKNAME,
-				// 	content: data.content,
-				// 	// 领袖粉
-				// 	captain: data.user && data.user.user_star && data.user.user_star.captain || 0,
-				// 	// 粉丝团团长
-				// 	leader: data.user && data.user.isLeader,
-				// 	level: data.user && data.user.level,
-				// 	badgeId: data.user && data.user.user_ext && data.user.user_ext.badge_id,
-				// 	sendtime: data.create_time.slice(11),
-				// 	headwear: data.user && data.user.headwear && data.user.headwear.img,
-				// 	userBadge: data.user && data.user.userBadge
-				// }
-
 				this.chartList.push(data)
 				this.$nextTick(function() {
 					this.chartIndex = this.chartList.length - 1
@@ -1348,6 +1333,13 @@
 			 * 发送留言
 			 */
 			sendMsg() {
+				/*失去焦点时 IOS键盘收回，但留下一片空白的问题*/
+				// #ifdef H5
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 0
+				});
+				// #endif
 				const chartMsg = this.chartMsg.trim()
 				if (chartMsg.length > 32) {
 					this.$app.toast('发言内容过长')
@@ -2796,6 +2788,13 @@
 		}
 
 		.achievebadge-modal-container {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 9;
+			background-color: rgba(0, 0, 0, 1);
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -2829,6 +2828,16 @@
 				padding: 10upx 20upx;
 				background-color: #fbcc3e;
 				border-radius: 30upx;
+			}
+			
+			.close-btn {
+				z-index: 10;
+				border-radius: 50%;
+				color: #ccc;
+				font-size: 45upx;
+				position: absolute;
+				top: 100upx;
+				right: 80upx;
 			}
 			
 		}
@@ -2978,25 +2987,21 @@
 
 			display: flex;
 			flex-direction: column;
-			padding: 60upx;
-
-			.top-wrap {
-				.img {
-					width: 600upx;
-					height: 240upx;
-				}
-
-				.category-title {
-					text-align: center;
-					font-size: 30upx;
-					margin-top: -64upx;
-					text-shadow: 10upx 0upx 20upx #C63703, -10upx 0upx 20upx #C63703, 0upx 10upx 20upx #C63703, 0upx -10upx 10upx #C63703;
-				}
-			}
+						
+			.top-wrap .category-title {
+				height: 240upx;
+				width: 600upx;
+				line-height: 400upx;
+				background: url(https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqYIU6WHzGGSorecfYTRL5UjOiaZtEFPzEuCS4S19b7QibqUoiahd0UDPKw/0) center center/100% 100% no-repeat;
+				text-align: center;
+				font-size: 30upx;
+				margin-top: -64upx;
+				text-shadow: 10upx 0upx 20upx #C63703, -10upx 0upx 20upx #C63703, 0upx 10upx 20upx #C63703, 0upx -10upx 10upx #C63703;
+		}
 
 			.content-wrap {
 				width: 600upx;
-				height: 700upx;
+				height: 640upx;
 				overflow: hidden;
 				flex: 1;
 				display: flex;
@@ -3006,7 +3011,6 @@
 				border-bottom-right-radius: 10upx;
 
 				.left-container {
-					height: 100%;
 					display: flex;
 					flex-direction: column;
 					font-size: 24upx;
@@ -3047,7 +3051,7 @@
 				}
 
 				.right-container {
-					height: 100%;
+					height: 600upx;
 					flex: 1;
 					background-color: #fff;
 					border-radius: 10upx;
@@ -3146,15 +3150,13 @@
 			}
 
 			.close-btn {
-				width: 80upx;
-				height: 140upx;
 				z-index: 10;
 				border-radius: 50%;
 				color: #ccc;
 				font-size: 45upx;
 				position: absolute;
-				top: 20upx;
-				right: 20upx;
+				top: 80upx;
+				right: 50upx;
 			}
 		}
 	}

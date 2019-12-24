@@ -1344,6 +1344,13 @@
             color: #cc961d;
 }
 .guild-component-container .achievebadge-modal-container.data-v-82d416a6 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9;
+    background-color: black;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -1395,6 +1402,15 @@
       padding: 10rpx 20rpx;
       background-color: #fbcc3e;
       border-radius: 30rpx;
+}
+.guild-component-container .achievebadge-modal-container .close-btn.data-v-82d416a6 {
+      z-index: 10;
+      border-radius: 50%;
+      color: #ccc;
+      font-size: 45rpx;
+      position: absolute;
+      top: 100rpx;
+      right: 80rpx;
 }
 .guild-component-container .fansbox-modal-container.data-v-82d416a6 {
     margin-top: -100rpx;
@@ -1565,13 +1581,12 @@
     -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
-    padding: 60rpx;
-}
-.guild-component-container .open-ad-container .top-wrap .img.data-v-82d416a6 {
-      width: 600rpx;
-      height: 240rpx;
 }
 .guild-component-container .open-ad-container .top-wrap .category-title.data-v-82d416a6 {
+      height: 240rpx;
+      width: 600rpx;
+      line-height: 400rpx;
+      background: url(https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqYIU6WHzGGSorecfYTRL5UjOiaZtEFPzEuCS4S19b7QibqUoiahd0UDPKw/0) center center/100% 100% no-repeat;
       text-align: center;
       font-size: 30rpx;
       margin-top: -64rpx;
@@ -1579,7 +1594,7 @@
 }
 .guild-component-container .open-ad-container .content-wrap.data-v-82d416a6 {
       width: 600rpx;
-      height: 700rpx;
+      height: 640rpx;
       overflow: hidden;
       -webkit-box-flex: 1;
       -webkit-flex: 1;
@@ -1595,7 +1610,6 @@
       border-bottom-right-radius: 10rpx;
 }
 .guild-component-container .open-ad-container .content-wrap .left-container.data-v-82d416a6 {
-        height: 100%;
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -1640,7 +1654,7 @@
           color: #333;
 }
 .guild-component-container .open-ad-container .content-wrap .right-container.data-v-82d416a6 {
-        height: 100%;
+        height: 600rpx;
         -webkit-box-flex: 1;
         -webkit-flex: 1;
             -ms-flex: 1;
@@ -1737,14 +1751,12 @@
                 transform: translate(-50%, -50%) rotate(-10deg);
 }
 .guild-component-container .open-ad-container .close-btn.data-v-82d416a6 {
-      width: 80rpx;
-      height: 140rpx;
       z-index: 10;
       border-radius: 50%;
       color: #ccc;
       font-size: 45rpx;
       position: absolute;
-      top: 20rpx;
-      right: 20rpx;
+      top: 80rpx;
+      right: 50rpx;
 }
 

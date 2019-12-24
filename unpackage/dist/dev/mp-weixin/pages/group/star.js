@@ -139,10 +139,12 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   onReady: function onReady() {},
   onShow: function onShow() {
     if (!this.$app.getData('userStar').id) this.tips = true;
-    this.$refs.guildComponent.load(this.starid);
+    this.$nextTick(function () {
+      this.$refs.guildComponent.load && this.$refs.guildComponent.load(this.starid);
+    });
   },
   onUnload: function onUnload() {
-    this.$refs.guildComponent.unLoad(this.starid);
+    this.$refs.guildComponent.unLoad && this.$refs.guildComponent.unLoad(this.starid);
     this.$refs.guildComponent.modal = '';
   },
 

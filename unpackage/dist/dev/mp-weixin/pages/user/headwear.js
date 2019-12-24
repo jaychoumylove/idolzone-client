@@ -149,6 +149,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
 {
   components: {
     badgeComponent: badgeComponent,
@@ -173,8 +174,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   },
   methods: {
     // 预览头饰
-    preHead: function preHead(e) {
-      this.curHeadwear = e.currentTarget.dataset.cur;
+    preHead: function preHead(item) {
+      this.curHeadwear = item;
     },
     // 购买头饰
     buy: function buy(e) {var _this = this;

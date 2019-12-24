@@ -72,7 +72,7 @@
 					</block>
 				</view>
 
-				<image class="btn-add" v-if="!myClub.id" @tap="join(item)" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JWwlVcSNe42f7cdITecxbg4CFAE6PV3BWaSicFpBBqib69VFqcoibLnod84vFJU2Hf5uZs5q57YDthCA/0"
+				<image class="btn-add" v-if="!myClub||(myClub&&!myClub.id)" @tap="join(item)" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JWwlVcSNe42f7cdITecxbg4CFAE6PV3BWaSicFpBBqib69VFqcoibLnod84vFJU2Hf5uZs5q57YDthCA/0"
 				 mode="aspectFill"></image>
 			</view>
 		</view>

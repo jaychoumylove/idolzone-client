@@ -210,10 +210,7 @@
 			 * 去圈子
 			 */
 			goGroup(starid) {
-				// #ifdef H5
 				this.modal = 'qrcode'
-				return
-				// #endif
 
 				if (this.$app.getData('userStar')['id'] == starid) {
 					this.$app.goPage('/pages/group/group')
@@ -431,6 +428,8 @@
 			}
 
 			.row-info {
+				position: relative;
+				z-index: 2;
 				padding: 0 30upx;
 				display: flex;
 				justify-content: space-between;
@@ -488,7 +487,7 @@
 				height: 210upx;
 				margin-top: -125upx;
 				position: relative;
-				z-index: -1;
+				z-index: 1;
 			}
 		}
 

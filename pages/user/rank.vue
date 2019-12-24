@@ -22,7 +22,7 @@
 				</view>
 				<view class='avatar-wrap'>
 					<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
-					<image v-if="item.user.headwear.img" class="headwear position-set" :src="item.user.headwear.img" mode=""></image>
+					<image v-if="item.user&&item.user.headwear&&item.user.headwear.img" class="headwear position-set" :src="item.user.headwear.img" mode=""></image>
 				</view>
 				<view class="text-container">
 					<view>

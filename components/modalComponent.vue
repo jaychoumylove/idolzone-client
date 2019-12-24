@@ -69,7 +69,7 @@
 			overflow: hidden;
 
 			position: absolute;
-			bottom: 0;
+			bottom: var(--window-bottom);
 			transform: translateY(100%);
 			transition: .2s;
 

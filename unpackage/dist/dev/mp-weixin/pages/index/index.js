@@ -405,10 +405,7 @@ __webpack_require__.r(__webpack_exports__);
               * 去圈子
               */
     goGroup: function goGroup(starid) {
-
-
-
-
+      this.modal = 'qrcode';
 
       if (this.$app.getData('userStar')['id'] == starid) {
         this.$app.goPage('/pages/group/group');

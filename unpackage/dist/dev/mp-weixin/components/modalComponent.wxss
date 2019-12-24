@@ -21,7 +21,7 @@
     background-color: #fff;
     overflow: hidden;
     position: absolute;
-    bottom: 0;
+    bottom: 0px;
     -webkit-transform: translateY(100%);
         -ms-transform: translateY(100%);
             transform: translateY(100%);

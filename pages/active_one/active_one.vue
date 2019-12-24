@@ -5,8 +5,6 @@
 			<image class="bg" :src="activeInfo.bg_img" mode="aspectFill"></image>
 		</view>
 
-		<!-- <view class="cardday">你已累计打卡<text>{{activeInfo.self.total_clocks||0}}</text>天</view> -->
-
 		<view class="active-center-container">
 			<view class="top-wrap">
 				<view class="left">
@@ -14,12 +12,12 @@
 					<view class="left-2">剩余：{{activeInfo.left_time}}</view>
 				</view>
 
-				<view v-if="!activeInfo.self.is_card_today" class="right" @tap="card()">
+				<view v-if="!activeInfo || !activeInfo.self || !activeInfo.self.is_card_today" class="right" @tap="card()">
 					<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9ic8VukhnhyxUxXWkYzThJBXXgvyuibj43eEB6yVaGh5hIP3iaJugKm5MQ/0"
 					 mode=""></image>
 					<view class="text">
 						<view class="t">打卡</view>
-						<view class="t" style="font-size: 24upx;">{{activeInfo.self.total_clocks||0}}/7天</view>
+						<view class="t" style="font-size: 24upx;">{{activeInfo&&activeInfo.self&&activeInfo.self.total_clocks?activeInfo.self.total_clocks:0}}/7天</view>
 					</view>
 				</view>
 				<view v-else class="right" @tap="card()">
@@ -69,9 +67,11 @@
 			<view class='scroll-view'>
 
 				<view class='item-wrap' v-for="(item,index) in userRank" :key="index">
-					<image class='avatar' :src="item.user.avatarurl||$app.AVATAR" mode="aspectFill"></image>
+					<image v-if="item.user&&item.user.avatarurl" class='avatar' :src="item.user.avatarurl" mode="aspectFill"></image>
+					
+					<image v-else class='avatar' :src="$app.AVATAR" mode="aspectFill"></image>
 					<view class="text-wrap">
-						<view class="name">{{item.user.nickname||$app.NICKNAME}}</view>
+						<view class="name">{{item.user&& item.user.nickname?item.user.nickname:$app.NICKNAME}}</view>
 						<view class="card">累计打卡天数：{{item.total_clocks}}天</view>
 					</view>
 
@@ -137,7 +137,7 @@
 			<view class="close-btn flex-set iconfont icon-icon-test1" @tap="modal = ''"></view>
 
 			<view class="wrapper flex-set">
-				<image src="http://mmbiz.qpic.cn/mmbiz_gif/iaPhFibaNbpLSV7UadegJZuSRW9g4rKDYZjDICZhLmouhT16m4TNPagic3McRuLQ797d3m16iafI3OXjm1JOKC4OaA/0"
+				<image src="https://mmbiz.qpic.cn/mmbiz_gif/iaPhFibaNbpLSV7UadegJZuSRW9g4rKDYZjDICZhLmouhT16m4TNPagic3McRuLQ797d3m16iafI3OXjm1JOKC4OaA/0"
 				 mode="scaleToFill"></image>
 				<view class="btn flex-set" @tap="getShareText(2)">点击复制微博格式</view>
 			</view>
@@ -146,7 +146,7 @@
 			<view class="close-btn flex-set iconfont icon-icon-test1" @tap="modal = ''"></view>
 
 			<view class="wrapper flex-set">
-				<image src="http://mmbiz.qpic.cn/mmbiz_gif/iaPhFibaNbpLSV7UadegJZuSRW9g4rKDYZ1O2agUjUWuKibTick4mXTql7LkXf6AcsPeSlz5jEibu16QgPOJUZFgwXw/0"
+				<image src="https://mmbiz.qpic.cn/mmbiz_gif/iaPhFibaNbpLSV7UadegJZuSRW9g4rKDYZ1O2agUjUWuKibTick4mXTql7LkXf6AcsPeSlz5jEibu16QgPOJUZFgwXw/0"
 				 mode="scaleToFill"></image>
 				<view class="btn flex-set" @tap="getShareText(3);saveCanvas();">复制文字，保存图片到相册，发朋友圈</view>
 			</view>

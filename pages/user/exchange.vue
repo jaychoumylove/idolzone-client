@@ -18,10 +18,10 @@
 			<view class="list-item" v-for="(item,index) in list" :key="index">
 				<view class="row row-1">
 					<view class="left flex-set">
-						<image :src="item.prop.img" class="icon" mode="aspectFill"></image>
+						<image v-if="item.prop&&item.prop.img" :src="item.prop.img" class="icon" mode="aspectFill"></image>
 
 						<view class="content">
-							<view class="top">{{item.prop.name}}</view>
+							<view class="top" v-if="item.prop&&item.prop.name">{{item.prop.name}}</view>
 							<view class="bottom">过期时间：{{item.end_time || ''}}</view>
 						</view>
 					</view>
@@ -39,7 +39,7 @@
 					</view>
 				</view>
 
-				<view class="row row-2">{{item.prop.desc}}</view>
+				<view class="row row-2">{{item.prop&&item.prop.desc?item.prop.desc:''}}</view>
 
 			</view>
 		</view>

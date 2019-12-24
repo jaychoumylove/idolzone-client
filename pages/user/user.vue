@@ -59,25 +59,18 @@
 				</view>
 
 				<block v-if="$app.getData('config').version != $app.getVal('VERSION')">
-					<block v-if="~$app.getData('sysInfo').system.indexOf('iOS')">
-						<view v-if="$app.getData('config').ios_switch==0" class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
-							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
-							 mode="aspectFill"></image>
-							<view class="text">充值</view>
-						</view>
-
-						<view v-else-if="$app.getData('config').ios_switch==2" class="item-wrap">
-							<button open-type="contact">
-								<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
-								 mode="aspectFill"></image>
-								<view class="text">补充鲜花</view>
-							</button>
-						</view>
-					</block>
-					<view class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
+					<view v-if="!~$app.getData('sysInfo').system.indexOf('iOS')||$app.getData('config').ios_switch==0" class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
 						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
 						 mode="aspectFill"></image>
 						<view class="text">充值</view>
+					</view>
+
+					<view v-else-if="~$app.getData('sysInfo').system.indexOf('iOS')&&$app.getData('config').ios_switch==2" class="item-wrap">
+						<button open-type="contact">
+							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
+							 mode="aspectFill"></image>
+							<view class="text">补充鲜花</view>
+						</button>
 					</view>
 				</block>
 
@@ -275,10 +268,12 @@
 			border-bottom-left-radius: 10upx;
 			border-bottom-right-radius: 10upx;
 			position: absolute;
-			z-index: -1;
+			z-index: 0;
 		}
 
 		.top-container {
+			position: relative;
+			z-index: 1;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
@@ -333,6 +328,8 @@
 		}
 
 		.top-float-container {
+			position: relative;
+			z-index: 1;
 			margin: 30upx 20upx;
 			background-color: #ffffff;
 			box-shadow: 0 4upx 32upx rgba(#666, .3);
@@ -397,6 +394,8 @@
 		}
 
 		.func-container {
+			position: relative;
+			z-index: 1;
 			.item-wrap {
 				display: flex;
 				justify-content: space-between;

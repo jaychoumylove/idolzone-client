@@ -323,11 +323,10 @@ var _default =
       function (res) {
         _this5.loadSuccess = true;
         uni.stopPullDownRefresh();
-        var article = res.data.article;
         if (_this5.page == 1) {
-          _this5.artList = article;
+          _this5.artList = res.data.article;
         } else {
-          _this5.artList = _this5.artList.concat(article);
+          _this5.artList = _this5.artList.concat(res.data.article);
         }
 
         // 是否订阅

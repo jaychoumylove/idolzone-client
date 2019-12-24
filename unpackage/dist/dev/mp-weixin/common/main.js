@@ -72,8 +72,10 @@ var _lib = _interopRequireDefault(__webpack_require__(/*! @/lib/lib */ 8));funct
   _lib.default),
 
   onLaunch: function onLaunch() {
+
     uni.setKeepScreenOn({
       keepScreenOn: true });
+
 
     this.setPlatform();
 
@@ -89,9 +91,7 @@ var _lib = _interopRequireDefault(__webpack_require__(/*! @/lib/lib */ 8));funct
     // 检查更新
     this.$app.checkUpdate();
     // 连接socket
-
     this.$app.invokeSocket();
-
   },
   methods: {
     /**平台判断*/

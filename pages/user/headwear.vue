@@ -4,7 +4,7 @@
 		<view class="avatar-wrap flex-set">
 			<view class="avatar-block">
 				<image class="avatar" :src="$app.getData('userInfo').avatarurl||this.AVATAR"></image>
-				<image class="headwear position-set" v-if="curHeadwear.img" :src="curHeadwear.img"></image>
+				<image class="headwear position-set" v-if="curHeadwear&&curHeadwear.img" :src="curHeadwear.img"></image>
 			</view>
 			<view>{{$app.getData('userInfo').nickname}}</view>
 		</view>
@@ -13,11 +13,12 @@
 
 		<view class="list-wrap">
 			<view class="item" v-for="(item, index) in list" :key="index">
-				<view class="top-wrap flex-set" :class="{use:curHeadwear.id==item.id}" @tap="preHead" :data-cur="item">
+				<view class="top-wrap flex-set" :class="{use:curHeadwear&&curHeadwear.id==item.id}" @tap="preHead(item)">
 					<image class="icon" :src="item.img"></image>
-					<!-- <image v-if="curHeadwear.id==item.id" src="/image/icon/card-c.png" class="badge"></image> -->
 				</view>
 				<view class="fee">{{item.diamond}}钻石</view>
+				<view v-if="item.days>0">(有效期:{{item.days}}天)</view>
+				<view v-else>(长期)</view>
 				<view v-if="item.status==-1" class="btn flex-set" @tap="buy" :data-hid="item.id">兑换</view>
 				<view v-if="item.status==0" class="btn flex-set success" @tap="use" :data-hid="item.id">佩戴</view>
 				<view v-if="item.status==1" class="btn flex-set disable" @tap="cancel" :data-hid="item.id">摘下</view>
@@ -55,8 +56,8 @@
 		},
 		methods: {
 			// 预览头饰
-			preHead(e) {
-				this.curHeadwear = e.currentTarget.dataset.cur
+			preHead(item) {
+				this.curHeadwear = item
 			},
 			// 购买头饰
 			buy(e) {

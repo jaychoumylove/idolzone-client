@@ -177,6 +177,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       tips: false };
 
   },
+  // onNavigationBarSearchInputConfirmed(){
+  // 	uni.hideKeyboard()
+  // },		
   onLoad: function onLoad(option) {},
   onShow: function onShow() {var _this = this;
     this.tips = this.$app.getData('noob');

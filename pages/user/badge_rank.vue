@@ -25,14 +25,14 @@
 				</view>
 				<view class='avatar-wrap'>
 					<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
-					<image v-if="item.user.headwear.img" class="headwear position-set" :src="item.user.headwear.img" mode=""></image>
+					<image v-if="item.user&&item.user.headwear&&item.user.headwear.img" class="headwear position-set" :src="item.user.headwear.img" mode=""></image>
 				</view>
 				<view class="text-container">
 					<view>
 						{{item.user.nickname || NICKNAME}}
-						<view v-if='item.star.name' class='starname'>{{item.star.name}}</view>
+						<view v-if='item.star&&item.star.name' class='starname'>{{item.star.name}}</view>
 					</view>					
-					<view class="tips">
+					<view class="tips" v-if="item.user&&item.user.maxBadge">
 						<text v-if="item.user.maxBadge.stype==1">打榜守护{{item.hot}}天</text>
 						<text v-if="item.user.maxBadge.stype==2">贡献{{formatFloatNum(item.hot)}}鲜花</text>
 						<text v-if="item.user.maxBadge.stype==3">参与{{item.hot}}次集结</text>

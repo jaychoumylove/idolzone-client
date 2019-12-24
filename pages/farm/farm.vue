@@ -39,7 +39,7 @@
 			</view> -->
 			<!-- 地 -->
 			<view class='ground'>
-				<image class="bg-img" src='http://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HwicF1tVq5W0eW4Ow73MEzIs07zJtcFgxsk7YefgibS2BcfUdh2nmVn87ib5kgKfEkT3UDexOxSX0dQ/0'></image>
+				<image class="bg-img" src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HwicF1tVq5W0eW4Ow73MEzIs07zJtcFgxsk7YefgibS2BcfUdh2nmVn87ib5kgKfEkT3UDexOxSX0dQ/0'></image>
 				<image class='up-icon land1' v-if="farm.land_1_level<22" @tap='farm.tree_1_level==15?getSkill(8):getSkill(6)' src='https://mmbiz.qpic.cn/mmbiz_gif/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxbemFNAA89E03EbTcPAT3Q9m8ERr6sZRGtDpJ1uKPDV2JG0jLXricW2w/0'></image>
 				<image class='up-icon land2' v-if="farm.land_2_level<22" @tap='farm.tree_2_level==15?getSkill(9):getSkill(7)' src='https://mmbiz.qpic.cn/mmbiz_gif/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxbemFNAA89E03EbTcPAT3Q9m8ERr6sZRGtDpJ1uKPDV2JG0jLXricW2w/0'></image>
 				<view class='lands'>
@@ -96,7 +96,7 @@
 
 			<!-- 左侧fix按钮 -->
 			<image class='charge-btn help-btn' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45O9VISGePLn218y3vGBpeopmcRsia3Wicjib3Qnib7rAz7YL4ozyduPduUg/0' @tap="$app.goPage('/pages/notice/notice?id=2')"></image>
-			<image class='charge-btn help-btn btn3' src='http://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HwicF1tVq5W0eW4Ow73MEzIwbLFt1AHBiawQgPt2ficIOq9bic15hMylyQDAsczJicArnyxyfaec1wMtQ/0'
+			<image class='charge-btn help-btn btn3' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HwicF1tVq5W0eW4Ow73MEzIwbLFt1AHBiawQgPt2ficIOq9bic15hMylyQDAsczJicArnyxyfaec1wMtQ/0'
 			 @tap='speedModal'></image>
 			<view class="speed-content">农场加速</view>
 
@@ -163,12 +163,12 @@
 				<block v-else>
 					<view class="row">
 						<view class="top">
-							<view class="left">当前等级 Lv.{{skillInfo.myskill.level||0}} {{skillInfo.nextskill===null?'(最高等级)':''}}</view>
+							<view class="left">当前等级 Lv.{{skillInfo&&skillInfo.myskill&&skillInfo.myskill.level?skillInfo.myskill.level:0}} {{skillInfo.nextskill===null?'(最高等级)':''}}</view>
 							<view class="right"></view>
 						</view>
-						<view class="desc" v-if="skillInfo.myskill">{{skillInfo.myskill.desc}}</view>
+						<view class="desc" v-if="skillInfo&&skillInfo.myskill">{{skillInfo.myskill.desc}}</view>
 					</view>
-					<view class="row" v-if="skillInfo.nextskill">
+					<view class="row" v-if="skillInfo&&skillInfo.nextskill">
 						<view class="top">
 							<view class="left">下一等级 Lv.{{skillInfo.nextskill.level}}</view>
 							<btnComponent type="fangde">

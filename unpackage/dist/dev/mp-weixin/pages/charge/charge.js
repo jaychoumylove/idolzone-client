@@ -117,11 +117,11 @@ var render = function() {
     }
 
     _vm.e1 = function($event) {
-      _vm.tabActive = 0
+      _vm.tabActive = 1
     }
 
     _vm.e2 = function($event) {
-      _vm.tabActive = 1
+      _vm.tabActive = 0
     }
 
     _vm.e3 = function($event) {
@@ -346,6 +346,7 @@ var timeId;var btnComponent = function btnComponent() {return __webpack_require_
         trumpet: 0 },
 
       rechargeList: this.$app.getData('goodsList') || [], // 充值列表
+      tehui_show: false, // 是否显示特惠礼包
       discount: {}, // 充值优惠
       discount_option: [], //可选充值优惠
       discount_option_index: 0,
@@ -470,6 +471,7 @@ var timeId;var btnComponent = function btnComponent() {return __webpack_require_
       this.$app.request(this.$app.API.PAY_GOODS, {
         userprop_id: userprop_id },
       function (res) {
+        _this4.tehui_show = res.data.tehui_show;
         _this4.rechargeList = res.data.list;
         _this4.discount = res.data.discount;
         _this4.discount_option = res.data.discount_option;

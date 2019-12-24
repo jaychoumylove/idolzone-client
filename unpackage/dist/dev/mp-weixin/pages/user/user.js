@@ -79,15 +79,16 @@ var render = function() {
   var g3 = _vm.$app.getVal("VERSION")
   var g4 = _vm.$app.getData("sysInfo").system.indexOf("iOS")
   var g5 = _vm.$app.getData("config")
-  var g6 = _vm.$app.getData("config")
+  var g6 = _vm.$app.getData("sysInfo").system.indexOf("iOS")
   var g7 = _vm.$app.getData("config")
-  var g8 = _vm.$app.getVal("VERSION")
-  var g9 = _vm.$app.getData("config")
-  var g10 = _vm.$app.getVal("VERSION")
-  var g11 = _vm.$app.getData("config")
+  var g8 = _vm.$app.getData("config")
+  var g9 = _vm.$app.getVal("VERSION")
+  var g10 = _vm.$app.getData("config")
+  var g11 = _vm.$app.getVal("VERSION")
   var g12 = _vm.$app.getData("config")
-  var g13 = (_vm.userLevel.gap / 10000).toFixed(1)
-  var g14 = _vm.$app.getData("userInfo")
+  var g13 = _vm.$app.getData("config")
+  var g14 = (_vm.userLevel.gap / 10000).toFixed(1)
+  var g15 = _vm.$app.getData("userInfo")
 
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
@@ -107,32 +108,28 @@ var render = function() {
     }
 
     _vm.e4 = function($event) {
-      return _vm.$app.goPage("/pages/charge/charge")
-    }
-
-    _vm.e5 = function($event) {
       return _vm.$app.goPage("/pages/user/exchange")
     }
 
-    _vm.e6 = function($event) {
+    _vm.e5 = function($event) {
       _vm.$app.goPage(_vm.$app.getData("config").user_ad.url)
     }
 
-    _vm.e7 = function($event) {
+    _vm.e6 = function($event) {
       return _vm.$app.preImg(
         "https://mmbiz.qpic.cn/mmbiz_jpg/h9gCibVJa7JWh9kicrjHxwae75myNP7juRd5dQdAxjex8dKWSXiakDTyCyCKMpBfAtICOh4sJzXJUCteU1AiaJpOYw/0"
       )
     }
 
-    _vm.e8 = function($event) {
+    _vm.e7 = function($event) {
       return _vm.$app.goPage("/pages/user/log")
     }
 
-    _vm.e9 = function($event) {
+    _vm.e8 = function($event) {
       return _vm.$app.goPage("/pages/user/badge")
     }
 
-    _vm.e10 = function($event) {
+    _vm.e9 = function($event) {
       return _vm.$app.goPage("/pages/user/setting")
     }
   }
@@ -155,7 +152,8 @@ var render = function() {
         g11: g11,
         g12: g12,
         g13: g13,
-        g14: g14
+        g14: g14,
+        g15: g15
       }
     }
   )
@@ -192,13 +190,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //

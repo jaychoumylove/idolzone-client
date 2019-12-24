@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "修改信息",
+  "navigationBarTitleText": "用户信息修改",
   "usingComponents": {
     "btn-component": "/components/btnComponent"
   }

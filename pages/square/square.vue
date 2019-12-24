@@ -9,11 +9,11 @@
 				</view>
 				<view class="score">
 					<view class="item">
-						<view class="no">NO.{{starInfo.star_rank.week_hot_rank||''}}</view>
+						<view class="no">NO.{{starInfo.star_rank&&starInfo.star_rank.week_hot_rank?starInfo.star_rank.week_hot_rank:''}}</view>
 						<view class="tips">明星排行榜></view>
 					</view>
 					<view class="item">
-						<view class="no">{{starInfo.star_rank.week_hot||''}}<text class="wan">万</text>
+						<view class="no">{{starInfo.star_rank&&starInfo.star_rank.week_hot?starInfo.star_rank.week_hot:''}}<text class="wan">万</text>
 						</view>
 						<view class="tips">本周人气></view>
 					</view>
@@ -182,11 +182,10 @@
 				}, res => {
 					this.loadSuccess = true
 					uni.stopPullDownRefresh()
-					const article = res.data.article
 					if (this.page == 1) {
-						this.artList = article
+						this.artList = res.data.article
 					} else {
-						this.artList = this.artList.concat(article)
+						this.artList = this.artList.concat(res.data.article)
 					}
 
 					// 是否订阅

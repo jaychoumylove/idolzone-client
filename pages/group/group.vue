@@ -65,6 +65,9 @@
 				tips: false,
 			};
 		},
+		// onNavigationBarSearchInputConfirmed(){
+		// 	uni.hideKeyboard()
+		// },		
 		onLoad(option) {},
 		onShow() {
 			this.tips = this.$app.getData('noob')

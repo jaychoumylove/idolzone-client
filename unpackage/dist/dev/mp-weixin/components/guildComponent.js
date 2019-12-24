@@ -158,17 +158,17 @@ var render = function() {
 
     _vm.e9 = function($event) {
       _vm.current = 0
-      this.sendCount = ""
+      _vm.sendCount = ""
     }
 
     _vm.e10 = function($event) {
       _vm.current = 1
-      this.sendCount = ""
+      _vm.sendCount = ""
     }
 
     _vm.e11 = function($event) {
       _vm.current = 2
-      this.sendCount = ""
+      _vm.sendCount = ""
     }
 
     _vm.e12 = function($event) {
@@ -228,11 +228,11 @@ var render = function() {
     }
 
     _vm.e25 = function($event) {
-      _vm.modal = ""
+      return _vm.$app.goPage("/pages/user/badge")
     }
 
     _vm.e26 = function($event) {
-      return _vm.$app.goPage("/pages/user/badge")
+      _vm.modal = ""
     }
 
     _vm.e27 = function($event) {
@@ -322,6 +322,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var modalComponent = function modalComponent() {return __webpack_require__.e(/*! import() | components/modalComponent */ "components/modalComponent").then(__webpack_require__.bind(null, /*! @/components/modalComponent.vue */ 380));};var btnComponent = function btnComponent() {return __webpack_require__.e(/*! import() | components/btnComponent */ "components/btnComponent").then(__webpack_require__.bind(null, /*! @/components/btnComponent.vue */ 394));};var listItemComponent = function listItemComponent() {return __webpack_require__.e(/*! import() | components/listItemComponent */ "components/listItemComponent").then(__webpack_require__.bind(null, /*! @/components/listItemComponent.vue */ 401));};var badgeComponent = function badgeComponent() {return __webpack_require__.e(/*! import() | components/badgeComponent */ "components/badgeComponent").then(__webpack_require__.bind(null, /*! @/components/badgeComponent.vue */ 415));};var countToComponent = function countToComponent() {return __webpack_require__.e(/*! import() | components/countToComponent */ "components/countToComponent").then(__webpack_require__.bind(null, /*! @/components/countToComponent.vue */ 429));};var _default =
+
 
 
 
@@ -1385,22 +1386,6 @@ __webpack_require__.r(__webpack_exports__);
         * 添加聊天内容
         */
     addChartMsg: function addChartMsg(data) {
-      // const item = {
-      // 	uid: data.user_id,
-      // 	avatar: data.user && data.user.avatarurl || this.$app.AVATAR,
-      // 	nickname: data.user && data.user.nickname || this.$app.NICKNAME,
-      // 	content: data.content,
-      // 	// 领袖粉
-      // 	captain: data.user && data.user.user_star && data.user.user_star.captain || 0,
-      // 	// 粉丝团团长
-      // 	leader: data.user && data.user.isLeader,
-      // 	level: data.user && data.user.level,
-      // 	badgeId: data.user && data.user.user_ext && data.user.user_ext.badge_id,
-      // 	sendtime: data.create_time.slice(11),
-      // 	headwear: data.user && data.user.headwear && data.user.headwear.img,
-      // 	userBadge: data.user && data.user.userBadge
-      // }
-
       this.chartList.push(data);
       this.$nextTick(function () {
         this.chartIndex = this.chartList.length - 1;
@@ -1671,6 +1656,13 @@ __webpack_require__.r(__webpack_exports__);
         * 发送留言
         */
     sendMsg: function sendMsg() {
+      /*失去焦点时 IOS键盘收回，但留下一片空白的问题*/
+
+
+
+
+
+
       var chartMsg = this.chartMsg.trim();
       if (chartMsg.length > 32) {
         this.$app.toast('发言内容过长');
