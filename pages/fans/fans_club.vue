@@ -81,7 +81,6 @@
 		},
 		data() {
 			return {
-				$app: this.$app,
 				fid: 0,
 				modal: '',
 				info: {

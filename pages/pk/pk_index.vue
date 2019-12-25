@@ -139,7 +139,6 @@
 	export default {
 		data() {
 			return {
-				$app: this.$app,
 				starid: this.$app.getData('userStar').id,
 				pkTimeList: [], // pk时间段列表
 				curPkTime: {}, // 当前pk场次

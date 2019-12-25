@@ -109,7 +109,6 @@
 		},
 		data() {
 			return {
-				$app: this.$app,
 				list: [],
 				remainTime: 0,
 				modal: '',

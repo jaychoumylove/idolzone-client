@@ -31,24 +31,6 @@
 				<view class="exit iconfont iconclose" @tap="exit(item.user_id)" v-if="item.user_id==$app.getData('userInfo').id"></view>
 			</view>
 		</view>
-		<!-- 我的 -->
-		<!-- <view class="my-container" v-if="$app.getData('userStar').id == starid">
-			<view class="rank-num">
-				<view>{{myInfo.rank}}</view>
-			</view>
-			<view class='avatar-wrap'>
-				<image class="avatar" :src="$app.getData('userInfo').avatarurl" mode="aspectFill"></image>
-				<image class="headwear position-set" :src="myInfo.headwear&&myInfo.headwear.img" mode=""></image>
-			</view>
-			<view class="text-container">
-				<view class="star-name text-overflow">
-					{{$app.getData('userInfo').nickname}}
-					<image class="img-s" :src="`/static/image/user_level/lv${myInfo.level}.png`" mode=""></image>
-				</view>
-
-			</view>
-			<view class="count">贡献值 {{myInfo.score||''}}</view>
-		</view> -->
 	</view>
 </template>
 
@@ -56,7 +38,6 @@
 	export default {
 		data() {
 			return {
-				$app: this.$app,
 				fid: 0,
 				userRank: [],
 				page: 1,

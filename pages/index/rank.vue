@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 
-		<view class='tab-container' v-if="$app.getData('config').version != $app.VERSION">
+		<view class='tab-container' v-if="$app.getData('config').version != $app.getVal('VERSION')">
 			<view class="tab-item" :class="{active:rankField == 'last_week_hot'}" @tap="changeField('last_week_hot')">上周</view>
 			<view class="tab-item" :class="{active:rankField == 'last_month_hot_flower'}" @tap="changeField('last_month_hot_flower')">上月鲜花榜</view>
 			<view class="tab-item" :class="{active:rankField == 'last_month_hot_coin'}" @tap="changeField('last_month_hot_coin')">上月金豆榜</view>
@@ -38,7 +38,6 @@
 		},
 		data() {
 			return {
-				$app:this.$app,
 				rankField: 'last_week_hot',
 				rankList: [],
 			};

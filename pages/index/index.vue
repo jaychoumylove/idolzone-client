@@ -7,7 +7,7 @@
 				<input class="input" type="text" :value="keywords" @input="searchInput" placeholder="搜索爱豆名字" />
 			</view>
 
-			<view v-if="$app.getData('config').version != $app.VERSION" class="right-wrap" @tap="$app.goPage('/pages/notice/notice?id=1')">榜单福利<text class="iconfont iconinfo"></text></view>
+			<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="right-wrap" @tap="$app.goPage('/pages/notice/notice?id=1')">榜单福利<text class="iconfont iconinfo"></text></view>
 		</view>
 
 		<!-- banner风云榜 -->
@@ -22,7 +22,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="swiper-container" v-else @tap="$app.goPage($app.getData('config').index_banner.url)">
+		<view class="swiper-container" v-else @tap="$app.goPage(default_index_banner_url)">
 			<image class='img' :src="$app.getData('config').index_banner.img" mode="aspectFill"></image>
 		</view>
 
@@ -30,9 +30,9 @@
 		<view class="tab-container">
 			<view class="left-wrap">
 				<view class="tab-item" :class="{active:rankField == 'week_hot'}" @tap="changeField('week_hot');getSunday();">周榜</view>
-				<view v-if="$app.getData('config').version != $app.VERSION" class="tab-item" :class="{active:rankField == 'month_hot_flower'}" @tap="changeField('month_hot_flower');getLast();">鲜花月榜</view>
+				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="tab-item" :class="{active:rankField == 'month_hot_flower'}" @tap="changeField('month_hot_flower');getLast();">鲜花月榜</view>
 				<view class="tab-item" :class="{active:rankField == 'month_hot_coin'}" @tap="changeField('month_hot_coin');getLast()">金豆月榜</view>
-				<view v-if="$app.getData('config').version != $app.VERSION && $app.getData('config').dashen_rank_switch==1" class="tab-item"  @tap="$app.goPage('/pages/user/dashen_rank')">大神榜</view>
+				<view v-if="$app.getData('config').version != $app.getVal('VERSION') && $app.getData('config').dashen_rank_switch==1" class="tab-item"  @tap="$app.goPage('/pages/user/dashen_rank')">大神榜</view>
 			</view>
 			<view class="right-wrap" @tap="$app.goPage('/pages/index/rank')">往期榜单<text class="iconfont iconicon_workmore"></text></view>
 		</view>
@@ -128,7 +128,7 @@
 
 		</view>
 
-		<view class="open-ad-container flex-set" v-if="$app.getData('config').version != $app.VERSION && modal=='indexBanner' && $app.getData('config').index_open && $app.getData('config').index_open.img">
+		<view class="open-ad-container flex-set" v-if="$app.getData('config').version != $app.getVal('VERSION') && modal=='indexBanner' && $app.getData('config').index_open && $app.getData('config').index_open.img">
 			<image class="main" :src="$app.getData('config').index_open.img" mode="aspectFill" @tap="modal='';$app.goPage($app.getData('config').index_open.url)">
 			</image>
 			<view class="close-btn flex-set iconfont iconclose" @tap="modal = ''"></view>
@@ -150,7 +150,7 @@
 		},
 		data() {
 			return {
-				$app:this.$app,
+				default_index_banner_url: this.$app.getData('config').index_banner.url,
 				theme: this.$app.getData('theme') || 0,
 				modal: 'indexBanner',
 				showBottomLoading: true,

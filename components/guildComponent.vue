@@ -131,7 +131,7 @@
 					 mode=""></image>
 					<view class="text">任务</view>
 				</view>
-				<view v-if="$app.getData('config').version != $app.VERSION" class="btn-item" @tap="invitFakePage=1;modal = 'invit_desert';getFakeInviteList()">
+				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="btn-item" @tap="invitFakePage=1;modal = 'invit_desert';getFakeInviteList()">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5UuhH4Via2LvZLDvjUXk1BTQW6p1mkbxNuAFqaIFuKKSS9MTicctuJUsg/0"
 					 mode=""></image>
 					<view class="text">召集好友</view>
@@ -151,14 +151,9 @@
 					 mode=""></image>
 					<view class="text">来PK</view>
 				</view>
-				<!-- <view class="btn-item" @tap="$app.goPage('/pages/score/score')">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxriczDwYpJxLicMALveZ8I6vxIGDDu9yB41Dicq9XYTtUcggaFYvQEc2ng/0"
-					 mode=""></image>
-					<view class="text">积分</view>
-				</view> -->
 			</view>
 			<!-- 公告 -->
-			<view v-if="$app.getData('config').version != $app.VERSION" class="row-info row-2" @tap="$app.goPage('/pages/notice/notice?id='+article.id)">
+			<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="row-info row-2" @tap="$app.goPage('/pages/notice/notice?id='+article.id)">
 				<text class="left-wrap">【公告】</text>
 				<text class="center-wrap">{{article.name}}</text>
 				<text class="right-wrap" @tap.stop="$app.goPage('/pages/notice/list')">更多></text>
@@ -242,13 +237,13 @@
 		<!-- 右下角按钮区域 -->
 		<view class="side-container">
 			<!-- 粉丝团宝箱 -->
-			<view class="btn-wrap" @tap="fansBoxOpen" v-if="$app.getData('config').version != $app.VERSION && $app.getData('config').fansbox_open=='1'">
+			<view class="btn-wrap" @tap="fansBoxOpen" v-if="$app.getData('config').version != $app.getVal('VERSION') && $app.getData('config').fansbox_open=='1'">
 				<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Ep3RhxrWX9ibdRVKkjMQibIDXFuAk08uV2BgHKn9RO8fLoS8zM0z12ic0SjzHd1IxYNhUibyy5fJEllQ/0"
 				 mode="aspectFill"></image>
 				<view class="tips" v-if="sendFansNoSettle">{{sendFansNoSettle}}</view>
 			</view>
 			<!-- 充值礼包 -->
-			<view class="btn-wrap" @tap="newboyOpen" v-if="$app.getData('config').version != $app.VERSION && signGift_title">
+			<view class="btn-wrap" @tap="newboyOpen" v-if="$app.getData('config').version != $app.getVal('VERSION') && signGift_title">
 				<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqialbpTRo5ruTVPqJia3fSOwpicSaJsWRhmEFftWM7z1QEV8ucFMjaZEOg/0"
 				 mode="aspectFill"></image>
 				<view class="title">{{signGift_title}}</view>
@@ -264,7 +259,7 @@
 				<view class="switch-wrap">
 					<switch :checked="!danmakuClosed" @change="danmakuSwitch" />弹幕
 				</view>
-				<view v-if="$app.getData('config').version != $app.VERSION" class="swiper-change flex-set">
+				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="swiper-change flex-set">
 					<view class="item" :class="{select:current==0}" @tap="current = 0;sendCount=''">送金豆</view>
 					<view class="item" :class="{select:current==1}" @tap="current = 1;sendCount=''">送鲜花</view>
 					<view class="item" v-if="$app.getData('config').old_coin_open=='1'&&userCurrency.old_coin>0" :class="{select:current==2}"
@@ -304,7 +299,7 @@
 									<view class="right">补充鲜花回复“1”<text class="iconfont iconjiantou"></text></view>
 								</button>
 							</block>
-							<view v-else-if="$app.getData('config').version != $app.VERSION" class="right" @tap="$app.goPage('/pages/charge/charge')">充值<text class="iconfont iconjiantou"></text></view>
+							<view v-else-if="$app.getData('config').version != $app.getVal('VERSION')" class="right" @tap="$app.goPage('/pages/charge/charge')">充值<text class="iconfont iconjiantou"></text></view>
 
 						</view>
 					</view>
@@ -447,7 +442,7 @@
 							<view class="count">贡献{{myRank.score}}</view>
 						</view>
 
-						<view class="heart" @tap="like($app.getData('userInfo').id, -1)">
+						<view class="heart" @tap="like(0, -1)">
 							<view class="heart-icon iconfont iconxin"></view>
 							<view class="count">{{myRank.like_count||0}}</view>
 						</view>
@@ -652,7 +647,6 @@
 		},
 		data() {
 			return {
-				$app: this.$app,
 				showLoading: true,
 				requestCount: 7,
 				tips: false,
@@ -941,6 +935,7 @@
 			},
 
 			like(user_id, index) {
+				if(!user_id) user_id = this.$app.getData('userInfo').id
 				this.$app.request('user/like', {
 					user_id
 				}, res => {

@@ -1,6 +1,6 @@
 <template>
-	<!-- #ifndef H5 -->
-	<view class="no-data" v-if="$app.getData('config').version != $app.VERSION || $app.getData('config').ios_switch==3">
+	<!-- #ifdef MP-WEIXIN -->
+	<view class="no-data" v-if="$app.getData('config').version == $app.getVal('VERSION') || $app.getData('config').ios_switch==3">
 		由于政策原因，不支持在小程序内购买
 	</view>
 	<view class="no-data" v-else-if="~$app.getData('sysInfo').system.indexOf('iOS')&&$app.getData('config').ios_switch!=0">
@@ -9,7 +9,7 @@
 	<view class="charge-page-container" v-else>	
 	<!-- #endif -->
 	
-	<!-- #ifdef H5 -->
+	<!-- #ifndef MP-WEIXIN -->
 	<view class="charge-page-container">	
 	<!-- #endif -->	
 		<view class="top-row flex-set">
@@ -84,7 +84,7 @@
 			
 			<view class="select-container">
 				<picker @change="bindPickerChange" :range-key="'title'" :value="discount_option_index" :range="discount_option">
-				<view class="picker" v-if="discount_option[discount_option_index].status==0">
+				<view class="picker" v-if="discount_option[discount_option_index]&&discount_option[discount_option_index].status==0">
 					<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JUmpAKCVJ2Npw9ISkVxibZZ2Ye5b9VZyn7PuK2Pglkic4ZzvCz8pF461k7sp1SUgzmhBFu9Hr55pDXA/0"
 					 mode="aspectFill"></image>{{discount_option[discount_option_index].prop.name}}
 					<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXX6zqzjkSn01fIlGmzJw6uVHXlUbGEEBfTW8ysG5j7xhWREa7dc3wTXQfYlDmF30e7iazribbekpIA/0"
@@ -152,7 +152,6 @@
 		},
 		data() {
 			return {
-				$app: this.$app,
 				modal: '',
 				requestCount: 1,
 				tabActive: 0,
@@ -225,7 +224,7 @@
 			// 支付
 			payment(goods_id) {
 				if (this.$app.getData('platform') == 'MP-QQ') {
-					if (this.$app.getData('config').version != this.$app.VERSION) {
+					if (this.$app.getData('config').version != this.$app.getVal('VERSION')) {
 						this.$app.preImg(this.$app.getData('config').qq_tips_img)
 					} else {
 						this.$app.modal('抱歉，QQ支付暂无法使用')
@@ -351,6 +350,7 @@
 
 			.item {
 				position: relative;
+				z-index: 1;
 				line-height: 1.2;
 				padding: 0 20upx;
 			}
@@ -363,6 +363,7 @@
 			.item.active::after {
 				content: "";
 				position: absolute;
+				z-index: -1;
 				bottom: 0;
 				height: 18upx;
 				width: 100%;
@@ -370,7 +371,6 @@
 				transform: translateX(-50%);
 				border-radius: 20upx;
 				background-color: #ffd75e;
-				z-index: -1;
 
 			}
 		}

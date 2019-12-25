@@ -164,7 +164,6 @@
 		},
 		data() {
 			return {
-				$app: this.$app,
 				star: {},
 				activeInfo: {
 					active_info: {
