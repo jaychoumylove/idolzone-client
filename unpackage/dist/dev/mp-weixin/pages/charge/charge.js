@@ -73,26 +73,12 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var g0 = _vm.$app.getData("sysInfo").system.indexOf("iOS")
+  var g0 = _vm.$app.getData("config")
   var g1 = _vm.$app.getData("config")
+  var g2 = _vm.$app.getData("sysInfo").system.indexOf("iOS")
+  var g3 = _vm.$app.getData("config")
 
   var l0 = _vm.__map(_vm.rechargeList, function(item, index) {
-    var g2 = _vm.$app.formatNumber(item.flower, 0)
-    return {
-      $orig: _vm.__get_orig(item),
-      g2: g2
-    }
-  })
-
-  var l1 = _vm.__map(_vm.rechargeList, function(item, index) {
-    var g3 = _vm.$app.formatNumber(item.flower, 0)
-    return {
-      $orig: _vm.__get_orig(item),
-      g3: g3
-    }
-  })
-
-  var l2 = _vm.__map(_vm.rechargeList, function(item, index) {
     var g4 = _vm.$app.formatNumber(item.flower, 0)
     return {
       $orig: _vm.__get_orig(item),
@@ -100,14 +86,30 @@ var render = function() {
     }
   })
 
-  var g5 = _vm.$app.getData("config")
-  var g6 = _vm.$app.getData("config")
-
-  var l3 = _vm.__map(_vm.rechargeList, function(item, index) {
-    var g7 = _vm.$app.formatNumber(item.flower, 1)
+  var l1 = _vm.__map(_vm.rechargeList, function(item, index) {
+    var g5 = _vm.$app.formatNumber(item.flower, 0)
     return {
       $orig: _vm.__get_orig(item),
-      g7: g7
+      g5: g5
+    }
+  })
+
+  var l2 = _vm.__map(_vm.rechargeList, function(item, index) {
+    var g6 = _vm.$app.formatNumber(item.flower, 0)
+    return {
+      $orig: _vm.__get_orig(item),
+      g6: g6
+    }
+  })
+
+  var g7 = _vm.$app.getData("config")
+  var g8 = _vm.$app.getData("config")
+
+  var l3 = _vm.__map(_vm.rechargeList, function(item, index) {
+    var g9 = _vm.$app.formatNumber(item.flower, 1)
+    return {
+      $orig: _vm.__get_orig(item),
+      g9: g9
     }
   })
 
@@ -139,11 +141,13 @@ var render = function() {
       $root: {
         g0: g0,
         g1: g1,
+        g2: g2,
+        g3: g3,
         l0: l0,
         l1: l1,
         l2: l2,
-        g5: g5,
-        g6: g6,
+        g7: g7,
+        g8: g8,
         l3: l3
       }
     }
@@ -181,6 +185,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
 //
 //
 //

@@ -74,11 +74,11 @@
 					</view>
 				</block>
 
-				<view class="item-wrap" @tap="goPage('/pages/active_one/active_one')">
+				<!-- <view class="item-wrap" @tap="goPage('/pages/active_one/active_one')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxdFQIHP8nzN8tBsJuicHWgbLdFhlU5Xn0ZtnATnAHny4NGLRYtD76mfw/0"
 					 mode="aspectFill"></image>
 					<view class="text">应援</view>
-				</view>
+				</view> -->
 				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="item-wrap" @tap="$app.goPage('/pages/user/exchange')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxaonPdq5wuw0mcjvxg7fiaH9U9f5HX3D4VTVJibsHHf8MB4C2nAIELfog/0"
 					 mode="aspectFill"></image>

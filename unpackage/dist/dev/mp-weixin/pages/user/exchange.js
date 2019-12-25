@@ -74,6 +74,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var g0 = _vm.$app.formatFloatNum(_vm.currentPoint / 10000)
+  var g1 = _vm.$app.getData("config")
 
   var l0 = _vm.__map(_vm.list, function(item, index) {
     var m0 = parseInt(item.point / 10000)
@@ -104,6 +105,7 @@ var render = function() {
     {
       $root: {
         g0: g0,
+        g1: g1,
         l0: l0
       }
     }

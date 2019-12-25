@@ -10,7 +10,7 @@
 		</view>
 		
 		<view class="swiper-change flex-set">
-			<view class="swiper-item" :class="{select:current==0}" @tap="current = 0;getUserPro();">已有卡券</view>
+			<view class="swiper-item" :class="{select:current==0}" @tap="current = 0;getUserPro();">已有道具</view>
 			<view class="swiper-item" :class="{select:current==1}" @tap="current = 1;getProList();">去兑换</view>
 		</view>
 
@@ -45,7 +45,7 @@
 		</view>
 		
 		<view class="list-wrapper" v-else-if="current==1 && list && list.length > 0">
-			<view class="list-item" v-for="(item,index) in list" :key="index">
+			<view class="list-item" v-for="(item,index) in list" :key="index" v-if="!($app.getData('config').ios_switch==3&&item.id==1)">
 				<view class="row row-1">
 					<view class="left flex-set">
 						<image :src="item.img" class="icon" mode="aspectFill"></image>

@@ -79,39 +79,40 @@ var render = function() {
   var g3 = _vm.$app.getData("config")
   var g4 = _vm.$app.getVal("VERSION")
   var g5 = _vm.$app.getData("config")
+  var g6 = _vm.$app.getData("config")
 
   var l0 = _vm.__map(_vm.chartList, function(item, index) {
-    var g6 = _vm.$app.strToHour(item.create_time)
+    var g7 = _vm.$app.strToHour(item.create_time)
     return {
       $orig: _vm.__get_orig(item),
-      g6: g6
+      g7: g7
     }
   })
 
-  var g7 = _vm.$app.getData("userStar")
-  var g8 = _vm.$app.getData("config")
+  var g8 = _vm.$app.getData("userStar")
   var g9 = _vm.$app.getData("config")
   var g10 = _vm.$app.getData("config")
   var g11 = _vm.$app.getData("config")
   var g12 = _vm.$app.getData("config")
-  var g13 = _vm.$app.getData("sysInfo").system.indexOf("iOS")
-  var g14 = _vm.$app.getData("config")
+  var g13 = _vm.$app.getData("config")
+  var g14 = _vm.$app.getData("sysInfo").system.indexOf("iOS")
   var g15 = _vm.$app.getData("config")
   var g16 = _vm.$app.getData("config")
-  var g17 = _vm.$app.getData("userInfo")
+  var g17 = _vm.$app.getData("config")
   var g18 = _vm.$app.getData("userInfo")
-  var g21 = _vm.$app.getData("sysInfo").system.indexOf("iOS")
-  var g22 = _vm.$app.getData("config")
+  var g19 = _vm.$app.getData("userInfo")
+  var g22 = _vm.$app.getData("sysInfo").system.indexOf("iOS")
+  var g23 = _vm.$app.getData("config")
 
   var l1 = _vm.__map(_vm.signGift_list, function(item, index) {
-    var g19 = Math.round(item.awards.coin / 10000)
-    var g20 = Math.round(item.awards.flower / 10000)
-    var g23 = item.btn_text.replace("去充值", "未完成")
+    var g20 = Math.round(item.awards.coin / 10000)
+    var g21 = Math.round(item.awards.flower / 10000)
+    var g24 = item.btn_text.replace("去充值", "未完成")
     return {
       $orig: _vm.__get_orig(item),
-      g19: g19,
       g20: g20,
-      g23: g23
+      g21: g21,
+      g24: g24
     }
   })
 
@@ -270,8 +271,8 @@ var render = function() {
         g3: g3,
         g4: g4,
         g5: g5,
+        g6: g6,
         l0: l0,
-        g7: g7,
         g8: g8,
         g9: g9,
         g10: g10,
@@ -283,8 +284,9 @@ var render = function() {
         g16: g16,
         g17: g17,
         g18: g18,
-        g21: g21,
+        g19: g19,
         g22: g22,
+        g23: g23,
         l1: l1
       }
     }

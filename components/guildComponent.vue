@@ -134,14 +134,14 @@
 				<view v-if="$app.getData('config').version != $app.VERSION" class="btn-item" @tap="invitFakePage=1;modal = 'invit_desert';getFakeInviteList()">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5UuhH4Via2LvZLDvjUXk1BTQW6p1mkbxNuAFqaIFuKKSS9MTicctuJUsg/0"
 					 mode=""></image>
-					<view class="text">拉票</view>
+					<view class="text">召集好友</view>
 				</view>
 				<view class="btn-item" @tap="goPageHasStar('/pages/fans/fans_list')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQqumNVIoBH06JHxsj0FI6GJOhvalPiaV8l2Ap7CKFSwFsjecJ1fWWhQHicg/0"
 					 mode=""></image>
 					<view class="text">粉丝团</view>
 				</view>
-				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="btn-item" @tap="goPageHasStar('/pages/active_one/active_one')">
+				<view v-if="$app.getData('config').version != $app.getVal('VERSION')&&$app.getData('config').yingyuan_switch==1" class="btn-item" @tap="goPageHasStar('/pages/active_one/active_one')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQquUweIHJ2hkGoLic007iakqBJCyJjsHtbyicFRcibN0S88wkn2yBR1PsOzpw/0"
 					 mode=""></image>
 					<view class="text">应援</view>

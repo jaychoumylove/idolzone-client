@@ -9120,9 +9120,9 @@ createPage(_group.default);
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 基础常量
-// const HOST = 'idolzone.cyoor.com';
-var HOST = 'cs.adqz.xiaolishu.com';
-var VERSION = 'v1';var _default =
+var HOST = 'idolzone.cyoor.com';
+// const HOST = 'cs.adqz.xiaolishu.com';
+var VERSION = 'v3';var _default =
 
 {
   HOST: HOST,

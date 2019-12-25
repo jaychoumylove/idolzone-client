@@ -99,6 +99,5 @@
   ],
   "usingComponents": {
     "load-icon-component": "/components/loadIconComponent"
-  },
-  "sitemapLocation": "sitemap32.json"
+  }
 }

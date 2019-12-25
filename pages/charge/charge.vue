@@ -1,6 +1,9 @@
 <template>
 	<!-- #ifndef H5 -->
-	<view class="no-data" v-if="~$app.getData('sysInfo').system.indexOf('iOS')&&$app.getData('config').ios_switch!=0">
+	<view class="no-data" v-if="$app.getData('config').version != $app.VERSION || $app.getData('config').ios_switch==3">
+		由于政策原因，不支持在小程序内购买
+	</view>
+	<view class="no-data" v-else-if="~$app.getData('sysInfo').system.indexOf('iOS')&&$app.getData('config').ios_switch!=0">
 		由于Apple政策原因，不支持在小程序内购买
 	</view>
 	<view class="charge-page-container" v-else>	
