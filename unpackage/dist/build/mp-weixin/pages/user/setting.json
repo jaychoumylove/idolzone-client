@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "设置",
-  "usingComponents": {
-    "badge-component": "/components/badgeComponent",
-    "modal-component": "/components/modalComponent",
-    "btn-component": "/components/btnComponent",
-    "prompt": "/components/zz-prompt/index"
-  }
-}

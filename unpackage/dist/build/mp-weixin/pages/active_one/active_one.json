@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "应援",
-  "usingComponents": {
-    "modal-component": "/components/modalComponent",
-    "btn-component": "/components/btnComponent"
-  }
-}

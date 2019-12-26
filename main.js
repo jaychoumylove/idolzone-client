@@ -17,10 +17,16 @@ import '@/lib/utils/ald-stat'
 import '@/lib/utils/xhtad_sdk.min.js'
 // #endif
 
+
+
 // #ifdef H5
 // vConsole
-// import VConsole from 'vconsole/dist/vconsole.min.js' //import vconsole
-// let vConsole = new VConsole() // 初始化
+import VConsole from 'vconsole/dist/vconsole.min.js' //import vconsole
+let vConsole = new VConsole() // 初始化
+
+
+
+
 // #endif
 
 const app = new Vue({

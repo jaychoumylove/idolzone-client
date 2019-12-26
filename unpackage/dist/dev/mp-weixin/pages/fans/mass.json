@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "集结",
-  "usingComponents": {
-    "modal-component": "/components/modalComponent",
-    "btn-component": "/components/btnComponent"
-  }
-}

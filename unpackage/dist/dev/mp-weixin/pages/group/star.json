@@ -1,8 +1,0 @@
-{
-  "disableScroll": true,
-  "navigationBarBackgroundColor": "#544f4b",
-  "navigationBarTextStyle": "white",
-  "usingComponents": {
-    "guild-component": "/components/guildComponent"
-  }
-}

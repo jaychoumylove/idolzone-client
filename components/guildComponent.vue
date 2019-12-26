@@ -76,7 +76,7 @@
 					</view>
 				</view>
 			</view>
-			
+
 			<!-- 粉丝排名 -->
 			<view class="bottom-wrap">
 				<view class="left-wrap" @tap="$app.goPage('/pages/user/rank?starid='+star.id)">
@@ -141,7 +141,8 @@
 					 mode=""></image>
 					<view class="text">粉丝团</view>
 				</view>
-				<view v-if="$app.getData('config').version != $app.getVal('VERSION')&&$app.getData('config').yingyuan_switch==1" class="btn-item" @tap="goPageHasStar('/pages/active_one/active_one')">
+				<view v-if="$app.getData('config').version != $app.getVal('VERSION')&&$app.getData('config').yingyuan_switch==1"
+				 class="btn-item" @tap="goPageHasStar('/pages/active_one/active_one')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQquUweIHJ2hkGoLic007iakqBJCyJjsHtbyicFRcibN0S88wkn2yBR1PsOzpw/0"
 					 mode=""></image>
 					<view class="text">应援</view>
@@ -230,7 +231,8 @@
 				<text class="tips">发言可输入32字，喊话可以输入16字</text>
 			</view>
 			<view class="bottom-wrap">
-				<input class="input" type="text" placeholder="聊天一起High!" :value="chartMsg" confirm-type="send" @confirm="sendMsg" @input="chartMsg=$event.detail.value"/>
+				<input class="input" type="text" placeholder="聊天一起High!" :value="chartMsg" confirm-type="send" @confirm="sendMsg"
+				 @input="chartMsg=$event.detail.value" />
 				<view class="btn flex-set" @tap="sendMsg">发言</view>
 			</view>
 		</view>
@@ -299,7 +301,8 @@
 									<view class="right">补充鲜花回复“1”<text class="iconfont iconjiantou"></text></view>
 								</button>
 							</block>
-							<view v-else-if="$app.getData('config').version != $app.getVal('VERSION')" class="right" @tap="$app.goPage('/pages/charge/charge')">充值<text class="iconfont iconjiantou"></text></view>
+							<view v-else-if="$app.getData('config').version != $app.getVal('VERSION')" class="right" @tap="$app.goPage('/pages/charge/charge')">充值<text
+								 class="iconfont iconjiantou"></text></view>
 
 						</view>
 					</view>
@@ -494,7 +497,7 @@
 				</view>
 
 			</view>
-			
+
 			<view class="close-btn flex-set iconfont iconclose" @tap="modal = ''"></view>
 		</view>
 
@@ -674,7 +677,7 @@
 
 				fakeinvitList: [],
 				invitFakePage: 1,
-				
+
 				activeInfo: null,
 				current: 0,
 				itemList: [],
@@ -823,9 +826,9 @@
 
 						//徽章获得
 						this.$app.request('badge/achieve', {}, res => {
-							if (res.data.badge_id>0) {
+							if (res.data.badge_id > 0) {
 								this.achieveBadge = res.data,
-								this.modal = 'achieveBadge'
+									this.modal = 'achieveBadge'
 							}
 						})
 
@@ -935,7 +938,7 @@
 			},
 
 			like(user_id, index) {
-				if(!user_id) user_id = this.$app.getData('userInfo').id
+				if (!user_id) user_id = this.$app.getData('userInfo').id
 				this.$app.request('user/like', {
 					user_id
 				}, res => {
@@ -1106,12 +1109,19 @@
 						iv: e.detail.iv,
 						encryptedData: e.detail.encryptedData,
 					}, res => {
-						this.$app.request(this.$app.API.USER_INFO, {
-							user_id: this.$app.getData('userInfo').id
-						}, res => {
-							this.$app.setData('userInfo', res.data, true)
-							this.sendOrFollow()
-						})
+						if (res.data.userInfo.id != this.$app.getData('userInfo').id) {
+							// 同步其他平台账号数据
+							this.$app.token = null
+							this.$app.request('page/app', {}, res => {
+								this.$app.setData('userCurrency', res.data.userCurrency)
+								this.$app.setData('userStar', res.data.userStar)
+								this.$app.setData('userExt', res.data.userExt)
+							})
+						}
+						
+						this.$app.setData('userInfo', res.data.userInfo)
+						
+						this.sendOrFollow()
 					}, 'POST', true)
 				}
 
@@ -1488,7 +1498,7 @@
 					this.starRankList = resList
 				})
 			},
-			getUserRank(field='thisweek_count') {
+			getUserRank(field = 'thisweek_count') {
 				if (this.userRankPage > 10) return
 				this.$app.request(this.$app.API.USER_RANK, {
 					starid: this.star.id,
@@ -1977,35 +1987,43 @@
 							display: flex;
 							align-items: center;
 							font-size: 24upx;
-							
-							.nickname_lenght0{
+
+							.nickname_lenght0 {
 								max-width: 316upx;
 							}
-							.nickname_lenght1{
+
+							.nickname_lenght1 {
 								max-width: 280upx;
 							}
-							.nickname_lenght2{
+
+							.nickname_lenght2 {
 								max-width: 244upx;
 							}
-							.nickname_lenght3{
+
+							.nickname_lenght3 {
 								max-width: 212upx;
 							}
-							.nickname_lenght4{
+
+							.nickname_lenght4 {
 								max-width: 178upx;
 							}
-							.nickname_lenght5{
+
+							.nickname_lenght5 {
 								max-width: 142upx;
 							}
-							.nickname_lenght6{
+
+							.nickname_lenght6 {
 								max-width: 106upx;
 							}
-							.nickname_lenght7{
+
+							.nickname_lenght7 {
 								max-width: 76upx;
 							}
-							.nickname_lenght8{
+
+							.nickname_lenght8 {
 								max-width: 42upx;
 							}
-							
+
 							.badge-wrap {
 								padding: 0 2upx;
 								display: flex;
@@ -2081,7 +2099,7 @@
 									}
 
 								}
-								
+
 								.user-badge .badge-item {
 									width: 33upx;
 									height: 32upx;
@@ -2794,37 +2812,39 @@
 			flex-direction: column;
 			align-items: center;
 			text-align: center;
-			color:#FFFFFF;
+			color: #FFFFFF;
 
 			.flaring {
 				background: url(https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FJ38hIoViapUZ9oviafyEXQoGUqBl4DOkqHRV7VBRQv5Kr8ia9Hx9ibFzcwYKAhk28BK9RO81sOZk6MA/0) center center/100% 100% no-repeat;
 				width: 489rpx;
 				height: 537rpx;
-								
+
 				image {
 					margin-top: 150rpx;
 					width: 265upx;
 					height: 230upx;
 				}
 			}
-			.text .title{
+
+			.text .title {
 				font-size: 40upx;
 				font-weight: 700;
 			}
-			.btn{
+
+			.btn {
 				margin: 30upx 0;
 				display: flex;
 				flex-direction: row;
 				justify-content: center;
 			}
-			
-			.btn button{
+
+			.btn button {
 				margin-right: 30upx;
 				padding: 10upx 20upx;
 				background-color: #fbcc3e;
 				border-radius: 30upx;
 			}
-			
+
 			.close-btn {
 				z-index: 10;
 				border-radius: 50%;
@@ -2834,7 +2854,7 @@
 				top: 100upx;
 				right: 80upx;
 			}
-			
+
 		}
 
 		.fansbox-modal-container {
@@ -2982,7 +3002,7 @@
 
 			display: flex;
 			flex-direction: column;
-						
+
 			.top-wrap .category-title {
 				height: 240upx;
 				width: 600upx;
@@ -2992,7 +3012,7 @@
 				font-size: 30upx;
 				margin-top: -64upx;
 				text-shadow: 10upx 0upx 20upx #C63703, -10upx 0upx 20upx #C63703, 0upx 10upx 20upx #C63703, 0upx -10upx 10upx #C63703;
-		}
+			}
 
 			.content-wrap {
 				width: 600upx;

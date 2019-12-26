@@ -167,11 +167,13 @@
 
 				<view class="btn-wrap">
 					<button class='fsend-btn flex-set' open-type='share'>
-						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9dknaXFIzCvjqczKRMibonEkcG2zngtUElAlIn3AykEp18grIIf9t7MQ/0" mode="widthFix"></image>
+						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9dknaXFIzCvjqczKRMibonEkcG2zngtUElAlIn3AykEp18grIIf9t7MQ/0"
+						 mode="widthFix"></image>
 						<view>微信群</view>
 					</button>
 					<view class='fsend-btn flex-set' open-type='share' @tap="modal ='otherShareW'">
-						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9vIiao9dsa8MD9JpFxQIkgpmSwq6hJDibI2ia1bUMsavCPefq3kFEiaX31Q/0" mode="widthFix"></image>
+						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9vIiao9dsa8MD9JpFxQIkgpmSwq6hJDibI2ia1bUMsavCPefq3kFEiaX31Q/0"
+						 mode="widthFix"></image>
 						<view>微博</view>
 					</view>
 					<view v-if="$app.getData('config').pyq_switch == '1'" class='fsend-btn flex-set' open-type='share' @tap="drawCanvas();modal ='otherShareP'">
@@ -224,7 +226,7 @@
 		},
 		data() {
 			return {
-				starid:0,
+				starid: 0,
 				star: {},
 				activeInfo: {
 					can_card: 1,
@@ -249,9 +251,9 @@
 			return this.$app.commonShareAppMessage(5)
 		},
 		onLoad(option) {
-			
+
 		},
-		onShow(){
+		onShow() {
 			if (this.$app.getData('userStar').id) {
 				this.starid = this.$app.getData('userStar').id
 			} else {
@@ -431,9 +433,28 @@
 							iv: e.detail.iv,
 							encryptedData: e.detail.encryptedData,
 						}, res => {
-							this.$app.request(this.$app.API.USER_INFO, {}, res => {
-								this.$app.setData('userInfo', res.data, true)
-							})
+							if (res.data.userInfo.id != this.$app.getData('userInfo').id) {
+								// 同步其他平台账号数据
+								this.$app.token = null
+								this.$app.request('page/app', {}, res => {
+									this.$app.setData('userCurrency', res.data.userCurrency)
+									this.$app.setData('userStar', res.data.userStar)
+									this.$app.setData('userExt', res.data.userExt)
+							
+									uni.showModal({
+										title: '提示',
+										content: '已同步其他平台账号数据',
+										showCancel: false,
+										success: res => {
+											if (res.confirm) {
+												this.$app.goPage('/pages/group/group')
+											}
+										},
+									});
+								})
+							}
+							
+							this.$app.setData('userInfo', res.data.userInfo)
 							if (!this.$app.getData('userStar').id) {
 								this.join()
 							}

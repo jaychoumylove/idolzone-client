@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "宝箱",
-  "usingComponents": {
-    "btn-component": "/components/btnComponent"
-  }
-}

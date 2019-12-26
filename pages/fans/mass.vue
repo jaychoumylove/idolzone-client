@@ -154,11 +154,19 @@
 							iv: e.detail.iv,
 							encryptedData: e.detail.encryptedData,
 						}, res => {
-							this.$app.request(this.$app.API.USER_INFO, {
-								user_id: this.$app.getData('userInfo').id
-							}, res => {
-								this.$app.setData('userInfo', res.data)
-							})
+							if (res.data.userInfo.id != this.$app.getData('userInfo').id) {
+								this.$app.token = null
+								this.$app.request('page/app', {}, res => {
+									this.$app.setData('userCurrency', res.data.userCurrency)
+									this.userCurrency = res.data.userCurrency
+									
+									this.$app.setData('userStar', res.data.userStar)
+									this.userStar = res.data.userStar
+									
+									this.$app.setData('userExt', res.data.userExt)
+								})
+							}
+							this.$app.setData('userInfo', res.data.userInfo)
 						}, 'POST', true)
 					}
 

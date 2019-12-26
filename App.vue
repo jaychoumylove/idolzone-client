@@ -35,9 +35,13 @@
 				if (uni.getSystemInfoSync().AppPlatform == 'qq') {
 					this.$app.setData('platform', 'MP-QQ')
 				}
-				// 微信H5
+				// H5
 				// #ifdef H5
 				this.$app.setData('platform', 'H5')
+				// #endif
+				// APP_PLUS
+				// #ifdef APP-PLUS
+				this.$app.setData('platform', 'APP')
 				// #endif
 			},
 			/**处理option参数*/

@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "每日必做任务",
-  "usingComponents": {
-    "btn-component": "/components/btnComponent",
-    "modal-component": "/components/modalComponent"
-  }
-}

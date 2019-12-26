@@ -57,9 +57,10 @@
 					 mode="aspectFill"></image>
 					<view class="text">任务</view>
 				</view>
-				
+
 				<!-- #ifdef MP-WEIXIN -->
-				<view v-if="!~$app.getData('sysInfo').system.indexOf('iOS')||$app.getData('config').ios_switch==0" class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
+				<view v-if="!~$app.getData('sysInfo').system.indexOf('iOS')||$app.getData('config').ios_switch==0" class="item-wrap"
+				 @tap="$app.goPage('/pages/charge/charge')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
 					 mode="aspectFill"></image>
 					<view class="text">充值</view>
@@ -72,7 +73,7 @@
 					</button>
 				</view>
 				<!-- #endif -->
-				
+
 				<!-- #ifndef MP-WEIXIN -->
 				<view class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
@@ -80,7 +81,7 @@
 					<view class="text">充值</view>
 				</view>
 				<!-- #endif -->
-					
+
 				<view class="item-wrap" @tap="$app.goPage('/pages/user/badge')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9G95njnZp6t7hkcfsoraFhyFkjhRwv6OG00pSKo7DLXZAUibrL8SldBmf7kdCFB1icsWHxc0n34AGrA/0"
 					 mode="aspectFill"></image>
@@ -95,7 +96,8 @@
 			</view>
 		</view>
 		<!-- 广告位 -->
-		<view v-if="$app.getData('config').version != $app.getVal('VERSION') && $app.getData('config').user_ad" class="ad-container flex-set" @tap="goPage(default_user_ad_url)">
+		<view v-if="$app.getData('config').version != $app.getVal('VERSION') && $app.getData('config').user_ad" class="ad-container flex-set"
+		 @tap="goPage(default_user_ad_url)">
 			<image :src="$app.getData('config').user_ad.img" mode="widthFix"></image>
 		</view>
 
@@ -160,7 +162,9 @@
 				userLevel: {},
 			};
 		},
-		onLoad() {},
+		onLoad() {
+			
+		},
 		onShow() {
 			this.userInfo = {
 				avatarurl: this.$app.getData('userInfo')['avatarurl'] || this.$app.AVATAR,
@@ -238,13 +242,24 @@
 							iv: e.detail.iv,
 							encryptedData: e.detail.encryptedData,
 						}, res => {
-							this.$app.request(this.$app.API.USER_INFO, {
-								user_id: this.$app.getData('userInfo').id
-							}, res => {
-								this.$app.setData('userInfo', res.data)
-								this.userInfo = res.data
-								this.$app.toast('更新成功')
-							})
+							if (res.data.userInfo.id != this.$app.getData('userInfo').id) {
+								// 同步其他平台账号数据
+								this.$app.token = null
+								this.$app.request('page/app', {}, res => {
+									this.$app.setData('userCurrency', res.data.userCurrency)
+									this.userCurrency = res.data.userCurrency
+									
+									this.$app.setData('userStar', res.data.userStar)
+									this.userStar = res.data.userStar
+									
+									this.$app.setData('userExt', res.data.userExt)
+								})
+							}
+							
+							this.$app.setData('userInfo', res.data.userInfo)
+							this.userInfo = res.data.userInfo
+
+							this.$app.toast('更新成功')
 						}, 'POST', true)
 					})
 				}
@@ -395,6 +410,7 @@
 		.func-container {
 			position: relative;
 			z-index: 1;
+
 			.item-wrap {
 				display: flex;
 				justify-content: space-between;

@@ -56,7 +56,7 @@
 							<!-- ios充值去公众号 -->
 							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
 						</button>
-						<button v-else class="btn" :open-type="item.open_type">
+						<button v-else class="btn" :open-type="item.open_type" @tap="$app.buttonHandler()">
 							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
 						</button>
 					</btnComponent>

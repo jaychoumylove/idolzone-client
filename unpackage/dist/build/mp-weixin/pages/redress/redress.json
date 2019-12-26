@@ -1,7 +1,0 @@
-{
-  "usingComponents": {
-    "modal-component": "/components/modalComponent",
-    "btn-component": "/components/btnComponent",
-    "list-item-component": "/components/listItemComponent"
-  }
-}

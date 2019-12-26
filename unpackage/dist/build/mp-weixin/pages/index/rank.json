@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "往期榜单",
-  "usingComponents": {
-    "list-item-component": "/components/listItemComponent"
-  }
-}

@@ -3,7 +3,8 @@
 		<guildComponent ref="guildComponent"></guildComponent>
 		<button open-type="getUserInfo" @getuserinfo="getUserInfo">
 			<view v-if="tips" class="tips-container">
-				<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERenSrzKEkAp9n21IPHed1tVsOl379qcR2nARISo0xjicBPNmQgohh7aw/0" mode="widthFix"></image>
+				<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERenSrzKEkAp9n21IPHed1tVsOl379qcR2nARISo0xjicBPNmQgohh7aw/0"
+				 mode="widthFix"></image>
 			</view>
 		</button>
 	</view>
@@ -32,7 +33,7 @@
 		onReady() {},
 		onShow() {
 			if (!this.$app.getData('userStar').id) this.tips = true
-			this.$nextTick(function(){
+			this.$nextTick(function() {
 				this.$refs.guildComponent.load && this.$refs.guildComponent.load(this.starid)
 			})
 		},
@@ -52,12 +53,32 @@
 							iv: e.detail.iv,
 							encryptedData: e.detail.encryptedData,
 						}, res => {
-							this.$app.request(this.$app.API.USER_INFO, {
-								user_id: this.$app.getData('userInfo').id
-							}, res => {
-								this.$app.setData('userInfo', res.data, true)
+							if (res.data.userInfo.id != this.$app.getData('userInfo').id) {
+								// 同步其他平台账号数据
+								this.$app.token = null
+								this.$app.request('page/app', {}, res => {
+									this.$app.setData('userCurrency', res.data.userCurrency)
+									this.$app.setData('userStar', res.data.userStar)
+									this.$app.setData('userExt', res.data.userExt)
 
-							})
+									uni.showModal({
+										title: '提示',
+										content: '已同步其他平台账号数据',
+										showCancel: false,
+										success: r => {
+											if (r.confirm) {
+												if (res.data.userStar.id) {
+													this.$app.goPage('/pages/group/group')
+												} else {
+													this.$refs.guildComponent.load(this.starid)
+												}
+											}
+										},
+									});
+								})
+							}
+
+							this.$app.setData('userInfo', res.data.userInfo)
 						}, 'POST', true)
 					}
 				}

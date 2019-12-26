@@ -48,10 +48,8 @@
 						iv: e.detail.iv,
 						encryptedData: e.detail.encryptedData,
 					}, res => {
-						this.$app.request(this.$app.API.USER_INFO, {}, res => {
-							this.$app.setData('userInfo', res.data, true)
-							this.$app.goPage('/pages/lottery/box_open?rec_lottery_id=' + this.rec_lottery_id)
-						})
+						this.$app.setData('userInfo', res.data.userInfo)
+						this.$app.goPage('/pages/lottery/box_open?rec_lottery_id=' + this.rec_lottery_id)
 					}, 'POST', true)
 				}
 			},
