@@ -60,8 +60,8 @@
 					<view class="text">任务</view>
 				</view>
 
-				<!-- #ifdef MP-WEIXIN -->
-				<view v-if="!~$app.getData('sysInfo').system.indexOf('iOS')||$app.getData('config').ios_switch==0" class="item-wrap"
+				<!-- #ifdef MP -->
+				<view v-if="(!~$app.getData('sysInfo').system.indexOf('iOS')||$app.getData('config').ios_switch==0)&&$app.getData('config').ios_switch!=3" class="item-wrap"
 				 @tap="$app.goPage('/pages/charge/charge')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
 					 mode="aspectFill"></image>
@@ -76,7 +76,7 @@
 				</view>
 				<!-- #endif -->
 
-				<!-- #ifndef MP-WEIXIN -->
+				<!-- #ifndef MP -->
 				<view class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
 					 mode="aspectFill"></image>
@@ -239,7 +239,7 @@
 			getUserInfo(e) {
 				const userInfo = e.detail.userInfo
 				if (userInfo && ~this.$app.getData('platform').indexOf('MP')) {
-					this.$app.modal('是否同步微信头像和昵称？', () => {
+					const req = function() {
 						this.$app.request(this.$app.API.USER_SAVEINFO, {
 							iv: e.detail.iv,
 							encryptedData: e.detail.encryptedData,
@@ -263,8 +263,15 @@
 
 							this.$app.toast('更新成功')
 						}, 'POST', true)
-					})
-				} 
+					}.bind(this)
+					if (this.$app.getData('userInfo').nickname) {
+						this.$app.modal('是否同步微信头像和昵称？', () => {
+							req()
+						})
+					} else {
+						req()
+					}
+				}
 			},
 		}
 	}

@@ -291,19 +291,26 @@
 						<view class="bottom-wrapper">
 							<view v-if="current==0" class="text left flex-set">我的金豆：{{userCurrency['coin']}}</view>
 							<view v-if="current==1" class="text left flex-set">我的鲜花：{{userCurrency['flower']}}</view>
-							<view v-if="current==2" class="text left flex-set">我的旧豆：{{userCurrency['old_coin']}}</view>
-
-							<block v-if="~$app.getData('sysInfo').system.indexOf('iOS')">
-								<view v-if="$app.getData('config').ios_switch==0" class="right" @tap="$app.goPage('/pages/charge/charge')">
-									充值<text class="iconfont iconjiantou"></text>
-								</view>
-								<button v-else-if="$app.getData('config').ios_switch==2" open-type="contact">
-									<view class="right">补充鲜花回复“1”<text class="iconfont iconjiantou"></text></view>
-								</button>
+							<view v-if="current==2" class="text left flex-set">我的旧豆：{{userCurrency['old_coin']}}</view>							
+							
+							<!-- #ifdef MP -->
+							<block v-if="$app.getData('config').ios_switch!=3">
+								<block v-if="~$app.getData('sysInfo').system.indexOf('iOS')">
+									<view v-if="$app.getData('config').ios_switch==0" class="right" @tap="$app.goPage('/pages/charge/charge')">
+										充值<text class="iconfont iconjiantou"></text>
+									</view>
+									<button v-else-if="$app.getData('config').ios_switch==2" open-type="contact">
+										<view class="right">补充鲜花回复“1”<text class="iconfont iconjiantou"></text></view>
+									</button>
+								</block>
+								<view v-else-if="$app.getData('config').version != $app.getVal('VERSION')" class="right" @tap="$app.goPage('/pages/charge/charge')">充值<text
+									 class="iconfont iconjiantou"></text></view>
 							</block>
-							<view v-else-if="$app.getData('config').version != $app.getVal('VERSION')" class="right" @tap="$app.goPage('/pages/charge/charge')">充值<text
+							<!-- #endif -->
+							<!-- #ifndef MP -->
+							<view class="right" @tap="$app.goPage('/pages/charge/charge')">充值<text
 								 class="iconfont iconjiantou"></text></view>
-
+							<!-- #endif -->
 						</view>
 					</view>
 				</view>
@@ -618,8 +625,14 @@
 									</view>
 								</view>
 								<view class="right-wrap">
-									<view :class="'btn'+item.over" v-if="!~$app.getData('sysInfo').system.indexOf('iOS') || $app.getData('config').ios_switch==0">{{item.btn_text}}</view>
+									<!-- #ifdef MP-WEIXIN -->
+									<view :class="'btn'+item.over" v-if="$app.getData('config').ios_switch!=3 && !~$app.getData('sysInfo').system.indexOf('iOS') || $app.getData('config').ios_switch==0">{{item.btn_text}}</view>
 									<view :class="'btn'+item.over" v-else>{{item.btn_text.replace('去充值','未完成')}}</view>
+									<!-- #endif -->
+									<!-- #ifndef MP-WEIXIN -->
+									<view :class="'btn'+item.over">去充值</view>
+									<!-- #endif -->
+									
 									<view v-if="item.over==0" class="tips">{{item.name_addon}}</view>
 								</view>
 							</view>

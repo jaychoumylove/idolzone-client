@@ -247,10 +247,7 @@
 			}
 		},
 		{
-			"path": "pages/charge/charge",
-			"style": {
-				"navigationBarTitleText": "粉丝团成员"
-			}
+			"path": "pages/charge/charge"
 		}
 
 	],

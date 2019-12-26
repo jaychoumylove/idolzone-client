@@ -5,10 +5,17 @@
 			<view class="swiper-item" :class="{select:current==0}" @tap="current = 0;getTaskList();">新手任务</view>
 			<view class="swiper-item" :class="{select:current==1}" @tap="current = 1;getTaskList();">每日任务</view>
 		</view> -->
-
-
-		<view class="item" v-for="(item,index) in taskList" :key="index"
-			v-if="(item.id!=7) || (item.id==7&&$app.getData('config').version != $app.getVal('VERSION'))">
+		<!-- #ifdef MP -->
+		<view class="item" v-for="(item,index) in taskList" :key="index" 
+		v-if="(item.id!=7) || 
+		(item.id==7&&!~$app.getData('sysInfo').system.indexOf('iOS')&&$app.getData('config').ios_switch!=3)
+		|| (item.id==7&&~$app.getData('sysInfo').system.indexOf('iOS')&&$app.getData('config').ios_switch==0)
+		">
+		<!-- #endif -->
+		<!-- #ifndef MP -->
+		<view class="item" v-for="(item,index) in taskList" :key="index">
+		<!-- #endif -->
+		
 			<!-- 有些任务不显示 -->
 			<view v-if="current != 2" class="left-content">
 				<image class="img" :src="item.icon" mode=""></image>
@@ -50,9 +57,10 @@
 
 				</view>
 				<view v-if="current!=2" class="btn" @tap="doTask(item,index)">
-					
+
 					<btnComponent type="default" v-if="item.status == 0">
-						<button v-if="item.id==7&&~$app.getData('sysInfo').system.indexOf('iOS')&&$app.getData('config').ios_switch==2" class="btn" open-type="contact" @tap.stop>
+						<button v-if="item.id==7&&~$app.getData('sysInfo').system.indexOf('iOS')&&$app.getData('config').ios_switch==2"
+						 class="btn" open-type="contact" @tap.stop>
 							<!-- ios充值去公众号 -->
 							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
 						</button>
@@ -60,15 +68,15 @@
 							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
 						</button>
 					</btnComponent>
-					
+
 					<btnComponent type="success" v-if="item.status == 1">
 						<view class="flex-set" style="width: 130upx;height: 65upx;">可领取</view>
 					</btnComponent>
-					
+
 					<btnComponent type="disable" v-if="item.status == 2">
 						<view class="flex-set" style="width: 130upx;height: 65upx;">已完成</view>
 					</btnComponent>
-					
+
 				</view>
 				<view v-else class="btn" @tap="useBadge(item,index)">
 					<btnComponent type="default" v-if="item.status == 0">
@@ -253,7 +261,7 @@
 					if (res.data.flower) toast += '，鲜花+' + res.data.flower
 					if (res.data.stone) toast += '，钻石+' + res.data.stone
 					if (res.data.trumpet) toast += '，喇叭+' + res.data.trumpet
-				
+
 					this.$app.toast(toast)
 					this.getTaskList()
 					this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {

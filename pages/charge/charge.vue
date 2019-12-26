@@ -1,5 +1,5 @@
 <template>
-	<!-- #ifdef MP-WEIXIN -->
+	<!-- #ifdef MP -->
 	<view class="no-data" v-if="$app.getData('config').version == $app.getVal('VERSION') || $app.getData('config').ios_switch==3">
 		由于政策原因，不支持在小程序内购买
 	</view>
@@ -9,7 +9,7 @@
 	<view class="charge-page-container" v-else>	
 	<!-- #endif -->
 	
-	<!-- #ifndef MP-WEIXIN -->
+	<!-- #ifndef MP -->
 	<view class="charge-page-container">	
 	<!-- #endif -->	
 		<view class="top-row flex-set">

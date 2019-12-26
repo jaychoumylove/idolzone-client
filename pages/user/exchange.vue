@@ -45,7 +45,12 @@
 		</view>
 		
 		<view class="list-wrapper" v-else-if="current==1 && list && list.length > 0">
+			<!-- #ifdef MP-WEIXIN -->
 			<view class="list-item" v-for="(item,index) in list" :key="index" v-if="!($app.getData('config').ios_switch==3&&item.id==1)">
+			<!-- #endif -->
+			<!-- #ifndef MP-WEIXIN -->
+			<view class="list-item" v-for="(item,index) in list" :key="index">
+			<!-- #endif -->
 				<view class="row row-1">
 					<view class="left flex-set">
 						<image :src="item.img" class="icon" mode="aspectFill"></image>
