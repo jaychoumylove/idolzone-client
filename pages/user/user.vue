@@ -7,7 +7,9 @@
 				<button open-type="getUserInfo" @getuserinfo="getUserInfo">
 					<view class="avatar-wrap">
 						<image class="avatar" :src="userInfo.avatarurl" mode="aspectFill"></image>
+						<!-- #ifdef MP -->
 						<view class="tips">点击更新</view>
+						<!-- #endif -->
 					</view>
 				</button>
 
@@ -163,7 +165,7 @@
 			};
 		},
 		onLoad() {
-			
+
 		},
 		onShow() {
 			this.userInfo = {
@@ -236,7 +238,7 @@
 			 */
 			getUserInfo(e) {
 				const userInfo = e.detail.userInfo
-				if (userInfo) {
+				if (userInfo && ~this.$app.getData('platform').indexOf('MP')) {
 					this.$app.modal('是否同步微信头像和昵称？', () => {
 						this.$app.request(this.$app.API.USER_SAVEINFO, {
 							iv: e.detail.iv,
@@ -248,21 +250,21 @@
 								this.$app.request('page/app', {}, res => {
 									this.$app.setData('userCurrency', res.data.userCurrency)
 									this.userCurrency = res.data.userCurrency
-									
+
 									this.$app.setData('userStar', res.data.userStar)
 									this.userStar = res.data.userStar
-									
+
 									this.$app.setData('userExt', res.data.userExt)
 								})
 							}
-							
+
 							this.$app.setData('userInfo', res.data.userInfo)
 							this.userInfo = res.data.userInfo
 
 							this.$app.toast('更新成功')
 						}, 'POST', true)
 					})
-				}
+				} 
 			},
 		}
 	}

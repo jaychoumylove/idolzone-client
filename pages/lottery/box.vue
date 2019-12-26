@@ -43,7 +43,7 @@
 		methods: {
 			getUserInfo(e) {
 				const userInfo = e.detail.userInfo
-				if (userInfo) {
+				if (userInfo && ~this.$app.getData('platform').indexOf('MP')) {
 					this.$app.request(this.$app.API.USER_SAVEINFO, {
 						iv: e.detail.iv,
 						encryptedData: e.detail.encryptedData,

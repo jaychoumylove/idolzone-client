@@ -148,7 +148,7 @@
 			getUserInfo(e) {
 				const userInfo = e.detail.userInfo
 				if (userInfo) {
-					if (!this.$app.getData('userInfo').nickname) {
+					if (!this.$app.getData('userInfo').nickname && ~this.$app.getData('platform').indexOf('MP')) {
 						// 保存用户信息
 						this.$app.request(this.$app.API.USER_SAVEINFO, {
 							iv: e.detail.iv,

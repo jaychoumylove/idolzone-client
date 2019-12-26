@@ -1103,8 +1103,9 @@
 			 * 保存用户详细信息
 			 */
 			getUserInfo(e) {
+				// #ifdef MP
 				const userInfo = e.detail.userInfo
-				if (userInfo) {
+				if (userInfo && ~this.$app.getData('platform').indexOf('MP')) {
 					this.$app.request(this.$app.API.USER_SAVEINFO, {
 						iv: e.detail.iv,
 						encryptedData: e.detail.encryptedData,
@@ -1124,7 +1125,10 @@
 						this.sendOrFollow()
 					}, 'POST', true)
 				}
-
+				// #endif
+				// #ifndef MP
+				this.sendOrFollow()
+				// #endif
 			},
 			changeSignGift(index) {
 				this.signGift_currentCategory = index

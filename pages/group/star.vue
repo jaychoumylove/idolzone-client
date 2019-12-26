@@ -1,7 +1,14 @@
 <template>
 	<view class="star-container">
 		<guildComponent ref="guildComponent"></guildComponent>
+		<!-- #ifdef MP -->
 		<button open-type="getUserInfo" @getuserinfo="getUserInfo">
+		<!-- #endif -->
+		<!-- #ifndef MP -->
+		<button open-type="getUserInfo" @tap="getUserInfo">
+		<!-- #endif -->
+		
+		<!-- <button open-type="getUserInfo" @getuserinfo="getUserInfo"> -->
 			<view v-if="tips" class="tips-container">
 				<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERenSrzKEkAp9n21IPHed1tVsOl379qcR2nARISo0xjicBPNmQgohh7aw/0"
 				 mode="widthFix"></image>
@@ -44,10 +51,10 @@
 
 		methods: {
 			getUserInfo(e) {
+				this.tips = false
 				const userInfo = e.detail.userInfo
 				if (userInfo) {
-					this.tips = false
-					if (!this.$app.getData('userInfo').nickname) {
+					if (!this.$app.getData('userInfo').nickname && ~this.$app.getData('platform').indexOf('MP')) {
 
 						this.$app.request(this.$app.API.USER_SAVEINFO, {
 							iv: e.detail.iv,

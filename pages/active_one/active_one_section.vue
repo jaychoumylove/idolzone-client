@@ -427,7 +427,7 @@
 			getUserInfo(e) {
 				const userInfo = e.detail.userInfo
 				if (userInfo) {
-					if (!this.$app.getData('userInfo').nickname) {
+					if (!this.$app.getData('userInfo').nickname && ~this.$app.getData('platform').indexOf('MP')) {
 						// 保存用户信息
 						this.$app.request(this.$app.API.USER_SAVEINFO, {
 							iv: e.detail.iv,
@@ -440,7 +440,7 @@
 									this.$app.setData('userCurrency', res.data.userCurrency)
 									this.$app.setData('userStar', res.data.userStar)
 									this.$app.setData('userExt', res.data.userExt)
-							
+
 									uni.showModal({
 										title: '提示',
 										content: '已同步其他平台账号数据',
@@ -453,7 +453,7 @@
 									});
 								})
 							}
-							
+
 							this.$app.setData('userInfo', res.data.userInfo)
 							if (!this.$app.getData('userStar').id) {
 								this.join()
