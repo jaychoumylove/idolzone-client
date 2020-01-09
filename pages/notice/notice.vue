@@ -30,11 +30,11 @@
 				this.$app.preImg(img)
 			},
 			urlFetch(url) {
-				// #ifdef H5
+				// #ifdef H5 
 				this.$app.goPage(url)
 				// #endif
 
-				// #ifdef MP
+				// #ifdef MP || APP-PLUS
 				this.webview = url
 				// #endif
 			},

@@ -60,29 +60,22 @@
 					<view class="text">任务</view>
 				</view>
 
-				<!-- #ifdef MP -->
-				<view v-if="(!~$app.getData('sysInfo').system.indexOf('iOS')||$app.getData('config').ios_switch==0)&&$app.getData('config').ios_switch!=3" class="item-wrap"
-				 @tap="$app.goPage('/pages/charge/charge')">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
-					 mode="aspectFill"></image>
-					<view class="text">充值</view>
-				</view>
-				<view v-else-if="~$app.getData('sysInfo').system.indexOf('iOS')&&$app.getData('config').ios_switch==2" class="item-wrap">
-					<button open-type="contact">
+				<block v-if="$app.getData('config').version != $app.getData('VERSION')">
+					<view v-if="$app.chargeSwitch()==0"
+					 class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
 						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
 						 mode="aspectFill"></image>
-						<view class="text">补充鲜花</view>
-					</button>
-				</view>
-				<!-- #endif -->
-
-				<!-- #ifndef MP -->
-				<view class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
-					 mode="aspectFill"></image>
-					<view class="text">充值</view>
-				</view>
-				<!-- #endif -->
+						<view class="text">充值</view>
+					</view>
+					<view v-else-if="$app.chargeSwitch()==2"
+					 class="item-wrap">
+						<button open-type="contact">
+							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
+							 mode="aspectFill"></image>
+							<view class="text">补充鲜花</view>
+						</button>
+					</view>
+				</block>
 
 				<view class="item-wrap" @tap="$app.goPage('/pages/user/badge')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9G95njnZp6t7hkcfsoraFhyFkjhRwv6OG00pSKo7DLXZAUibrL8SldBmf7kdCFB1icsWHxc0n34AGrA/0"
@@ -110,7 +103,7 @@
 					<image class="icon" :src="`/static/image/user_level/lv${userLevel.level}.png`" mode="aspectFill"></image>
 					<view class="text">
 						粉丝等级
-						<view class="tips flex-set">再贡献<view class="highlight">{{(userLevel.gap/10000).toFixed(1)+'万'}}</view>人气可升至下一级</view>
+						<view class="tips flex-set">再贡献<view class="highlight">{{userGap}}</view>人气可升至下一级</view>
 					</view>
 				</view>
 				<view class="right-wrap iconfont iconjiantou"></view>
@@ -162,6 +155,7 @@
 				rechargeList: [],
 
 				userLevel: {},
+				userGap: 0,
 			};
 		},
 		onLoad() {
@@ -231,6 +225,7 @@
 					user_id: this.userInfo.id
 				}, res => {
 					this.userLevel = res.data
+					this.userGap = res.data.gap ? (res.data.gap / 10000).toFixed(1) + '万' : '0'
 				})
 			},
 			/**

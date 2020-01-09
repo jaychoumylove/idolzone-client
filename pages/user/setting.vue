@@ -24,6 +24,14 @@
 			</view>
 			<view class="right-wrap iconfont iconjiantou"></view>
 		</view>
+		<!-- #ifdef APP-PLUS -->
+		<view class="item-wrap">
+			<view class="left-wrap">
+				<view class="text">版本号：{{$app.getData('widgetInfo').version}}</view>
+			</view>
+			<view class="right-wrap iconfont iconjiantou"></view>
+		</view>
+		<!-- #endif -->
 		<prompt v-if="modal=='exit'" title="退圈后等级、贡献、粉丝团、徽章(圈子相关数据)将清零。再次退圈需要90天之后才能操作" placeholder="输入你的ID确认退圈" @confirm="exitGroup"
 		 @closeModal="modal=''">
 

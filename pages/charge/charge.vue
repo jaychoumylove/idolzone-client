@@ -1,17 +1,10 @@
 <template>
-	<!-- #ifdef MP -->
-	<view class="no-data" v-if="$app.getData('config').version == $app.getVal('VERSION') || $app.getData('config').ios_switch==3">
-		由于政策原因，不支持在小程序内购买
+	<view class="no-data" v-if="
+	$app.getData('config').version == $app.getData('VERSION') || $app.chargeSwitch()!=0
+	">
+		由于政策原因，不支持在应用内购买
 	</view>
-	<view class="no-data" v-else-if="~$app.getData('sysInfo').system.indexOf('iOS')&&$app.getData('config').ios_switch!=0">
-		由于Apple政策原因，不支持在小程序内购买
-	</view>
-	<view class="charge-page-container" v-else>	
-	<!-- #endif -->
-	
-	<!-- #ifndef MP -->
-	<view class="charge-page-container">	
-	<!-- #endif -->	
+	<view v-else class="charge-page-container">	
 		<view class="top-row flex-set">
 			<view class="left-wrap flex-set">
 				<image class="avatar" :src="userInfo.avatarurl" mode="aspectFill"></image>
@@ -82,23 +75,23 @@
 		<!-- 鲜花钻石充值 -->
 		<block v-if="tabActive==0">
 			
-			<view class="select-container">
-				<picker @change="bindPickerChange" :range-key="'title'" :value="discount_option_index" :range="discount_option">
-				<view class="picker" v-if="discount_option[discount_option_index]&&discount_option[discount_option_index].status==0">
-					<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JUmpAKCVJ2Npw9ISkVxibZZ2Ye5b9VZyn7PuK2Pglkic4ZzvCz8pF461k7sp1SUgzmhBFu9Hr55pDXA/0"
-					 mode="aspectFill"></image>{{discount_option[discount_option_index].prop.name}}
-					<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXX6zqzjkSn01fIlGmzJw6uVHXlUbGEEBfTW8ysG5j7xhWREa7dc3wTXQfYlDmF30e7iazribbekpIA/0"
-					 mode="aspectFill"></image>
-				 </view>
-				</picker>
-			</view>
-			
 			
 			<view class="title-top" v-if="$app.getData('config').recharge_title">{{$app.getData('config').recharge_title}}</view>
-			<view class="tips">购买的鲜花钻石不会被清零</view>
+			<view class="tips flex-set">购买的鲜花钻石不会被清零
+				<view class="select-container">
+					<picker @change="bindPickerChange" :range-key="'title'" :value="discount_option_index" :range="discount_option">
+					<view class="picker" v-if="discount_option[discount_option_index]&&discount_option[discount_option_index].status==0">
+						<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JUmpAKCVJ2Npw9ISkVxibZZ2Ye5b9VZyn7PuK2Pglkic4ZzvCz8pF461k7sp1SUgzmhBFu9Hr55pDXA/0"
+						 mode="aspectFill"></image>{{discount_option[discount_option_index].prop.name}}
+						<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXX6zqzjkSn01fIlGmzJw6uVHXlUbGEEBfTW8ysG5j7xhWREa7dc3wTXQfYlDmF30e7iazribbekpIA/0"
+						 mode="aspectFill"></image>
+					 </view>
+					</picker>
+				</view>
+			</view>
 			<view class="list-container">
 				<view class="item-wrap" v-if="item.category==0" v-for="(item,index) in rechargeList" :key="index" @tap="payment(item.id)">
-					<view class="row top" v-if="discount.discount<1">{{discount.discount*10}}折优惠</view>
+					<view class="row top" v-if="discount.text">{{discount.text}}</view>
 					<view class="row flower-count flex-set"><text class="num">{{$app.formatNumber(item.flower,1)}}</text>鲜花</view>
 					<view class="row">
 						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBL1oVeg1YBz2QeHPIunT0CkpeGpUvc67X4uJbiaSEicXHJcLLLTJRdOiaaw/0"
@@ -176,11 +169,10 @@
 			};
 		},
 		onLoad() {
-
-			this.getGoodsList(0)
 			let timeId = setInterval(() => {
-				if (this.$app.getData('userInfo').nickname) {
+				if (this.$app.token) {
 					clearInterval(timeId)
+					this.getGoodsList(0)
 					this.userInfo = this.$app.getData('userInfo')
 					this.userCurrency = this.$app.getData('userCurrency')
 				}
@@ -251,16 +243,39 @@
 							//res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
 
 							this.$app.toast('支付成功', 'success')
-
 							this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {
 								this.$app.setData('userCurrency', res.data)
 								this.userCurrency = this.$app.getData('userCurrency')
 								this.modal = ''
 							})
+							this.discount_option_index = 0
+							this.getGoodsList(0)
 						}
 					});
 					// #endif
-					// #ifndef H5
+					
+					// #ifdef APP-PLUS
+					uni.requestPayment({
+						provider: 'wxpay',
+						orderInfo: JSON.stringify(res.data),
+						success: res => {
+							this.$app.toast('支付成功', 'success')
+					
+							this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {
+								this.$app.setData('userCurrency', res.data)
+								this.userCurrency = this.$app.getData('userCurrency')
+								this.modal = ''
+							})
+							this.discount_option_index = 0
+							this.getGoodsList(0)
+						},
+						fail: err => {
+							this.$app.toast('支付失败')
+						}
+					});
+					// #endif
+					
+					// #ifdef MP
 					uni.requestPayment({
 						provider: 'wxpay',
 						timeStamp: res.data.timeStamp,
@@ -276,6 +291,7 @@
 								this.userCurrency = this.$app.getData('userCurrency')
 								this.modal = ''
 							})
+							this.discount_option_index = 0
 							this.getGoodsList(0)
 						},
 						fail: err => {
@@ -289,13 +305,19 @@
 			// HTTP
 			getGoodsList(userprop_id) {
 				this.$app.request(this.$app.API.PAY_GOODS, {
-					userprop_id,					
+					userprop_id,
 				}, res => {
 					this.tehui_show = res.data.tehui_show
 					this.rechargeList = res.data.list
 					this.discount = res.data.discount
 					this.discount_option = res.data.discount_option
 					this.$app.setData('goodsList', this.rechargeList)
+					
+					if (res.data.toast) {
+						this.$app.toast(res.data.toast)
+					} else if (res.data.modal) {
+						this.$app.modal(res.data.modal)
+					}
 				})
 			},			
 			bindPickerChange: function(e) {
@@ -411,6 +433,8 @@
 		.tips {
 			padding: 10upx 30upx;
 			color: #bdbdbd;
+			
+			justify-content: space-between;
 		}
 
 		.title {
@@ -601,7 +625,6 @@
 			display:flex;
 			flex-direction:row;
 			justify-content: flex-end;
-			padding-right:20upx;
 			
 			.picker {
 				border: 1px solid #CCC;

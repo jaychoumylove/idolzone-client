@@ -1,7 +1,7 @@
 <template>
 	<view class="farm-page-container">
 
-		<image mode='widthFix' class='bg' src='https://mmbiz.qpic.cn/mmbiz_jpg/w5pLFvdua9G9p0qicKzuicwqfrKLg0Uevia01w2koB8wXZK73y8RXSrwYyJtO8fj1QIqibm3LTpIqyXW5W755aESkw/0'></image>
+		<image mode='widthFix' class='bg' src='/static/image/farm/bg.jpg'></image>
 		<view class='content'>
 			<view class='userinfo'>
 				<view class='avator'>
@@ -64,8 +64,8 @@
 			</view>
 
 			<!-- 狗 -->
-			<image v-if="skillOneRemainTime=='领取钻石'" class='dog' @tap="skillShow=!skillShow" src='https://tva1.sinaimg.cn/large/007X8olVly1g8ua8c4dp9g307007ct8v.gif'></image>
-			<image v-else class='dog' @tap="skillShow=!skillShow" src='https://tva1.sinaimg.cn/large/007X8olVly1g8u9po94z0g307007cmx9.gif'></image>
+			<image v-if="skillOneRemainTime=='领取钻石'" class='dog' @tap="skillShow=!skillShow" src='https://mmbiz.qpic.cn/mmbiz_gif/w5pLFvdua9GnD8mrIKwSEItXUhLNibPUxrL7Iia1H7HDGzuIlPlI2FdzzTsxsbYmI6NSibzg6QbO5Ekm3srmD8Ltw/0'></image>
+			<image v-else class='dog' @tap="skillShow=!skillShow" src='https://mmbiz.qpic.cn/mmbiz_gif/w5pLFvdua9GnD8mrIKwSEItXUhLNibPUx0TR4mjbhC0xHc5NlOXlYzDZux14Z7ibJdwxPycK1NibRzReJJzAZXVibA/0'></image>
 
 			<view class="mask-wrap" v-if="skillShow" @tap="skillShow=!skillShow"></view>
 			<!-- 狗的技能 -->
@@ -218,12 +218,12 @@
 						<view class="list-nickname text-overflow">{{item.helper.nickname||'神秘粉丝'}}</view>
 					</view>
 					<view class="item" v-for="(item,index) in 8-helperList.length" :key="index">
-						<button class="inner flex-set" open-type="share" data-share="10">+</button>
+						<button class="inner flex-set" open-type="share" @tap="buttonHandler" data-share="10" data-opentype="share">+</button>
 						<view class="list-nickname text-overflow"></view>
 					</view>
 				</view>
 				<view class="btn-wrap">
-					<button open-type="share" data-share="10">
+					<button open-type="share" data-share="10" @tap="buttonHandler" data-opentype="share">
 						<btnComponent type="fangde">
 							<view class="btn">召唤好友加速</view>
 						</btnComponent>
@@ -235,6 +235,8 @@
 				</view>
 			</view>
 		</modalComponent>
+		
+		<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
 </template>
 
@@ -294,6 +296,17 @@
 			this.userCurrency = this.$app.getData('userCurrency')
 		},
 		methods: {
+			buttonHandler(e) {
+				const opentype = e.target.dataset.opentype
+				if (opentype == 'share') {
+					// 分享
+					const shareType = e.target && e.target.dataset.share
+					// #ifdef APP-PLUS
+					const shareOptions = this.$app.commonShareAppMessage(shareType)
+					this.$refs.shareModal.shareShow(shareOptions)
+					// #endif
+				}
+			},
 			increaseRate(item) {
 				this.$app.modal(`爆豆${item.rate}倍目前概率${item.chance}%\n是否使用${item.stone}钻石提高1%的概率`, () => {
 					this.$app.request('sprite/skill2rateIncrease', {

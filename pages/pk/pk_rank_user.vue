@@ -8,10 +8,8 @@
 
 
 		<swiper class='swiper' @change="swiperChange" :current="current">
-			<block v-for='n in 2' :key='n'>
-
+			<block v-for='n in [0,1]' :key='n'>
 				<swiper-item>
-
 					<view class="explain-long">
 						<view class='explain'>本场粉丝贡献排名</view>
 					</view>
@@ -100,14 +98,11 @@
 			this.pkTime = options.pkTime || ''
 			this.mid = options.mid
 			this.yestoday = options.yestoday || 0
-			if (options.current && options.current != 0) {
-				this.current = options.current
-				return
-			}
+			this.current = options.current
 			this.page = 1;
 			this.loadData()
 		},
-		
+
 		methods: {
 			lower() {
 				this.page++;
@@ -116,7 +111,7 @@
 				}
 				this.loadData()
 			},
-			out(item,index) {
+			out(item, index) {
 				const list = [2, 4, 8, 12, 24, 72];
 				const itemList = []
 				for (let v of list) {
@@ -391,10 +386,10 @@
 		flex: 1;
 	}
 
-	.rankscrollbox{
+	.rankscrollbox {
 		height: 100%;
 	}
-	
+
 	.rank-box {
 		padding-bottom: 100rpx;
 	}
@@ -451,12 +446,12 @@
 		color: #fff;
 		font-size: 28rpx;
 	}
-	
+
 	.visiting-card .nickname {
 		display: flex;
 		align-items: center;
 	}
-	
+
 	.visiting-card .level {
 		width: 30upx;
 		height: 30upx;

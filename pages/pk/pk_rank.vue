@@ -25,7 +25,7 @@
 
 								<view class="bi-title" v-if="pkStatus == 1">已有<text class="">{{joinNum}}</text>人报名</view>
 								<view class="flex-set">
-									<button open-type="share" class="invit-btn">召集好友一起参加团战</button>
+									<button open-type="share" @tap="buttonHandler" data-opentype="share" class="invit-btn">召集好友一起参加团战</button>
 								</view>
 
 								<block v-for='(item,index) in list' :key='index'>
@@ -72,7 +72,7 @@
 			</block>
 
 		</swiper>
-
+		<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
 </template>
 
@@ -81,7 +81,7 @@
 		data() {
 			return {
 				starid: this.$app.getData('userStar').id,
-				
+
 				pkTimeList: [], // pk时间列表
 				curPkTime: {}, // 当前pk场次
 				myJoinType: '',
@@ -104,7 +104,7 @@
 				timeLeft: '',
 				userInfo: this.$app.getData('userInfo'),
 				captain: this.$app.getData('userStar').captain,
-				
+
 
 			};
 		},
@@ -113,23 +113,28 @@
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		onLoad(options) {
-			console.log(options)
 			this.pkTime = options.pkTime || ''
 			this.showTime = options.time || ''
 			this.yestoday = options.yestoday || 0
+			this.current = options.current
 
 			this.page = 1;
-
-			if (options.current && options.current != 0) {
-				this.current = options.current
-				return
-			}
-			// app.page_get_userInfo(this._getInitData);
 			this.loadData()
 		},
-		
+
 		methods: {
-			out (item, index) {
+			buttonHandler(e) {
+				const opentype = e.target.dataset.opentype
+				if (opentype == 'share') {
+					// 分享
+					const shareType = e.target && e.target.dataset.share
+					// #ifdef APP-PLUS
+					const shareOptions = this.$app.commonShareAppMessage(shareType)
+					this.$refs.shareModal.shareShow(shareOptions)
+					// #endif
+				}
+			},
+			out(item, index) {
 				this.$app.modal(`将${item.name}移出本次团战?`, () => {
 					this.$app.request('rank/pk_out', {
 						mid: this.starid,
@@ -140,7 +145,7 @@
 					})
 				})
 			},
-			lower () {
+			lower() {
 				console.log(11)
 				this.page++;
 				if (this.page > 10) {
@@ -156,7 +161,6 @@
 				}
 			},
 			swiperChange(e) {
-				this.current = e.detail.current
 				this.page = 1;
 				this.rankList = []
 				this.loadData()
@@ -376,12 +380,12 @@
 		justify-content: flex-start;
 		align-items: center;
 	}
-	
+
 	.visiting-card .nickname {
 		display: flex;
 		align-items: center;
 	}
-	
+
 	.visiting-card .level {
 		width: 30upx;
 		height: 30upx;
@@ -424,10 +428,10 @@
 	}
 
 
-	.rankscrollbox{
+	.rankscrollbox {
 		height: 100%;
 	}
-	
+
 	.rank-box {
 		padding-bottom: 100rpx;
 	}

@@ -13,17 +13,9 @@
 						 mode="aspectFill"></image>
 						<view class="title">第{{item.id}}场 {{item.start_time}}-{{item.end_time}}</view>
 					</view>
-					<view class="item-wrap" v-for="n in 2" :key="n">
+					<view class="item-wrap" v-for="(n,index) in [0,1]" :key="n">
 						<view class="title">{{n==0?'钻石':'鲜花'}}争夺战</view>
 						<view class="timeleft" v-if="curPkTime.id==item.id">还剩{{timeLeft}}</view>
-						<!-- <view class="user-list">
-							<image class="avatar" src="https://tva1.sinaimg.cn/large/005BYqpggy1g2u2qay91ej303d03d0sp.jpg" mode="aspectFill"></image>
-							<image class="avatar" src="https://tva1.sinaimg.cn/large/005BYqpggy1g2u2qay91ej303d03d0sp.jpg" mode="aspectFill"></image>
-							<image class="avatar" src="https://tva1.sinaimg.cn/large/005BYqpggy1g2u2qay91ej303d03d0sp.jpg" mode="aspectFill"></image>
-							<image class="avatar" src="https://tva1.sinaimg.cn/large/005BYqpggy1g2u2qay91ej303d03d0sp.jpg" mode="aspectFill"></image>
-							<image class="avatar" src="https://tva1.sinaimg.cn/large/005BYqpggy1g2u2qay91ej303d03d0sp.jpg" mode="aspectFill"></image>
-							<image class="avatar" src="https://tva1.sinaimg.cn/large/005BYqpggy1g2u2qay91ej303d03d0sp.jpg" mode="aspectFill"></image>
-						</view> -->
 						<!-- 按钮组 -->
 						<view class="btn-wrap flex-set">
 							<view v-if="item.status == 1 && item.isJoin !== null && item.isJoin===n" class="btn b-1" @tap="goPage"
@@ -35,7 +27,7 @@
 
 							<view v-if="item.status===2" @tap='goPage' :data-page='`/pages/pk/pk_rank?current=${n}`' class="btn b-1">正在进行</view>
 							<view class="btn b-2" v-if="item.canJoin===true">
-								<button open-type="share">召集好友参加团战</button>
+								<button open-type="share" @tap="buttonHandler" data-opentype="share">召集好友参加团战</button>
 							</view>
 							<view v-if="item.status!==2&&item.canJoin===false" class="btn b-1" @tap="goPage" :data-page="`/pages/pk/pk_rank?current=${n}&pkTime=${item.pkTime}&time=${item.start_time}-${item.end_time}&yestoday=1`">查看结果</view>
 							<view v-if="item.status!==2&&item.canJoin===undefined" class="btn b-1" @tap="goPage" :data-page="`/pages/pk/pk_rank?current=${n}&pkTime=${item.pkTime}&time=${item.start_time}-${item.end_time}`">查看结果</view>
@@ -49,7 +41,7 @@
 
 		<view class="space-line"></view>
 		<view class="flex-set title-bottom">
-			<button class="item left flex-set" open-type="share">
+			<button class="item left flex-set" open-type="share" @tap="buttonHandler" data-opentype="share">
 				<image class="" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9JLxccByJ4Q7E6acQ50SAJYcGdFQgIGGOAF9zXVunNh9nM2YJArQ1RQ/0"></image>
 				<text class="">分享</text>
 			</button>
@@ -131,7 +123,7 @@
 		      <template is="bottom-load" data='{{nomore_data}}'></template> -->
 			</view>
 		</view>
-
+		<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
 </template>
 
@@ -173,6 +165,17 @@
 			this.loadData()
 		},
 		methods: {
+			buttonHandler(e) {
+				const opentype = e.target.dataset.opentype
+				if (opentype == 'share') {
+					// 分享
+					const shareType = e.target && e.target.dataset.share
+					// #ifdef APP-PLUS
+					const shareOptions = this.$app.commonShareAppMessage(shareType)
+					this.$refs.shareModal.shareShow(shareOptions)
+					// #endif
+				}
+			},
 			swiperChange(e) {
 				// this.current = e.detail.current
 				// console.log(this.pkTimeList[e.detail.current])
@@ -318,7 +321,7 @@
 					.item-wrap {
 						padding: 10upx 20upx;
 						position: relative;
-						
+
 						.timeleft {
 							position: absolute;
 							top: 30upx;

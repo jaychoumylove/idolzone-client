@@ -3,7 +3,7 @@
 		<view class="top-container">
 			<view class="top-btn-wrap">
 				<btnComponent type="default">
-					<button open-type="share" data-share='7'>
+					<button open-type="share" data-share='7' @tap="buttonHandler" data-opentype="share">
 						<view class="btn flex-set">
 							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXIPlU5Gk353lHIEcfwq2zCBpJxtgsPS2Kea21pk5SxnfqJCoUmq4ZVkNOvWIgPbTYicXvajEC7rGg/0"
 							 mode=""></image>
@@ -95,7 +95,7 @@
 				</view>
 			</view>
 		</modalComponent>
-
+		<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
 </template>
 
@@ -129,6 +129,17 @@
 			this.loadData()
 		},
 		methods: {
+			buttonHandler(e) {
+				const opentype = e.target.dataset.opentype
+				if (opentype == 'share') {
+					// 分享
+					const shareType = e.target && e.target.dataset.share
+					// #ifdef APP-PLUS
+					const shareOptions = this.$app.commonShareAppMessage(shareType)
+					this.$refs.shareModal.shareShow(shareOptions)
+					// #endif
+				}
+			},
 			// 看视频广告
 			ad() {
 				this.$app.openVideoAd(() => {

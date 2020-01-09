@@ -108,9 +108,12 @@
 						}
 					}
 				})
-			} else {
-				!this.loadSuccess && this.loadData()
+			} else if (this.starid != this.$app.getData('userStar').id) {
+				this.starid = this.$app.getData('userStar').id
+				this.page = 1
+				this.loadData()
 			}
+
 		},
 		onShareAppMessage() {
 			return this.$app.commonShareAppMessage()

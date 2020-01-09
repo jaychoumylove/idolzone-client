@@ -201,7 +201,7 @@
 			<view class="close-btn flex-set iconfont icon-icon-test1" @tap="modal = ''"></view>
 
 			<view class="wrapper flex-set">
-				<image src="https://tva1.sinaimg.cn/large/0060lm7Tly1g5k6xgs6fqg30bv0h4wg4.gif" mode="scaleToFill"></image>
+				<image src="https://mmbiz.qpic.cn/mmbiz_gif/w5pLFvdua9GnD8mrIKwSEItXUhLNibPUxkeKyMnFkHK1I1K8fa2siaicE3Via31wHdicDCa4H1F3xvejd3A2YCut4Lw/0" mode="scaleToFill"></image>
 				<view class="btn flex-set" @tap="getShareText(2)">点击复制微博格式</view>
 			</view>
 		</view>
@@ -209,7 +209,7 @@
 			<view class="close-btn flex-set iconfont icon-icon-test1" @tap="modal = ''"></view>
 
 			<view class="wrapper flex-set">
-				<image src="https://tva1.sinaimg.cn/large/0060lm7Tly1g5k70tvqe8g30bv0h4407.gif" mode="scaleToFill"></image>
+				<image src="https://mmbiz.qpic.cn/mmbiz_gif/w5pLFvdua9GnD8mrIKwSEItXUhLNibPUxe7iav1K92OkGtZDzbAKvHicwACsr1kibOPD1XotBLiadMUH0tNWsTd0AtA/0" mode="scaleToFill"></image>
 				<view class="btn flex-set" @tap="getShareText(3);saveCanvas();">复制文字，保存图片到相册，发朋友圈</view>
 			</view>
 		</view>

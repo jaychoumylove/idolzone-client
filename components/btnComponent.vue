@@ -40,7 +40,7 @@
 	}
 
 	.button.big {
-		background: url(https://tva1.sinaimg.cn/large/0060lm7Tly1g2dxu4igebg303v02cgld.gif) center center/100% 100% no-repeat;
+		background: url(https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GnD8mrIKwSEItXUhLNibPUxibmPWGaicd1kWEsAHNRKt8jYQ9ILUZfXfVOib1mRFFbfRXiaMbXZj2nJsQ/0) center center/100% 100% no-repeat;
 	}
 
 	.button.success {

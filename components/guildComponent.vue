@@ -291,26 +291,19 @@
 						<view class="bottom-wrapper">
 							<view v-if="current==0" class="text left flex-set">我的金豆：{{userCurrency['coin']}}</view>
 							<view v-if="current==1" class="text left flex-set">我的鲜花：{{userCurrency['flower']}}</view>
-							<view v-if="current==2" class="text left flex-set">我的旧豆：{{userCurrency['old_coin']}}</view>							
-							
-							<!-- #ifdef MP -->
-							<block v-if="$app.getData('config').ios_switch!=3">
-								<block v-if="~$app.getData('sysInfo').system.indexOf('iOS')">
-									<view v-if="$app.getData('config').ios_switch==0" class="right" @tap="$app.goPage('/pages/charge/charge')">
-										充值<text class="iconfont iconjiantou"></text>
-									</view>
-									<button v-else-if="$app.getData('config').ios_switch==2" open-type="contact">
-										<view class="right">补充鲜花回复“1”<text class="iconfont iconjiantou"></text></view>
-									</button>
-								</block>
-								<view v-else-if="$app.getData('config').version != $app.getVal('VERSION')" class="right" @tap="$app.goPage('/pages/charge/charge')">充值<text
-									 class="iconfont iconjiantou"></text></view>
+							<view v-if="current==2" class="text left flex-set">我的旧豆：{{userCurrency['old_coin']}}</view>
+
+							<block v-if="$app.getData('config').version != $app.getData('VERSION')">
+								<view v-if="$app.chargeSwitch()==0"
+								 class="right" @tap="$app.goPage('/pages/charge/charge')">
+									充值<text class="iconfont iconjiantou"></text>
+								</view>
+								<button v-else-if="$app.chargeSwitch()==2"
+								 open-type="contact">
+									<view class="right">补充鲜花回复"1"<text class="iconfont iconjiantou"></text></view>
+								</button>
 							</block>
-							<!-- #endif -->
-							<!-- #ifndef MP -->
-							<view class="right" @tap="$app.goPage('/pages/charge/charge')">充值<text
-								 class="iconfont iconjiantou"></text></view>
-							<!-- #endif -->
+							
 						</view>
 					</view>
 				</view>
@@ -329,7 +322,7 @@
 						</view>
 
 						<btnComponent type="default">
-							<button class="btn" open-type="share">
+							<button class="btn" open-type="share" @tap="buttonHandler" data-opentype="share">
 								<view class="flex-set" style="width: 140upx; height: 60upx;">邀请好友</view>
 							</button>
 						</btnComponent>
@@ -351,7 +344,7 @@
 						</view>
 						<view class="btn">
 							<btnComponent v-if="item.status == 0" type="default">
-								<button open-type="share">
+								<button open-type="share" @tap="buttonHandler" data-opentype="share">
 									<view class="flex-set" style="width: 130upx;height: 65upx;">去邀请</view>
 								</button>
 							</btnComponent>
@@ -497,7 +490,7 @@
 				</view>
 
 				<view class="btn">
-					<button open-type="share">
+					<button open-type="share" @tap="buttonHandler" data-opentype="share">
 						<view>晒出我的徽章</view>
 					</button>
 					<view class="row-text" @tap="$app.goPage('/pages/user/badge')">查看徽章</view>
@@ -586,8 +579,10 @@
 				<!-- 列表 -->
 				<view class="content-wrap">
 					<view class="left-container">
-						<view class="row-item" v-for="(item,index) in signGift_categoryList" :key="index" @tap="changeSignGift(index)"
-						 :class="{active:signGift_currentCategory==index}" v-if="item.status==1">{{item.name}}
+						<view class="row-item" v-if="
+							item.status==1 && !(item.id==3 && $app.chargeSwitch()==1)
+							"
+						 v-for="(item,index) in signGift_categoryList" :key="index" @tap="changeSignGift(index)" :class="{active:signGift_currentCategory==index}">{{item.name}}
 							<view class="tips dot" v-if="item.tips"></view>
 						</view>
 					</view>
@@ -625,17 +620,19 @@
 									</view>
 								</view>
 								<view class="right-wrap">
-									<!-- #ifdef MP-WEIXIN -->
-									<view :class="'btn'+item.over" v-if="$app.getData('config').ios_switch!=3 && !~$app.getData('sysInfo').system.indexOf('iOS') || $app.getData('config').ios_switch==0">{{item.btn_text}}</view>
-									<view :class="'btn'+item.over" v-else>{{item.btn_text.replace('去充值','未完成')}}</view>
-									<!-- #endif -->
-									<!-- #ifndef MP-WEIXIN -->
-									<view :class="'btn'+item.over">去充值</view>
-									<!-- #endif -->
+
+									<block v-if="item.category_id==3">
+										<!-- 充值 -->
+										<view :class="'btn'+item.over" v-if="$app.chargeSwitch()==0">{{item.btn_text}}</view>
+										<button open-type="contact" @tap.stop :class="'btn'+item.over" v-else-if="$app.chargeSwitch()==2">回复"1"</button>
+									</block>
+									<view :class="'btn'+item.over" v-else>{{item.btn_text}}</view>
 									
+
 									<view v-if="item.over==0" class="tips">{{item.name_addon}}</view>
 								</view>
 							</view>
+							<!-- 已完成盖章 -->
 							<image v-if="item.over==2" class="chapter" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnO0xnPeniag7enShoUchSSKxDWXVECwZyPPk6ibyrLLA4XuHcUicUcje1Q/0"
 							 mode="aspectFill"></image>
 						</view>
@@ -644,6 +641,8 @@
 				<view class="close-btn flex-set iconfont iconclose" @tap="modal = ''"></view>
 			</view>
 		</view>
+
+		<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
 </template>
 
@@ -663,6 +662,7 @@
 		},
 		data() {
 			return {
+				$app: this.$app,
 				showLoading: true,
 				requestCount: 7,
 				tips: false,
@@ -765,6 +765,17 @@
 			clearInterval(this.timeId_danmaku)
 		},
 		methods: {
+			buttonHandler(e) {
+				const opentype = e.target.dataset.opentype
+				if (opentype == 'share') {
+					// 分享
+					const shareType = e.target && e.target.dataset.share
+					// #ifdef APP-PLUS
+					const shareOptions = this.$app.commonShareAppMessage(shareType)
+					this.$refs.shareModal.shareShow(shareOptions)
+					// #endif
+				}
+			},
 			/**
 			 * 加载数据
 			 */
@@ -1132,9 +1143,9 @@
 								this.$app.setData('userExt', res.data.userExt)
 							})
 						}
-						
+
 						this.$app.setData('userInfo', res.data.userInfo)
-						
+
 						this.sendOrFollow()
 					}, 'POST', true)
 				}
@@ -1171,8 +1182,7 @@
 				//如果未完成 0
 				if (taskover == 0) {
 					if (cid == 2) this.modal = 'send' //2粉丝等级
-					if (cid == 3 && (!~this.$app.getData('sysInfo').system.indexOf('iOS') || this.$app.getData('config').ios_switch ==
-							0)) this.$app.goPage(`/pages/charge/charge`) //3充值
+					if (cid == 3) this.$app.goPage(`/pages/charge/charge`) //3充值
 					return
 				}
 				//如果已完成 2

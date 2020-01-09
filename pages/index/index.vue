@@ -1,5 +1,6 @@
 <template>
 	<view class="index-page-container">
+		<!-- <button type="primary" @tap="consolee">CONSOLE</button> -->
 		<!-- 顶部navi -->
 		<view class="top-container">
 			<view class="left-wrap">
@@ -7,7 +8,8 @@
 				<input class="input" type="text" :value="keywords" @input="searchInput" placeholder="搜索爱豆名字" />
 			</view>
 
-			<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="right-wrap" @tap="$app.goPage('/pages/notice/notice?id=1')">榜单福利<text class="iconfont iconinfo"></text></view>
+			<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="right-wrap" @tap="$app.goPage('/pages/notice/notice?id=1')">榜单福利<text
+				 class="iconfont iconinfo"></text></view>
 		</view>
 
 		<!-- banner风云榜 -->
@@ -18,7 +20,8 @@
 				 mode=""></image>
 				<view class="content position-set flex-set">
 					<image :src="topImg.user.avatarurl" class="avatar" mode=""></image>
-					<text class="text-overflow" style="max-width: 250upx;">{{topImg.user.nickname}}</text> 为 <text>{{topImg.star.name}}</text> 占领了封面
+					<text class="text-overflow" style="max-width: 250upx;">{{topImg.user.nickname}}</text> 为 <text>{{topImg.star.name}}</text>
+					占领了封面
 				</view>
 			</view>
 		</view>
@@ -30,9 +33,11 @@
 		<view class="tab-container">
 			<view class="left-wrap">
 				<view class="tab-item" :class="{active:rankField == 'week_hot'}" @tap="changeField('week_hot');getSunday();">周榜</view>
-				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="tab-item" :class="{active:rankField == 'month_hot_flower'}" @tap="changeField('month_hot_flower');getLast();">鲜花月榜</view>
+				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="tab-item" :class="{active:rankField == 'month_hot_flower'}"
+				 @tap="changeField('month_hot_flower');getLast();">鲜花月榜</view>
 				<view class="tab-item" :class="{active:rankField == 'month_hot_coin'}" @tap="changeField('month_hot_coin');getLast()">金豆月榜</view>
-				<view v-if="$app.getData('config').version != $app.getVal('VERSION') && $app.getData('config').dashen_rank_switch==1" class="tab-item"  @tap="$app.goPage('/pages/user/dashen_rank')">大神榜</view>
+				<view v-if="$app.getData('config').version != $app.getVal('VERSION') && $app.getData('config').dashen_rank_switch==1"
+				 class="tab-item" @tap="$app.goPage('/pages/user/dashen_rank')">大神榜</view>
 			</view>
 			<view class="right-wrap" @tap="$app.goPage('/pages/index/rank')">往期榜单<text class="iconfont iconicon_workmore"></text></view>
 		</view>
@@ -129,7 +134,7 @@
 		</view>
 
 		<view class="open-ad-container flex-set" v-if="$app.getData('config').version != $app.getVal('VERSION') && modal=='indexBanner' && $app.getData('config').index_open && $app.getData('config').index_open.img">
-			<image class="main" :src="$app.getData('config').index_open.img" mode="aspectFill" @tap="modal='';$app.goPage($app.getData('config').index_open.url)">
+			<image class="main" :src="$app.getData('config').index_open.img" mode="aspectFill" @tap="modal='';$app.goPage()">
 			</image>
 			<view class="close-btn flex-set iconfont iconclose" @tap="modal = ''"></view>
 		</view>
@@ -150,7 +155,9 @@
 		},
 		data() {
 			return {
-				default_index_banner_url: this.$app.getData('config').index_banner.url,
+				global: getApp().globalData,
+				default_index_banner_url: this.$app.getData('config').index_banner && this.$app.getData('config').index_banner.url ||
+					'',
 				theme: this.$app.getData('theme') || 0,
 				modal: 'indexBanner',
 				showBottomLoading: true,
@@ -335,12 +342,12 @@
 			overflow: hidden;
 			position: relative;
 			z-index: 1;
-			
-			.banner{
+
+			.banner {
 				width: 690upx;
 				height: 250upx;
-				background:url('https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERVpWtSSpwicFERRz0Wa4Nw9AG4iaH5mBbnjW6zmm26oETkLm86mfk8srw/0') no-repeat left top;
-				background-size:cover;
+				background: url('https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERVpWtSSpwicFERRz0Wa4Nw9AG4iaH5mBbnjW6zmm26oETkLm86mfk8srw/0') no-repeat left top;
+				background-size: cover;
 			}
 
 			.bottom-hold {

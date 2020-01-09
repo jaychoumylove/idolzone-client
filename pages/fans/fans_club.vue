@@ -40,7 +40,7 @@
 		</view>
 
 		<view class="center-btn-container">
-			<button class="btn-wrap" open-type="share" data-share="7">
+			<button class="btn-wrap" open-type="share" data-share="7" @tap="buttonHandler" data-opentype="share">
 				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXsqa9U7hNge9bVPRa04Tia6F314XicqD4qdfLBHfJQ0yreKuccibDWxNd3tHUBLiblEkX06uvZD2cxXg/0"
 				 mode="aspectFill"></image>
 				<view class="content">
@@ -63,10 +63,7 @@
 				</view>
 			</view> -->
 
-
-	</view>
-
-
+	<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
 </template>
 
@@ -100,6 +97,17 @@
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
+			buttonHandler(e) {
+				const opentype = e.target.dataset.opentype
+				if (opentype == 'share') {
+					// 分享
+					const shareType = e.target && e.target.dataset.share
+					// #ifdef APP-PLUS
+					const shareOptions = this.$app.commonShareAppMessage(shareType)
+					this.$refs.shareModal.shareShow(shareOptions)
+					// #endif
+				}
+			},
 			mass(type) {
 				this.$app.request('ext/fansclubMass', {
 					type

@@ -107,7 +107,7 @@
 			border-radius: 10upx;
 			overflow: hidden;
 			position: relative;
-			background: url(https://tva1.sinaimg.cn/large/0060lm7Tly1g2eq8fhy4pg30jh0cjwe9.gif) center no-repeat/cover;
+			background: url(https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GnD8mrIKwSEItXUhLNibPUxTfRictdHzoagYn5fkGgdBWk3FWZL6hqLOibibicCSZJ1ZxriaStYYZzvAMg/0) center no-repeat/cover;
 
 			.title {
 				text-align: center;

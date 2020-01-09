@@ -2,11 +2,8 @@
 <template>
 	<view class="open-container" @tap.stop="goPage()">
 		<image class="img" :src="imgUrl" mode="aspectFill"></image>
-		<!-- <view class="userflag-wrap flex-set" v-if="userFlag">
-			<image :src="userFlag.user.avatarurl" class="avatar" mode=""></image>
-			<text class='username text-overflow'>{{userFlag.user.nickname}}</text>助力<text>{{starname}}</text>开屏
-		</view> -->
-		<view class="cut-time">{{time}}跳过</view>
+		
+		<view class="cut-time">{{time}}跳过</view>  
 	</view>
 </template>
 

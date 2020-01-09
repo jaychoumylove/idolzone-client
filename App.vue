@@ -8,21 +8,24 @@
 			// #ifndef H5
 			uni.setKeepScreenOn({
 				keepScreenOn: true
-			})			
+			})
 			// #endif			
 			this.setPlatform()
 
 			this.$app.setData('sysInfo', uni.getSystemInfoSync())
 			// 弹幕队列
 			this.$app.danmakuQueue = []
+
+			// 检查更新
+			this.$app.checkUpdate()
 		},
 		onShow: function(option) {
+			// console.log(option)
 			// 处理入口option
 			this.optionHandle(option)
 			// 请求数据
 			this.loadData(option)
-			// 检查更新
-			this.$app.checkUpdate()
+
 			// 连接socket
 			this.$app.invokeSocket()
 		},
@@ -39,14 +42,14 @@
 				// #ifdef H5
 				this.$app.setData('platform', 'H5')
 				// #endif
-				// APP_PLUS
+				// APP
 				// #ifdef APP-PLUS
 				this.$app.setData('platform', 'APP')
 				// #endif
 			},
 			/**处理option参数*/
 			optionHandle(option) {
-				console.log('option', option);
+				// console.log('option', option);
 				// 入口参数
 				this.$app.setData('query', option.query)
 				if (option.query && option.query.referrer) {

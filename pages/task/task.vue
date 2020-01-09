@@ -5,17 +5,10 @@
 			<view class="swiper-item" :class="{select:current==0}" @tap="current = 0;getTaskList();">新手任务</view>
 			<view class="swiper-item" :class="{select:current==1}" @tap="current = 1;getTaskList();">每日任务</view>
 		</view> -->
-		<!-- #ifdef MP -->
-		<view class="item" v-for="(item,index) in taskList" :key="index" 
-		v-if="(item.id!=7) || 
-		(item.id==7&&!~$app.getData('sysInfo').system.indexOf('iOS')&&$app.getData('config').ios_switch!=3)
-		|| (item.id==7&&~$app.getData('sysInfo').system.indexOf('iOS')&&$app.getData('config').ios_switch==0)
-		">
-		<!-- #endif -->
-		<!-- #ifndef MP -->
-		<view class="item" v-for="(item,index) in taskList" :key="index">
-		<!-- #endif -->
-		
+		<view class="item" v-for="(item,index) in taskList" :key="index" v-if="!(
+		  (item.id==7 || item.id==21) && 
+		  ($app.getData('config').version == $app.getData('VERSION') || $app.chargeSwitch() == 1)
+		  )">
 			<!-- 有些任务不显示 -->
 			<view v-if="current != 2" class="left-content">
 				<image class="img" :src="item.icon" mode=""></image>
@@ -59,14 +52,14 @@
 				<view v-if="current!=2" class="btn" @tap="doTask(item,index)">
 
 					<btnComponent type="default" v-if="item.status == 0">
-						<button v-if="item.id==7&&~$app.getData('sysInfo').system.indexOf('iOS')&&$app.getData('config').ios_switch==2"
-						 class="btn" open-type="contact" @tap.stop>
-							<!-- ios充值去公众号 -->
+						<button v-if="item.id==7 && $app.chargeSwitch()==2" class="btn" open-type="contact" @tap.stop>
+							<!-- 充值去公众号 -->
+							<view class="flex-set" style="width: 130upx;height: 65upx;">回复"1"</view>
+						</button>
+						<button v-else class="btn" :open-type="item.open_type" @tap="buttonHandler" :data-opentype="item.open_type">
 							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
 						</button>
-						<button v-else class="btn" :open-type="item.open_type" @tap="$app.buttonHandler()">
-							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
-						</button>
+
 					</btnComponent>
 
 					<btnComponent type="success" v-if="item.status == 1">
@@ -81,7 +74,7 @@
 				<view v-else class="btn" @tap="useBadge(item,index)">
 					<btnComponent type="default" v-if="item.status == 0">
 						<!-- 分享 -->
-						<button class="btn" open-type="share" v-if="item.type == 1">
+						<button class="btn" open-type="share" @tap="buttonHandler" data-opentype="share" v-if="item.type == 1">
 							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
 						</button>
 
@@ -152,7 +145,11 @@
 				</btnComponent>
 			</view>
 		</modalComponent>
+
+		<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
+
+
 </template>
 
 <script>
@@ -188,6 +185,17 @@
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
+			buttonHandler(e) {
+				const opentype = e.target.dataset.opentype
+				if (opentype == 'share') {
+					// 分享
+					const shareType = e.target && e.target.dataset.share
+					// #ifdef APP-PLUS
+					const shareOptions = this.$app.commonShareAppMessage(shareType)
+					this.$refs.shareModal.shareShow(shareOptions)
+					// #endif
+				}
+			},
 			/**显示视频广告*/
 			openAdver() {
 				this.$app.openVideoAd(() => {
