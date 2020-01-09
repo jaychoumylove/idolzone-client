@@ -1337,14 +1337,14 @@
 					this.$app.toast('数额不正确')
 					return
 				}
-
+				
+				this.modal = ''
 				this.$app.request(this.$app.API.STAR_SENDHOT, {
 					starid: this.star.id,
 					hot: parseInt(this.sendCount),
 					type: this.current + 1,
 					danmaku: Number(!this.danmakuClosed),
 				}, res => {
-					this.modal = ''
 					this.getStarInfo()
 					this.userRankPage = 1
 					this.getUserRank()
@@ -1604,6 +1604,8 @@
 		display: flex;
 		flex-direction: column;
 		height: 100%;
+		width: 100%;
+		overflow: hidden;
 
 		.top-bg {
 			background-color: $bg-color-2;

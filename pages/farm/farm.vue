@@ -1,5 +1,5 @@
 <template>
-	<view class="farm-page-container">
+	<view class="farm-page-container" v-if="$app.getData('config').version != $app.getData('VERSION')">
 
 		<image mode='widthFix' class='bg' src='/static/image/farm/bg.jpg'></image>
 		<view class='content'>
@@ -51,7 +51,7 @@
 					<image mode='aspectFit img' @tap='farm.tree_2_level==15?getSkill(9):getSkill(7)' class='sprite sp2' :src="farm.tree_2_img || primary_tree2_img"></image>
 				</view>
 			</view>
-			
+
 			<!-- 用户铭牌 -->
 			<view class='jackstraw'>
 				<image class='uname' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45e1qO0BV6XgibeLhyfuTHSMQYw61cgKmNOzj13OCOlKXe2YgdPZfUuUA/0'></image>
@@ -95,7 +95,8 @@
 			</view>
 
 			<!-- 左侧fix按钮 -->
-			<image class='charge-btn help-btn' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45O9VISGePLn218y3vGBpeopmcRsia3Wicjib3Qnib7rAz7YL4ozyduPduUg/0' @tap="$app.goPage('/pages/notice/notice?id=2')"></image>
+			<image class='charge-btn help-btn' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45O9VISGePLn218y3vGBpeopmcRsia3Wicjib3Qnib7rAz7YL4ozyduPduUg/0'
+			 @tap="$app.goPage('/pages/notice/notice?id=2')"></image>
 			<image class='charge-btn help-btn btn3' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HwicF1tVq5W0eW4Ow73MEzIwbLFt1AHBiawQgPt2ficIOq9bic15hMylyQDAsczJicArnyxyfaec1wMtQ/0'
 			 @tap='speedModal'></image>
 			<view class="speed-content">农场加速</view>
@@ -163,7 +164,8 @@
 				<block v-else>
 					<view class="row">
 						<view class="top">
-							<view class="left">当前等级 Lv.{{skillInfo&&skillInfo.myskill&&skillInfo.myskill.level?skillInfo.myskill.level:0}} {{skillInfo.nextskill===null?'(最高等级)':''}}</view>
+							<view class="left">当前等级 Lv.{{skillInfo&&skillInfo.myskill&&skillInfo.myskill.level?skillInfo.myskill.level:0}}
+								{{skillInfo.nextskill===null?'(最高等级)':''}}</view>
 							<view class="right"></view>
 						</view>
 						<view class="desc" v-if="skillInfo&&skillInfo.myskill">{{skillInfo.myskill.desc}}</view>
@@ -228,15 +230,20 @@
 							<view class="btn">召唤好友加速</view>
 						</btnComponent>
 					</button>
-					
+
 					<btnComponent type="fangde">
 						<view class="btn" @tap="helpstart">立即加速</view>
 					</btnComponent>
 				</view>
 			</view>
 		</modalComponent>
-		
+
 		<shareModalComponent ref="shareModal"></shareModalComponent>
+	</view>
+	<view v-else class="fake-container">
+		<view class="item" v-for="(item,index) in fake_img_list" :key="index">
+			<image class="img" :src="item" mode="aspectFill"></image>
+		</view>
 	</view>
 </template>
 
@@ -277,11 +284,27 @@
 
 				helperList: [],
 				offlinePercent: '',
-				primary_house_img:'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45awPD7e5IuDzoBoks0fLjVdwsUXliamwQDb6M1kHbtja6I7ogz2p2AQA/0',
-				primary_land1_img:'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45DbvLwianQO7amMCrjEoPbyZyQX1HD3getqlCaqElzFV0Xianf5XufuoQ/0',
-				primary_land2_img:'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45DbvLwianQO7amMCrjEoPbyZyQX1HD3getqlCaqElzFV0Xianf5XufuoQ/0',
+				primary_house_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45awPD7e5IuDzoBoks0fLjVdwsUXliamwQDb6M1kHbtja6I7ogz2p2AQA/0',
+				primary_land1_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45DbvLwianQO7amMCrjEoPbyZyQX1HD3getqlCaqElzFV0Xianf5XufuoQ/0',
+				primary_land2_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45DbvLwianQO7amMCrjEoPbyZyQX1HD3getqlCaqElzFV0Xianf5XufuoQ/0',
 				primary_tree1_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45ibdoeICBZgic5qIAmx5VTA9amISbmU2KIrFaaVd4EIgnmQ7h4HL8uXMg/0',
-				primary_tree2_img:'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45NwbKYxUZT69EbL1ic7EU8JF6Y184rhuzuKLCibHKyzOouqa74DX834YA/0',
+				primary_tree2_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45NwbKYxUZT69EbL1ic7EU8JF6Y184rhuzuKLCibHKyzOouqa74DX834YA/0',
+				
+				fake_img_list: [
+					'https://mmbiz.qpic.cn/mmbiz_jpg/h9gCibVJa7JXQSQ5JNT2D5fkAQbsuHm3RgG4QgEIkrqPiaPtbjLBZbd140WcOhjV6DOWsvuVA5jvYvMo4stkTOpw/0',
+					'https://mmbiz.qpic.cn/mmbiz_png/aENwJia6J8bwOQTEOR3BKkMRZKLN02iaQGSajnKyQLIr1SFwtZQ26SDcYKypk3s29De7fO5eHE2d4xc4X9Jvc0rA/0',
+					'https://mmbiz.qpic.cn/mmbiz_jpg/h9gCibVJa7JWCXSz2fQSXB7L8eSZoDMBtq5g1bNkmsvOFuI7LhMjyIPO5vGdmWKputVhTVcsgYDXFvrcVPtoDpg/0',
+					'https://mmbiz.qpic.cn/mmbiz_png/aENwJia6J8bwOQTEOR3BKkMRZKLN02iaQGXG4zmY0I7GA9EhO98e7EMSqx7VprjCWfezhZhreDdXxvxMx4R3luHA/0',
+					'https://mmbiz.qpic.cn/mmbiz_jpg/aENwJia6J8bwOQTEOR3BKkMRZKLN02iaQG5Vp11X5epHwM9dc4vdyR366TeYMUCMQ6GvWQCYh1jia5b5NfWVU6Yicw/0',
+					'https://mmbiz.qpic.cn/mmbiz_jpg/aENwJia6J8bwOQTEOR3BKkMRZKLN02iaQGCVAcKP0a2IZXeTAyEJFfMic3drepfRrUIARgbt862qLeYpnmeiaL3CWg/0',
+					'https://mmbiz.qpic.cn/mmbiz_jpg/aENwJia6J8bwOQTEOR3BKkMRZKLN02iaQGDxvJZEIoTnJtQxveWLwCiciaDGMgnWic7Iq4jQDYZnN0xRJKsHNf6CJuA/0',
+					'https://mmbiz.qpic.cn/mmbiz_jpg/h9gCibVJa7JXQSQ5JNT2D5fkAQbsuHm3Rph4icUP5WkjWqAoPSjQicWNVCXuPaHOvq9rEa8lE4s7Sb6NVFAOHR8lA/0',
+					'https://mmbiz.qpic.cn/mmbiz_jpg/aENwJia6J8bwOQTEOR3BKkMRZKLN02iaQGuUdbuDc4EIfXQzklH9gkPZ5Im6fFvffG4764CgJaDibbhdD30erA2lQ/0',
+					'https://mmbiz.qpic.cn/mmbiz_jpg/aENwJia6J8bwOQTEOR3BKkMRZKLN02iaQGhI0QKlyXZQKJ43gtaptdAh0Gww93OdSkcAPbMIwg29ia3Zke8FUzic1w/0',
+					'https://mmbiz.qpic.cn/mmbiz_jpg/aENwJia6J8bwOQTEOR3BKkMRZKLN02iaQGEp4NCYebjaUVicgR55n1xiacKyxNmhibO0m5OIiaG2OibHyW0G9J65GPjYg/0',
+					'https://mmbiz.qpic.cn/mmbiz_png/aENwJia6J8bwOQTEOR3BKkMRZKLN02iaQGgnQ6lMrIqznFiaPb4eM0mxXq6ib5BKKaW9y5dt81WC2QFxYutA4Zys5A/0',
+					'https://mmbiz.qpic.cn/mmbiz_png/aENwJia6J8bwOQTEOR3BKkMRZKLN02iaQGia3U28SXuiaucxZGiaq1MNYpJOdW8QtOSXauLic2ATrflqGfObXnhbCSSA/0',
+				]
 			};
 		},
 		onShareAppMessage(e) {
@@ -1520,5 +1543,36 @@
 			font-size: 30upx;
 			width: 220upx;
 		}
+	}
+
+	.fake-container {
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		overflow-y: auto;
+		height: 100%;
+		padding: 20upx;
+
+		.item {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			border-radius: 10upx;
+			overflow: hidden;
+			margin: 20upx 10upx;
+			background-color: #FFF;
+			box-shadow: 0 2upx 8upx rgba(#000, 0.3);
+
+			.img {
+				width: 330upx;
+				height: 580upx;
+			}
+
+			.content {
+				padding: 10upx;
+			}
+		}
+
 	}
 </style>

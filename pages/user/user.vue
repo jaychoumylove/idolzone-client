@@ -24,7 +24,7 @@
 		</view>
 
 		<!-- 顶部浮 -->
-		<view class="top-float-container" v-if="$app.getData('config').version != $app.getVal('VERSION')">
+		<view class="top-float-container">
 			<view class="row row-1">
 
 				<view class="item-wrap">

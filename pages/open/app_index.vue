@@ -22,6 +22,8 @@
 				 mode=""></image>
 			</view> -->
 		</view>
+		
+		<view class='skip-btn' @tap="$app.goPage('/pages/open/open')">稍后再登录</view>
 
 	</view>
 </template>
@@ -44,7 +46,6 @@
 			login() {
 				this.$app.setData('isLogin', true)
 				this.$app.login(() => {
-					console.log('re')
 					uni.reLaunch({
 						url: '/pages/open/open'
 					})
@@ -76,7 +77,7 @@
 		.login-btn-group {
 			display: flex;
 			position: absolute;
-			bottom: 20%;
+			bottom: 25%;
 			left: 50%;
 			transform: translateX(-50%);
 
@@ -87,14 +88,22 @@
 				align-items: center;
 
 				.top {
-					width: 110upx;
-					height: 110upx;
+					width: 120upx;
+					height: 120upx;
 				}
 
 				.bottom {
 					width: 150upx;
 				}
 			}
+		}
+		
+		.skip-btn {
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			color: #b3b3b3;
+			bottom: 10%;
 		}
 	}
 </style>
