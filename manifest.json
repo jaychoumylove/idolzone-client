@@ -159,5 +159,20 @@
             "https" : false
         },
         "template" : "index.html"
+    },
+    "mp-qq" : {
+        "appid" : "1109953774",
+		"setting" : {
+		    "urlCheck" : true,
+		    "es6" : true,
+		    "minified" : true,
+		    "postcss" : true
+		},
+		"usingComponents" : true,
+		"navigateToMiniProgramAppIdList" : [
+		   "1109694099",//最美偶像
+		   "1109771368",//超级明星榜
+		   "1109702612"//我们的偶像
+		]
     }
 }

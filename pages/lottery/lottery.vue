@@ -22,7 +22,7 @@
 		</view>
 		<view class="remain">目前可抽：<text class="num">{{remainCount}}</text>次</view>
 		<view class="btn-wrap flex-set">
-			<view class="btn b-2 flex-set iconfont iconshipin" @tap="openVideo">立即获得5次</view>
+			<view class="btn b-2 flex-set iconfont iconshipin" @tap="openVideo(0)">立即获得5次</view>
 			<view class="btn b-1" @tap="$app.goPage('/pages/lottery/log')">
 				查看抽奖明细<text class="iconfont iconjiantou"></text>
 			</view>
@@ -43,24 +43,31 @@
 			</view>
 		</view>
 
-		<modalComponent v-if="'box' == modal" type="center" @closeModal="modal=''">
+		<modalComponent v-if="'lottery' == modal" type="center" @closeModal="modal=''">
 			<view class="box-modal">
-				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GcjvbhGA8hnWrkuicbhygVs1UicAzKxed2G1u0RicVHuicY6tWPp56D6MjQH6NNhHjNrDknJHOZqcia0A/0"
+				<image v-if="lottery.type==1" class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
 				 mode="aspectFill"></image>
-				<view class="" v-if="lottery.type==1">恭喜获得金豆宝箱</view>
-				<view class="" v-if="lottery.type==3">恭喜获得钻石宝箱</view>
-				<view class="flex-set">{{lottery.num}}
-					<image v-if="lottery.type==1" class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
-					 mode="aspectFill"></image>
-					<image v-if="lottery.type==3" class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
-					 mode="aspectFill"></image>
+				<image v-if="lottery.type==2" class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
+				 mode="aspectFill"></image>
+				<image v-if="lottery.type==3" class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
+				 mode="aspectFill"></image>
+				<view class="text">恭喜获得{{lottery.name}}+{{lottery.num}}</view>
+				<!-- <btnComponent type="default" @tap="openVideo(1)">
+					<view class="btn"><text class="iconfont iconshipin"></text>双倍领取</view>
+				</btnComponent> -->
+
+				<view class="btn b-1" @tap="openVideo(1)">
+					<text class="iconfont iconshipin"></text>双倍领取
 				</view>
-				<btnComponent type="default">
-					<button class="btn" open-type="share" data-share="8">分享</button>
-				</btnComponent>
-				<view class="tips">分享好友一起开宝箱，瓜分大奖</view>
 			</view>
 		</modalComponent>
+		<block v-if="'lottery' == modal">
+			<ad v-if="$app.getData('platform')=='MP-WEIXIN'" class="fixed" :unit-id="$app.getData('bannerGridAdUnitId')" ad-type="grid"
+			 grid-opacity="0.8" grid-count="5" ad-theme="white"></ad>
+
+			<ad v-if="$app.getData('platform')=='MP-QQ'" class="fixed" :unit-id="$app.getData('qq_bannerAdUnitId')" type="banner"></ad>
+		</block>
+
 	</view>
 </template>
 
@@ -102,10 +109,18 @@
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
-			openVideo() {
+			openVideo(flag = 0) {
 				this.$app.openVideoAd(() => {
-					// 看视频抽奖次数增加
-					this.addCountRequest(2)
+					if (flag == 0) {
+						// 看视频抽奖次数增加
+						this.addCountRequest(2)
+					} else if (flag == 1) {
+						// 双倍奖励
+						this.$app.request('lottery/double', {}, res => {
+							this.$app.toast('双倍领取成功')
+							this.modal = ''
+						})
+					}
 				})
 			},
 			lotteryStart() {
@@ -140,11 +155,16 @@
 
 						setTimeout(() => {
 							this.lottery = lottery
-							this.$app.toast(`恭喜！获得${lottery.name}x${lottery.num}`)
+							if (this.$app.getData('config').lottery_modal == 1) {
+								this.modal = 'lottery'
+							} else {
+								this.$app.toast(`恭喜！获得${lottery.name}x${lottery.num}`)
+							}
 						}, rotateTime * 1000)
 					}, 200)
 				}, 'POST', true)
 			},
+
 			addCountRequest(type) {
 				this.$app.request('lottery/addCount', {
 					type
@@ -215,7 +235,7 @@
 
 		.remain {
 			margin: -10upx 0 20upx;
-			
+
 			.num {
 				font-size: 34upx;
 				font-weight: 700;
@@ -273,15 +293,15 @@
 			flex-direction: column;
 			align-items: center;
 			padding: 20upx 40upx;
-			margin-top: -80upx;
+			padding-bottom: 80upx;
 
-			view {
-				margin: 20upx;
+			.text {
+				margin: 30upx;
 			}
 
 			.bg {
-				width: 500upx;
-				height: 300upx;
+				width: 180upx;
+				height: 180upx;
 			}
 
 			.icon {
@@ -290,8 +310,19 @@
 			}
 
 			.btn {
-				padding: 10upx 60upx;
+				border-radius: 30upx;
+				color: #fff;
+				padding: 20upx 60upx;
+				font-size: 32upx;
+				margin: 0 30upx;
+				background: linear-gradient(to bottom, #fcc200, #f4930c);
 			}
+		}
+
+		.fixed {
+			position: fixed;
+			bottom: 0;
+			z-index: 100;
 		}
 	}
 </style>

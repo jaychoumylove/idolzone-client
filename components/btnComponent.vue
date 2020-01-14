@@ -86,4 +86,10 @@
 		background-color: $text-color-1;
 		border-radius: 60upx;
 	}
+	
+	.button.style2{
+		background: linear-gradient(to bottom, #f7c566,#fe9a3c);
+		border-radius: 10upx;
+		color: #FFF;
+	}
 </style>

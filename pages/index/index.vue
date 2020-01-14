@@ -36,6 +36,7 @@
 				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="tab-item" :class="{active:rankField == 'month_hot_flower'}"
 				 @tap="changeField('month_hot_flower');getLast();">鲜花月榜</view>
 				<view class="tab-item" :class="{active:rankField == 'month_hot_coin'}" @tap="changeField('month_hot_coin');getLast()">金豆月榜</view>
+				<view v-if="$app.getData('config').dashen_rank_switch==2" class="tab-item" :class="{active:rankField == 'day_hot_flower'}" @tap="changeField('day_hot_flower');getLast()">鲜花日榜</view>
 				<view v-if="$app.getData('config').version != $app.getVal('VERSION') && $app.getData('config').dashen_rank_switch==1"
 				 class="tab-item" @tap="$app.goPage('/pages/user/dashen_rank')">大神榜</view>
 			</view>
@@ -134,8 +135,7 @@
 		</view>
 
 		<view class="open-ad-container flex-set" v-if="$app.getData('config').version != $app.getVal('VERSION') && modal=='indexBanner' && $app.getData('config').index_open && $app.getData('config').index_open.img">
-			<image class="main" :src="$app.getData('config').index_open.img" mode="aspectFill" @tap="modal='';$app.goPage()">
-			</image>
+			<image class="main" :src="$app.getData('config').index_open.img" mode="aspectFill" @tap="modal='';$app.goPage($app.getData('config').index_open.url)"></image>
 			<view class="close-btn flex-set iconfont iconclose" @tap="modal = ''"></view>
 		</view>
 	</view>
@@ -397,7 +397,7 @@
 
 				.tab-item {
 					position: relative;
-					margin: 0 20upx;
+					margin: 0 15upx;
 				}
 
 				.tab-item.active {

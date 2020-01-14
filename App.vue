@@ -5,6 +5,8 @@
 			...lib
 		},
 		onLaunch: function() {
+			
+			console.log(uni.getSystemInfoSync())
 			// #ifndef H5
 			uni.setKeepScreenOn({
 				keepScreenOn: true

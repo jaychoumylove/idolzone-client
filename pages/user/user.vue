@@ -61,14 +61,12 @@
 				</view>
 
 				<block v-if="$app.getData('config').version != $app.getData('VERSION')">
-					<view v-if="$app.chargeSwitch()==0"
-					 class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
+					<view v-if="$app.chargeSwitch()==0" class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
 						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
 						 mode="aspectFill"></image>
 						<view class="text">充值</view>
 					</view>
-					<view v-else-if="$app.chargeSwitch()==2"
-					 class="item-wrap">
+					<view v-else-if="$app.chargeSwitch()==2" class="item-wrap">
 						<button open-type="contact">
 							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
 							 mode="aspectFill"></image>
@@ -131,6 +129,19 @@
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBLAfUuB7zP0TVUIdw8AjXVEibArIEoZLSmHfzyqIY3pjT5xOVK97dianRQ/0"
 					 mode="aspectFill"></image>
 					<view class="text">设置</view>
+				</view>
+				<view class="right-wrap iconfont iconjiantou"></view>
+			</view>
+
+			<view class="item-wrap" v-if="$app.getData('config').game_switch.open" @tap="$app.goPage('/pages/task/game')">
+				<view class="left-wrap">
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FquzibbuL4TMQyMbRKaQyUh5pOiahibicDKPv5P2x80KFLTbmwhGrgRjAOGXibZ7nsT8RsKtuqwwjQw6Q/0"
+					 mode="aspectFill"></image>
+					<view class="text" v-if="$app.getData('userExt').totalCount>=$app.getData('config').game_switch.min_count">游戏试玩
+						<view class="tips">每试玩一个+{{$app.getData('config').game_switch.award_coin}}金豆</view>
+					</view>
+					<view class="text" v-else>更多好玩</view>
+
 				</view>
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</view>
@@ -260,7 +271,13 @@
 						}, 'POST', true)
 					}.bind(this)
 					if (this.$app.getData('userInfo').nickname) {
-						this.$app.modal('是否同步微信头像和昵称？', () => {
+						let text
+						if (this.$app.getData('platform') == 'MP-WEIXIN') {
+							text = '是否同步微信头像和昵称？'
+						} else if (this.$app.getData('platform') == 'MP-QQ') {
+							text = '是否同步QQ头像和昵称？'
+						}
+						this.$app.modal(text, () => {
 							req()
 						})
 					} else {

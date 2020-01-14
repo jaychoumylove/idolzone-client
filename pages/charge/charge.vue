@@ -4,7 +4,7 @@
 	">
 		由于政策原因，不支持在应用内购买
 	</view>
-	<view v-else class="charge-page-container">	
+	<view v-else class="charge-page-container">
 		<view class="top-row flex-set">
 			<view class="left-wrap flex-set">
 				<image class="avatar" :src="userInfo.avatarurl" mode="aspectFill"></image>
@@ -13,10 +13,6 @@
 			<view class="right-wrap flex-set" @tap="modal='proxyRecharge'">为好友充值</view>
 		</view>
 
-		<view v-if="tehui_show" class="tab-wrap">
-			<view class="item" :class="{active:tabActive==1}" @tap="tabActive=1">特惠礼包</view>
-			<view class="item" :class="{active:tabActive==0}" @tap="tabActive=0">鲜花钻石充值</view>
-		</view>
 		<!-- 我的资产 -->
 		<view class="currency-wrap flex-set">
 			<view class="left-wrap flex-set">
@@ -24,89 +20,64 @@
 				<view class="item">我的钻石<text class="color stone">{{userCurrency.stone}}</text></view>
 			</view>
 		</view>
-		<!-- 特惠礼包 -->
-		<block v-if="tehui_show&&tabActive==1">
-			<view class="title">—— 每日礼包(限量) ——</view>
-			<view class="list-container">
-				<view class="item-wrap" v-if="item.category==1" v-for="(item,index) in rechargeList" :key="index" @tap="payment(item.id)">
-					<view class="row flower-count flex-set" v-if="item.flower"><text class="num">{{$app.formatNumber(item.flower,0)}}</text>鲜花</view>
-					<view class="row flower-count flex-set" v-if="item.stone"><text class="num stone">{{item.stone}}</text>钻石</view>
-					<view class="row">
-						<image v-if="item.flower" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBL1oVeg1YBz2QeHPIunT0CkpeGpUvc67X4uJbiaSEicXHJcLLLTJRdOiaaw/0"
-						 mode="aspectFill"></image>
-						<image v-if="item.stone" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBLkbLd15sXOSTiaL8IctOvWViaYBR9y8BKaMUazEmy6Am0BMqsXqsmJtaA/0"
-						 mode="aspectFill"></image>
-					</view>
-					<view class="row" v-if="item.remain!==null">剩余{{item.remain}}</view>
-					<view class="row btn">{{item.fee}}元购买</view>
-				</view>
-			</view>
-			<view class="title flower">—— 钻石礼包 ——</view>
-			<view class="list-container">
-				<view class="item-wrap" v-if="item.category==2" v-for="(item,index) in rechargeList" :key="index" @tap="payment(item.id)">
-					<view class="row flower-count flex-set" v-if="item.flower"><text class="num">{{$app.formatNumber(item.flower,0)}}</text>鲜花</view>
-					<view class="row flower-count flex-set" v-if="item.stone"><text class="num stone">{{item.stone}}</text>钻石</view>
-					<view class="row">
-						<image v-if="item.flower" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBL1oVeg1YBz2QeHPIunT0CkpeGpUvc67X4uJbiaSEicXHJcLLLTJRdOiaaw/0"
-						 mode="aspectFill"></image>
-						<image v-if="item.stone" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBLkbLd15sXOSTiaL8IctOvWViaYBR9y8BKaMUazEmy6Am0BMqsXqsmJtaA/0"
-						 mode="aspectFill"></image>
-					</view>
-					<view class="row" v-if="item.remain!==null">剩余{{item.remain}}</view>
-					<view class="row btn">{{item.fee}}元购买</view>
-				</view>
-			</view>
-			<view class="title stone">—— 鲜花礼包 ——</view>
-			<view class="list-container">
-				<view class="item-wrap" v-if="item.category==3" v-for="(item,index) in rechargeList" :key="index" @tap="payment(item.id)">
-					<view class="row flower-count flex-set" v-if="item.flower"><text class="num">{{$app.formatNumber(item.flower,0)}}</text>鲜花</view>
-					<view class="row flower-count flex-set" v-if="item.stone"><text class="num stone">{{item.stone}}</text>钻石</view>
-					<view class="row">
-						<image v-if="item.flower" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBL1oVeg1YBz2QeHPIunT0CkpeGpUvc67X4uJbiaSEicXHJcLLLTJRdOiaaw/0"
-						 mode="aspectFill"></image>
-						<image v-if="item.stone" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBLkbLd15sXOSTiaL8IctOvWViaYBR9y8BKaMUazEmy6Am0BMqsXqsmJtaA/0"
-						 mode="aspectFill"></image>
-					</view>
-					<view class="row" v-if="item.remain!==null">剩余{{item.remain}}</view>
-					<view class="row btn">{{item.fee}}元购买</view>
-				</view>
-			</view>
-		</block>
+
+		<view class="tips-content">
+			<view class="row" v-if="farm_distance">农场产量:<text>{{farm_coin}}</text>金豆/100秒,距离农场满级还差<text>{{farm_distance}}</text></view>
+			<view class="row" v-if="userGap">粉丝等级:<text>Lv{{userLevel}}</text>距离下一级还差<text>{{userGap}}</text>人气</view>
+		</view>
+
 		<!-- 鲜花钻石充值 -->
-		<block v-if="tabActive==0">
-			
-			
-			<view class="title-top" v-if="$app.getData('config').recharge_title">{{$app.getData('config').recharge_title}}</view>
-			<view class="tips flex-set">购买的鲜花钻石不会被清零
-				<view class="select-container">
-					<picker @change="bindPickerChange" :range-key="'title'" :value="discount_option_index" :range="discount_option">
-					<view class="picker" v-if="discount_option[discount_option_index]&&discount_option[discount_option_index].status==0">
-						<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JUmpAKCVJ2Npw9ISkVxibZZ2Ye5b9VZyn7PuK2Pglkic4ZzvCz8pF461k7sp1SUgzmhBFu9Hr55pDXA/0"
-						 mode="aspectFill"></image>{{discount_option[discount_option_index].prop.name}}
-						<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXX6zqzjkSn01fIlGmzJw6uVHXlUbGEEBfTW8ysG5j7xhWREa7dc3wTXQfYlDmF30e7iazribbekpIA/0"
-						 mode="aspectFill"></image>
-					 </view>
-					</picker>
+		<view class="title-top" v-if="$app.getData('config').recharge_title">{{$app.getData('config').recharge_title}}</view>
+
+		<view class="title flower">—— 购买鲜花 ——</view>
+		<view class="tips">可提高爱豆人气与粉丝等级</view>
+
+		<view class="list-container">
+			<view class="item-wrap" v-if="item.flower" v-for="(item,index) in rechargeList" :key="index" @tap="payment(item.flower, 'flower')">
+				<view class="badge" v-if="discount.text">{{discount.text}}</view>
+				<!-- <view class="row top" v-if="discount.text">{{discount.text}}</view> -->
+				<view class="row flower-count flex-set"><text class="num">{{$app.formatNumber(item.flower,1)}}</text>鲜花</view>
+
+				<view class="row">
+					<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBL1oVeg1YBz2QeHPIunT0CkpeGpUvc67X4uJbiaSEicXHJcLLLTJRdOiaaw/0"
+					 mode="aspectFill"></image>
 				</view>
+				<view class="row btn">{{item.fee}}元</view>
 			</view>
-			<view class="list-container">
-				<view class="item-wrap" v-if="item.category==0" v-for="(item,index) in rechargeList" :key="index" @tap="payment(item.id)">
-					<view class="row top" v-if="discount.text">{{discount.text}}</view>
-					<view class="row flower-count flex-set"><text class="num">{{$app.formatNumber(item.flower,1)}}</text>鲜花</view>
-					<view class="row">
-						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBL1oVeg1YBz2QeHPIunT0CkpeGpUvc67X4uJbiaSEicXHJcLLLTJRdOiaaw/0"
-						 mode="aspectFill"></image>
-					</view>
-					<view class="row add">+</view>
-					<view class="row flex-set">
-						{{item.stone}}
-						<image class="stone" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBLkbLd15sXOSTiaL8IctOvWViaYBR9y8BKaMUazEmy6Am0BMqsXqsmJtaA/0"
-						 mode="aspectFill"></image>
-					</view>
-					<view class="row btn">{{item.fee}}元购买</view>
+		</view>
+
+		<view class="self-input-wrap">
+			<input type="text" @input="selfInputFlower=$event.detail.value" placeholder="自定义购买(需大于10万)" class="input" />
+			<view class="badge" v-if="discount.text">{{discount.text}}</view>
+			
+			<btnComponent type="default">
+				<view class="btn flex-set" @tap="payment(selfInputFlower, 'flower')">确认购买</view>
+			</btnComponent>
+		</view>
+
+		<view class="title stone">—— 购买钻石 ——</view>
+		<view class="tips">可升级农场与狗狗技能</view>
+
+		<view class="list-container">
+			<view class="item-wrap" v-if="item.stone" v-for="(item,index) in rechargeList" :key="index" @tap="payment(item.stone, 'stone')">
+				<view class="badge" v-if="discount.text">{{discount.text}}</view>
+				<!-- <view class="row top" v-if="discount.text">{{discount.text}}</view> -->
+				<view class="row flower-count flex-set"><text class="num stone">{{item.stone||0}}</text>钻石</view>
+				<view class="row">
+					<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBLkbLd15sXOSTiaL8IctOvWViaYBR9y8BKaMUazEmy6Am0BMqsXqsmJtaA/0"
+					 mode="aspectFill"></image>
 				</view>
+				<view class="row btn">{{item.fee}}元</view>
 			</view>
-		</block>
+		</view>
+		<view class="self-input-wrap">
+			<input type="text" @input="selfInputStone=$event.detail.value" placeholder="自定义购买(需大于10颗)" class="input" />
+			<view class="badge" v-if="discount.text">{{discount.text}}</view>
+			<btnComponent type="default">
+				<view class="btn flex-set" @tap="payment(selfInputStone, 'stone')">确认购买</view>
+			</btnComponent>
+		</view>
+
 		<!-- modal -->
 		<!-- 代充值 -->
 		<modalComponent v-if="modal == 'proxyRecharge'" title="代充值" @closeModal="modal=''">
@@ -145,6 +116,7 @@
 		},
 		data() {
 			return {
+				$app: this.$app,
 				modal: '',
 				requestCount: 1,
 				tabActive: 0,
@@ -166,6 +138,14 @@
 
 				currentUser: {},
 				currentUserid: '',
+
+				selfInputStone: 0,
+				selfInputFlower: 0,
+
+				userLevel: 0,
+				userGap: 0,
+				farm_coin: 0,
+				farm_distance: 0
 			};
 		},
 		onLoad() {
@@ -214,18 +194,14 @@
 				}, 'POST', true)
 			},
 			// 支付
-			payment(goods_id) {
-				if (this.$app.getData('platform') == 'MP-QQ') {
-					if (this.$app.getData('config').version != this.$app.getVal('VERSION')) {
-						this.$app.preImg(this.$app.getData('config').qq_tips_img)
-					} else {
-						this.$app.modal('抱歉，QQ支付暂无法使用')
-					}
+			payment(count, type) {
+				if (parseInt(count) <= 0) {
+					this.$app.toast('请输入正确的数值')
 					return
 				}
 				this.$app.request(this.$app.API.PAY_ORDER, {
-					goods_id,
-					userprop_id:this.discount.userprop_id,
+					count,
+					type,
 					user_id: this.userInfo.id
 				}, res => {
 					// #ifdef H5
@@ -253,14 +229,14 @@
 						}
 					});
 					// #endif
-					
+
 					// #ifdef APP-PLUS
 					uni.requestPayment({
 						provider: 'wxpay',
 						orderInfo: JSON.stringify(res.data),
 						success: res => {
 							this.$app.toast('支付成功', 'success')
-					
+
 							this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {
 								this.$app.setData('userCurrency', res.data)
 								this.userCurrency = this.$app.getData('userCurrency')
@@ -274,7 +250,7 @@
 						}
 					});
 					// #endif
-					
+
 					// #ifdef MP
 					uni.requestPayment({
 						provider: 'wxpay',
@@ -295,6 +271,7 @@
 							this.getGoodsList(0)
 						},
 						fail: err => {
+							console.log(err)
 							this.$app.toast('支付失败')
 						}
 					});
@@ -307,19 +284,28 @@
 				this.$app.request(this.$app.API.PAY_GOODS, {
 					userprop_id,
 				}, res => {
-					this.tehui_show = res.data.tehui_show
+					// this.tehui_show = res.data.tehui_show
 					this.rechargeList = res.data.list
 					this.discount = res.data.discount
-					this.discount_option = res.data.discount_option
+					this.farm_distance = res.data.farm_distance
+					this.farm_coin = res.data.farm_coin
+					// this.discount_option = res.data.discount_option
 					this.$app.setData('goodsList', this.rechargeList)
-					
+
 					if (res.data.toast) {
 						this.$app.toast(res.data.toast)
 					} else if (res.data.modal) {
 						this.$app.modal(res.data.modal)
 					}
 				})
-			},			
+				// 用户等级
+				this.$app.request('user/level', {
+					user_id: this.userInfo.id
+				}, res => {
+					this.userLevel = res.data.level
+					this.userGap = res.data.gap ? (res.data.gap / 10000).toFixed(1) + '万' : '0'
+				})
+			},
 			bindPickerChange: function(e) {
 				this.discount_option_index = e.target.value
 				this.getGoodsList(this.discount_option[this.discount_option_index].id)
@@ -335,7 +321,7 @@
 		text-align: center;
 		width: 100%;
 	}
-	
+
 	.charge-page-container {
 		padding-bottom: 40upx;
 
@@ -399,7 +385,7 @@
 
 		.currency-wrap {
 			justify-content: space-between;
-			padding: 20upx 40upx;
+			padding: 10upx 40upx;
 			font-size: 30upx;
 			border-bottom: 10upx solid #f8f8f8;
 
@@ -422,25 +408,39 @@
 			}
 		}
 
+		.tips-content {
+			padding: 5upx 20upx;
+			color: #919191;
+
+			.row {
+				font-size: 26upx;
+
+				text {
+					margin: 0 10upx;
+					color: #fbcc3e;
+					font-weight: 700;
+				}
+			}
+		}
+
 		.title-top {
 			font-size: 40upx;
 			font-weight: 700;
 			text-align: center;
 			color: #f00;
-			padding: 10upx;
 		}
 
 		.tips {
-			padding: 10upx 30upx;
+			font-size: 24upx;
+			padding-bottom: 10upx;
 			color: #bdbdbd;
-			
-			justify-content: space-between;
+			text-align: center;
 		}
 
 		.title {
 			text-align: center;
 			font-size: 38upx;
-			padding: 15upx;
+			padding-top: 10upx;
 			color: #f1cb48;
 		}
 
@@ -452,6 +452,18 @@
 			color: #fa79a6;
 		}
 
+		.badge {
+			position: absolute;
+			border-radius: 60upx;
+			background-color: #ffa154;
+			color: #fff;
+
+			top: 105upx;
+			right: 35upx;
+			font-size: 20upx;
+			padding: 5upx 10upx;
+		}
+
 		.list-container {
 			border-radius: 20upx;
 			display: flex;
@@ -460,15 +472,19 @@
 			padding: 0 20upx;
 
 			.item-wrap {
-				width: 30%;
-				margin: 10upx 5upx;
+				width: 165upx;
+				margin: 10upx 0;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
 				text-align: center;
-				border: 2upx solid #434343;
+				border: 2upx solid #e6e4e5;
 				border-radius: 20upx;
-				overflow: hidden;
+				background-color: #f7f5f6;
+				box-shadow: 0 0 4upx rgba(#666, .3);
+				position: relative;
+
+
 
 				.top {
 					color: #fff;
@@ -481,12 +497,12 @@
 
 				.flower-count {
 					padding-top: 10upx;
-					font-size: 32upx;
+					font-size: 24upx;
 
 					.num {
 						color: #fb4782;
 						font-weight: 700;
-						font-size: 36upx;
+						font-size: 26upx;
 					}
 
 					.num.stone {
@@ -511,13 +527,43 @@
 				.btn {
 					padding: 0 20upx;
 					border-radius: 20upx;
-					font-size: 26upx;
-					margin: 20upx 0 30upx;
+					font-size: 24upx;
+					margin: 10upx 0 20upx;
 					background-color: #e8679c;
 					color: #fff;
 					display: flex;
 					align-items: center;
 				}
+			}
+		}
+
+		// 自定义输入
+		.self-input-wrap {
+			display: flex;
+			align-items: center;
+			padding: 10upx 20upx;
+			position: relative;
+
+			.input {
+				height: auto;
+				flex: 1;
+				border: 2upx solid #e6e4e5;
+				background-color: #f7f5f6;
+				font-size: 30upx;
+				border-radius: 40upx;
+				padding: 10upx 30upx;
+				margin-right: 20upx;
+			}
+			
+			.badge {
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				right: 280upx;
+			}
+
+			.btn {
+				padding: 15upx 50upx;
 			}
 		}
 
@@ -619,13 +665,13 @@
 				}
 			}
 		}
-		
+
 		.select-container {
 			position: relative;
-			display:flex;
-			flex-direction:row;
+			display: flex;
+			flex-direction: row;
 			justify-content: flex-end;
-			
+
 			.picker {
 				border: 1px solid #CCC;
 				background-color: #EEE;
@@ -633,7 +679,7 @@
 				text-align: center;
 				font-size: 32upx;
 				padding: 0 10upx 0 30upx;
-				
+
 				image {
 					margin-top: 24upx;
 					width: 30upx;

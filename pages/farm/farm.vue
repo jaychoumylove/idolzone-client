@@ -1,5 +1,5 @@
 <template>
-	<view class="farm-page-container" v-if="$app.getData('config').version != $app.getData('VERSION')">
+	<view class="farm-page-container">
 
 		<image mode='widthFix' class='bg' src='/static/image/farm/bg.jpg'></image>
 		<view class='content'>
@@ -240,11 +240,11 @@
 
 		<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
-	<view v-else class="fake-container">
+	<!-- <view v-else class="fake-container">
 		<view class="item" v-for="(item,index) in fake_img_list" :key="index">
 			<image class="img" :src="item" mode="aspectFill"></image>
 		</view>
-	</view>
+	</view> -->
 </template>
 
 <script>

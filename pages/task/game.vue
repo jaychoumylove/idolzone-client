@@ -1,11 +1,24 @@
 <template>
 	<view class="game-container">
 		<block v-for="(item,index) in list" :key="index">
-			<!-- 微信广告 -->
+			<!-- 微信banner广告 -->
 			<view class="item-wrap ad" v-if="item.type == 0" @tap.capture='openGame(item)'>
 				<ad :unit-id="item.appid"></ad>
 			</view>
-			<!-- APP广告 -->
+			<!-- 微信格子广告 -->
+			<view class="item-wrap ad" v-else-if="item.type == 6" @tap.capture='openGame(item)'>
+				<ad :unit-id="item.appid" ad-type="grid" grid-opacity="0.8" grid-count="5" ad-theme="white"></ad>
+			</view>
+
+			<!-- QQcard广告 -->
+			<view class="item-wrap ad" v-else-if="item.type == 7" @tap.capture='openGame(item)'>
+				<ad :unit-id="item.appid" type="card"></ad>
+			</view>
+			<!-- QQfeeds广告 -->
+			<view class="item-wrap ad" v-else-if="item.type == 8" @tap.capture='openGame(item)'>
+				<ad :unit-id="item.appid" type="feeds"></ad>
+			</view>
+			<!-- 小程序跳转广告 -->
 			<view class="item-wrap" v-else>
 				<image class="img" :src="item.img_s" mode="aspectFill"></image>
 				<view class="text">
@@ -14,6 +27,7 @@
 				</view>
 				<view class="btn flex-set" @tap="openGame(item)">{{item.button}}</view>
 			</view>
+
 		</block>
 	</view>
 </template>
@@ -27,13 +41,16 @@
 			};
 		},
 		onLoad(option) {
-			// type == '1' 无奖励
-			this.type = option.type || 0
+			if (this.$app.getData('userExt').totalCount >= this.$app.getData('config').game_switch.min_count) {
+				this.type = 0 // 有奖励
+			} else {
+				this.type = 1 // 无奖励
+			}
 			this.loadData()
-			if (this.type != '1') this.$app.toast('请点击游戏进行试玩' + time + '秒以上', 'none', 3000)
+			if (this.type == 0) this.$app.toast('请点击游戏进行试玩' + time + '秒以上', 'none', 3000)
 		},
 		onShow() {
-			if (this.openTime && this.type != '1') {
+			if (this.openTime && this.type == 0) {
 				if (Date.now() - this.openTime >= time * 1000) {
 					// 已完成
 					this.$app.request(this.$app.API.TASK_SETTLE, {
@@ -85,7 +102,8 @@
 					for (let key in res.data) {
 						const value = res.data[key]
 
-						if (gameCheck[value.id] != (new Date()).toLocaleDateString() || this.type == '1') {
+						if (gameCheck[value.id] != (new Date()).toLocaleDateString() || this.type == 1) {
+							// 该广告今天没看过
 							resList.push(value)
 						}
 					}

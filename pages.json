@@ -258,7 +258,14 @@
 			"path": "pages/charge/charge"
 		}
 
-	],
+	    ,{
+            "path" : "pages/active/laren",
+            "style" : {
+				"navigationBarBackgroundColor":"#7b98fc",
+				"navigationBarTitleText":""
+			}
+        }
+    ],
 	"tabBar": {
 		"color": "#aaaaaa",
 		"selectedColor": "#fbcc3e",

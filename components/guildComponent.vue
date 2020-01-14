@@ -141,11 +141,16 @@
 					 mode=""></image>
 					<view class="text">粉丝团</view>
 				</view>
-				<view v-if="$app.getData('config').version != $app.getVal('VERSION')&&$app.getData('config').yingyuan_switch==1"
+				<view v-if="$app.getData('config').version != $app.getData('VERSION')&&$app.getData('config').yingyuan_switch==1"
 				 class="btn-item" @tap="goPageHasStar('/pages/active_one/active_one')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQquUweIHJ2hkGoLic007iakqBJCyJjsHtbyicFRcibN0S88wkn2yBR1PsOzpw/0"
 					 mode=""></image>
 					<view class="text">应援</view>
+				</view>
+				<view v-if="$app.getData('config').laren_img" class="btn-item" @tap="goPageHasStar('/pages/active/laren')">
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQquUweIHJ2hkGoLic007iakqBJCyJjsHtbyicFRcibN0S88wkn2yBR1PsOzpw/0"
+					 mode=""></image>
+					<view class="text">新春活动</view>
 				</view>
 				<view class="btn-item" @tap="goPageHasStar('/pages/pk/pk_index')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxriczDwYpJxLicMALveZ8I6vxIGDDu9yB41Dicq9XYTtUcggaFYvQEc2ng/0"
@@ -1547,9 +1552,9 @@
 				if (!this.danmakuClosed) {
 					this.sendDanmaku[this.sendDanmakuIndex].push(data)
 					setTimeout(() => {
-						// 12s后销毁这条弹幕
+						// 10s后销毁这条弹幕
 						this.sendDanmaku[this.sendDanmakuIndex].shift()
-					}, 12000)
+					}, 10000)
 					if (++this.sendDanmakuIndex > 2) this.sendDanmakuIndex = 0
 				}
 			},
