@@ -8,7 +8,7 @@
 				<input class="input" type="text" :value="keywords" @input="searchInput" placeholder="搜索爱豆名字" />
 			</view>
 
-			<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="right-wrap" @tap="$app.goPage('/pages/notice/notice?id=1')">榜单福利<text
+			<view v-if="$app.getData('config').version != $app.getData('VERSION')" class="right-wrap" @tap="$app.goPage('/pages/notice/notice?id=1')">榜单福利<text
 				 class="iconfont iconinfo"></text></view>
 		</view>
 
@@ -33,11 +33,11 @@
 		<view class="tab-container">
 			<view class="left-wrap">
 				<view class="tab-item" :class="{active:rankField == 'week_hot'}" @tap="changeField('week_hot');getSunday();">周榜</view>
-				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="tab-item" :class="{active:rankField == 'month_hot_flower'}"
+				<view v-if="$app.getData('config').version != $app.getData('VERSION')" class="tab-item" :class="{active:rankField == 'month_hot_flower'}"
 				 @tap="changeField('month_hot_flower');getLast();">鲜花月榜</view>
 				<view class="tab-item" :class="{active:rankField == 'month_hot_coin'}" @tap="changeField('month_hot_coin');getLast()">金豆月榜</view>
 				<view v-if="$app.getData('config').dashen_rank_switch==2" class="tab-item" :class="{active:rankField == 'day_hot_flower'}" @tap="changeField('day_hot_flower');getLast()">鲜花日榜</view>
-				<view v-if="$app.getData('config').version != $app.getVal('VERSION') && $app.getData('config').dashen_rank_switch==1"
+				<view v-if="$app.getData('config').version != $app.getData('VERSION') && $app.getData('config').dashen_rank_switch==1"
 				 class="tab-item" @tap="$app.goPage('/pages/user/dashen_rank')">大神榜</view>
 			</view>
 			<view class="right-wrap" @tap="$app.goPage('/pages/index/rank')">往期榜单<text class="iconfont iconicon_workmore"></text></view>
@@ -134,7 +134,7 @@
 
 		</view>
 
-		<view class="open-ad-container flex-set" v-if="$app.getData('config').version != $app.getVal('VERSION') && modal=='indexBanner' && $app.getData('config').index_open && $app.getData('config').index_open.img">
+		<view class="open-ad-container flex-set" v-if="$app.getData('config').version != $app.getData('VERSION') && modal=='indexBanner' && $app.getData('config').index_open && $app.getData('config').index_open.img">
 			<image class="main" :src="$app.getData('config').index_open.img" mode="aspectFill" @tap="modal='';$app.goPage($app.getData('config').index_open.url)"></image>
 			<view class="close-btn flex-set iconfont iconclose" @tap="modal = ''"></view>
 		</view>

@@ -5,8 +5,6 @@
 			...lib
 		},
 		onLaunch: function() {
-			
-			console.log(uni.getSystemInfoSync())
 			// #ifndef H5
 			uni.setKeepScreenOn({
 				keepScreenOn: true
@@ -51,9 +49,10 @@
 			},
 			/**处理option参数*/
 			optionHandle(option) {
-				// console.log('option', option);
+				console.log('option', option);
 				// 入口参数
 				this.$app.setData('query', option.query)
+				this.$app.setData('enterScene', option.scene)
 				if (option.query && option.query.referrer) {
 					// 推荐人
 					this.$app.setData('referrer', option.query.referrer)
@@ -64,6 +63,7 @@
 			loadData(option) {
 				this.$app.request('page/app', {
 					referrer: this.$app.getData('referrer'),
+					scene: this.$app.getData('enterScene')
 				}, res => {
 					this.$app.setData('userInfo', res.data.userInfo)
 					this.$app.setData('userCurrency', res.data.userCurrency)

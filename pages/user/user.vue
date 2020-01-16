@@ -132,6 +132,15 @@
 				</view>
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</view>
+			
+			<view v-if="$app.getData('platform')=='MP-WEIXIN'" class="item-wrap" @tap="$app.goPage('/pages/user/push_index')">
+				<view class="left-wrap">
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GtNAcPVLQic64wJ4ialJUhsoibJ4iaco1u3NgFvibYw3C0JauIKdQvZxsRj7hUIgZmIN9wPI40XR2FCTw/0"
+					 mode="aspectFill"></image>
+					<view class="text">数据服务</view>
+				</view>
+				<view class="right-wrap iconfont iconjiantou"></view>
+			</view>
 
 			<view class="item-wrap" v-if="$app.getData('config').game_switch.open" @tap="$app.goPage('/pages/task/game')">
 				<view class="left-wrap">
@@ -252,7 +261,7 @@
 						}, res => {
 							if (res.data.userInfo.id != this.$app.getData('userInfo').id) {
 								// 同步其他平台账号数据
-								this.$app.token = null
+								this.$app.token = res.data.token
 								this.$app.request('page/app', {}, res => {
 									this.$app.setData('userCurrency', res.data.userCurrency)
 									this.userCurrency = res.data.userCurrency
@@ -293,7 +302,7 @@
 	.user-page-container {
 		display: flex;
 		flex-direction: column;
-		height: 100%;
+		min-height: 100%;
 
 		.top-bg {
 			background-color: $bg-color-2;
@@ -477,6 +486,7 @@
 		}
 
 		.bottom-block {
+			min-height: 200upx;
 			flex: 1;
 			background-color: #f6f5fa;
 		}

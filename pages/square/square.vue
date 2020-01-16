@@ -37,7 +37,10 @@
 
 		<!-- 内容列表 -->
 		<view class="article-list-container">
-			<view class="article-item" v-for="(item,index) in artList" :key="index">
+			<view class="article-item" v-if="!(
+				$app.getData('config').version==$app.getData('VERSION') && 
+				item.video_expires>0
+			)" v-for="(item,index) in artList" :key="index">
 				<view class="top-wrap">
 					<view class="left flex-set">
 						<view class="dot" :class="{red:index%3==0,yellow:index%3==1,green:index%3==2}"></view>

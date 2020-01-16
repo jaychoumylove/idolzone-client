@@ -1,5 +1,10 @@
 <template>
 	<view class="guild-component-container" @tap="inputing=false">
+		<!-- 添加到我的小程序 -->
+		<view class="add-top-img" v-if="showAddXcx">
+			<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FaCThHvhDic8AqkJFVxc6RFaIoG6DiaYlJVHgI1xT8E8V6jT8SNLlamlO6E9QdeTbVUomUr6eLfmrw/0" mode="widthFix"></image>
+			<view class="btn" @tap="showAddXcx=false"></view>
+		</view>
 
 		<!-- 顶部 -->
 		<view class="top-container">
@@ -147,11 +152,11 @@
 					 mode=""></image>
 					<view class="text">应援</view>
 				</view>
-				<view v-if="$app.getData('config').laren_img" class="btn-item" @tap="goPageHasStar('/pages/active/laren')">
+				<!-- <view v-if="$app.getData('config').laren_img" class="btn-item" @tap="goPageHasStar('/pages/active/laren')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQquUweIHJ2hkGoLic007iakqBJCyJjsHtbyicFRcibN0S88wkn2yBR1PsOzpw/0"
 					 mode=""></image>
 					<view class="text">新春活动</view>
-				</view>
+				</view> -->
 				<view class="btn-item" @tap="goPageHasStar('/pages/pk/pk_index')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxriczDwYpJxLicMALveZ8I6vxIGDDu9yB41Dicq9XYTtUcggaFYvQEc2ng/0"
 					 mode=""></image>
@@ -760,6 +765,8 @@
 
 				//徽章
 				achieveBadge: [],
+				
+				showAddXcx: !this.$app.getData('userExt').add_enter,// 显示提示去添加到我的小程序顶部弹框
 			};
 		},
 		created() {
@@ -1188,6 +1195,7 @@
 				if (taskover == 0) {
 					if (cid == 2) this.modal = 'send' //2粉丝等级
 					if (cid == 3) this.$app.goPage(`/pages/charge/charge`) //3充值
+					if (cid == 4) this.$app.goPage(`/pages/user/push_index`) //4关注数据助手公众号
 					return
 				}
 				//如果已完成 2
@@ -1611,6 +1619,21 @@
 		height: 100%;
 		width: 100%;
 		overflow: hidden;
+		
+		.add-top-img {
+			position: fixed;
+			z-index: 1;
+			right: 15upx;
+			width: 400upx;
+			
+			.btn {
+				position: absolute;
+				width: 50upx;
+				height: 50upx;
+				right: 6upx;
+				top: 16upx;
+			}
+		}
 
 		.top-bg {
 			background-color: $bg-color-2;

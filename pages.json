@@ -264,6 +264,10 @@
 				"navigationBarBackgroundColor":"#7b98fc",
 				"navigationBarTitleText":""
 			}
+        },
+		
+		{
+            "path" : "pages/user/push_index"
         }
     ],
 	"tabBar": {
