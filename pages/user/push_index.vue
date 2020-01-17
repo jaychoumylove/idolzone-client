@@ -11,12 +11,12 @@
 		<view class="no-data-container flex-set" v-else>
 			<view class="title">进入聊天窗口点击右下角卡片</view>
 			
-			<button open-type="contact" show-message-card :session-from="sessionFrom">
+			<button open-type="contact" show-message-card send-message-img="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9ES4IBoKK6nXGCarzCFHdcF7SRhP92qicd5E1CxNKRsEiaiadWRadb9SGo4aeTEIJyIEKFHvo8qmFpiaQ/0" :session-from="sessionFrom">
 				<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GtNAcPVLQic64wJ4ialJUhsoQVRpufrK9T88PunUuiaXd7MpuG0fibrQeqKic0SNO1kBW9c2njFpGzx8g/0"
 				 mode="widthFix"></image>
 			</button>
 
-			<button open-type="contact" show-message-card :session-from="sessionFrom">
+			<button open-type="contact" show-message-card send-message-img="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9ES4IBoKK6nXGCarzCFHdcF7SRhP92qicd5E1CxNKRsEiaiadWRadb9SGo4aeTEIJyIEKFHvo8qmFpiaQ/0" :session-from="sessionFrom">
 				<btnComponent type="default">
 					<view class="btn">马上关注</view>
 				</btnComponent>

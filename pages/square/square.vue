@@ -39,7 +39,7 @@
 		<view class="article-list-container">
 			<view class="article-item" v-if="!(
 				$app.getData('config').version==$app.getData('VERSION') && 
-				item.video_expires>0
+				item.video!=0
 			)" v-for="(item,index) in artList" :key="index">
 				<view class="top-wrap">
 					<view class="left flex-set">

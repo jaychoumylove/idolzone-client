@@ -102,7 +102,7 @@
 					<image class="img-m" v-if="star.isBirth" @tap="$app.goPage('/pages/user/birth_rank?starid='+star.id)" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GndUW3a1UarD8yKON3YUcuIpvhibXXbe2jtSdCTo2pKs8dQzXoM1iakuS6r9jVicJMw4DL4zXZTltvg/0"
 					 mode=""></image>
 					<!-- 打榜按钮 -->
-					<view class="send-btn" v-if="$app.getData('config').version != $app.getVal('VERSION') || $app.getData('platform')!='MP-WEIXIN'">
+					<view class="send-btn">
 
 						<button open-type="getUserInfo" v-if="!$app.getData('userInfo').nickname" @getuserinfo="getUserInfo">
 							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_gif/w5pLFvdua9ENOOBmxXTF9huYYxQSQ5K6LhbVZMFtb2kiaXiaqicrpSfsyrkuQxPImQKoj9PcQwGjr7Ey66JQqES5A/0"
@@ -797,7 +797,6 @@
 
 				// 请求数据
 				this.loadData()
-
 
 				this.userCurrency = this.$app.getData('userCurrency')
 			},
