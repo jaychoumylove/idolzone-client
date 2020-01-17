@@ -146,7 +146,7 @@
 					 mode=""></image>
 					<view class="text">粉丝团</view>
 				</view>
-				<view v-if="$app.getData('config').version != $app.getData('VERSION')&&$app.getData('config').yingyuan_switch==1"
+				<view v-if="$app.getData('config').yingyuan_switch==1"
 				 class="btn-item" @tap="goPageHasStar('/pages/active_one/active_one')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQquUweIHJ2hkGoLic007iakqBJCyJjsHtbyicFRcibN0S88wkn2yBR1PsOzpw/0"
 					 mode=""></image>
@@ -303,7 +303,7 @@
 							<view v-if="current==1" class="text left flex-set">我的鲜花：{{userCurrency['flower']}}</view>
 							<view v-if="current==2" class="text left flex-set">我的旧豆：{{userCurrency['old_coin']}}</view>
 
-							<block v-if="$app.getData('config').version != $app.getData('VERSION')">
+							<block v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
 								<view v-if="$app.chargeSwitch()==0"
 								 class="right" @tap="$app.goPage('/pages/charge/charge')">
 									充值<text class="iconfont iconjiantou"></text>

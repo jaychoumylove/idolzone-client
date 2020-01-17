@@ -24,7 +24,7 @@
 		</view>
 
 		<!-- 顶部浮 -->
-		<view class="top-float-container">
+		<view class="top-float-container" v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
 			<view class="row row-1">
 
 				<view class="item-wrap">
@@ -60,20 +60,18 @@
 					<view class="text">任务</view>
 				</view>
 
-				<block v-if="$app.getData('config').version != $app.getData('VERSION')">
-					<view v-if="$app.chargeSwitch()==0" class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
+				<view v-if="$app.chargeSwitch()==0" class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
+					 mode="aspectFill"></image>
+					<view class="text">充值</view>
+				</view>
+				<view v-else-if="$app.chargeSwitch()==2" class="item-wrap">
+					<button open-type="contact">
 						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
 						 mode="aspectFill"></image>
-						<view class="text">充值</view>
-					</view>
-					<view v-else-if="$app.chargeSwitch()==2" class="item-wrap">
-						<button open-type="contact">
-							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxWT97VwdicBRcWiaic6aw5wqkz9EUKVsyJ21ib3SJB2vhd9oEibcEuV5vUeA/0"
-							 mode="aspectFill"></image>
-							<view class="text">补充鲜花</view>
-						</button>
-					</view>
-				</block>
+						<view class="text">补充鲜花</view>
+					</button>
+				</view>
 
 				<view class="item-wrap" @tap="$app.goPage('/pages/user/badge')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9G95njnZp6t7hkcfsoraFhyFkjhRwv6OG00pSKo7DLXZAUibrL8SldBmf7kdCFB1icsWHxc0n34AGrA/0"
@@ -115,7 +113,7 @@
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</view>
 
-			<button class="item-wrap" open-type="contact" :session-from="$app.getData('userInfo')">
+			<button class="item-wrap" open-type="contact" :session-from="$app.getData('userInfo')" v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
 				<view class="left-wrap">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBLGBtJCqmhlXzuZaoribFll5kYOEewiaxiakgKM8RHibko8U2zWxIMVsdLPA/0"
 					 mode="aspectFill"></image>
@@ -133,7 +131,7 @@
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</view>
 			
-			<view v-if="$app.getData('platform')=='MP-WEIXIN'" class="item-wrap" @tap="$app.goPage('/pages/user/push_index')">
+			<view v-if="$app.getData('config').version != $app.getData('VERSION') && $app.getData('platform')=='MP-WEIXIN'" class="item-wrap" @tap="$app.goPage('/pages/user/push_index')">
 				<view class="left-wrap">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GtNAcPVLQic64wJ4ialJUhsoibJ4iaco1u3NgFvibYw3C0JauIKdQvZxsRj7hUIgZmIN9wPI40XR2FCTw/0"
 					 mode="aspectFill"></image>
