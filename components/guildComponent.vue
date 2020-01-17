@@ -102,7 +102,7 @@
 					<image class="img-m" v-if="star.isBirth" @tap="$app.goPage('/pages/user/birth_rank?starid='+star.id)" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GndUW3a1UarD8yKON3YUcuIpvhibXXbe2jtSdCTo2pKs8dQzXoM1iakuS6r9jVicJMw4DL4zXZTltvg/0"
 					 mode=""></image>
 					<!-- 打榜按钮 -->
-					<view class="send-btn">
+					<view class="send-btn" v-if="$app.getData('config').version != $app.getVal('VERSION') || $app.getData('platform')!='MP-WEIXIN'">
 
 						<button open-type="getUserInfo" v-if="!$app.getData('userInfo').nickname" @getuserinfo="getUserInfo">
 							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_gif/w5pLFvdua9ENOOBmxXTF9huYYxQSQ5K6LhbVZMFtb2kiaXiaqicrpSfsyrkuQxPImQKoj9PcQwGjr7Ey66JQqES5A/0"
@@ -152,11 +152,11 @@
 					 mode=""></image>
 					<view class="text">应援</view>
 				</view>
-				<!-- <view v-if="$app.getData('config').laren_img" class="btn-item" @tap="goPageHasStar('/pages/active/laren')">
+				<view v-if="$app.getData('config').laren_img" class="btn-item" @tap="goPageHasStar('/pages/active/laren')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQquUweIHJ2hkGoLic007iakqBJCyJjsHtbyicFRcibN0S88wkn2yBR1PsOzpw/0"
 					 mode=""></image>
 					<view class="text">新春活动</view>
-				</view> -->
+				</view>
 				<view class="btn-item" @tap="goPageHasStar('/pages/pk/pk_index')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxriczDwYpJxLicMALveZ8I6vxIGDDu9yB41Dicq9XYTtUcggaFYvQEc2ng/0"
 					 mode=""></image>

@@ -47,7 +47,7 @@
 		</view>
 
 		<view class="self-input-wrap">
-			<input type="text" @input="selfInputFlower=$event.detail.value" placeholder="自定义购买(需大于10万)" class="input" />
+			<input type="text" @input="selfInputFlower=$event.detail.value" placeholder="自定义鲜花(需大于10万)" class="input" />
 			<view class="badge" v-if="discount.text">{{discount.text}}</view>
 			
 			<btnComponent type="default">
@@ -71,7 +71,7 @@
 			</view>
 		</view>
 		<view class="self-input-wrap">
-			<input type="text" @input="selfInputStone=$event.detail.value" placeholder="自定义购买(需大于10颗)" class="input" />
+			<input type="text" @input="selfInputStone=$event.detail.value" placeholder="自定义钻石(需大于10颗)" class="input" />
 			<view class="badge" v-if="discount.text">{{discount.text}}</view>
 			<btnComponent type="default">
 				<view class="btn flex-set" @tap="payment(selfInputStone, 'stone')">确认购买</view>

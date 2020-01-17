@@ -135,7 +135,7 @@
 				<view class="left-wrap">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GtNAcPVLQic64wJ4ialJUhsoibJ4iaco1u3NgFvibYw3C0JauIKdQvZxsRj7hUIgZmIN9wPI40XR2FCTw/0"
 					 mode="aspectFill"></image>
-					<view class="text">数据服务</view>
+					<view class="text">数据订阅</view>
 				</view>
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</view>

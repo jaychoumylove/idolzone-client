@@ -10,9 +10,11 @@
 		</block>
 		<view class="no-data-container flex-set" v-else>
 			<view class="title">进入聊天窗口点击右下角卡片</view>
-
-			<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GtNAcPVLQic64wJ4ialJUhsoQVRpufrK9T88PunUuiaXd7MpuG0fibrQeqKic0SNO1kBW9c2njFpGzx8g/0"
-			 mode="widthFix"></image>
+			
+			<button open-type="contact" show-message-card :session-from="sessionFrom">
+				<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GtNAcPVLQic64wJ4ialJUhsoQVRpufrK9T88PunUuiaXd7MpuG0fibrQeqKic0SNO1kBW9c2njFpGzx8g/0"
+				 mode="widthFix"></image>
+			</button>
 
 			<button open-type="contact" show-message-card :session-from="sessionFrom">
 				<btnComponent type="default">
@@ -87,7 +89,7 @@
 
 			.btn {
 				font-size: 40upx;
-				padding: 20upx 60upx;
+				padding: 20upx 120upx;
 			}
 
 			.tips {
