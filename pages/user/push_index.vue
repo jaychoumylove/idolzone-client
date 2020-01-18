@@ -1,7 +1,7 @@
 <template>
 	<!-- 公众号消息订阅 -->
-	<view class="container">
-
+	<view class="container" :style="subscribe?'':'background-color:#333333;'">
+		
 		<block v-if="subscribe">
 			<view class="item" v-for="(e,i) in list" :key="i">
 				<view class="left">{{e.title}}</view>
@@ -73,13 +73,21 @@
 
 <style lang="scss" scoped>
 	.container {
+		height: 100%;
 		.no-data-container {
+			background-color: #fff;
+			border-radius: 30upx;
 			flex-direction: column;
+			width: 600upx;
+			position: absolute;
+			top: 135rpx;
+			left: 80rpx;
+
 
 			.title {
 				font-size: 40upx;
-				margin: 40upx;
-				padding-top: 100upx;
+				margin: 30upx 0;
+				color: #1B49FC;
 			}
 
 			.img {
@@ -93,7 +101,7 @@
 			}
 
 			.tips {
-				margin: 40upx;
+				margin: 20upx;
 				color: grey;
 			}
 		}
@@ -108,4 +116,5 @@
 			border-bottom: 1upx solid #efefef;
 		}
 	}
+	
 </style>
