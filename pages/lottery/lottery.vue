@@ -197,6 +197,9 @@
 			left: 0;
 			right: 0;
 			bottom: 0;
+			// #ifndef H5
+			z-index: -1;
+			// #endif
 		}
 
 		.title-img {
