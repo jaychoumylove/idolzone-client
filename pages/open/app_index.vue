@@ -23,7 +23,7 @@
 			</view> -->
 		</view>
 		
-		<view class='skip-btn' @tap="$app.goPage('/pages/open/open')">稍后再登录</view>
+		<!-- <view class='skip-btn' @tap="$app.goPage('/pages/open/open')">稍后再登录</view> -->
 
 	</view>
 </template>

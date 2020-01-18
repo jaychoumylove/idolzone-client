@@ -174,6 +174,9 @@
 		.bg {
 			height: auto;
 			position: absolute;
+			/* #ifndef H5 */
+			z-index: -1;
+			/* #endif */
 		}
 
 		.top {
