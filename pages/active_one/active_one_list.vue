@@ -4,28 +4,25 @@
 
 		<view class="list-wrap">
 
-			
-			
 			<view class="item-wrap" v-for="(item,index) in activeList" :key="index" @tap="goPage(item.id)">
 				<view class="left-img">
-					<image class="img" :src="item.bg_img"
-					 mode="aspectFill"></image>
+					<image class="img" :src="item.title_img" mode="aspectFill"></image>
 					<view class="remain">还剩{{item.left_time}}天</view>
 				</view>
 
 				<view class="right-content">
-					<view class="title">{{item.title}}<text class="tips">(打卡{{item.min_days}}天)</text></view>
+					<view class="title">{{item.title}}</view>
 					<view class="progress-wrap">
 						<view class="progress">
 							<view class="progress-inner" :style="{width: item.progress.join_people/item.target_people*100+'%',backgroundColor: '#fbcc3e'}"></view>
 						</view>
-						<view class="text">{{Math.floor(item.progress.join_people/item.target_people*100)+'%'}}</view>
+						<view class="text">{{getNumber(item.progress.join_people/item.target_people*100)+'%'}}</view>
 					</view>
 					<view class="progress-wrap">
 						<view class="progress">
 							<view class="progress-inner" :style="{width: item.progress.complete_people/item.target_people*100+'%',backgroundColor: '#613a11'}"></view>
 						</view>
-						<view class="text">{{Math.floor(item.progress.complete_people/item.target_people*100)+'%'}}</view>
+						<view class="text">{{getNumber(item.progress.complete_people/item.target_people*100)+'%'}}</view>
 					</view>
 					<view class="bottom-wrap">
 						<view class="text">
@@ -75,6 +72,9 @@
 			// this.getStarInfo()
 		},
 		methods: {
+			getNumber(num) {
+				return num.toFixed(2)
+			},
 			getStarInfo() {
 				this.$app.request(this.$app.API.STAR_INFO, {
 					starid: this.$app.getData('userStar').id
@@ -108,11 +108,12 @@
 	.active-one-list-container {
 
 		.list-wrap {
-			padding: 20upx 0;
 
 			.item-wrap {
-				padding: 20upx;
+				padding: 30upx 20upx;
 				display: flex;
+				
+				border-bottom: 1upx solid #efefef;
 
 				.left-img {
 					border-radius: 30upx;
@@ -175,7 +176,7 @@
 						}
 
 						.text {
-							width: 60upx;
+							width: 100upx;
 							text-align: center;
 						}
 					}

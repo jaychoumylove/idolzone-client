@@ -3,72 +3,73 @@
 
 		<view class="top-container">
 			<image class="bg" :src="activeInfo.bg_img" mode="aspectFill"></image>
+			<view class="small" style="font-size: 24upx;">距离结束还剩：<text class="text">{{activeInfo.left_time.d}}</text>天<text class="text">{{activeInfo.left_time.h}}</text>小时<text
+				 class="text">{{activeInfo.left_time.m}}</text>分</view>
 		</view>
 
 		<view class="active-center-container">
 			<view class="top-wrap">
 				<view class="left">
-					<view class="left-1">为爱解锁</view>
-					<view class="left-2">剩余：{{activeInfo.left_time}}</view>
+					<!-- <view class="left-1">为爱解锁</view> -->
+					<view class="left-2">
+						<view>已打卡{{activeInfo.self.total_clocks||0}}/7天</view>
+
+					</view>
 				</view>
 
-				<view v-if="!activeInfo || !activeInfo.self || !activeInfo.self.is_card_today" class="right" @tap="card()">
-					<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9ic8VukhnhyxUxXWkYzThJBXXgvyuibj43eEB6yVaGh5hIP3iaJugKm5MQ/0"
-					 mode=""></image>
+				<view class="right" @tap="card()">
 					<view class="text">
 						<view class="t">打卡</view>
-						<view class="t" style="font-size: 24upx;">{{activeInfo&&activeInfo.self&&activeInfo.self.total_clocks?activeInfo.self.total_clocks:0}}/7天</view>
 					</view>
 				</view>
-				<view v-else class="right" @tap="card()">
-					<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9m4y2xCxVBIaltvIUtSZVFkCaxf2KSwqRktUM8sORMd9lOPzs06ZgsQ/0"
-					 mode=""></image>
+				<button open-type="share" class="right f">
 					<view class="text">
-						<view class="t">已打卡</view>
-						<view class="t" style="font-size: 24upx;">{{activeInfo.self.total_clocks||0}}/7天</view>
+						<view class="t">分享</view>
+					</view>
+				</button>
+			</view>
+			<view class="center-wrap">
+
+				<view class="progress-wrap">
+					<view class="article-name">{{activeInfo.title}}</view>
+					<!-- <view class="title">{{activeInfo.title}}</view> -->
+					<view class="progress">
+						<progress activeColor="#e02d2d" stroke-width="10" backgroundColor="#f9f9f9" :percent="activeInfo.progress.join_people/activeInfo.target_people*100" />
+						<text style="color:#e02d2d;">参与人数{{activeInfo.progress.join_people||0}}</text>
+					</view>
+					<view class="progress">
+						<progress activeColor="#962de0" stroke-width="10" backgroundColor="#f9f9f9" :percent="activeInfo.progress.complete_people/activeInfo.target_people*100" />
+						<text style="color:#962de0;">完成人数{{activeInfo.progress.complete_people||0}}</text>
+					</view>
+					<view class="bottom-text">
+						<view>目标人数：<text>{{activeInfo.target_people}}</text></view>
+						<!-- <view>已参与人数：<text style="color:#007EFF;">{{activeInfo.progress.join_people}}</text></view> -->
+						<view>已完成人数：<text>{{activeInfo.progress.complete_people||0}}</text></view>
+						<view v-if="activeInfo.target_people - activeInfo.progress.complete_people>0">还需人数：<text>{{activeInfo.progress.complete_people?activeInfo.target_people - activeInfo.progress.complete_people:activeInfo.target_people}}</text></view>
+						<view v-else>已完成</view>
 					</view>
 				</view>
-			</view>
 
-			<view class="progress-wrap">
-				<view class="title">{{activeInfo.title}}</view>
-				<view class="progress">
-					<progress activeColor="#e02d2d" stroke-width="10" backgroundColor="#f9f9f9" :percent="activeInfo.progress.join_people/activeInfo.target_people*100" />
-					<text style="color:#e02d2d;">参与人数{{activeInfo.progress.join_people||0}}</text>
-				</view>
-				<view class="progress">
-					<progress activeColor="#962de0" stroke-width="10" backgroundColor="#f9f9f9" :percent="activeInfo.progress.complete_people/activeInfo.target_people*100" />
-					<text style="color:#962de0;">完成人数{{activeInfo.progress.complete_people||0}}</text>
-				</view>
-				<view class="bottom-text">
-					<view>目标人数：<text>{{activeInfo.target_people}}</text></view>
-					<!-- <view>已参与人数：<text style="color:#007EFF;">{{activeInfo.progress.join_people}}</text></view> -->
-					<view>已完成人数：<text>{{activeInfo.progress.complete_people||0}}</text></view>
-					<view v-if="activeInfo.target_people - activeInfo.progress.complete_people>0">还需人数：<text>{{activeInfo.progress.complete_people?activeInfo.target_people - activeInfo.progress.complete_people:activeInfo.target_people}}</text></view>
-					<view v-else>已完成</view>
-				</view>
-			</view>
+				<view class="notice-container">
 
-			<view class="notice-container">
-				<view class="article-name">为爱解锁活动说明</view>
-
-				<block v-for="(item,index) in activeInfo.notice" :key="index">
-					<view class="article-group">
-						<view class="article-title" v-if="item.title">{{item.title}}</view>
-						<text class="article-content" decode v-if="item.content.length>0" v-for="(item1,index1) in item.content" :key="index1">{{item1}}</text>
-					</view>
-					<image class="article-image" @tap="preImg(item.image)" v-if="item.image" :src="item.image" mode="widthFix"></image>
-				</block>
+					<block v-for="(item,index) in activeInfo.notice" :key="index">
+						<view class="article-group">
+							<view class="article-title" v-if="item.title">{{item.title}}</view>
+							<text class="article-content" decode v-if="item.content.length>0" v-for="(item1,index1) in item.content" :key="index1">{{item1}}</text>
+						</view>
+						<image class="article-image" @tap="preImg(item.image)" v-if="item.image" :src="item.image" mode="widthFix"></image>
+					</block>
+				</view>
 			</view>
 		</view>
 
 		<view class="rank-list-container">
-			<view class="title">粉丝应援榜</view>
+			<!-- <view class="title">粉丝应援榜</view> -->
 			<view class='scroll-view'>
 
 				<view class='item-wrap' v-for="(item,index) in userRank" :key="index">
 					<image v-if="item.user&&item.user.avatarurl" class='avatar' :src="item.user.avatarurl" mode="aspectFill"></image>
-					
+
 					<image v-else class='avatar' :src="$app.AVATAR" mode="aspectFill"></image>
 					<view class="text-wrap">
 						<view class="name">{{item.user&& item.user.nickname?item.user.nickname:$app.NICKNAME}}</view>
@@ -104,7 +105,8 @@
 						<view>微信群</view>
 					</button>
 					<button v-if="$app.getData('platform')=='MP-QQ'" class='fsend-btn flex-set' open-type='share'>
-						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FsWnev2aG6T492FpDr5HAaS3l78jeS2g8WLyB9k2q4qEMykcjwF8Nck2ic9XfSbJcNxsRXFlfjiacQ/0" mode="widthFix"></image>
+						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FsWnev2aG6T492FpDr5HAaS3l78jeS2g8WLyB9k2q4qEMykcjwF8Nck2ic9XfSbJcNxsRXFlfjiacQ/0"
+						 mode="widthFix"></image>
 						<view>QQ群</view>
 					</button>
 
@@ -184,7 +186,10 @@
 		},
 		onShareAppMessage(e) {
 			const shareType = e.target && e.target.dataset.share
-			return this.$app.commonShareAppMessage(5)
+			return this.$app.commonShareAppMessage({
+				title: this.activeInfo.shareText,
+				imageUrl: this.activeInfo.title_img
+			})
 		},
 		onLoad(option) {
 			this.id = option.id || 0
@@ -195,7 +200,7 @@
 				this.$app.toast('请先加入一个圈子')
 				return
 			}
-			
+
 			this.getActiveInfo()
 			this.getStarInfo()
 			this.getActiveUserRank()
@@ -377,7 +382,11 @@
 
 					let left_time = this.$app.timeGethms(res.data.active_end)
 
-					res.data.left_time = left_time.day + '天' + left_time.hour + '小时' + left_time.min + '分'
+					res.data.left_time = {
+						d: left_time.day,
+						h: left_time.hour,
+						m: left_time.min,
+					}
 					this.activeInfo = res.data
 				})
 			},
@@ -387,7 +396,6 @@
 
 <style lang="scss" scoped="">
 	.active_one-container {
-		padding: 20upx;
 
 		.progress-wrap {
 			padding: 30upx;
@@ -429,12 +437,27 @@
 		}
 
 		.top-container {
-			margin-bottom: 20upx;
+			position: relative;
 
 			.bg {
-				border-radius: 20upx;
+				// border-radius: 20upx;
 				width: 100%;
-				height: 250upx;
+				height: 386upx;
+			}
+
+			.small {
+				position: absolute;
+				bottom: 20upx;
+				left: 20upx;
+				color: #fff;
+				background-color: rgba(#000, .8);
+				border-radius: 30upx;
+				padding: 5upx 20upx;
+
+				.text {
+					padding: 0 10upx;
+					color: yellow;
+				}
 			}
 		}
 
@@ -453,106 +476,87 @@
 		}
 
 		.active-center-container {
-			border-radius: 30upx;
-			overflow: hidden;
-			box-shadow: 0 2upx 16upx rgba(#999, .3);
-
 			.top-wrap {
-				background: linear-gradient(to right, #ff665e, #fdb673);
-				height: 90upx;
+				background: #333;
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
 				color: #fff;
+				padding: 20upx 30upx;
+				font-size: 32upx;
 
 				.left {
-					display: flex;
-					align-items: center;
-
-					.left-1 {
-						padding-left: 40upx;
-						padding-right: 20upx;
-						font-weight: 700;
-					}
-
-					.left-2 {
-						padding: 20upx;
-						font-size: 24upx;
-					}
+					flex: 1;
 				}
 
 				.right {
-					color: $text-color-1;
-					background-color: #ffd1b2;
+					background: linear-gradient(to right, #fe960f, #ff7f04);
 					display: flex;
 					align-items: center;
+					padding: 15upx 100upx;
+					border-radius: 20upx;
+					margin: 0 10upx;
+				}
 
-					border-top-left-radius: 50upx;
-					border-bottom-left-radius: 50upx;
-
-					image {
-						height: 90upx;
-						width: 90upx;
-					}
-
-					.text {
-						padding: 0 20upx;
-						text-align: center;
-					}
+				.right.f {
+					padding: 15upx 40upx;
+					background: linear-gradient(to right, #fc4655, #fd332f);
 				}
 			}
 
-
-
-			.notice-container {
-				color: #333;
-				background-color: #fff;
-				padding: 10upx 20upx;
-
-
+			.center-wrap {
+				border-radius: 30upx;
+				box-shadow: 0 2upx 16upx rgba(#999, .3);
+				margin: 20upx;
+				
 				.article-name {
 					text-align: center;
 					font-size: 32upx;
 					font-weight: 700;
 					padding: 5upx 10upx;
 					color: #41256B;
-
+				
 				}
 
-				.article-group {
-					display: flex;
-					align-items: baseline;
-					padding: 5upx 10upx;
+				.notice-container {
+					color: #333;
+					padding: 10upx 20upx;
 
-					.article-title {
-						border: none;
-						font-size: 28upx;
-						font-weight: 300;
-						padding: 0;
-						margin: 0;
-						width: 150upx;
-						font-weight: 700;
+					
+
+					.article-group {
+						display: flex;
+						align-items: baseline;
+						padding: 5upx 10upx;
+
+						.article-title {
+							border: none;
+							font-size: 28upx;
+							font-weight: 300;
+							padding: 0;
+							margin: 0;
+							width: 150upx;
+							font-weight: 700;
+						}
+
+						.article-content {
+							flex: 1;
+							text-indent: 0;
+							font-size: 28upx;
+							font-weight: 300;
+							margin: 0;
+						}
 					}
 
-					.article-content {
-						flex: 1;
-						text-indent: 0;
-						font-size: 28upx;
-						font-weight: 300;
-						margin: 0;
-					}
 				}
-
 			}
+
+
 		}
 
 
 		.rank-list-container {
-			margin-top: 40upx;
-			border-top-left-radius: 30upx;
-			border-top-right-radius: 30upx;
-			box-shadow: 0 2upx 16upx rgba(#999, .3);
-			overflow: hidden;
+		
 
 			.title {
 				height: 90upx;

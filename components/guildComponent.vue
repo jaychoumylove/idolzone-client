@@ -147,7 +147,7 @@
 					<view class="text">粉丝团</view>
 				</view>
 				<view v-if="$app.getData('config').yingyuan_switch==1"
-				 class="btn-item" @tap="goPageHasStar('/pages/active_one/active_one')">
+				 class="btn-item" @tap="goPageHasStar('/pages/active_one/active_one_list')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQquUweIHJ2hkGoLic007iakqBJCyJjsHtbyicFRcibN0S88wkn2yBR1PsOzpw/0"
 					 mode=""></image>
 					<view class="text">应援</view>
@@ -636,6 +636,8 @@
 										<view :class="'btn'+item.over" v-if="$app.chargeSwitch()==0">{{item.btn_text}}</view>
 										<button open-type="contact" @tap.stop :class="'btn'+item.over" v-else-if="$app.chargeSwitch()==2">回复"1"</button>
 									</block>
+									
+									
 									<view :class="'btn'+item.over" v-else>{{item.btn_text}}</view>
 									
 
@@ -1195,6 +1197,7 @@
 					if (cid == 2) this.modal = 'send' //2粉丝等级
 					if (cid == 3) this.$app.goPage(`/pages/charge/charge`) //3充值
 					if (cid == 4) this.$app.goPage(`/pages/user/push_index`) //4关注数据助手公众号
+					if (cid == 5) this.$app.goPage(`/pages/notice/notice?id=40`) //4下载APP
 					return
 				}
 				//如果已完成 2

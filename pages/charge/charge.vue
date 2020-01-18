@@ -457,6 +457,7 @@
 			border-radius: 60upx;
 			background-color: #ffa154;
 			color: #fff;
+			z-index: 5;
 
 			top: 105upx;
 			right: 35upx;
