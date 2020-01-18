@@ -113,7 +113,7 @@
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</view>
 
-			<button class="item-wrap" open-type="contact" :session-from="$app.getData('userInfo')" v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
+			<button class="item-wrap" open-type="contact" :session-from="$app.getData('userInfo')" v-if="$app.getData('config').version != $app.getData('VERSION') &&  $app.getData('platform')=='MP-WEIXIN'">
 				<view class="left-wrap">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBLGBtJCqmhlXzuZaoribFll5kYOEewiaxiakgKM8RHibko8U2zWxIMVsdLPA/0"
 					 mode="aspectFill"></image>
@@ -121,6 +121,14 @@
 				</view>
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</button>
+						
+			<view class="item-wrap" v-else-if="$app.getData('config').version != $app.getData('VERSION') && $app.getData('platform')!='MP-WEIXIN'">
+				<view class="left-wrap">
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBLGBtJCqmhlXzuZaoribFll5kYOEewiaxiakgKM8RHibko8U2zWxIMVsdLPA/0"
+					 mode="aspectFill"></image>
+					<view class="text" @tap="$app.copy(kefu)">客服微信：{{kefu}}<text class="tips">(点击复制)</text></view>
+				</view>				
+			</view>
 
 			<view class="item-wrap" @tap="$app.goPage('/pages/user/setting')">
 				<view class="left-wrap">
@@ -163,6 +171,7 @@
 	export default {
 		data() {
 			return {
+				kefu:this.$app.getData('config').kefu,
 				default_user_ad_url: this.$app.getData('config').user_ad.url,
 				requestCount: 0,
 
