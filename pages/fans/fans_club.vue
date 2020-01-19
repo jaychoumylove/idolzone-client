@@ -28,7 +28,7 @@
 			</view>
 			<view class="right-wrap">
 				<view class="avatar-wrap">
-					<image class="avatar" :src="info.avatar||$app.AVATAR" mode="aspectFill"></image>
+					<image class="avatar" :src="info.avatar||$app.getData('AVATAR')" mode="aspectFill"></image>
 					<view class="bottom flex-set" @tap="$app.goPage('/pages/group/group')">
 						<image class="btn" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXsqa9U7hNge9bVPRa04Tia6LcFf0micBuNEvUO2Fd4iaP8EcuBBFJDGAeKVZtupWHFUNiafibUSySNp7A/0"
 						 mode="aspectFill"></image>
@@ -48,7 +48,7 @@
 					<view class="text">目前集结人数:{{info.mass_people||0}}人</view>
 					<view class="text">粉丝团热度+{{info.mass_total||0}}</view>
 					<view class="fans-rank-wrap">
-						<image class="avatar" v-for="(item,index) in info.mass_user" :key="index" :src="item.user.avatarurl||$app.AVATAR"
+						<image class="avatar" v-for="(item,index) in info.mass_user" :key="index" :src="item.user.avatarurl||$app.getData('AVATAR')"
 						 mode="aspectFill"></image>
 					</view>
 					<view class="bottom">发起集结让更多人加入</view>

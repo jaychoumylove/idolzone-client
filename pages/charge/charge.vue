@@ -83,7 +83,7 @@
 		<modalComponent v-if="modal == 'proxyRecharge'" title="代充值" @closeModal="modal=''">
 			<view class="proxy-modal-container">
 				<view class="top">
-					<image class="avatar" :src="currentUser.avatarurl||$app.AVATAR" mode="scaleToFill"></image>
+					<image class="avatar" :src="currentUser.avatarurl||$app.getData('AVATAR')" mode="scaleToFill"></image>
 					<view class="nickname">{{currentUser.nickname}}</view>
 				</view>
 
@@ -121,8 +121,8 @@
 				requestCount: 1,
 				tabActive: 0,
 				userInfo: {
-					avatarurl: this.$app.getData('userInfo')['avatarurl'] || this.$app.AVATAR,
-					nickname: this.$app.getData('userInfo')['nickname'] || this.$app.NICKNAME,
+					avatarurl: this.$app.getData('userInfo')['avatarurl'] || this.$app.getData('AVATAR'),
+					nickname: this.$app.getData('userInfo')['nickname'] || this.$app.getData('NICKNAME'),
 					id: this.$app.getData('userInfo')['id'] || null,
 				},
 				userCurrency: this.$app.getData('userCurrency') || {

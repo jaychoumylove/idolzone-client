@@ -2,7 +2,8 @@
 	<view class="guild-component-container" @tap="inputing=false">
 		<!-- 添加到我的小程序 -->
 		<view class="add-top-img" v-if="showAddXcx">
-			<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FaCThHvhDic8AqkJFVxc6RFaIoG6DiaYlJVHgI1xT8E8V6jT8SNLlamlO6E9QdeTbVUomUr6eLfmrw/0" mode="widthFix"></image>
+			<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FaCThHvhDic8AqkJFVxc6RFaIoG6DiaYlJVHgI1xT8E8V6jT8SNLlamlO6E9QdeTbVUomUr6eLfmrw/0"
+			 mode="widthFix"></image>
 			<view class="btn" @tap="showAddXcx=false"></view>
 		</view>
 
@@ -49,7 +50,7 @@
 			<view class="top-row">
 				<!-- 明星头像 -->
 				<view class="avatar-wrap">
-					<image class="avatar" :src="star.avatar||$app.AVATAR" mode="aspectFill"></image>
+					<image class="avatar" :src="star.avatar||$app.getData('AVATAR')" mode="aspectFill"></image>
 				</view>
 
 				<view class="center-wrap">
@@ -92,7 +93,7 @@
 					<view class="fans-rank-wrap">
 						<view class="avatar-wrap" :style="{zIndex:6-index}" :class="['s-'+(index+1)]" v-for="(item,index) in userRankList['thisday_count']"
 						 :key="index" v-if="index<6">
-							<image class="avatar" :src="item.user.avatarurl || $app.AVATAR" mode="aspectFill"></image>
+							<image class="avatar" :src="item.user.avatarurl || $app.getData('AVATAR')" mode="aspectFill"></image>
 							<image class="rank" v-if="index<=2" :src="'/static/image/rank/rank-'+(index+1)+'.png'" mode=""></image>
 						</view>
 					</view>
@@ -136,7 +137,7 @@
 					 mode=""></image>
 					<view class="text">任务</view>
 				</view>
-				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="btn-item" @tap="invitFakePage=1;modal = 'invit_desert';getFakeInviteList()">
+				<view v-if="$app.getData('config').version != $app.getData('VERSION')" class="btn-item" @tap="invitFakePage=1;modal = 'invit_desert';getFakeInviteList()">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5UuhH4Via2LvZLDvjUXk1BTQW6p1mkbxNuAFqaIFuKKSS9MTicctuJUsg/0"
 					 mode=""></image>
 					<view class="text">召集好友</view>
@@ -146,7 +147,7 @@
 					 mode=""></image>
 					<view class="text">粉丝团</view>
 				</view>
-				<view v-if="$app.getData('config').yingyuan_switch==1"
+				<view v-if="$app.getData('config').yingyuan_switch==1 && $app.getData('config').version != $app.getData('VERSION')"
 				 class="btn-item" @tap="goPageHasStar('/pages/active_one/active_one_list')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQquUweIHJ2hkGoLic007iakqBJCyJjsHtbyicFRcibN0S88wkn2yBR1PsOzpw/0"
 					 mode=""></image>
@@ -164,7 +165,7 @@
 				</view>
 			</view>
 			<!-- 公告 -->
-			<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="row-info row-2" @tap="$app.goPage('/pages/notice/notice?id='+article.id)">
+			<view v-if="$app.getData('config').version != $app.getData('VERSION')" class="row-info row-2" @tap="$app.goPage('/pages/notice/notice?id='+article.id)">
 				<text class="left-wrap">【公告】</text>
 				<text class="center-wrap">{{article.name}}</text>
 				<text class="right-wrap" @tap.stop="$app.goPage('/pages/notice/list')">更多></text>
@@ -172,25 +173,25 @@
 		</view>
 
 		<!-- 聊天区域 -->
-		<scroll-view class="chart-container" scroll-y scroll-with-animation :scroll-into-view="'index_'+chartIndex">
-			<view class="chart-item" :id="'index_'+index" v-for="(item,index) in chartList" :key="index">
+		<scroll-view class="chart-container" scroll-y scroll-with-animation :scroll-top="chartScroll">
+			<view class="chart-item" v-for="(item,index) in chartList" :key="index">
 				<view class="left-wrap">
 					<view class="avatar-wrap" :class="{leader:item.user.isLeader}" @tap="tapUser(item.user.id)">
-						<image class="avatar" :src="item.user.avatarurl || $app.AVATAR" mode="aspectFill"></image>
+						<image class="avatar" :src="item.user.avatarurl || $app.getData('AVATAR')" mode="aspectFill"></image>
 						<image v-if="item.user.headwear" class="headwear position-set" :src="item.user.headwear.img" mode="aspectFill"></image>
 					</view>
 
 					<view class="center-wrap">
 						<view class="top">
-							<view v-if="item.user.userBadge.length==0" class="nickname_lenght0 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
-							<view v-else-if="item.user.userBadge.length==1" class="nickname_lenght1 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
-							<view v-else-if="item.user.userBadge.length==2" class="nickname_lenght2 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
-							<view v-else-if="item.user.userBadge.length==3" class="nickname_lenght3 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
-							<view v-else-if="item.user.userBadge.length==4" class="nickname_lenght4 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
-							<view v-else-if="item.user.userBadge.length==5" class="nickname_lenght5 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
-							<view v-else-if="item.user.userBadge.length==6" class="nickname_lenght6 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
-							<view v-else-if="item.user.userBadge.length==7" class="nickname_lenght7 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
-							<view v-else-if="item.user.userBadge.length==8" class="nickname_lenght8 text-overflow">{{item.user.nickname||$app.NICKNAME}}</view>
+							<view v-if="item.user.userBadge.length==0" class="nickname_lenght0 text-overflow">{{item.user.nickname||$app.getData('NICKNAME')}}</view>
+							<view v-else-if="item.user.userBadge.length==1" class="nickname_lenght1 text-overflow">{{item.user.nickname||$app.getData('NICKNAME')}}</view>
+							<view v-else-if="item.user.userBadge.length==2" class="nickname_lenght2 text-overflow">{{item.user.nickname||$app.getData('NICKNAME')}}</view>
+							<view v-else-if="item.user.userBadge.length==3" class="nickname_lenght3 text-overflow">{{item.user.nickname||$app.getData('NICKNAME')}}</view>
+							<view v-else-if="item.user.userBadge.length==4" class="nickname_lenght4 text-overflow">{{item.user.nickname||$app.getData('NICKNAME')}}</view>
+							<view v-else-if="item.user.userBadge.length==5" class="nickname_lenght5 text-overflow">{{item.user.nickname||$app.getData('NICKNAME')}}</view>
+							<view v-else-if="item.user.userBadge.length==6" class="nickname_lenght6 text-overflow">{{item.user.nickname||$app.getData('NICKNAME')}}</view>
+							<view v-else-if="item.user.userBadge.length==7" class="nickname_lenght7 text-overflow">{{item.user.nickname||$app.getData('NICKNAME')}}</view>
+							<view v-else-if="item.user.userBadge.length==8" class="nickname_lenght8 text-overflow">{{item.user.nickname||$app.getData('NICKNAME')}}</view>
 							<view class="badge-wrap flex-set">
 								<view class="captain" v-if="item.user.user_star && item.user.user_star.captain">
 									<image class="img-s" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9ENOOBmxXTF9huYYxQSQ5K6BCW8AZyc2DE39VjH2j5KoEKjPiaPbFT2NesdMAmh7xuNfwOK8AOChtQ/0"
@@ -304,16 +305,14 @@
 							<view v-if="current==2" class="text left flex-set">我的旧豆：{{userCurrency['old_coin']}}</view>
 
 							<block v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
-								<view v-if="$app.chargeSwitch()==0"
-								 class="right" @tap="$app.goPage('/pages/charge/charge')">
+								<view v-if="$app.chargeSwitch()==0" class="right" @tap="$app.goPage('/pages/charge/charge')">
 									充值<text class="iconfont iconjiantou"></text>
 								</view>
-								<button v-else-if="$app.chargeSwitch()==2"
-								 open-type="contact">
+								<button v-else-if="$app.chargeSwitch()==2" open-type="contact">
 									<view class="right">补充鲜花回复"1"<text class="iconfont iconjiantou"></text></view>
 								</button>
 							</block>
-							
+
 						</view>
 					</view>
 				</view>
@@ -343,10 +342,10 @@
 					<view class="item" v-for="(item,index) in fakeinvitList" :key="index" v-if="hasEarnCount+index+1<=300">
 						<view class='avatar'>
 							<image v-if="item.user&&item.user.avatarurl" :src="item.user.avatarurl" mode="aspectFill"></image>
-							<image v-else :src="$app.AVATAR" mode="aspectFill"></image>
+							<image v-else :src="$app.getData('AVATAR')" mode="aspectFill"></image>
 						</view>
 						<view class="text-container">
-							<view class="star-name">{{item.user&&item.user.nickname?item.user.nickname:$app.NICKNAME}}</view>
+							<view class="star-name">{{item.user&&item.user.nickname?item.user.nickname:$app.getData('NICKNAME')}}</view>
 							<view class="bottom-text">
 								<view class="hot-count">金豆+{{invitAward.coin}}</view>
 								<view class="hot-count" v-if="invitAward.stone">钻石+{{invitAward.stone}}</view>
@@ -378,7 +377,7 @@
 		<modalComponent v-if="modal == 'userInfo'" type="center" title=" " @closeModal="modal=''">
 			<view class="userinfo-modal-container">
 				<view class="top">
-					<image class="avatar" :src="currentUser.avatarurl||$app.AVATAR" mode="scaleToFill" @tap="$app.preImg(currentUser.avatarurl)"></image>
+					<image class="avatar" :src="currentUser.avatarurl||$app.getData('AVATAR')" mode="scaleToFill" @tap="$app.preImg(currentUser.avatarurl)"></image>
 					<view class="nickname">{{currentUser.nickname}}</view>
 
 				</view>
@@ -469,9 +468,9 @@
 							<image class="num img-l" v-if="index<=2" :src="'/static/image/rank/rank-'+(index+1)+'.png'" mode=""></image>
 							<view v-else class="num">{{index+1}}</view>
 						</view>
-						<image class='avatar' :src="item.user.avatarurl || $app.AVATAR" mode="aspectFill"></image>
+						<image class='avatar' :src="item.user.avatarurl || $app.getData('AVATAR')" mode="aspectFill"></image>
 						<view class="text-wrap">
-							<view class="nickname">{{item.user.nickname || $app.NICKNAME}}</view>
+							<view class="nickname">{{item.user.nickname || $app.getData('NICKNAME')}}</view>
 							<view class="count">贡献{{item.hot}}</view>
 						</view>
 						<view class="heart flex-set" @tap="like(item.user_id,index)">
@@ -591,8 +590,8 @@
 					<view class="left-container">
 						<view class="row-item" v-if="
 							item.status==1 && !(item.id==3 && $app.chargeSwitch()==1)
-							"
-						 v-for="(item,index) in signGift_categoryList" :key="index" @tap="changeSignGift(index)" :class="{active:signGift_currentCategory==index}">{{item.name}}
+							" v-for="(item,index) in signGift_categoryList"
+						 :key="index" @tap="changeSignGift(index)" :class="{active:signGift_currentCategory==index}">{{item.name}}
 							<view class="tips dot" v-if="item.tips"></view>
 						</view>
 					</view>
@@ -636,10 +635,10 @@
 										<view :class="'btn'+item.over" v-if="$app.chargeSwitch()==0">{{item.btn_text}}</view>
 										<button open-type="contact" @tap.stop :class="'btn'+item.over" v-else-if="$app.chargeSwitch()==2">回复"1"</button>
 									</block>
-									
-									
+
+
 									<view :class="'btn'+item.over" v-else>{{item.btn_text}}</view>
-									
+
 
 									<view v-if="item.over==0" class="tips">{{item.name_addon}}</view>
 								</view>
@@ -687,7 +686,7 @@
 					thisweek_count: [],
 				},
 				chartList: [],
-				chartIndex: -1, // 聊天窗位置
+				chartScroll: 1, // 聊天窗位置
 				modal: '', // 模态框名称
 				chartMsg: '', // 聊天输入内容
 				sendCount: '', // 赠送人气数额
@@ -767,8 +766,8 @@
 
 				//徽章
 				achieveBadge: [],
-				
-				showAddXcx: !this.$app.getData('userExt').add_enter,// 显示提示去添加到我的小程序顶部弹框
+
+				showAddXcx: !this.$app.getData('userExt').add_enter, // 显示提示去添加到我的小程序顶部弹框
 			};
 		},
 		created() {
@@ -836,7 +835,7 @@
 						this.disLeastCount = res.data.disLeastCount
 						this.chartList = res.data.chartList
 						this.$nextTick(function() {
-							this.chartIndex = this.chartList.length - 1
+							this.chartScroll = this.chartList.length * 999
 						})
 						// 延迟渲染
 						setTimeout(() => {
@@ -1045,7 +1044,7 @@
 					this.getLocalImg(this.star.share_img || this.star.avatar, src => {
 						ctx.drawImage(src, 48 * rate, 286 * rate, 382 * rate, 305 * rate);
 						// 用户头像
-						this.getLocalImg(this.$app.getData('userInfo').avatarurl || this.$app.AVATAR, src => {
+						this.getLocalImg(this.$app.getData('userInfo').avatarurl || this.$app.getData('AVATAR'), src => {
 							ctx.save() //保存当前的绘图上下文。
 							ctx.beginPath() //开始创建一个路径
 							ctx.arc(79 * rate, 784 * rate, 40 * rate, 0, 2 * Math.PI, false) //画一个圆形裁剪区域
@@ -1100,7 +1099,7 @@
 			addChartMsg(data) {
 				this.chartList.push(data)
 				this.$nextTick(function() {
-					this.chartIndex = this.chartList.length - 1
+					this.chartScroll = this.chartList.length * 999
 				})
 			},
 			// 定时显示喇叭弹幕
@@ -1352,7 +1351,7 @@
 					this.$app.toast('数额不正确')
 					return
 				}
-				
+
 				this.modal = ''
 				this.$app.request(this.$app.API.STAR_SENDHOT, {
 					starid: this.star.id,
@@ -1575,7 +1574,7 @@
 				}, res => {
 					this.chartList = res.data
 					this.$nextTick(function() {
-						this.chartIndex = this.chartList.length - 1
+						this.chartScroll = this.chartList.length * 999
 					})
 
 					this.$app.closeLoading(this)
@@ -1621,13 +1620,13 @@
 		height: 100%;
 		width: 100%;
 		overflow: hidden;
-		
+
 		.add-top-img {
 			position: fixed;
 			z-index: 1;
 			right: 15upx;
 			width: 400upx;
-			
+
 			.btn {
 				position: absolute;
 				width: 50upx;

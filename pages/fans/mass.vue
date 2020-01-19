@@ -19,7 +19,7 @@
 					</view>
 				</btnComponent>
 			</view>
-			<image class="avatar" :src="fanclub.avatar||$app.AVATAR" mode="aspectFill"></image>
+			<image class="avatar" :src="fanclub.avatar||$app.getData('AVATAR')" mode="aspectFill"></image>
 			<view class="nickname">{{fanclub.clubname}}</view>
 		</view>
 
@@ -45,7 +45,7 @@
 					<view class="extra">{{item.mass_count}}</view>
 				</view>
 				<view class="item-wrap" v-for="index in blockUserCount" :key="index">
-					<image class="avatar" :src="$app.AVATAR" mode="aspectFill"></image>
+					<image class="avatar" :src="$app.getData('AVATAR')" mode="aspectFill"></image>
 					<view class="extra">+1000</view>
 				</view>
 			</view>

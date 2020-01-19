@@ -67,8 +67,8 @@
 				userRank: [],
 				page: 1,
 				myInfo: {},
-				AVATAR:this.$app.AVATAR,
-				NICKNAME: this.$app.NICKNAME,
+				AVATAR:this.$app.getData('AVATAR'),
+				NICKNAME: this.$app.getData('NICKNAME'),
 			};
 		},
 		onLoad(option) {

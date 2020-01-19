@@ -331,7 +331,7 @@
 					this.getLocalImg(this.star.share_img || this.star.avatar, src => {
 						ctx.drawImage(src, 48 * rate, 286 * rate, 382 * rate, 305 * rate);
 						// 用户头像
-						this.getLocalImg(this.$app.getData('userInfo').avatarurl || this.$app.AVATAR, src => {
+						this.getLocalImg(this.$app.getData('userInfo').avatarurl || this.$app.getData('AVATAR'), src => {
 							ctx.save() //保存当前的绘图上下文。
 							ctx.beginPath() //开始创建一个路径
 							ctx.arc(79 * rate, 784 * rate, 40 * rate, 0, 2 * Math.PI, false) //画一个圆形裁剪区域

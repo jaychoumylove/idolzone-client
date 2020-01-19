@@ -2,8 +2,8 @@
 	<view class="box-page-container">
 		<!-- <view class="top-title">来自 <text style="color: #fbb225;">{{info.user.nickname}}</text> 送出的 <text style="color: #fbb225;">{{info.coin}}</text> 金豆</view> -->
 		<view class="top-container">
-			<image class="avatar" :src="info.user.avatarurl||$app.AVATAR" mode="aspectFill"></image>
-			<view class="nickname">来自 <text class="highlight">{{info.user.nickname||$app.NICKNAME}}</text> 的宝箱</view>
+			<image class="avatar" :src="info.user.avatarurl||$app.getData('AVATAR')" mode="aspectFill"></image>
+			<view class="nickname">来自 <text class="highlight">{{info.user.nickname||$app.getData('NICKNAME')}}</text> 的宝箱</view>
 			<view class="count flex-set">
 				你获得了
 				<text class="num">+{{self.count||0}}</text>
@@ -24,8 +24,8 @@
 		<view class="list-container">
 			<view class="item" v-for="(item,index) in list" :key="index">
 				<view class="left flex-set">
-					<image class="avatar" :src="item.user.avatarurl||$app.AVATAR" mode="aspectFill"></image>
-					<view class="nickname">{{item.user.nickname||$app.NICKNAME}}</view>
+					<image class="avatar" :src="item.user.avatarurl||$app.getData('AVATAR')" mode="aspectFill"></image>
+					<view class="nickname">{{item.user.nickname||$app.getData('NICKNAME')}}</view>
 					<!-- <view class="lucky" v-if="lucky==item.user_id">手气最佳</view> -->
 				</view>
 				<view class="right flex-set">

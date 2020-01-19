@@ -70,9 +70,9 @@
 				<view class='item-wrap' v-for="(item,index) in userRank" :key="index">
 					<image v-if="item.user&&item.user.avatarurl" class='avatar' :src="item.user.avatarurl" mode="aspectFill"></image>
 
-					<image v-else class='avatar' :src="$app.AVATAR" mode="aspectFill"></image>
+					<image v-else class='avatar' :src="$app.getData('AVATAR')" mode="aspectFill"></image>
 					<view class="text-wrap">
-						<view class="name">{{item.user&& item.user.nickname?item.user.nickname:$app.NICKNAME}}</view>
+						<view class="name">{{item.user&& item.user.nickname?item.user.nickname:$app.getData('NICKNAME')}}</view>
 						<view class="card">累计打卡天数：{{item.total_clocks}}天</view>
 					</view>
 
@@ -268,7 +268,7 @@
 					this.getLocalImg(this.star.share_img || this.star.avatar, src => {
 						ctx.drawImage(src, 48 * rate, 176 * rate, 382 * rate, 300 * rate);
 						// 用户头像
-						this.getLocalImg(this.$app.getData('userInfo').avatarurl || this.$app.AVATAR, src => {
+						this.getLocalImg(this.$app.getData('userInfo').avatarurl || this.$app.getData('AVATAR'), src => {
 							ctx.save() //保存当前的绘图上下文。
 							ctx.beginPath() //开始创建一个路径
 							ctx.arc(85 * rate, 675 * rate, 40 * rate, 0, 2 * Math.PI, false) //画一个圆形裁剪区域

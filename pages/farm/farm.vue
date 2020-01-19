@@ -1,5 +1,5 @@
 <template>
-	<view class="farm-page-container">
+	<view class="farm-page-container" v-if="$app.getData('config').version != $app.getData('VERSION')">
 
 		<image mode='widthFix' class='bg' src='/static/image/farm/bg.jpg'></image>
 		<view class='content'>
@@ -216,7 +216,7 @@
 				</view>
 				<view class="list-wrap">
 					<view class="item" v-for="(item,index) in helperList" :key="index">
-						<image class='inner' :src="item.helper.avatarurl||$app.AVATAR"></image>
+						<image class='inner' :src="item.helper.avatarurl||$app.getData('AVATAR')"></image>
 						<view class="list-nickname text-overflow">{{item.helper.nickname||'神秘粉丝'}}</view>
 					</view>
 					<view class="item" v-for="(item,index) in 8-helperList.length" :key="index">
@@ -240,11 +240,11 @@
 
 		<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
-	<!-- <view v-else class="fake-container">
+	<view v-else class="fake-container">
 		<view class="item" v-for="(item,index) in fake_img_list" :key="index">
 			<image class="img" :src="item" mode="aspectFill"></image>
 		</view>
-	</view> -->
+	</view>
 </template>
 
 <script>
@@ -289,7 +289,7 @@
 				primary_land2_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45DbvLwianQO7amMCrjEoPbyZyQX1HD3getqlCaqElzFV0Xianf5XufuoQ/0',
 				primary_tree1_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45ibdoeICBZgic5qIAmx5VTA9amISbmU2KIrFaaVd4EIgnmQ7h4HL8uXMg/0',
 				primary_tree2_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45NwbKYxUZT69EbL1ic7EU8JF6Y184rhuzuKLCibHKyzOouqa74DX834YA/0',
-				
+
 				fake_img_list: [
 					'https://mmbiz.qpic.cn/mmbiz_jpg/h9gCibVJa7JXQSQ5JNT2D5fkAQbsuHm3RgG4QgEIkrqPiaPtbjLBZbd140WcOhjV6DOWsvuVA5jvYvMo4stkTOpw/0',
 					'https://mmbiz.qpic.cn/mmbiz_png/aENwJia6J8bwOQTEOR3BKkMRZKLN02iaQGSajnKyQLIr1SFwtZQ26SDcYKypk3s29De7fO5eHE2d4xc4X9Jvc0rA/0',

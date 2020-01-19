@@ -64,9 +64,8 @@
 		},
 		onShareAppMessage(e) {
 			const shareType = e.target && e.target.dataset.share
-			return this.$app.commonShareAppMessage(5)
+			return this.$app.commonShareAppMessage(shareType)
 		},
-
 		onShow(option) {
 			this.loadData()
 			// this.getStarInfo()
@@ -80,9 +79,6 @@
 					starid: this.$app.getData('userStar').id
 				}, res => {
 					this.star = res.data
-					uni.setNavigationBarTitle({
-						title: this.star.name
-					})
 				})
 			},
 			goPage(id) {

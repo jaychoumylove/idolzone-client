@@ -190,8 +190,8 @@
 		},
 		onShow() {
 			this.userInfo = {
-				avatarurl: this.$app.getData('userInfo')['avatarurl'] || this.$app.AVATAR,
-				nickname: this.$app.getData('userInfo')['nickname'] || this.$app.NICKNAME,
+				avatarurl: this.$app.getData('userInfo')['avatarurl'] || this.$app.getData('AVATAR'),
+				nickname: this.$app.getData('userInfo')['nickname'] || this.$app.getData('NICKNAME'),
 				id: this.$app.getData('userInfo')['id'] || null,
 			}
 			this.userCurrency = this.$app.getData('userCurrency') || {
@@ -374,7 +374,6 @@
 						font-size: 18upx;
 					}
 				}
-
 			}
 		}
 
@@ -414,6 +413,8 @@
 					}
 
 					.text {
+						display: flex;
+						align-items: center;
 						font-size: 24upx;
 						color: #afafaf;
 					}

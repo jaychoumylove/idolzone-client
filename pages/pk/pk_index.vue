@@ -65,7 +65,7 @@
 
 						<view class='visiting-card'>
 							<view class='nickname'>
-								<view class='nickname-text'>{{item.name?item.name:$app.NICKNAME}}</view>
+								<view class='nickname-text'>{{item.name?item.name:$app.getData('NICKNAME')}}</view>
 								<view v-if='item.adm' class='level ling'>
 									<image src='/image/ling.png'></image>
 								</view>

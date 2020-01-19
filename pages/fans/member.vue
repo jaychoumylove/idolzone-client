@@ -14,7 +14,7 @@
 					<view v-else>{{index+1}}</view>
 				</view>
 				<view class='avatar-wrap'>
-					<image class="avatar" :src="item.user && item.user.avatarurl||$app.AVATAR" mode="aspectFill"></image>
+					<image class="avatar" :src="item.user && item.user.avatarurl||$app.getData('AVATAR')" mode="aspectFill"></image>
 					<image class="headwear position-set" :src="item.headwear" mode=""></image>
 					<view class="badge-wrap">
 						<view class="leader" v-if="item.user_id==leader_uid">团长</view>
@@ -22,7 +22,7 @@
 				</view>
 				<view class="text-container">
 					<view class="star-name text-overflow">
-						{{item.user && item.user.nickname||$app.NICKNAME}}
+						{{item.user && item.user.nickname||$app.getData('NICKNAME')}}
 						<!-- <image class="img-s" :src="`/static/image/user_level/lv${item.level}.png`" mode=""></image> -->
 					</view>
 				</view>
