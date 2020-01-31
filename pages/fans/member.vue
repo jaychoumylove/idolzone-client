@@ -1,6 +1,10 @@
 <template>
 	<view class="container">
-
+		<view class='tab-container'>
+			<view class="tab-item" :class='{active:current==0}' @tap='switchAct(0)'>上周</view>
+			<view class="tab-item" :class='{active:current==1}' @tap='switchAct(1)'>本周</view>
+		</view>
+		
 		<!-- 列表 -->
 		<view class="list-container">
 			<view class="item" v-for="(item,index) in userRank" :key="index">
@@ -23,13 +27,32 @@
 				<view class="text-container">
 					<view class="star-name text-overflow">
 						{{item.user && item.user.nickname||$app.getData('NICKNAME')}}
-						<!-- <image class="img-s" :src="`/static/image/user_level/lv${item.level}.png`" mode=""></image> -->
+						<image class="img-s" :src="`/static/image/user_level/lv${item.level}.png`" mode=""></image>
 					</view>
 				</view>
-				<view class="count">贡献值 {{item.thisweek_count}}</view>
-
-				<view class="exit iconfont iconclose" @tap="exit(item.user_id)" v-if="item.user_id==$app.getData('userInfo').id"></view>
+				<view class="count">贡献热度 {{item.hot}}</view>
+				<!-- <view class="exit iconfont iconclose" @tap="exit(item.user_id)" v-if="myInfo.user_id==leader_uid"></view> -->
 			</view>
+		</view>
+		<!-- 我的 -->
+		<view class="my-container">
+			<view class="rank-num">
+				<view>{{myInfo.rank}}</view>
+			</view>
+			<view class='avatar-wrap'>
+				<image class="avatar" :src="$app.getData('userInfo').avatarurl" mode="aspectFill"></image>
+				<image v-if="myInfo.headwear&&myInfo.headwear.img" class="headwear position-set" :src="myInfo.headwear&&myInfo.headwear.img" mode=""></image>
+			</view>
+			<view class="text-container">
+				<view>
+					{{$app.getData('userInfo').nickname}}
+					<image class="img-s" :src="`/static/image/user_level/lv${myInfo.level}.png`" mode=""></image>
+				</view>
+		
+			</view>
+			<view class="count">贡献热度 {{myInfo.score||''}}</view>
+			<image class="exit" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JWwlVcSNe42f7cdITecxbg4vgXqHL191U954COPpyUJZk3bVFibGKvBO6lw9qBP2iaJLsB1U01mLcug/0"
+			 mode="aspectFill"  @tap="exit(myInfo.user_id)" v-if="myInfo.user_id==$app.getData('userInfo').id"></image>
 		</view>
 	</view>
 </template>
@@ -38,10 +61,14 @@
 	export default {
 		data() {
 			return {
+				current: 0,
 				fid: 0,
 				userRank: [],
 				page: 1,
 				leader_uid: 0,
+				myInfo: {},
+				AVATAR:this.$app.getData('AVATAR'),
+				NICKNAME: this.$app.getData('NICKNAME'),
 			};
 		},
 		onLoad(option) {
@@ -54,14 +81,14 @@
 		},
 		methods: {
 			exit(uid) {
-				this.$app.modal(`是否退出该粉丝团`, () => {
+				let msg = `是否退出该粉丝团`
+				if(this.myInfo.hasExited) msg = `你已经退过一次，本次需要花费100钻石`
+				this.$app.modal(msg, () => {
 					this.$app.request('fans/exit', {
 						user_id: uid,
 					}, res => {
 						this.$app.toast(`退出成功`)
 						setTimeout(() => {
-							// this.$app.goPage('/pages/fans/fans_list')
-
 							uni.navigateBack({
 								delta: 2
 							})
@@ -70,11 +97,25 @@
 				})
 
 			},
+			switchAct(current) {
+				this.page = 1
+				this.current = current
+				this.loadData()
+			},
 			loadData() {
+				let field;
+				if (this.current == 0) {
+					field = 'lastweek_hot'
+				} else if (this.current == 1) {
+					field = 'thisweek_hot'
+				}
 				this.$app.request('fans/member', {
+					
 					fid: this.fid,
 					page: this.page,
+					field,
 				}, res => {
+					this.myInfo = res.data.my
 					this.leader_uid = res.data.leader_uid
 					if (this.page == 1) {
 						this.userRank = res.data.list
@@ -183,7 +224,6 @@
 					color: #888;
 				}
 
-
 			}
 		}
 
@@ -235,6 +275,12 @@
 			.count {
 				margin-left: 30upx;
 				color: #ff8421;
+			}
+			
+			.exit {
+				width: 40upx;
+				height: 40upx;
+				color: #888;
 			}
 		}
 	}

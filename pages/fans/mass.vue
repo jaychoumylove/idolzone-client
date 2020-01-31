@@ -3,7 +3,7 @@
 		<view class="top-container">
 			<view class="top-btn-wrap">
 				<btnComponent type="default">
-					<button open-type="share" data-share='7' @tap="buttonHandler" data-opentype="share">
+					<button open-type="share" data-shareid='7' @tap="buttonHandler" data-sharetype="share">
 						<view class="btn flex-set">
 							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXIPlU5Gk353lHIEcfwq2zCBpJxtgsPS2Kea21pk5SxnfqJCoUmq4ZVkNOvWIgPbTYicXvajEC7rGg/0"
 							 mode=""></image>
@@ -121,7 +121,7 @@
 		},
 
 		onShareAppMessage(e) {
-			const shareType = e.target && e.target.dataset.share
+			const shareType = e.target && e.target.dataset.shareid
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		onLoad(option) {
@@ -130,10 +130,10 @@
 		},
 		methods: {
 			buttonHandler(e) {
-				const opentype = e.target.dataset.opentype
-				if (opentype == 'share') {
+				const sharetype = e.target.dataset.sharetype
+				if (sharetype == 'share') {
 					// 分享
-					const shareType = e.target && e.target.dataset.share
+					const shareType = e.target && e.target.dataset.shareid
 					// #ifdef APP-PLUS
 					const shareOptions = this.$app.commonShareAppMessage(shareType)
 					this.$refs.shareModal.shareShow(shareOptions)

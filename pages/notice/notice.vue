@@ -15,6 +15,8 @@
 			return {
 				article: '',
 				webview: '',
+				title:'',
+				aid:'',
 			};
 		},
 		onLoad(option) {
@@ -42,6 +44,8 @@
 				this.$app.request('article/notice', {
 					id
 				}, res => {
+					this.title = res.data.name
+					this.aid =  res.data.id
 					try {
 						this.article = JSON.parse(res.data.value)
 					} catch (e) {

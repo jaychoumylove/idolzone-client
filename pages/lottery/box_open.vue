@@ -10,10 +10,10 @@
 				
 				<image class="img-m" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
 				 mode="aspectFill"></image>
-				 <!-- <button class="icon-wrap flex-set" open-type="share">
+				 <button class="icon-wrap flex-set" open-type="share" data-shareid="8">
 					 <image class="img-s" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXrp67BbdomXFY6zcFAibp9GXCgJXQJJ6jSagKrMJjhgicQWQAibCd9jFfH6AsT1zd8SEGNrg7ZtlnRA/0" mode=""></image>
 					 分享
-				 </button> -->
+				 </button>
 			</view>
 		</view>
 		<view class="tips">
@@ -65,7 +65,7 @@
 		},
 		onShow() {},
 		onShareAppMessage(e) {
-			const shareType = e.target && e.target.dataset.share
+			const shareType = e.target && e.target.dataset.shareid
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {

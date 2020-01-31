@@ -6,7 +6,7 @@
 
 			<view class="btn-center">
 				<btnComponent type="style2">
-					<button open-type="share" class="share"><text class="iconfont iconshare"></text>去邀请</button>
+					<button open-type="share" data-shareid="11" class="share"><text class="iconfont iconshare"></text>去邀请</button>
 				</btnComponent>
 			</view>
 		</view>
@@ -130,8 +130,8 @@
 			this.loadData()
 		},
 		onShareAppMessage(e) {
-			const shareType = e.target && e.target.dataset.share
-			return this.$app.commonShareAppMessage(11)
+			const shareType = e.target && e.target.dataset.shareid
+			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
 			openModal(item) {

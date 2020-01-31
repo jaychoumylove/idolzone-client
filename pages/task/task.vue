@@ -56,7 +56,7 @@
 							<!-- 充值去公众号 -->
 							<view class="flex-set" style="width: 130upx;height: 65upx;">回复"1"</view>
 						</button>
-						<button v-else class="btn" :open-type="item.open_type" @tap="buttonHandler" :data-opentype="item.open_type">
+						<button v-else class="btn" :open-type="item.open_type" @tap="buttonHandler">
 							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
 						</button>
 
@@ -74,7 +74,7 @@
 				<view v-else class="btn" @tap="useBadge(item,index)">
 					<btnComponent type="default" v-if="item.status == 0">
 						<!-- 分享 -->
-						<button class="btn" open-type="share" @tap="buttonHandler" data-opentype="share" v-if="item.type == 1">
+						<button class="btn" open-type="share" @tap="buttonHandler" data-sharetype="share" v-if="item.type == 1">
 							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
 						</button>
 
@@ -181,15 +181,15 @@
 			this.getShareText()
 		},
 		onShareAppMessage(e) {
-			const shareType = e.target && e.target.dataset.share
+			const shareType = e.target && e.target.dataset.shareid
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
 			buttonHandler(e) {
-				const opentype = e.target.dataset.opentype
-				if (opentype == 'share') {
+				const sharetype = e.target.dataset.sharetype
+				if (sharetype == 'share') {
 					// 分享
-					const shareType = e.target && e.target.dataset.share
+					const shareType = e.target && e.target.dataset.shareid
 					// #ifdef APP-PLUS
 					const shareOptions = this.$app.commonShareAppMessage(shareType)
 					this.$refs.shareModal.shareShow(shareOptions)

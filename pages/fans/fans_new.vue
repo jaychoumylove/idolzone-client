@@ -13,7 +13,7 @@
 					<image v-if="avatar" :src="avatar" mode="aspectFill"></image>
 					<view v-else>+</view>
 				</view>
-				<view style="padding-top: 20upx;">请上传1：1正方形的头像</view>
+				<view style="padding-top: 20upx;">点击上传1:1正方形的头像</view>
 			</view>
 
 			<view class="input-group">

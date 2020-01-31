@@ -129,19 +129,10 @@
 					<view class="text" @tap="$app.copy(kefu)">客服微信：{{kefu}}<text class="tips">(点击复制)</text></view>
 				</view>				
 			</view>
-
-			<view class="item-wrap" @tap="$app.goPage('/pages/user/setting')">
-				<view class="left-wrap">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBLAfUuB7zP0TVUIdw8AjXVEibArIEoZLSmHfzyqIY3pjT5xOVK97dianRQ/0"
-					 mode="aspectFill"></image>
-					<view class="text">设置</view>
-				</view>
-				<view class="right-wrap iconfont iconjiantou"></view>
-			</view>
 			
 			<view v-if="$app.getData('config').version != $app.getData('VERSION') && $app.getData('platform')=='MP-WEIXIN'" class="item-wrap" @tap="$app.goPage('/pages/user/push_index')">
 				<view class="left-wrap">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GtNAcPVLQic64wJ4ialJUhsoibJ4iaco1u3NgFvibYw3C0JauIKdQvZxsRj7hUIgZmIN9wPI40XR2FCTw/0"
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FQwQXv6GvPCnxTAabQ6CSgjfqGehWcXZZDKT6ib3q3X7OHu78RLROkjkTZdlEDslibgjgEneSPaSRQ/0"
 					 mode="aspectFill"></image>
 					<view class="text">数据订阅</view>
 				</view>
@@ -150,13 +141,22 @@
 
 			<view class="item-wrap" v-if="$app.getData('config').game_switch.open" @tap="$app.goPage('/pages/task/game')">
 				<view class="left-wrap">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FquzibbuL4TMQyMbRKaQyUh5pOiahibicDKPv5P2x80KFLTbmwhGrgRjAOGXibZ7nsT8RsKtuqwwjQw6Q/0"
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FQwQXv6GvPCnxTAabQ6CSgtIPQE24csmD5a8XhhpIujtre8YqLmICrxtWTNRny1iaS2MfkUkk2bag/0"
 					 mode="aspectFill"></image>
 					<view class="text" v-if="$app.getData('userExt').totalCount>=$app.getData('config').game_switch.min_count">游戏试玩
 						<view class="tips">每试玩一个+{{$app.getData('config').game_switch.award_coin}}金豆</view>
 					</view>
 					<view class="text" v-else>更多好玩</view>
 
+				</view>
+				<view class="right-wrap iconfont iconjiantou"></view>
+			</view>
+			
+			<view class="item-wrap" @tap="$app.goPage('/pages/user/setting')">
+				<view class="left-wrap">
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBLAfUuB7zP0TVUIdw8AjXVEibArIEoZLSmHfzyqIY3pjT5xOVK97dianRQ/0"
+					 mode="aspectFill"></image>
+					<view class="text">设置</view>
 				</view>
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</view>

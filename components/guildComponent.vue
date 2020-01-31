@@ -142,7 +142,12 @@
 					 mode=""></image>
 					<view class="text">召集好友</view>
 				</view>
-				<view class="btn-item" @tap="goPageHasStar('/pages/fans/fans_list')">
+				<view class="btn-item" @tap="goPageHasStar('/pages/fans/fans_club?fid=' + fanclub_id)" v-if="fanclub_id">
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQqumNVIoBH06JHxsj0FI6GJOhvalPiaV8l2Ap7CKFSwFsjecJ1fWWhQHicg/0"
+						 mode=""></image>
+					<view class="text">粉丝团</view>
+				</view>
+				<view class="btn-item" @tap="goPageHasStar('/pages/fans/fans_list')" v-else>
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQqumNVIoBH06JHxsj0FI6GJOhvalPiaV8l2Ap7CKFSwFsjecJ1fWWhQHicg/0"
 					 mode=""></image>
 					<view class="text">粉丝团</view>
@@ -331,7 +336,7 @@
 						</view>
 
 						<btnComponent type="default">
-							<button class="btn" open-type="share" @tap="buttonHandler" data-opentype="share">
+							<button class="btn" open-type="share" @tap="buttonHandler" data-sharetype="share">
 								<view class="flex-set" style="width: 140upx; height: 60upx;">邀请好友</view>
 							</button>
 						</btnComponent>
@@ -353,7 +358,7 @@
 						</view>
 						<view class="btn">
 							<btnComponent v-if="item.status == 0" type="default">
-								<button open-type="share" @tap="buttonHandler" data-opentype="share">
+								<button open-type="share" @tap="buttonHandler" data-sharetype="share">
 									<view class="flex-set" style="width: 130upx;height: 65upx;">去邀请</view>
 								</button>
 							</btnComponent>
@@ -499,7 +504,7 @@
 				</view>
 
 				<view class="btn">
-					<button open-type="share" @tap="buttonHandler" data-opentype="share">
+					<button open-type="share" @tap="buttonHandler" data-sharetype="share">
 						<view>晒出我的徽章</view>
 					</button>
 					<view class="row-text" @tap="$app.goPage('/pages/user/badge')">查看徽章</view>
@@ -717,6 +722,7 @@
 				sprite_level: 0,
 				friendTotal: 0,
 				captain: 0, // 团长
+				fanclub_id: null, // 粉丝团
 
 				siginList: [],
 				signin_day: 1,
@@ -779,10 +785,10 @@
 		},
 		methods: {
 			buttonHandler(e) {
-				const opentype = e.target.dataset.opentype
-				if (opentype == 'share') {
+				const sharetype = e.target.dataset.sharetype
+				if (sharetype == 'share') {
 					// 分享
-					const shareType = e.target && e.target.dataset.share
+					const shareType = e.target && e.target.dataset.sharetype
 					// #ifdef APP-PLUS
 					const shareOptions = this.$app.commonShareAppMessage(shareType)
 					this.$refs.shareModal.shareShow(shareOptions)
@@ -816,6 +822,7 @@
 						starid: this.star.id,
 						client_id: clientId,
 					}, res => {
+						this.fanclub_id = res.data.fanclub_id
 						// 明星信息
 						const star = res.data.starInfo
 						uni.setNavigationBarTitle({
@@ -848,7 +855,7 @@
 							this.article.id = res.data.article.id
 
 						}, 300)
-
+						
 						//宝箱及成长礼包
 						if (this.$app.getData('config').fansbox_open == '1') {
 							this.$app.request('fans/mybox', {}, res => {

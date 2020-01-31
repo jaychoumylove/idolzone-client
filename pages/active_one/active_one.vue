@@ -185,7 +185,6 @@
 			};
 		},
 		onShareAppMessage(e) {
-			const shareType = e.target && e.target.dataset.share
 			return this.$app.commonShareAppMessage({
 				title: this.activeInfo.shareText,
 				imageUrl: this.activeInfo.title_img

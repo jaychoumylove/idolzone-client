@@ -8,9 +8,9 @@
 					<text class="iconfont iconeditor" v-if="info.leader" style="color: #999;" @tap="$app.goPage(`/pages/fans/fans_new?fid=${info.id}`)"></text>
 				</view>
 				<view class="content-wrap">
-					<view class="block">
+					<view class="block" @tap="$app.goPage('/pages/fans/fans_list')">
 						<view class="item">NO.{{info.week_rank||''}}</view>
-						<view class="item bottom">排名</view>
+						<view class="item bottom">排名<text class="iconfont iconjiantou"></text></view>
 					</view>
 					<view class="block" @tap="$app.goPage('/pages/fans/member?fid=' + info.id)">
 						<view class="item">{{info.mem_count||0}}人</view>
@@ -27,9 +27,9 @@
 				</view>
 			</view>
 			<view class="right-wrap">
-				<view class="avatar-wrap">
+				<view class="avatar-wrap" @tap="$app.goPage('/pages/group/group')">
 					<image class="avatar" :src="info.avatar||$app.getData('AVATAR')" mode="aspectFill"></image>
-					<view class="bottom flex-set" @tap="$app.goPage('/pages/group/group')">
+					<view class="bottom flex-set">
 						<image class="btn" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXsqa9U7hNge9bVPRa04Tia6LcFf0micBuNEvUO2Fd4iaP8EcuBBFJDGAeKVZtupWHFUNiafibUSySNp7A/0"
 						 mode="aspectFill"></image>
 						<view class="text">为TA冲榜</view>
@@ -39,29 +39,128 @@
 
 		</view>
 
-		<view class="center-btn-container">
-			<button class="btn-wrap" open-type="share" data-share="7" @tap="buttonHandler" data-opentype="share">
-				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXsqa9U7hNge9bVPRa04Tia6F314XicqD4qdfLBHfJQ0yreKuccibDWxNd3tHUBLiblEkX06uvZD2cxXg/0"
-				 mode="aspectFill"></image>
-				<view class="content">
-					<view class="times">{{info.mass_time||''}}集结进行中</view>
-					<view class="text">目前集结人数:{{info.mass_people||0}}人</view>
-					<view class="text">粉丝团热度+{{info.mass_total||0}}</view>
-					<view class="fans-rank-wrap">
-						<image class="avatar" v-for="(item,index) in info.mass_user" :key="index" :src="item.user.avatarurl||$app.getData('AVATAR')"
-						 mode="aspectFill"></image>
+		<view class="center-container">
+			<view class="btn-container">
+				<button class="btn-wrap" open-type="share" data-shareid="7" @tap="buttonHandler" data-sharetype="share">
+					<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EsP1YK72GM1EGI8VsBLl4vtrkIyuHtPrkLnE4q7PExBxKZHWCvpvibtJ2tse0qyjQnt3iaCeFwcYRw/0"
+					 mode="aspectFill"></image>
+					 
+					 <view class="content">
+					 	<view class="text">{{info.mass_people||0}}人</view>
+					 	<view class="times">{{info.mass_time||''}}集结中</view>
+						<!-- <view class="text">热度+{{info.mass_total||0}}</view> -->
+					 	<view class="fans-rank-wrap">
+					 		<image class="avatar" v-for="(item,index) in info.mass_user" :key="index" :src="item.user.avatarurl||$app.getData('AVATAR')"
+					 		 mode="aspectFill"></image>
+					 	</view>
+						<view class="bottom">立即集结</view>
+					 </view>
+				</button>
+				
+				<button class="btn-wrap" open-type="share" data-shareid="6" @tap="buttonHandler" data-sharetype="share">
+					<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EsP1YK72GM1EGI8VsBLl4vVlgubYlzs8FCz0vgxVeoOicJ02rKvAj6QfR6gaThFRotgxiaeyD01Yog/0"
+					 mode="aspectFill"></image>				
+					<view class="content">
+						<view class="text">{{info.new_people||0}}人</view>
+						<view class="times">今日邀请</view>
+						<view class="fans-rank-wrap">
+							<image class="avatar" v-for="(item,index) in info.new_user" :key="index" :src="item.user.avatarurl||$app.getData('AVATAR')"
+							 mode="aspectFill"></image>
+						</view>
+						<view class="bottom">邀请成员加入</view>
 					</view>
-					<view class="bottom">发起集结让更多人加入</view>
-				</view>
-			</button>
+				</button>
+			
+			</view>
 		</view>
-		<!-- <view class="btn-wrap">
-				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXsqa9U7hNge9bVPRa04Tia6F314XicqD4qdfLBHfJQ0yreKuccibDWxNd3tHUBLiblEkX06uvZD2cxXg/0"
-				 mode="aspectFill"></image>
-				<view class="content">
-					<view class="text">团战</view>
+		
+		<view class="title-wrap">粉丝团每周任务（奖励由团长领取）</view>
+		
+		<view class="taskitem" v-for="(item,index) in taskList" :key="index">
+			<view v-if="current != 2" class="left-content">
+				<image class="img" :src="item.icon" mode=""></image>
+				<view class="content ">
+					<view class="top text-overflow">{{item.name}}</view>
+					<view class="bottom" v-if="item.desc">{{item.desc}}</view>
+					<block v-else-if="item.times">
+						<view class="bottom">本周({{item.doneTimes}}/{{item.times}})</view>
+						<view class="bottom">上周({{item.lastWeek_doneTimes}}/{{item.times}}) <icon type="success" size="12" v-if="item.status>0"></icon></view>
+					</block>
 				</view>
-			</view> -->
+			</view>
+			<view v-else class="left-content badge-type">
+				<image class="img" :src="item.icon" mode=""></image>
+				<view class="content">
+					<view class="top text-overflow">{{item.name}}</view>
+					<block v-if="item.desc">
+						<view class="bottom">{{item.desc}},本周({{item.doneTimes}}/{{item.count}})</view>
+						<view class="bottom">{{item.desc}},上周({{item.lastWeek_doneTimes}}/{{item.count}}) <icon type="success" size="12" v-if="item.status>0"></icon></view>
+					</block>
+				</view>
+			</view>
+		
+			<view class="right-content">
+				<view class="earn">
+					<view class="right-item" v-if="item.coin">
+						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
+						 mode="widthFix"></image>
+						<view class="add-count">+{{item.coin}}</view>
+					</view>
+					<view class="right-item" v-if="item.stone">
+						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
+						 mode="widthFix"></image>
+						<view class="add-count">+{{item.stone}}</view>
+					</view>
+					<view class="right-item" v-if="item.flower">
+						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
+						 mode="widthFix"></image>
+						<view class="add-count">+{{item.flower}}</view>
+					</view>
+					<view class="right-item" v-if="item.trumpet">
+						<image src="/static/image/user/trumpet-icon.png" mode="widthFix"></image>
+						<view class="add-count">+{{item.trumpet}}</view>
+					</view>
+		
+				</view>
+				<view v-if="current!=2" class="btn" @tap="doTask(item,index)">
+		
+					<btnComponent type="default" v-if="item.status != 1 || !info.leader">
+						<button class="btn" :open-type="item.open_type" :data-shareid="item.shareid" @tap="buttonHandler">
+							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
+						</button>
+		
+					</btnComponent>
+		
+					<btnComponent type="success" v-if="item.status == 1 && info.leader">
+						<view class="flex-set" style="width: 130upx;height: 65upx;">可领取</view>
+					</btnComponent>
+					
+					<view v-if="item.status == 2" class="flex-set" style="font-size: 22upx;margin-top: 4upx;">上周已领</view>
+		
+				</view>
+				<view v-else class="btn" @tap="useBadge(item,index)">
+					<btnComponent type="default" v-if="item.status == 0">
+						<!-- 分享 -->
+						<button class="btn" :open-type="item.open_type" @tap="buttonHandler" v-if="item.type == 1">
+							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
+						</button>
+		
+						<!-- 默认 -->
+						<view v-else class="flex-set" style="width: 130upx;height: 65upx;">
+							{{item.btn_text||'去完成'}}
+						</view>
+					</btnComponent>
+		
+					<btnComponent type="success" v-if="item.status == 1">
+						<view class="flex-set" style="width: 130upx;height: 65upx;">佩戴</view>
+					</btnComponent>
+					<btnComponent type="disable" v-if="item.status == 2">
+						<view class="flex-set" style="width: 130upx;height: 65upx;">卸下</view>
+					</btnComponent>
+				</view>
+			</view>
+		</view>
+		
 
 	<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
@@ -78,6 +177,8 @@
 		},
 		data() {
 			return {
+				current: 1, // 任务类别
+				taskList: [],
 				fid: 0,
 				modal: '',
 				info: {
@@ -93,15 +194,15 @@
 			this.loadData()
 		},
 		onShareAppMessage(e) {
-			const shareType = e.target && e.target.dataset.share
+			const shareType = e.target && e.target.dataset.shareid
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
 			buttonHandler(e) {
-				const opentype = e.target.dataset.opentype
-				if (opentype == 'share') {
+				const sharetype = e.target.dataset.sharetype
+				if (sharetype == 'share') {
 					// 分享
-					const shareType = e.target && e.target.dataset.share
+					const shareType = e.target && e.target.dataset.shareid
 					// #ifdef APP-PLUS
 					const shareOptions = this.$app.commonShareAppMessage(shareType)
 					this.$refs.shareModal.shareShow(shareOptions)
@@ -127,6 +228,46 @@
 				}, res => {
 					this.info = res.data
 				})
+				this.getTaskList()
+			},
+			getTaskList() {
+				this.$app.request('fans/task', {
+					type: this.current
+				}, res => {
+					this.taskList = res.data
+				})
+			},
+			doTask(task, index) {
+				if (task.status == 0) { // 做任务
+					if (task.gopage) {
+						// 跳转页面
+						this.$app.goPage(task.gopage)
+					}
+
+				} else if (task.status == 1) { // 去领取
+					if(!this.info.leader) {
+						this.$app.toast('你没有权限')
+						return
+					}
+					this.taskSettle(task.id,index)
+				}
+			},
+			
+			// 领取奖励
+			taskSettle(task_id,index) {
+				this.$app.request('fans/tasksettle', {
+					task_id
+				}, res => {
+					this.taskList[index].status = 2
+					let toast = '领取成功'
+					if (res.data.coin) toast += '，金豆+' + res.data.coin
+					if (res.data.flower) toast += '，鲜花+' + res.data.flower
+					if (res.data.stone) toast += '，钻石+' + res.data.stone
+					if (res.data.trumpet) toast += '，喇叭+' + res.data.trumpet
+
+					this.$app.toast(toast)
+					this.getTaskList()
+				}, 'POST', true)
 			}
 
 		}
@@ -135,11 +276,12 @@
 
 <style lang="scss">
 	.new-page-container {
-		height: 100%;
 		display: flex;
 		flex-direction: column;
 
 		.top-container {
+			height: 250upx;
+			border-radius: 0 0 60upx 60upx;
 			padding: 20upx;
 			color: #fff;
 			background-color: #2b3849;
@@ -206,270 +348,147 @@
 			}
 
 		}
-
-		.center-btn-container {
-			display: flex;
-			justify-content: space-between;
-			padding: 15upx;
-			color: #fff;
-
-			.btn-wrap {
-				position: relative;
-				width: 100%;
-				height: 300upx;
-				border-radius: 30upx;
-				overflow: hidden;
-				z-index: 1;
-				text-align: left;
-
-				.bg {
-					position: absolute;
-					z-index: -1;
-				}
-
-				.content {
-					width: 100%;
-					height: 100%;
-					padding: 20upx;
-					display: flex;
-					flex-direction: column;
-					justify-content: space-between;
-					align-items: center;
-
-					.times {
-						font-weight: 700;
-					}
-
-					.fans-rank-wrap {
-						display: flex;
-						margin-left: 10upx;
-
-						.avatar {
-							width: 60upx;
-							height: 60upx;
-							border-radius: 50%;
-							margin-left: -10upx;
-						}
-					}
-
-					.bottom {
-						border-radius: 30upx;
-						background-color: #ee7d03;
-						padding: 5upx 20upx;
-						font-size: 32upx;
-					}
-				}
-			}
-		}
-
-		.chart-container {
-			flex: 1;
-			overflow-y: auto;
-
-			.chart-item {
+		.center-container{
+			// border-radius: 30rpx;
+			// box-shadow: 0 2rpx 16rpx rgba(153, 153, 153, 0.3);
+			// margin: 20rpx;
+			
+			.btn-container {
 				display: flex;
 				justify-content: space-between;
-				padding: 16upx 40upx;
-				position: relative;
+				padding: 15upx;
+				color: #fff;
+				
+				.btn-wrap {
+					margin: auto;
+					position: relative;
+					width: 340upx;
+					height:260upx;
+					border-radius: 20upx;
+					overflow: hidden;
+					z-index: 1;
+					text-align: left;
 
-				.left-wrap {
-					display: flex;
-					align-items: flex-start;
-					flex: 1;
-
-					.avatar-wrap {
-						position: relative;
-						height: auto;
-
-						.avatar {
-							width: 86upx;
-							height: 86upx;
-							border-radius: 50upx;
-						}
-
-						.headwear {
-							width: 150%;
-							height: 150%;
-						}
-					}
-
-					.avatar-wrap.captain::after {
-						content: "领";
+					.bg {
 						position: absolute;
-						background-color: rgba(#F99152, .8);
-						border-radius: 12upx;
-						z-index: 1;
-						padding: 0 4upx;
-						color: #FFF;
-						font-size: 20upx;
-						right: 0;
-						bottom: 0;
+						z-index: -1;
 					}
-
-					.center-wrap {
-						margin-left: 20upx;
-
-						.top {
-							color: #737373;
+					
+					.content {
+						padding: 20upx;
+						display: flex;
+						flex-direction: column;
+						justify-content: space-between;
+						align-items: center;
+					
+						.text {
+							font-size: 40upx;
+							font-weight:bold;
+						}
+					
+						.fans-rank-wrap {
+							height: 40upx;
 							display: flex;
-							align-items: center;
-							font-size: 24upx;
-
-							.badge-wrap {
-								padding: 0 2upx;
-								display: flex;
-
-								.user-level-wrap {
-									display: flex;
-
-									.img {
-										width: 34upx;
-									}
-
-									.user-level-text {
-										border-radius: 30upx;
-										padding-right: 10upx;
-									}
-
-									.level1 {
-										color: #B8CAD6;
-										background: linear-gradient(to right, rgba(206, 223, 232, 0), rgba(206, 223, 232, 0.6));
-									}
-
-									.level2,
-									.level3,
-									.level4,
-									.level5 {
-										color: #74D0FF;
-										background: linear-gradient(to right, rgba(112, 228, 254, 0), rgba(112, 228, 254, 0.6));
-									}
-
-									.level6,
-									.level7,
-									.level8 {
-										color: #09EA71;
-										background: linear-gradient(to right, rgba(102, 240, 123, 0), rgba(102, 240, 123, 0.6));
-									}
-
-									.level9,
-									.level10,
-									.level11 {
-										color: #FD8465;
-										background: linear-gradient(to right, rgba(255, 161, 161, 0), rgba(255, 161, 161, 0.6));
-									}
-
-									.level12,
-									.level13 {
-										color: #F76134;
-										background: linear-gradient(to right, rgba(255, 160, 128, 0), rgba(255, 160, 128, 0.6));
-									}
-
-									.level14 {
-										color: #FD75A1;
-										background: linear-gradient(to right, rgba(255, 151, 197, 0), rgba(255, 151, 197, 0.6));
-									}
-
-									.level15 {
-										color: #EB5AFF;
-										background: linear-gradient(to right, rgba(224, 137, 255, 0), rgba(224, 137, 255, 0.6));
-									}
-
-									.level16 {
-										color: #e8b12a;
-										background: linear-gradient(to right, rgba(224, 137, 255, 0), rgba(226, 186, 84, 0.6));
-									}
-
-								}
-
+					
+							.avatar {
+								width: 50upx;
+								height:50upx;
+								border-radius: 50%;
+								margin-left: -10upx;
 							}
 						}
-
+					
 						.bottom {
-							margin-top: 10upx;
-							border-radius: 20upx;
-							border: 2upx solid #cecece;
-							background-color: #f6f6f6;
-							padding: 10upx 20upx;
-							font-size: 30upx;
-
-							.angle {
-								position: absolute;
-								width: 16upx;
-								height: 16upx;
-								background-color: #f6f6f6;
-								border-bottom: 2upx solid #cecece;
-								border-left: 2upx solid #cecece;
-								left: 138upx;
-								top: 78upx;
-								transform: rotate(45deg);
-							}
+							border-radius: 30upx;
+							background-color: #ee7d03;
+							width: 260upx;
+							font-size: 32upx;
+							margin: 20upx 0;
+							text-align: center;
 						}
 					}
 				}
-
-				.right-wrap {
-					font-size: 22upx;
-					color: #797979;
-				}
+				
 			}
-
+			
+			
 		}
-
-		.chart-btn-container {
-
-			.top-wrap {
-				padding: 20upx 40upx;
-				padding-bottom: 0;
+		.title-wrap{
+			margin: 10upx 20upx;
+		}
+		.taskitem {
+			margin: 6upx;
+			display: flex;
+			padding: 10upx 20upx;
+			justify-content: space-between;
+			align-items: center;
+			border-radius: 60upx;
+			border: 2upx solid #efefef;
+		
+			.left-content {
 				display: flex;
 				align-items: center;
-
-				.trumpet-wrap {
+		
+				.img {
+					width: 80upx;
+					height: 80upx;
+					border-radius: 50%;
+				}
+		
+				.content {
+					margin-left: 20upx;
 					display: flex;
-					align-items: center;
-
-					.icon {
-						width: 40upx;
-						height: 40upx;
-						margin: 0 10upx;
+					flex-direction: column;
+					justify-content: space-around;
+		
+					.top {
+						max-width: 250upx;
+					}
+		
+					.bottom {
+						font-size: 24upx;
+						color: #888;
 					}
 				}
-
-				.space {
-					padding: 0 20upx;
-					color: #e0e0e0;
-				}
-
-				.tips {
-					font-size: 24upx;
-					color: #999999;
+			}
+		
+			.left-content.badge-type {
+				.img {
+					width: 169upx;
+					height: 51upx;
+					border-radius: 0;
 				}
 			}
-
-			.bottom-wrap {
-				padding: 0 20upx;
+		
+			.right-content {
 				display: flex;
-				align-items: center;
-
-				.input {
-					border-radius: 30upx;
-					border: 2upx solid #e0e0e0;
-					background-color: #f0f0f0;
-					flex: 1;
-					padding: 0 20upx;
-					height: 63upx;
-					line-height: 63upx;
-					margin: 20upx 0;
-					margin-right: 20upx;
+		
+				.earn {
+					display: flex;
+					flex-direction: column;
+					justify-content: space-around;
+					align-items: flex-start;
+					margin-right: 30upx;
+					min-width: 140upx;
+		
+					.right-item {
+		
+						display: flex;
+						align-items: center;
+		
+						image {
+							width: 40upx;
+						}
+					}
 				}
-
+		
 				.btn {
-					border-radius: 30upx;
-					width: 176upx;
-					height: 63upx;
-					background-color: #ffd524;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
 				}
-
 			}
+		
 		}
 
 	}

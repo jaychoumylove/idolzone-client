@@ -25,7 +25,7 @@
 
 								<view class="bi-title" v-if="pkStatus == 1">已有<text class="">{{joinNum}}</text>人报名</view>
 								<view class="flex-set">
-									<button open-type="share" @tap="buttonHandler" data-opentype="share" class="invit-btn">召集好友一起参加团战</button>
+									<button open-type="share" @tap="buttonHandler" data-sharetype="share" data-shareid="5" class="invit-btn">召集好友一起参加团战</button>
 								</view>
 
 								<block v-for='(item,index) in list' :key='index'>
@@ -109,7 +109,7 @@
 			};
 		},
 		onShareAppMessage(e) {
-			const shareType = e.target && e.target.dataset.share
+			const shareType = e.target && e.target.dataset.shareid
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		onLoad(options) {
@@ -124,10 +124,10 @@
 
 		methods: {
 			buttonHandler(e) {
-				const opentype = e.target.dataset.opentype
-				if (opentype == 'share') {
+				const sharetype = e.target.dataset.sharetype
+				if (sharetype == 'share') {
 					// 分享
-					const shareType = e.target && e.target.dataset.share
+					const shareType = e.target && e.target.dataset.shareid
 					// #ifdef APP-PLUS
 					const shareOptions = this.$app.commonShareAppMessage(shareType)
 					this.$refs.shareModal.shareShow(shareOptions)

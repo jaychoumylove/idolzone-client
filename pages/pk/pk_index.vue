@@ -27,7 +27,7 @@
 
 							<view v-if="item.status===2" @tap='goPage' :data-page='`/pages/pk/pk_rank?current=${n}`' class="btn b-1">正在进行</view>
 							<view class="btn b-2" v-if="item.canJoin===true">
-								<button open-type="share" @tap="buttonHandler" data-opentype="share">召集好友参加团战</button>
+								<button open-type="share" @tap="buttonHandler" data-sharetype="share" data-shareid="5">召集好友参加团战</button>
 							</view>
 							<view v-if="item.status!==2&&item.canJoin===false" class="btn b-1" @tap="goPage" :data-page="`/pages/pk/pk_rank?current=${n}&pkTime=${item.pkTime}&time=${item.start_time}-${item.end_time}&yestoday=1`">查看结果</view>
 							<view v-if="item.status!==2&&item.canJoin===undefined" class="btn b-1" @tap="goPage" :data-page="`/pages/pk/pk_rank?current=${n}&pkTime=${item.pkTime}&time=${item.start_time}-${item.end_time}`">查看结果</view>
@@ -41,7 +41,7 @@
 
 		<view class="space-line"></view>
 		<view class="flex-set title-bottom">
-			<button class="item left flex-set" open-type="share" @tap="buttonHandler" data-opentype="share">
+			<button class="item left flex-set" open-type="share" @tap="buttonHandler" data-sharetype="share" data-shareid="5">
 				<image class="" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9JLxccByJ4Q7E6acQ50SAJYcGdFQgIGGOAF9zXVunNh9nM2YJArQ1RQ/0"></image>
 				<text class="">分享</text>
 			</button>
@@ -149,7 +149,7 @@
 			};
 		},
 		onShareAppMessage(e) {
-			const shareType = e.target && e.target.dataset.share
+			const shareType = e.target && e.target.dataset.shareid
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		onLoad(option) {},
@@ -166,10 +166,10 @@
 		},
 		methods: {
 			buttonHandler(e) {
-				const opentype = e.target.dataset.opentype
-				if (opentype == 'share') {
+				const sharetype = e.target.dataset.sharetype
+				if (sharetype == 'share') {
 					// 分享
-					const shareType = e.target && e.target.dataset.share
+					const shareType = e.target && e.target.dataset.shareid
 					// #ifdef APP-PLUS
 					const shareOptions = this.$app.commonShareAppMessage(shareType)
 					this.$refs.shareModal.shareShow(shareOptions)

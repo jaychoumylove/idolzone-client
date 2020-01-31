@@ -220,12 +220,12 @@
 						<view class="list-nickname text-overflow">{{item.helper.nickname||'神秘粉丝'}}</view>
 					</view>
 					<view class="item" v-for="(item,index) in 8-helperList.length" :key="index">
-						<button class="inner flex-set" open-type="share" @tap="buttonHandler" data-share="10" data-opentype="share">+</button>
+						<button class="inner flex-set" open-type="share" @tap="buttonHandler" data-shareid="10" data-sharetype="share">+</button>
 						<view class="list-nickname text-overflow"></view>
 					</view>
 				</view>
 				<view class="btn-wrap">
-					<button open-type="share" data-share="10" @tap="buttonHandler" data-opentype="share">
+					<button open-type="share" data-shareid="10" @tap="buttonHandler" data-sharetype="share">
 						<btnComponent type="fangde">
 							<view class="btn">召唤好友加速</view>
 						</btnComponent>
@@ -308,8 +308,8 @@
 			};
 		},
 		onShareAppMessage(e) {
-			const shareType = e.target && e.target.dataset.share
-			return this.$app.commonShareAppMessage(shareType)
+			const shareid = e.target && e.target.dataset.shareid
+			return this.$app.commonShareAppMessage(shareid)
 		},
 		onLoad() {
 			this.initInterval()
@@ -320,10 +320,10 @@
 		},
 		methods: {
 			buttonHandler(e) {
-				const opentype = e.target.dataset.opentype
-				if (opentype == 'share') {
+				const sharetype = e.target.dataset.sharetype
+				if (sharetype == 'share') {
 					// 分享
-					const shareType = e.target && e.target.dataset.share
+					const shareType = e.target && e.target.dataset.shareid
 					// #ifdef APP-PLUS
 					const shareOptions = this.$app.commonShareAppMessage(shareType)
 					this.$refs.shareModal.shareShow(shareOptions)

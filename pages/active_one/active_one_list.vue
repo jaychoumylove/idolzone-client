@@ -63,8 +63,7 @@
 			};
 		},
 		onShareAppMessage(e) {
-			const shareType = e.target && e.target.dataset.share
-			return this.$app.commonShareAppMessage(shareType)
+			return this.$app.commonShareAppMessage('share')
 		},
 		onShow(option) {
 			this.loadData()
