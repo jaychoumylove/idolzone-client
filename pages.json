@@ -7,7 +7,7 @@
 				"navigationStyle": "custom"
 			}
 		},
-		
+
 		{
 			"path": "pages/open/app_index",
 			"style": {
@@ -121,7 +121,7 @@
 			"style": {
 				"navigationBarTitleText": "生日应援榜"
 			}
-			
+
 		},
 
 		{
@@ -142,7 +142,7 @@
 			"style": {
 				"navigationBarTitleText": "爱豆信息"
 			}
-		}, 
+		},
 		{
 			"path": "pages/user/edit_user",
 			"style": {
@@ -158,7 +158,7 @@
 			"style": {
 				"navigationBarTitleText": "每日必做任务"
 			}
-		}, 
+		},
 		{
 			"path": "pages/task/game",
 			"style": {
@@ -260,18 +260,28 @@
 			"path": "pages/charge/charge"
 		}
 
-	    ,{
-            "path" : "pages/active/laren",
-            "style" : {
-				"navigationBarBackgroundColor":"#7b98fc",
-				"navigationBarTitleText":""
+		, {
+			"path": "pages/active/laren",
+			"style": {
+				"navigationBarBackgroundColor": "#7b98fc",
+				"navigationBarTitleText": ""
 			}
-        },
-		
+		},
+
 		{
-            "path" : "pages/user/push_index"
-        }
-    ],
+			"path": "pages/user/push_index"
+		}, {
+			"path": "pages/father/info",
+			"style": {}
+		}, {
+			"path": "pages/father/list",
+			"style": {
+				"enablePullDownRefresh": true
+			}
+		}, {
+			"path": "pages/father/enter"
+		}
+	],
 	"tabBar": {
 		"color": "#aaaaaa",
 		"selectedColor": "#fbcc3e",
@@ -314,9 +324,10 @@
 		"navigationBarBackgroundColor": "#fbcc3e",
 		"backgroundColor": "#F8F8F8",
 		"onReachBottomDistance": 300
-		// #ifdef H5
-		,"navigationStyle": "custom"
+			// #ifdef H5
+			,
+		"navigationStyle": "custom"
 		// #endif
-		
+
 	}
 }

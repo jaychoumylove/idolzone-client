@@ -100,7 +100,9 @@
 			<image class='charge-btn help-btn btn3' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HwicF1tVq5W0eW4Ow73MEzIwbLFt1AHBiawQgPt2ficIOq9bic15hMylyQDAsczJicArnyxyfaec1wMtQ/0'
 			 @tap='speedModal'></image>
 			<view class="speed-content">农场加速</view>
-
+			<image class='charge-btn help-btn btn4' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FibJCLVHtzLFyyFVpOfyTjktFLxdCJHqwtxmQ0exaUe1dKRAfWGh3mIKX3Hj8wIuqNPlzDmBVXeNw/0'
+			 @tap="$app.goPage('/pages/father/info')"></image>
+			<view class="speed-content btn4">师徒</view>
 		</view>
 
 		<!-- modal -->
@@ -860,12 +862,22 @@
 		top: 320upx;
 		height: 85upx;
 	}
+	
+	.help-btn.btn4 {
+		top: 441upx;
+		height: 85upx;
+	}
 
 	.speed-content {
 		position: absolute;
 		top: 400upx;
 		left: 15upx;
 		font-size: 24upx;
+	}
+	
+	.speed-content.btn4 {
+		top: 522upx;
+		left: 38upx;
 	}
 
 	.music {

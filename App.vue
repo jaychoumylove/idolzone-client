@@ -33,18 +33,25 @@
 			/**平台判断*/
 			setPlatform() {
 				// 微信小程序
+				// #ifdef MP-WEIXIN
 				this.$app.setData('platform', 'MP-WEIXIN')
+				// #endif
 				// QQ小程序
-				if (uni.getSystemInfoSync().AppPlatform == 'qq') {
-					this.$app.setData('platform', 'MP-QQ')
-				}
-				// H5
-				// #ifdef H5
-				this.$app.setData('platform', 'H5')
+				// #ifdef MP-QQ
+				this.$app.setData('platform', 'MP-QQ')
 				// #endif
 				// APP
 				// #ifdef APP-PLUS
 				this.$app.setData('platform', 'APP')
+				// #endif
+				// 微信H5
+				// #ifdef H5
+				var ua = window.navigator.userAgent.toLowerCase();
+				if (~ua.indexOf('micromessenger')) {
+					this.$app.setData('platform', 'H5')
+				} else {
+					this.$app.setData('platform', 'H5-OTHER')
+				}
 				// #endif
 			},
 			/**处理option参数*/
