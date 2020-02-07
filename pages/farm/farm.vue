@@ -100,9 +100,10 @@
 			<image class='charge-btn help-btn btn3' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HwicF1tVq5W0eW4Ow73MEzIwbLFt1AHBiawQgPt2ficIOq9bic15hMylyQDAsczJicArnyxyfaec1wMtQ/0'
 			 @tap='speedModal'></image>
 			<view class="speed-content">农场加速</view>
-			<image class='charge-btn help-btn btn4' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FibJCLVHtzLFyyFVpOfyTjktFLxdCJHqwtxmQ0exaUe1dKRAfWGh3mIKX3Hj8wIuqNPlzDmBVXeNw/0'
-			 @tap="$app.goPage('/pages/father/info')"></image>
-			<view class="speed-content btn4">师徒</view>
+			<block v-if="btn_cfg.farm">
+				<image class='charge-btn help-btn btn4' @tap="$app.goPage(btn_cfg.farm[0].path)" :src="btn_cfg.farm[0].icon"></image>
+				<view class="speed-content btn4">{{btn_cfg.farm[0].name}}</view>
+			</block>
 		</view>
 
 		<!-- modal -->
@@ -261,6 +262,7 @@
 		},
 		data() {
 			return {
+				btn_cfg: this.$app.getData('config').btn_cfg,
 				userCurrency: {},
 				modal: '',
 
@@ -321,6 +323,22 @@
 			this.userCurrency = this.$app.getData('userCurrency')
 		},
 		methods: {
+			goPage(url) {
+				if (this.$app.getData('userStar').id) {
+					this.$app.goPage(url)
+				} else {
+					uni.showModal({
+						content: '请先加入一个圈子',
+						confirmText: '去加圈子',
+						showCancel: false,
+						success: res => {
+							if (res.confirm) {
+								this.$app.goPage('/pages/group/group')
+							}
+						}
+					})
+				}
+			},
 			buttonHandler(e) {
 				const sharetype = e.target.dataset.sharetype
 				if (sharetype == 'share') {
@@ -871,13 +889,13 @@
 	.speed-content {
 		position: absolute;
 		top: 400upx;
-		left: 15upx;
+		left: 65upx;
 		font-size: 24upx;
+		transform: translateX(-50%);
 	}
 	
 	.speed-content.btn4 {
 		top: 522upx;
-		left: 38upx;
 	}
 
 	.music {

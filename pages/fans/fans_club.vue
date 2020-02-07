@@ -44,22 +44,22 @@
 				<button class="btn-wrap" open-type="share" data-shareid="7" @tap="buttonHandler" data-sharetype="share">
 					<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EsP1YK72GM1EGI8VsBLl4vtrkIyuHtPrkLnE4q7PExBxKZHWCvpvibtJ2tse0qyjQnt3iaCeFwcYRw/0"
 					 mode="aspectFill"></image>
-					 
-					 <view class="content">
-					 	<view class="text">{{info.mass_people||0}}人</view>
-					 	<view class="times">{{info.mass_time||''}}集结中</view>
+
+					<view class="content">
+						<view class="text">{{info.mass_people||0}}人</view>
+						<view class="times">{{info.mass_time||''}}集结中</view>
 						<!-- <view class="text">热度+{{info.mass_total||0}}</view> -->
-					 	<view class="fans-rank-wrap">
-					 		<image class="avatar" v-for="(item,index) in info.mass_user" :key="index" :src="item.user.avatarurl||$app.getData('AVATAR')"
-					 		 mode="aspectFill"></image>
-					 	</view>
+						<view class="fans-rank-wrap">
+							<image class="avatar" v-for="(item,index) in info.mass_user" :key="index" :src="item.user.avatarurl||$app.getData('AVATAR')"
+							 mode="aspectFill"></image>
+						</view>
 						<view class="bottom">立即集结</view>
-					 </view>
+					</view>
 				</button>
-				
+
 				<button class="btn-wrap" open-type="share" data-shareid="6" @tap="buttonHandler" data-sharetype="share">
 					<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EsP1YK72GM1EGI8VsBLl4vVlgubYlzs8FCz0vgxVeoOicJ02rKvAj6QfR6gaThFRotgxiaeyD01Yog/0"
-					 mode="aspectFill"></image>				
+					 mode="aspectFill"></image>
 					<view class="content">
 						<view class="text">{{info.new_people||0}}人</view>
 						<view class="times">今日邀请</view>
@@ -70,12 +70,12 @@
 						<view class="bottom">邀请成员加入</view>
 					</view>
 				</button>
-			
+
 			</view>
 		</view>
-		
+
 		<view class="title-wrap">粉丝团每周任务（奖励由团长领取）</view>
-		
+
 		<view class="taskitem" v-for="(item,index) in taskList" :key="index">
 			<view v-if="current != 2" class="left-content">
 				<image class="img" :src="item.icon" mode=""></image>
@@ -84,7 +84,8 @@
 					<view class="bottom" v-if="item.desc">{{item.desc}}</view>
 					<block v-else-if="item.times">
 						<view class="bottom">本周({{item.doneTimes}}/{{item.times}})</view>
-						<view class="bottom">上周({{item.lastWeek_doneTimes}}/{{item.times}}) <icon type="success" size="12" v-if="item.status>0"></icon></view>
+						<view class="bottom">上周({{item.lastWeek_doneTimes}}/{{item.times}}) <icon type="success" size="12" v-if="item.status>0"></icon>
+						</view>
 					</block>
 				</view>
 			</view>
@@ -94,11 +95,13 @@
 					<view class="top text-overflow">{{item.name}}</view>
 					<block v-if="item.desc">
 						<view class="bottom">{{item.desc}},本周({{item.doneTimes}}/{{item.count}})</view>
-						<view class="bottom">{{item.desc}},上周({{item.lastWeek_doneTimes}}/{{item.count}}) <icon type="success" size="12" v-if="item.status>0"></icon></view>
+						<view class="bottom">{{item.desc}},上周({{item.lastWeek_doneTimes}}/{{item.count}}) <icon type="success" size="12"
+							 v-if="item.status>0"></icon>
+						</view>
 					</block>
 				</view>
 			</view>
-		
+
 			<view class="right-content">
 				<view class="earn">
 					<view class="right-item" v-if="item.coin">
@@ -120,23 +123,23 @@
 						<image src="/static/image/user/trumpet-icon.png" mode="widthFix"></image>
 						<view class="add-count">+{{item.trumpet}}</view>
 					</view>
-		
+
 				</view>
 				<view v-if="current!=2" class="btn" @tap="doTask(item,index)">
-		
+
 					<btnComponent type="default" v-if="item.status != 1 || !info.leader">
 						<button class="btn" :open-type="item.open_type" :data-shareid="item.shareid" @tap="buttonHandler">
 							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
 						</button>
-		
+
 					</btnComponent>
-		
+
 					<btnComponent type="success" v-if="item.status == 1 && info.leader">
 						<view class="flex-set" style="width: 130upx;height: 65upx;">可领取</view>
 					</btnComponent>
-					
+
 					<view v-if="item.status == 2" class="flex-set" style="font-size: 22upx;margin-top: 4upx;">上周已领</view>
-		
+
 				</view>
 				<view v-else class="btn" @tap="useBadge(item,index)">
 					<btnComponent type="default" v-if="item.status == 0">
@@ -144,13 +147,13 @@
 						<button class="btn" :open-type="item.open_type" @tap="buttonHandler" v-if="item.type == 1">
 							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
 						</button>
-		
+
 						<!-- 默认 -->
 						<view v-else class="flex-set" style="width: 130upx;height: 65upx;">
 							{{item.btn_text||'去完成'}}
 						</view>
 					</btnComponent>
-		
+
 					<btnComponent type="success" v-if="item.status == 1">
 						<view class="flex-set" style="width: 130upx;height: 65upx;">佩戴</view>
 					</btnComponent>
@@ -160,9 +163,9 @@
 				</view>
 			</view>
 		</view>
-		
 
-	<shareModalComponent ref="shareModal"></shareModalComponent>
+
+		<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
 </template>
 
@@ -224,7 +227,7 @@
 			},
 			loadData() {
 				this.$app.request('fans/info', {
-					fid: this.fid
+					fid: this.fid || 0
 				}, res => {
 					this.info = res.data
 				})
@@ -245,16 +248,16 @@
 					}
 
 				} else if (task.status == 1) { // 去领取
-					if(!this.info.leader) {
+					if (!this.info.leader) {
 						this.$app.toast('你没有权限')
 						return
 					}
-					this.taskSettle(task.id,index)
+					this.taskSettle(task.id, index)
 				}
 			},
-			
+
 			// 领取奖励
-			taskSettle(task_id,index) {
+			taskSettle(task_id, index) {
 				this.$app.request('fans/tasksettle', {
 					task_id
 				}, res => {
@@ -348,22 +351,23 @@
 			}
 
 		}
-		.center-container{
+
+		.center-container {
 			// border-radius: 30rpx;
 			// box-shadow: 0 2rpx 16rpx rgba(153, 153, 153, 0.3);
 			// margin: 20rpx;
-			
+
 			.btn-container {
 				display: flex;
 				justify-content: space-between;
 				padding: 15upx;
 				color: #fff;
-				
+
 				.btn-wrap {
 					margin: auto;
 					position: relative;
 					width: 340upx;
-					height:260upx;
+					height: 260upx;
 					border-radius: 20upx;
 					overflow: hidden;
 					z-index: 1;
@@ -373,31 +377,31 @@
 						position: absolute;
 						z-index: -1;
 					}
-					
+
 					.content {
 						padding: 20upx;
 						display: flex;
 						flex-direction: column;
 						justify-content: space-between;
 						align-items: center;
-					
+
 						.text {
 							font-size: 40upx;
-							font-weight:bold;
+							font-weight: bold;
 						}
-					
+
 						.fans-rank-wrap {
 							height: 40upx;
 							display: flex;
-					
+
 							.avatar {
 								width: 50upx;
-								height:50upx;
+								height: 50upx;
 								border-radius: 50%;
 								margin-left: -10upx;
 							}
 						}
-					
+
 						.bottom {
 							border-radius: 30upx;
 							background-color: #ee7d03;
@@ -408,14 +412,16 @@
 						}
 					}
 				}
-				
+
 			}
-			
-			
+
+
 		}
-		.title-wrap{
+
+		.title-wrap {
 			margin: 10upx 20upx;
 		}
+
 		.taskitem {
 			margin: 6upx;
 			display: flex;
@@ -424,34 +430,34 @@
 			align-items: center;
 			border-radius: 60upx;
 			border: 2upx solid #efefef;
-		
+
 			.left-content {
 				display: flex;
 				align-items: center;
-		
+
 				.img {
 					width: 80upx;
 					height: 80upx;
 					border-radius: 50%;
 				}
-		
+
 				.content {
 					margin-left: 20upx;
 					display: flex;
 					flex-direction: column;
 					justify-content: space-around;
-		
+
 					.top {
 						max-width: 250upx;
 					}
-		
+
 					.bottom {
 						font-size: 24upx;
 						color: #888;
 					}
 				}
 			}
-		
+
 			.left-content.badge-type {
 				.img {
 					width: 169upx;
@@ -459,10 +465,10 @@
 					border-radius: 0;
 				}
 			}
-		
+
 			.right-content {
 				display: flex;
-		
+
 				.earn {
 					display: flex;
 					flex-direction: column;
@@ -470,25 +476,25 @@
 					align-items: flex-start;
 					margin-right: 30upx;
 					min-width: 140upx;
-		
+
 					.right-item {
-		
+
 						display: flex;
 						align-items: center;
-		
+
 						image {
 							width: 40upx;
 						}
 					}
 				}
-		
+
 				.btn {
 					display: flex;
 					flex-direction: column;
 					align-items: center;
 				}
 			}
-		
+
 		}
 
 	}

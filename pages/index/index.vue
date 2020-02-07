@@ -32,20 +32,15 @@
 		<!-- tab -->
 		<view class="tab-container">
 			<view class="left-wrap">
-				<view class="tab-item" :class="{active:rankField == 'week_hot'}" @tap="changeField('week_hot');getSunday();">周榜</view>
-				<view v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'"
-				 class="tab-item" :class="{active:rankField == 'month_hot_flower'}" @tap="changeField('month_hot_flower');getLast();">鲜花月榜</view>
-				<view class="tab-item" :class="{active:rankField == 'month_hot_coin'}" @tap="changeField('month_hot_coin');getLast()">金豆月榜</view>
-				<view v-if="$app.getData('config').extra_rank.open" class="tab-item" :class="{active:rankField == 'day_hot_flower'}"
-				 @tap="changeField('extra_rank');">{{$app.getData('config').extra_rank.name}}</view>
-
+				<view class="tab-item" v-for="(item,index) in $app.getData('config').index_rank" :key="index" :class="{active:rankField == item.field}"
+				 @tap="changeField" :data-item="item">{{item.name}}</view>
 			</view>
 			<view class="right-wrap" @tap="$app.goPage('/pages/index/rank')">往期榜单<text class="iconfont iconicon_workmore"></text></view>
 		</view>
 		<block v-if="rankField!='fengyun'">
 			<!-- 前三 -->
 			<view class="topthree-container" v-if="!keywords">
-				<view class="remaintime">本期截止：{{cutOffDate}}</view>
+				<!-- <view class="remaintime">本期截止：{{cutOffDate}}</view> -->
 				<view class="row-info">
 
 					<view class="content" @tap="goGroup(rankList[1]&&rankList[1].star.id)">
@@ -247,20 +242,15 @@
 				time.setDate(time.getDate() - day + 7)
 				this.cutOffDate = (time.getMonth() + 1) + '月' + time.getDate() + '日'
 			},
-			changeField(field) {
-				this.page = 1
-				this.keywords = ''
-				if (field == 'extra_rank') {
-					// 其他榜
-					if (this.$app.getData('config').extra_rank.field) {
-						this.rankField = this.$app.getData('config').extra_rank.field
-						this.getRankList()
-					} else if (this.$app.getData('config').extra_rank.url) {
-						this.$app.goPage(this.$app.getData('config').extra_rank.url)
-					}
-				} else {
-					this.rankField = field
+			changeField(e) {
+				let item = e.target.dataset.item
+				if (item.field) {
+					this.page = 1
+					this.keywords = ''
+					this.rankField = item.field
 					this.getRankList()
+				} else if (item.url) {
+					this.$app.goPage(item.url)
 				}
 			},
 			searchInput(e) {

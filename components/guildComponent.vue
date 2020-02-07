@@ -142,15 +142,10 @@
 					 mode=""></image>
 					<view class="text">召集好友</view>
 				</view>
-				<view class="btn-item" @tap="goPageHasStar('/pages/fans/fans_club?fid=' + fanclub_id)" v-if="fanclub_id">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQqumNVIoBH06JHxsj0FI6GJOhvalPiaV8l2Ap7CKFSwFsjecJ1fWWhQHicg/0"
-						 mode=""></image>
-					<view class="text">粉丝团</view>
-				</view>
-				<view class="btn-item" @tap="goPageHasStar('/pages/fans/fans_list')" v-else>
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQqumNVIoBH06JHxsj0FI6GJOhvalPiaV8l2Ap7CKFSwFsjecJ1fWWhQHicg/0"
+				<view class="btn-item" @tap="$app.goPage('/pages/father/info')">
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5UuhH4Via2LvZLDvjUXk1BTQW6p1mkbxNuAFqaIFuKKSS9MTicctuJUsg/0"
 					 mode=""></image>
-					<view class="text">粉丝团</view>
+					<view class="text">师徒</view>
 				</view>
 				<view v-if="$app.getData('config').yingyuan_switch==1 && $app.getData('config').version != $app.getData('VERSION')"
 				 class="btn-item" @tap="goPageHasStar('/pages/active_one/active_one_list')">
@@ -254,6 +249,12 @@
 		</view>
 		<!-- 右下角按钮区域 -->
 		<view class="side-container">
+			<view v-if="btn_cfg.group" class="btn-wrap" @tap="goPageHasStar(item.path)" v-for="(item,index) in btn_cfg.group"
+			 :key="index">
+				<image class="img" :src="item.icon" mode="aspectFill"></image>
+				<view class="title">{{item.name}}</view>
+			</view>
+
 			<!-- 粉丝团宝箱 -->
 			<view class="btn-wrap" @tap="fansBoxOpen" v-if="$app.getData('config').version != $app.getVal('VERSION') && $app.getData('config').fansbox_open=='1'">
 				<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Ep3RhxrWX9ibdRVKkjMQibIDXFuAk08uV2BgHKn9RO8fLoS8zM0z12ic0SjzHd1IxYNhUibyy5fJEllQ/0"
@@ -678,6 +679,7 @@
 		},
 		data() {
 			return {
+				btn_cfg: this.$app.getData('config').btn_cfg,
 				$app: this.$app,
 				showLoading: true,
 				requestCount: 7,
@@ -855,7 +857,7 @@
 							this.article.id = res.data.article.id
 
 						}, 300)
-						
+
 						//宝箱及成长礼包
 						if (this.$app.getData('config').fansbox_open == '1') {
 							this.$app.request('fans/mybox', {}, res => {
@@ -2320,6 +2322,9 @@
 			.btn-wrap {
 				position: relative;
 				margin: 20upx 0;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
 
 				.img {
 					width: 80upx;

@@ -18,10 +18,10 @@
 				 mode="aspectFill"></image>
 				<view class="content">
 					<view class="title">师徒玩法</view>
-					<view class="p">1、 师徒玩法次</view>
-					<view class="p">1、 师徒玩法次</view>
-					<view class="p">1、 师徒玩法次</view>
-					<view class="p">1、 师徒玩法次</view>
+					<view class="p">1、 农场满级可成为师父，农场不满级可成为徒弟</view>
+					<view class="p">2、 每个师父可以有10位徒弟</view>
+					<view class="p">3、 徒弟完成任务师父有相同奖励</view>
+					<view class="p">4、 拜师30日之后可以出师</view>
 
 				</view>
 			</view>
@@ -37,7 +37,7 @@
 						我的师父：<text class="bold">{{father.father.nickname}}</text>
 					</view>
 					<view class="row-wrapper flex-set" v-if="sonCount">
-						我的徒弟：<text class="bold">{{sonCount}}</text>
+						我的徒弟：<text class="bold">{{sonCount/maxSonCount}}</text>
 					</view>
 					<view class="row-wrapper flex-set s">
 						累计收益：
@@ -62,16 +62,17 @@
 						</view>
 					</view>
 				</view>
-				<view class="text-wrapper btn" v-if="sonCount">
-					<view class="btn-wrap b-2 flex-set" @tap="modal='editmsg'">招徒宣言</view>
-					<button class="btn-wrap b-1 flex-set" open-type="share" data-shareid="13">我要收徒</button>
+				<view class="text-wrapper btn">
+					<view v-if="sonCount" class="btn-wrap b-2 flex-set" @tap="modal='editmsg'">招徒宣言</view>
+					<button v-if="sonCount" class="btn-wrap b-1 flex-set" open-type="share" data-shareid="13">我要收徒</button>
+					<button v-if="father&&can_exit" class="btn-wrap b-1 flex-set" @tap="exit()">出师</button>
 				</view>
 			</view>
 			<!-- 公告 -->
-			<view class="notice-container" @tap="$app.goPage('/pages/notice/notice?id='+article.id)">
-				<text class="left-wrap">【公告】</text>
-				<text class="center-wrap">xxx</text>
-				<text class="right-wrap" @tap.stop="modal='notice'">更多></text>
+			<view class="notice-container">
+				<view class="left-wrap">【公告】</view>
+				<view class="center-wrap text-overflow">{{father_notice}}</view>
+				<view class="right-wrap" @tap="modal='notice'">查看></view>
 			</view>
 			<!-- 徒弟等级分别 -->
 			<view class="tab-wrap">
@@ -83,7 +84,7 @@
 			<!-- 徒弟列表 -->
 			<view class="list-container" v-if="sonCount">
 				<view class="item" v-for="(item,index) in sonList" :key="index">
-					<view class='avatar-wrap'>
+					<view class='avatar-wrap' @tap="tapUser(item.son.id)">
 						<image class="avatar" :src="item.son.avatarurl || $app.getData('AVATAR')" mode="aspectFill"></image>
 						<image v-if="item&&item.headwear&&item.headwear.img" class="headwear position-set" :src="item.headwear.img" mode=""></image>
 					</view>
@@ -96,6 +97,8 @@
 					<view class="count">
 						<view class="btn">任务进度（{{item.complete}}）</view>
 					</view>
+
+					<view class="iconfont iconclose" v-if="item.can_exit" @tap="exit(item.son.id)"></view>
 				</view>
 			</view>
 			<!-- 任务列表 -->
@@ -183,15 +186,67 @@
 				<view class="row flex-set">公告</view>
 				<view class="row">
 					<view class="input-wrap">
-						<textarea class="input" :value="father_open_msg" @input="father_open_msg=$event.detail.value" placeholder=""></textarea>
+						<textarea v-if="sonCount" class="input" :value="father_notice" @input="father_notice=$event.detail.value"
+						 placeholder=""></textarea>
+						<view v-else class="input">{{father_notice}}</view>
 					</view>
+
 				</view>
-		
+
 				<view class="btn-wrap flex-set">
 					<btnComponent type="default">
-						<view class="btn" @tap="editMsg()">修改</view>
+						<view class="btn" v-if="sonCount" @tap="editNotice()">修改</view>
+						<view class="btn" v-else @tap="modal=''">确定</view>
 					</btnComponent>
 				</view>
+			</view>
+		</modalComponent>
+
+		<!-- 用户modal -->
+		<modalComponent v-if="modal == 'userInfo'" type="center" title=" " @closeModal="modal=''">
+			<view class="userinfo-modal-container">
+				<view class="top">
+					<image class="avatar" :src="currentUser.avatarurl||$app.getData('AVATAR')" mode="scaleToFill" @tap="$app.preImg(currentUser.avatarurl)"></image>
+					<view class="nickname">{{currentUser.nickname}}</view>
+
+				</view>
+				<view class="btn-list flex-set">
+					<view class="btn-item" @tap="sendOtherType='stone';modal = 'sendOther'">
+						<view class="bg flex-set">
+							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
+							 mode=""></image>
+						</view>
+						<view class="text">赠送钻石</view>
+					</view>
+					<view class="btn-item" @tap="sendOtherType='flower';modal = 'sendOther'">
+						<view class="bg flex-set">
+							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
+							 mode=""></image>
+						</view>
+						<view class="text">赠送鲜花</view>
+					</view>
+				</view>
+			</view>
+		</modalComponent>
+
+		<!-- 送灵丹给别人 -->
+		<modalComponent v-if="modal == 'sendOther'" type="center" title=" " @closeModal="modal=''">
+			<view class="userinfo-modal-container">
+				<view class="top">
+					<image class="avatar" :src="currentUser.avatarurl" mode="scaleToFill"></image>
+					<view class="nickname">{{currentUser.nickname}}</view>
+				</view>
+
+				<view class="send-input">
+					<input type="number" :value="sendOtherNum" @input="sendOtherNum = $event.detail.value" />
+					<image v-if="sendOtherType=='flower'" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
+					 mode=""></image>
+					<image v-if="sendOtherType=='stone'" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
+					 mode=""></image>
+				</view>
+				<btnComponent type="default">
+					<view class="btn flex-set" @tap="sendOther()">送给TA</view>
+				</btnComponent>
 			</view>
 		</modalComponent>
 	</view>
@@ -210,30 +265,87 @@
 		data() {
 			return {
 				modal: '',
-				type: 0, // 0 用户没有建立师徒关系 1有
+				type: 0, // 1师 2徒
 				father: null, // 师父
 				sonCount: null, // 徒弟数量
+				maxSonCount: 10, // 最大徒弟数量
 				earn: null, // 累计收益
 				sonList: null, // 徒弟列表
 				taskList: null, // 任务列表
 
 				tabActive: 0, // 入门弟子
 				father_open_msg: '', // 招徒宣言
-				father_open_img: '', // 招徒宣言
+				father_open_img: '', // 招徒图片
+				father_notice: '',
+				can_exit: false, // 可出师
+
+				// 点击聊天室头像,当前显示用户
+				currentUser: {},
+				sendOtherNum: 1,
+				sendOtherType: '', // 赠送他人是鲜花还是钻石‘’
 			};
 		},
 		onShow() {
 			this.loadData()
 		},
 		onShareAppMessage(e) {
-			let share = {
-				'path': this.$app.getData('config').share_cfg[13].path,
-				'imageUrl': this.father_open_img || this.$app.getData('config').share_cfg[13].imageUrl,
-				'title': this.father_open_msg || this.$app.getData('config').share_cfg[13].title
+			let shareid = e.target && e.target.dataset.shareid
+			if (shareid) {
+				shareid = {
+					'path': this.$app.getData('config').share_cfg[shareid].path,
+					'imageUrl': this.father_open_img || this.$app.getData('config').share_cfg[shareid].imageUrl,
+					'title': this.father_open_msg || this.$app.getData('config').share_cfg[shareid].title
+				}
 			}
-			return this.$app.commonShareAppMessage(share)
+
+			return this.$app.commonShareAppMessage(shareid)
 		},
 		methods: {
+			// 点击聊天室用户头像
+			tapUser(uid) {
+				if (uid == this.$app.getData('userInfo').id) return
+				this.currentUser = {}
+				this.modal = 'userInfo'
+				this.$app.request('user/info', {
+					user_id: uid
+				}, res => {
+					this.currentUser = res.data
+				})
+			},
+			// 送给别人
+			sendOther() {
+				let sendOtherNum = parseInt(this.sendOtherNum)
+				this.sendOtherNum = 1
+
+				if (sendOtherNum <= 0) {
+					this.$app.toast('请输入正确的数字')
+					return
+				}
+				let text
+				if (this.sendOtherType == 'flower') {
+					text = '鲜花'
+				} else if (this.sendOtherType == 'stone') {
+					text = '钻石'
+				}
+				if (sendOtherNum > this.$app.getData('userCurrency')[this.sendOtherType]) {
+					this.$app.toast('你没有这么多' + text)
+					return
+				}
+
+				this.$app.modal(`确认将${sendOtherNum}${text}送给${this.currentUser.nickname}？`, () => {
+					this.$app.request('user/sendToOther', {
+						user_id: this.currentUser.id,
+						num: sendOtherNum,
+						type: this.sendOtherType,
+					}, res => {
+						this.$app.toast('赠送成功', 'success')
+						this.modal = ''
+						this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {
+							this.$app.setData('userCurrency', res.data)
+						})
+					}, 'POST', true)
+				})
+			},
 			upload() {
 				uni.chooseImage({
 					count: 1,
@@ -297,6 +409,15 @@
 					this.loadData()
 				})
 			},
+			editNotice(val) {
+				this.modal = ''
+				this.$app.request('father/editNotice', {
+					notice: this.father_notice,
+				}, res => {
+					this.$app.toast('操作成功', 'success')
+					this.loadData()
+				})
+			},
 			getTaskList() {
 				this.$app.request('father/taskList', {
 					active: this.tabActive
@@ -311,6 +432,16 @@
 					this.sonList = res.data
 				})
 			},
+			exit(uid) {
+				this.$app.modal('确定出师（解除师徒关系）？', () => {
+					this.$app.request('father/exit', {
+						son_uid: uid || this.$app.getData('userInfo').id
+					}, res => {
+						this.$app.toast('操作成功', 'success')
+						this.loadData()
+					}, 'POST', true)
+				})
+			},
 			loadData() {
 				this.$app.request('father/info', {
 
@@ -319,12 +450,19 @@
 					this.earn = res.data.earn
 					this.father = res.data.father
 					this.sonCount = res.data.sonCount
-					this.father_open_msg = res.data.father_open_share.father_open_msg || this.$app.getData('config').share_cfg[13].title
-					this.father_open_img = res.data.father_open_share.father_open_img || this.$app.getData('config').share_cfg[13].imageUrl
+					this.maxSonCount = res.data.maxSonCount
+					this.can_exit = res.data.can_exit
+					// 公告
+					this.father_notice = res.data.father_info.father_notice || ''
+					if (this.type == 1) {
+						// 招徒宣言
+						this.father_open_msg = res.data.father_info.father_open_msg || this.$app.getData('config').share_cfg[13].title
+						this.father_open_img = res.data.father_info.father_open_img || this.$app.getData('config').share_cfg[13].imageUrl
+					}
 
-					if (this.father) {
+					if (this.type == 2 && this.father) {
 						this.getTaskList()
-					} else if (this.sonCount) {
+					} else if (this.type == 1 && this.sonCount) {
 						this.getSonList()
 					}
 				})
@@ -458,6 +596,7 @@
 			}
 
 			.notice-container {
+				display: flex;
 				align-items: center;
 				font-size: 26upx;
 				padding: 20upx 40upx;
@@ -634,7 +773,7 @@
 
 		.editmsg-modal-container {
 			margin-top: -80upx;
-			
+
 			.row {
 				display: flex;
 				align-items: center;
@@ -682,6 +821,152 @@
 			}
 
 
+		}
+
+		.userinfo-modal-container {
+			height: 640upx;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-around;
+			padding: 40upx;
+
+			.top {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				line-height: 1.6;
+
+				.avatar {
+					width: 160rpx;
+					height: 160rpx;
+					border-radius: 50%;
+				}
+
+				.nickname {
+					font-size: 36upx;
+					font-weight: 600;
+				}
+
+				.badge-wrap {
+					.badge {
+						position: relative;
+						width: 40upx;
+						height: 40upx;
+					}
+
+					.level {
+						color: #FFF;
+						font-size: 26upx;
+					}
+
+					.text {
+						margin-top: 15upx;
+						height: 70%;
+						font-size: 20upx;
+						padding-left: 38upx;
+						padding-right: 19upx;
+						border-radius: 30upx;
+						margin-left: -30upx;
+						color: #FFF;
+					}
+
+					.text.i-1 {
+						background: linear-gradient(to right, #FFF, #8d8f91);
+					}
+
+					.text.i-2 {
+						background: linear-gradient(to right, #FFF, #234232);
+					}
+
+					.text.i-3 {
+						background: linear-gradient(to right, #FFF, #860d3d);
+					}
+
+					.text.i-4 {
+						background: linear-gradient(to right, #FFF, #b51688);
+					}
+
+					.text.i-5 {
+						background: linear-gradient(to right, #FFF, #612f29);
+					}
+
+					.text.i-6 {
+						background: linear-gradient(to right, #FFF, #730056);
+					}
+				}
+			}
+
+			.btn-list {
+				width: 100%;
+				justify-content: space-around;
+
+				.btn-item {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+
+					.bg {
+						background-color: #EEE;
+						border-radius: 20upx;
+						width: 100upx;
+						height: 100upx;
+
+						image {
+							width: 60upx;
+							height: 60upx;
+						}
+					}
+
+					.text {
+						margin-top: 10upx;
+					}
+				}
+			}
+
+			.content {
+				line-height: 1.6;
+			}
+
+			.btn {
+				font-size: 32upx;
+				font-weight: 700;
+				width: 300upx;
+				height: 80upx;
+			}
+
+			.row {
+				width: 100%;
+				justify-content: space-around;
+
+				.btn {
+					width: 200upx;
+				}
+			}
+
+			.send-input {
+				position: relative;
+
+				input {
+					border: 1px solid #CCC;
+					background-color: #EEE;
+					border-radius: 60upx;
+					text-align: center;
+					width: 300upx;
+					height: 80upx;
+					font-size: 32upx;
+					font-weight: 700;
+				}
+
+				image {
+					position: absolute;
+					width: 50upx;
+					height: 50upx;
+					right: 20upx;
+					top: 50%;
+					transform: translateY(-50%);
+				}
+			}
 		}
 	}
 </style>

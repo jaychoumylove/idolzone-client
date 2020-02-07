@@ -54,10 +54,10 @@
 
 			</view>
 			<view class="row row-2">
-				<view class="item-wrap" @tap="$app.goPage('/pages/task/task')">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxg8poPGbPbBhXGBtzqccQicFtFiaMzq8O2yB0fVKsIziaJNSFR5c56g8lw/0"
-					 mode="aspectFill"></image>
-					<view class="text">任务</view>
+				<view class="item-wrap" @tap="goPage(item.path)" v-if="btn_cfg.user" v-for="(item,index) in btn_cfg.user"
+				 :key="index">
+					<image class="icon" :src="item.icon" mode="aspectFill"></image>
+					<view class="text">{{item.name}}</view>
 				</view>
 
 				<view v-if="$app.chargeSwitch()==0" class="item-wrap" @tap="$app.goPage('/pages/charge/charge')">
@@ -121,16 +121,17 @@
 				</view>
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</button>
-						
+
 			<view class="item-wrap" v-else-if="$app.getData('config').version != $app.getData('VERSION') && $app.getData('platform')!='MP-WEIXIN'">
 				<view class="left-wrap">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBLGBtJCqmhlXzuZaoribFll5kYOEewiaxiakgKM8RHibko8U2zWxIMVsdLPA/0"
 					 mode="aspectFill"></image>
 					<view class="text" @tap="$app.copy(kefu)">客服微信：{{kefu}}<text class="tips">(点击复制)</text></view>
-				</view>				
+				</view>
 			</view>
-			
-			<view v-if="$app.getData('config').version != $app.getData('VERSION') && $app.getData('platform')=='MP-WEIXIN'" class="item-wrap" @tap="$app.goPage('/pages/user/push_index')">
+
+			<view v-if="$app.getData('config').version != $app.getData('VERSION') && $app.getData('platform')=='MP-WEIXIN'"
+			 class="item-wrap" @tap="$app.goPage('/pages/user/push_index')">
 				<view class="left-wrap">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FQwQXv6GvPCnxTAabQ6CSgjfqGehWcXZZDKT6ib3q3X7OHu78RLROkjkTZdlEDslibgjgEneSPaSRQ/0"
 					 mode="aspectFill"></image>
@@ -151,7 +152,7 @@
 				</view>
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</view>
-			
+
 			<view class="item-wrap" @tap="$app.goPage('/pages/user/setting')">
 				<view class="left-wrap">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBLAfUuB7zP0TVUIdw8AjXVEibArIEoZLSmHfzyqIY3pjT5xOVK97dianRQ/0"
@@ -171,7 +172,8 @@
 	export default {
 		data() {
 			return {
-				kefu:this.$app.getData('config').kefu,
+				btn_cfg: this.$app.getData('config').btn_cfg,
+				kefu: this.$app.getData('config').kefu,
 				default_user_ad_url: this.$app.getData('config').user_ad.url,
 				requestCount: 0,
 
