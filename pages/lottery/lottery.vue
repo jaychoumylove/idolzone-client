@@ -52,10 +52,6 @@
 				<image v-if="lottery.type==3" class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
 				 mode="aspectFill"></image>
 				<view class="text">恭喜获得{{lottery.name}}+{{lottery.num}}</view>
-				<!-- <btnComponent type="default" @tap="openVideo(1)">
-					<view class="btn"><text class="iconfont iconshipin"></text>双倍领取</view>
-				</btnComponent> -->
-
 				<view class="btn b-1" @tap="openVideo(1)">
 					<text class="iconfont iconshipin"></text>双倍领取
 				</view>
@@ -121,7 +117,7 @@
 							this.modal = ''
 						})
 					}
-				})
+				},this.$app.getData('config').kindness_switch)
 			},
 			lotteryStart() {
 				// 奖品数

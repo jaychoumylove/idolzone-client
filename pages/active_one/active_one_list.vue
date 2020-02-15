@@ -66,8 +66,13 @@
 			return this.$app.commonShareAppMessage('share')
 		},
 		onShow(option) {
+			if(!this.$app.getData('userStar').id) {
+				uni.reLaunch({
+					url: '/pages/group/group'
+				})
+				return
+			}
 			this.loadData()
-			// this.getStarInfo()
 		},
 		methods: {
 			getNumber(num) {

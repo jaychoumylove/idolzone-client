@@ -1,14 +1,20 @@
 <template>
 	<view class='help-container'>
-		<image class="img" :src="info.user.avatarurl || $app.getData('AVATAR')" mode="aspectFill"></image>
-		<view class='show-status'>{{info.user.nickname  || $app.getData('NICKNAME')}}
-			<image class="img-m" :src="`/static/image/user_level/lv${info.user_level}.png`" mode=""></image>
+		<image class="img" :src="info.avatar||$app.getData('AVATAR')" mode="aspectFill"></image>
+		<view class='show-status'>
+			<view  class="clubname">{{info.clubname}}</view>
+			<view  class="starname">{{info.star.name}}</view>
 		</view>
-		<view class="tips">{{info.father_open_msg}}</view>
 		
-		<view v-if="info.type==1" class='continue-btn' @tap="baishi(user_id, self_id, 0)">拜TA为师</view>
-		<view v-if="info.type==2" class='continue-btn' @tap="baishi(self_id, user_id, 1)">招TA为徒</view>
+		<view class="tips">{{info.mem_count||0}}/{{info.allow_count||0}}人</view>
 		
+		<view class="fans-rank-wrap">
+			<image class="avatar" v-for="(item,index) in info.users" :key="index" :src="item.user.avatarurl||$app.getData('AVATAR')"
+			 mode="aspectFill"></image>
+		</view>
+		
+		<view class='continue-btn' v-if="info.mem_count<info.allow_count"  @tap="join(info.id)">加入TA的家族</view>
+		<view class='continue-btn disable' v-else>该家族已满员</view>
 		<view class='continue-btn disable' @tap="goBack">我再想想</view>
 	</view>
 </template>
@@ -25,8 +31,6 @@
 		},
 		data() {
 			return {
-				self_id: this.$app.getData('userInfo').id,
-				user_id: 0,
 				info: {}
 			};
 		},
@@ -48,26 +52,23 @@
 		methods: {
 			goBack() {
 				uni.reLaunch({
-					url: '/pages/father/info'
+					url: '/pages/family/family_list'
 				})
 			},
-			baishi(father_uid, son_uid, status) {
-				this.$app.request('father/baishi', {
-					father_uid,
-					son_uid,
-					status
+			join(id) {
+				this.$app.request('family/join', {
+					id
 				}, res => {
-					let msg = status==1 ? '招徒成功' : '请求已发送，等待师傅审核'
-					this.$app.toast(msg)
+					this.$app.toast('加入成功', 'success')
 					setTimeout(() => {
 						uni.reLaunch({
-							url: '/pages/father/info'
+							url: '/pages/family/family?fid='+this.info.id
 						})
 					}, 1000)
 				}, 'POST', true)
 			},
 			loadData() {
-				this.$app.request('father/info', {
+				this.$app.request('family/enter', {
 					user_id: this.user_id
 				}, res => {
 					this.info = res.data
@@ -96,21 +97,41 @@
 	}
 
 	.show-status {
-		width: 400rpx;
-		text-align: center;
-		line-height: 2;
-		font-size: 40rpx;
-		font-weight: 600;
-		color: #666;
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		
+		.clubname {
+			font-weight: 700;
+			font-size: 30upx;
+		}
+		
+		.starname {
+			background: linear-gradient(#ff7e00, #fccd9f);
+			color: #fff;
+			padding: 0 12rpx;
+			border-radius: 12rpx;
+			font-size: 20rpx;
+			box-shadow: 0 0 1px rgba(0, 0, 0, .3);
+			line-height: 34rpx;
+			margin: 0 5rpx;
+			white-space: nowrap;
+		}
+	}
+	
+	.fans-rank-wrap {
+		height: 100upx;
+		display: flex;
+	
+		.avatar {
+			width: 50upx;
+			height: 50upx;
+			border-radius: 50%;
+			margin-left: -10upx;
+		}
 	}
 	
 	.tips {
 		color: #999;
-		max-width: 300upx;
-		margin-bottom: 100upx;
 	}
 
 	.msg {

@@ -12,7 +12,7 @@
 				<view class="left">
 					<!-- <view class="left-1">为爱解锁</view> -->
 					<view class="left-2">
-						<view>已打卡{{activeInfo.self.total_clocks||0}}/7天</view>
+						<view>已打卡{{activeInfo.self.total_clocks||0}}/{{activeInfo.min_days || 0}}天</view>
 
 					</view>
 				</view>
@@ -352,7 +352,7 @@
 								this.getActiveUserRank()
 								this.$app.toast('今日打卡成功', 'success')
 							}, 'POST', true)
-						})
+						},this.$app.getData('config').kindness_switch)
 
 					} else {
 						this.modal = 'cardOver'

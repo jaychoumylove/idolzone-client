@@ -144,7 +144,7 @@
 			ad() {
 				this.$app.openVideoAd(() => {
 					this.mass(1)
-				})
+				},this.$app.getData('config').kindness_switch)
 			},
 			mass(type) {
 				this.$app.request('fans/joinMass', {

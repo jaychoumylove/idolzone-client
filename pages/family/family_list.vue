@@ -1,13 +1,15 @@
 <template>
 	<view class="list-page-container">
+		
+		
 		<view class="top-container">
-			<!-- 我加入的粉丝团 -->
-			<view class="top-wrap no-data" v-if="myClub&&!myClub.id" @tap="$app.goPage('/pages/fans/fans_new')">
+			<!-- 我加入的家族 -->
+			<view class="top-wrap no-data" v-if="myClub&&!myClub.id" @tap="$app.goPage('/pages/family/family_new')">
 				<image class="btn-img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JWwlVcSNe42f7cdITecxbg4CFAE6PV3BWaSicFpBBqib69VFqcoibLnod84vFJU2Hf5uZs5q57YDthCA/0"
 				 mode="aspectFill"></image>
-				<view class="text">创建粉丝团</view>
+				<view class="text">创建家族</view>
 			</view>
-			<view class="top-wrap club-item" v-if="myClub&&myClub.id" @tap="$app.goPage('/pages/fans/fans_club?fid=' + myClub.id)">
+			<view class="top-wrap club-item" v-if="myClub&&myClub.id" @tap="$app.goPage('/pages/family/family?fid=' + myClub.id)">
 
 				<view class="avatar-wrap">
 					<image class="avatar" :src="myClub.avatar" mode="aspectFill"></image>
@@ -18,12 +20,10 @@
 						<view class="clubname">{{myClub.clubname}}</view>
 						<view class="starname">{{myClub.star.name}}</view>
 					</view>
-					<!-- <view class="bottom">所属爱豆<text class="highlight">{{myClub.star.name}}</text></view> -->
 					<view class="bottom">
 						成员<text class="highlight">{{myClub.mem_count}}</text>
-						本周热度<text class="highlight">{{myClub.week_hot}}</text>
+						本周贡献<text class="highlight">{{myClub.thisweek_count}}</text>
 					</view>
-					<view class="bottom">本周贡献<text class="highlight">{{myClub.week_count}}</text>人气</view>
 				</view>
 
 				<btnComponent type="default">
@@ -32,12 +32,6 @@
 			</view>
 
 
-		</view>
-
-		<view class="scroll-wrap">
-			<view class="item" :class="{active:active=='fansclub_count'}" @tap="changeField('fansclub_count')">粉丝团人气</view>
-			<view class="item" :class="{active:active=='fansclub_hot'}" @tap="changeField('fansclub_hot')">粉丝团热度</view>
-			<view class="item" :class="{active:active=='star_hot'}" @tap="changeField('star_hot')">爱豆热度</view>
 		</view>
 
 		<view class="search-wrap">
@@ -49,7 +43,15 @@
 
 		<view class="list-wrap">
 			<view class="item" v-for="(item,index) in list" :key="index">
-
+				<view class="rank-num">
+					<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERPO5dPoLHgkajBHNM2z9fooSUMLxB0ogg1mYllIAOuoanico1icDFfYFA/0"
+					 mode=""></image>
+					<image class="icon" v-else-if="index==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERcWnBrw6yAIeVRx4ibIfShZ3tn26ubDUiakNcrwf2F43JI97MYEaYiaib9A/0"
+					 mode=""></image>
+					<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTER7oibKWZCN5ThjI799sONJZAtZmRRTIQmo1R9j26goVMBJ43giaJHLIlA/0"
+					 mode=""></image>
+					<view v-else>{{index+1}}</view>
+				</view>
 				<view class="avatar-wrap">
 					<image class="avatar" :src="item.avatar" mode="aspectFill"></image>
 				</view>
@@ -60,20 +62,31 @@
 						<view class="starname">{{item.star.name}}</view>
 					</view>
 					<!-- <view class="bottom">所属爱豆<text class="highlight">{{item.star.name}}</text></view> -->
-					<block v-if="active=='star_hot'">
-						<view class="bottom">本周热度<text class="highlight">{{item.week_hot}}</text></view>
-					</block>
-					<block v-else>
-						<view class="bottom">
-							成员<text class="highlight">{{item.mem_count}}</text>
-							本周热度<text class="highlight">{{item.week_hot}}</text>
-						</view>
-						<view class="bottom">本周贡献<text class="highlight">{{item.week_count}}</text>人气</view>
-					</block>
+					<view class="bottom">
+						成员<text class="highlight">{{item.mem_count}}</text>
+						本周贡献<text class="highlight">{{item.thisweek_count}}</text>
+					</view>
 				</view>
-
-				<image class="btn-add" v-if="!myClub||(myClub&&!myClub.id)" @tap="join(item)" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JWwlVcSNe42f7cdITecxbg4CFAE6PV3BWaSicFpBBqib69VFqcoibLnod84vFJU2Hf5uZs5q57YDthCA/0"
-				 mode="aspectFill"></image>
+				
+				<block v-if="!myClub||(myClub&&!myClub.id)">
+					<btnComponent type="green" v-if="item.mystatus==1">
+						<view class="flex-set" style="width: 140upx;padding: 10upx 0;">已申请</view>
+					</btnComponent>
+					
+					<btnComponent type="disable" v-else-if="item.mystatus==-1"  @tap="apply(item)">
+						<view class="flex-set" style="width: 140upx;padding: 10upx 0;">已拒绝</view>
+					</btnComponent>
+					
+					<btnComponent type="disable" v-else-if="item.mystatus==-2">
+						<view class="flex-set" style="width: 140upx;padding: 10upx 0;">已满员</view>
+					</btnComponent>
+					
+					<btnComponent type="default" v-else  @tap="apply(item)">
+						<view class="flex-set" style="width: 140upx;padding: 10upx 0;">申请</view>
+					</btnComponent>
+				</block>
+				<!-- <image class="btn-add" v-if="!myClub||(myClub&&!myClub.id)" @tap="join(item)" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JWwlVcSNe42f7cdITecxbg4CFAE6PV3BWaSicFpBBqib69VFqcoibLnod84vFJU2Hf5uZs5q57YDthCA/0"
+				 mode="aspectFill"></image> -->
 			</view>
 		</view>
 	</view>
@@ -88,16 +101,15 @@
 		data() {
 			return {
 				myClub: null,
-
 				keyword: '',
 				page: 1,
 				list: [],
 
-				active: 'fansclub_count'
+				active: 'thisweek_count'
 			};
 		},
 		onShow() {
-			this.getMyFansClub()
+			this.getMyFamily()
 			this.getList()
 		},
 		onReachBottom() {
@@ -109,6 +121,22 @@
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
+			goPage(url) {
+				if (this.$app.getData('userStar').id) {
+					this.$app.goPage(url)
+				} else {
+					uni.showModal({
+						content: '请先加入一个圈子',
+						confirmText: '去加圈子',
+						showCancel: false,
+						success: res => {
+							if (res.confirm) {
+								this.$app.goPage('/pages/group/group')
+							}
+						}
+					})
+				}
+			},
 			changeField(field) {
 				this.active = field
 				this.page = 1
@@ -119,31 +147,31 @@
 				this.page = 1
 				this.getList()
 			},
-			join(item) {
+			apply(item) {
 				if (item.star_id != this.$app.getData('userStar').id) {
-					this.$app.toast(`请加入${this.$app.getData('userStar').name}的粉丝圈`)
+					this.$app.toast(`需要加入同一个圈子`)
 					return
 				}
 
-				this.$app.modal(`是否加入『${item.clubname}』`, () => {
-					this.$app.request('fans/join', {
+				this.$app.modal(`申请加入『${item.clubname}』`, () => {
+					this.$app.request('family/apply', {
 						id: item.id
 					}, res => {
-						this.$app.toast('加入成功', 'success')
-						this.getMyFansClub()
+						this.$app.toast('申请成功，等待族长确认', 'none')
+						this.getMyFamily()
 						this.getList()
 					}, 'POST', true)
-				}, '加入')
+				}, '确定')
 
 			},
 			
-			getMyFansClub() {
-				this.$app.request('fans/info', {}, res => {
+			getMyFamily() {
+				this.$app.request('family/info', {}, res => {
 					this.myClub = res.data
 				})
 			},
 			getList() {
-				this.$app.request('fans/list', {
+				this.$app.request('family/list', {
 					keyword: this.keyword,
 					page: this.page,
 					field: this.active,
@@ -201,10 +229,13 @@
 				}
 			}
 		}
-
+		.ad-container{
+			background-color: #f4f4f4;
+			padding: 10upx 20upx;
+		}
 		.top-container {
 			background-color: #f4f4f4;
-			padding: 20upx;
+			padding: 10upx 20upx;
 
 			.top-wrap {
 
@@ -217,9 +248,9 @@
 				text-align: center;
 
 				.btn-img {
-					margin: 20upx;
-					width: 120upx;
-					height: 120upx;
+					margin: 10upx;
+					width: 60upx;
+					height: 60upx;
 				}
 			}
 
@@ -231,8 +262,8 @@
 
 				.avatar-wrap {
 					.avatar {
-						width: 120upx;
-						height: 120upx;
+						width: 80upx;
+						height: 80upx;
 						border-radius: 50%;
 					}
 				}
@@ -273,7 +304,7 @@
 
 			.input {
 				width: 100%;
-				height: 70upx;
+				height: 60upx;
 				background-color: #f7f7f7;
 				border-radius: 40upx;
 				text-align: center;
@@ -296,11 +327,21 @@
 				align-items: center;
 				border-bottom: 2upx solid #efefef;
 				padding: 20upx;
-
+				
+				.rank-num {
+					text-align: center;
+					width: 80upx;
+				
+					.icon {
+						width: 50upx;
+						height: 50upx;
+					}
+				}
+				
 				.avatar-wrap {
 					.avatar {
-						width: 120upx;
-						height: 120upx;
+						width: 80upx;
+						height: 80upx;
 						border-radius: 50%;
 					}
 				}

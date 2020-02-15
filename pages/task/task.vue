@@ -200,7 +200,7 @@
 			openAdver() {
 				this.$app.openVideoAd(() => {
 					this.taskSettle(19)
-				})
+				},this.$app.getData('config').kindness_switch)
 			},
 			clipboard() {
 				uni.setClipboardData({

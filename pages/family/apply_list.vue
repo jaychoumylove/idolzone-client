@@ -6,24 +6,17 @@
 			<view class="item" v-for="(item,index) in list" :key="index">
 
 				<view class='avatar-wrap'>
-					<image class="avatar" :src="item.avatarurl || $app.getData('AVATAR')" mode="aspectFill"></image>
+					<image class="avatar" :src="item.user.avatarurl" mode="aspectFill"></image>
 				</view>
 				<view class="text-container">
 					<view class="top">
-						{{item.nickname || $app.getData('NICKNAME')}}
+						{{item.user.nickname}}
 						<image class="img-s" :src="`/static/image/user_level/lv${item.user_level}.png`" mode=""></image>
 					</view>
-					<view class="tips">{{item.father_open_msg||''}}</view>
 				</view>
-				<view class="count">					
-					<btnComponent type="green" v-if="item.apply_status==0">
-						<view class="btn">已申请</view>
-					</btnComponent>					
-					<btnComponent type="disable" v-else-if="item.apply_status==-1">
-						<view class="btn" @tap="baishi(item.id, item.nickname)">已拒绝</view>
-					</btnComponent>					
-					<btnComponent type="default" v-else>
-						<view class="btn" @tap="baishi(item.id, item.nickname)">拜师</view>
+				<view class="count">
+					<btnComponent type="default">
+						<view class="flex-set" style="padding: 10upx 40upx;" @tap="join(item.family_id,item.user_id,item.user.nickname)">操作</view>
 					</btnComponent>
 				</view>
 			</view>
@@ -46,12 +39,6 @@
 			};
 		},
 		onLoad(option) {
-			if(!this.$app.getData('userStar').id) {
-				uni.reLaunch({
-					url: '/pages/group/group'
-				})
-				return
-			}
 			this.loadData()
 		},
 		onPullDownRefresh() {
@@ -59,21 +46,33 @@
 		},
 
 		methods: {
-			baishi(father_uid, nickname) {
-				this.$app.modal(`确定拜 ${nickname} 为师？`, () => {
-					this.$app.request('father/baishi', {
-						father_uid,
-						son_uid: this.$app.getData('userInfo').id
+			join(fid, uid, nickname) {
+				this.$app.modal(`${nickname} 想要加入`, () => {
+					this.$app.request('family/applydeal', {
+						fid,
+						uid,
+						status: 2
 					}, res => {
-						this.$app.toast('请求已发送，等待师傅审核')
+						this.$app.toast('加入成功', 'success')
 						setTimeout(() => {
-							uni.navigateBack()
+							this.loadData()
 						}, 1000)
 					}, 'POST', true)
-				})
+				},'允许', () => {
+					this.$app.request('family/applydeal', {
+						fid,
+						uid,
+						status: -1
+					}, res => {
+						this.$app.toast('已拒绝', 'success')
+						setTimeout(() => {
+							this.loadData()
+						}, 1000)
+					}, 'POST', true)
+				},'拒绝')
 			},
 			loadData() {
-				this.$app.request('father/fatherList', {
+				this.$app.request('family/applylist', {
 
 				}, res => {
 					this.list = res.data
@@ -136,8 +135,8 @@
 					position: relative;
 
 					.avatar {
-						width: 100upx;
-						height: 100upx;
+						width: 80upx;
+						height: 80upx;
 						border-radius: 50%;
 					}
 
@@ -165,9 +164,7 @@
 				.count {
 
 					.btn {
-						width: 140upx;
-						padding: 10upx 0;
-						text-align: center;
+						padding: 15upx 45upx;
 					}
 				}
 

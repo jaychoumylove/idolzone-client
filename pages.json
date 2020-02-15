@@ -123,14 +123,12 @@
 			}
 
 		},
-
 		{
 			"path": "pages/user/exchange",
 			"style": {
 				"navigationBarTitleText": "积分兑换"
 			}
 		},
-
 		{
 			"path": "pages/user/setting",
 			"style": {
@@ -194,11 +192,15 @@
 		, {
 			"path": "pages/lottery/lottery",
 			"style": {
+				"navigationBarBackgroundColor": "#6462FE",
+				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "幸运大抽奖"
 			}
 		}, {
 			"path": "pages/lottery/log",
 			"style": {
+				"navigationBarBackgroundColor": "#6462FE",
+				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "抽奖明细"
 			}
 		},
@@ -234,6 +236,8 @@
 		{
 			"path": "pages/fans/fans_list",
 			"style": {
+				"navigationBarBackgroundColor": "#2b3849",
+				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "粉丝团"
 			}
 		}, {
@@ -246,40 +250,91 @@
 		}, {
 			"path": "pages/fans/mass",
 			"style": {
+				"navigationBarBackgroundColor": "#2b3849",
+				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "集结"
 			}
 		}, {
+			"navigationBarBackgroundColor": "#2b3849",
+			"navigationBarTextStyle": "white",
 			"path": "pages/fans/fans_new"
 		}, {
 			"path": "pages/fans/member",
 			"style": {
+				"navigationBarBackgroundColor": "#2b3849",
+				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "粉丝团成员"
 			}
 		},
 		{
 			"path": "pages/charge/charge"
-		}
-
-		, {
-			"path": "pages/active/laren",
-			"style": {
-				"navigationBarBackgroundColor": "#7b98fc",
-				"navigationBarTitleText": ""
-			}
 		},
-
 		{
 			"path": "pages/user/push_index"
 		}, {
 			"path": "pages/father/info",
-			"style": {}
+			"style": {
+				"navigationBarBackgroundColor": "#F99510",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "师徒"
+			}
 		}, {
 			"path": "pages/father/list",
 			"style": {
+				"navigationBarBackgroundColor": "#F99510",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "师傅列表",
 				"enablePullDownRefresh": true
 			}
+		},  {
+			"path": "pages/father/apply_list",
+			"style": {
+				"navigationBarBackgroundColor": "#F99510",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "申请列表"
+			}
+		},{
+			"path": "pages/father/enter",
+			"style": {
+				"navigationBarBackgroundColor": "#F99510",				
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "师徒"
+			}
 		}, {
-			"path": "pages/father/enter"
+			"path": "pages/family/family_list",
+			"style": {
+				"navigationBarBackgroundColor": "#856B5C",				
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "家族排行"
+			}
+		}, {
+			"path": "pages/family/family",
+			"style": {
+				"navigationBarBackgroundColor": "#856B5C",			
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "家族成员"
+			}
+		}, {
+			"path": "pages/family/family_new",
+			"style": {
+				"navigationBarBackgroundColor": "#856B5C",			
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "创建家族"
+			}
+		}, {
+			"path": "pages/family/enter",
+			"style": {
+				"navigationBarBackgroundColor": "#856B5C",			
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "加入家族"
+			}
+		}, {
+			"path": "pages/family/apply_list",
+			"style": {
+				"navigationBarBackgroundColor": "#856B5C",			
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "申请列表"
+			}
 		}
 	],
 	"tabBar": {
@@ -305,10 +360,10 @@
 				"text": "圈子"
 			},
 			{
-				"pagePath": "pages/fans/fans_list",
+				"pagePath": "pages/active_one/active_one_list",
 				"iconPath": "/static/image/tab/square.png",
 				"selectedIconPath": "/static/image/tab/square-tap.png",
-				"text": "粉丝团"
+				"text": "应援"
 			},
 			{
 				"pagePath": "pages/user/user",

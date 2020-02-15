@@ -443,8 +443,7 @@
 		}
 
 		.ad-container {
-			border-top: 12upx solid #f6f5fa;
-			border-bottom: 12upx solid #f6f5fa;
+			padding: 0 20upx;
 		}
 
 		.func-container {

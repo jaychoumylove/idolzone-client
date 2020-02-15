@@ -1,12 +1,6 @@
 <template>
 	<view class="new-page-container">
-		<!-- <block v-for="(item,index) in article" :key="index">
-			<view class="article-title" v-if="item.title">{{item.title}}</view>
-			<text class="article-content" decode v-if="item.content.length>0" v-for="(item1,index1) in item.content" :key="index1">{{item1}}</text>
-			<image class="article-image" v-if="item.image" :src="item.image" mode="widthFix"></image>
-		</block> -->
-		<!-- <view class="article-title">申请资料</view> -->
-
+		
 		<form class="form-container" @submit="formSubmit">
 			<view class="input-group">
 				<view class="img-input flex-set" @tap="uploadImg('avatar')">
@@ -17,13 +11,9 @@
 			</view>
 
 			<view class="input-group">
-				<input type="text" name="clubname" :value="clubname" placeholder="输入粉丝团名字5-25个字" />
+				<input type="text" name="clubname" :value="clubname" placeholder="输入家族名字5-25个字" />
 			</view>
-
-			<view class="input-group">
-				<input type="text" name="wx" placeholder="输入负责人微信号" />
-			</view>
-
+			
 			<view class="input-group">
 				<input type="text" disabled :value="`所属爱豆:`+$app.getData('userStar').name" />
 			</view>
@@ -51,7 +41,7 @@
 		data() {
 			return {
 				fid: 0,
-				avatar: '',
+				avatar: this.$app.getData('AVATAR'),
 				clubname: '',
 				// article: this.$app.getData('config').fanclub_notice,
 			};
@@ -61,7 +51,7 @@
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		onLoad(option) {
-			this.fid = option.fid // 如果带上fid，表示修改粉丝团
+			this.fid = option.fid // 如果带上fid，表示修改家族
 			if (this.fid) this.loadData()
 		},
 		methods: {
@@ -69,27 +59,23 @@
 				const value = e.detail.value
 				value['avatar'] = this.avatar
 				if (!value['avatar']) {
-					this.$app.toast('请上传粉丝团头像')
+					this.$app.toast('请上传家族头像')
 					return
 				}
 				if (!value['clubname']) {
-					this.$app.toast('请输入粉丝团名字')
-					return
-				}
-				if(value['clubname'].length>20){
-					this.$app.toast('粉丝团不能超过20个字')
+					this.$app.toast('请输入家族名字')
 					return
 				}
 				
-				if (!value['wx']) {
-					this.$app.toast('输入负责人微信号')
+				if(value['clubname'].length>20){
+					this.$app.toast('家族名字不能超过20个字')
 					return
 				}
 
 				if (this.fid) {
 					this.$app.modal(`需要消耗100钻石,是否继续？`, () => {
 						value.fid = this.fid
-						this.$app.request('fans/edit', value, res => {
+						this.$app.request('family/edit', value, res => {
 							this.$app.toast('修改成功')
 							setTimeout(() => {
 								uni.navigateBack()
@@ -97,7 +83,7 @@
 						}, 'POST', true)
 					})
 				} else {
-					this.$app.request('fans/create', value, res => {
+					this.$app.request('family/create', value, res => {
 						this.$app.toast('创建成功')
 						setTimeout(() => {
 							uni.navigateBack()
@@ -109,7 +95,6 @@
 				uni.chooseImage({
 					count: 1,
 					success: res => {
-						console.log(res)
 						let img = res.tempFiles[0]
 						if (img.size > 2097152) {
 							this.$app.toast('图片过大，请上传2M以下的图片')
@@ -123,7 +108,7 @@
 				});
 			},
 			loadData() {
-				this.$app.request('fans/info', {
+				this.$app.request('family/info', {
 					fid: this.fid
 				}, res => {
 					this.avatar = res.data.avatar

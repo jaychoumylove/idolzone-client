@@ -4,6 +4,7 @@
 		<view class="top-container">
 			<view class="left-wrap">
 				<view class="top-wrap">
+					<image class="avatar" :src="info.avatar||$app.getData('AVATAR')" mode="aspectFill"></image>
 					{{info.clubname||''}}
 					<text class="iconfont iconeditor" v-if="info.leader" style="color: #999;" @tap="$app.goPage(`/pages/fans/fans_new?fid=${info.id}`)"></text>
 				</view>
@@ -27,18 +28,25 @@
 				</view>
 			</view>
 			<view class="right-wrap">
-				<view class="avatar-wrap" @tap="$app.goPage('/pages/group/group')">
-					<image class="avatar" :src="info.avatar||$app.getData('AVATAR')" mode="aspectFill"></image>
+				<view class="avatar-wrap" @tap="$app.goPage('/pages/fans/member?fid=' + info.id)">
+					<image class="avatar" :src="info.user.avatarurl||$app.getData('AVATAR')" mode="aspectFill"></image>
 					<view class="bottom flex-set">
 						<image class="btn" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXsqa9U7hNge9bVPRa04Tia6LcFf0micBuNEvUO2Fd4iaP8EcuBBFJDGAeKVZtupWHFUNiafibUSySNp7A/0"
 						 mode="aspectFill"></image>
-						<view class="text">为TA冲榜</view>
+						<view class="text">{{info.user.nickname||$app.getData('NICKNAME')}}</view>
 					</view>
 				</view>
 			</view>
 
 		</view>
 
+		<!-- 公告 -->
+		<view class="notice-container">
+			<view class="left-wrap">【公告】</view>
+			<view class="center-wrap text-overflow">{{info.notice || '暂无公告'}}</view>
+			<view class="right-wrap" @tap="modal='notice'">查看></view>
+		</view>
+		
 		<view class="center-container">
 			<view class="btn-container">
 				<button class="btn-wrap" open-type="share" data-shareid="7" @tap="buttonHandler" data-sharetype="share">
@@ -62,7 +70,7 @@
 					 mode="aspectFill"></image>
 					<view class="content">
 						<view class="text">{{info.new_people||0}}人</view>
-						<view class="times">今日邀请</view>
+						<view class="times">今日新加入</view>
 						<view class="fans-rank-wrap">
 							<image class="avatar" v-for="(item,index) in info.new_user" :key="index" :src="item.user.avatarurl||$app.getData('AVATAR')"
 							 mode="aspectFill"></image>
@@ -74,7 +82,7 @@
 			</view>
 		</view>
 
-		<view class="title-wrap">粉丝团每周任务（奖励由团长领取）</view>
+		<view class="title-wrap" v-if="taskList.length>0">粉丝团每周任务（奖励由团长领取）</view>
 
 		<view class="taskitem" v-for="(item,index) in taskList" :key="index">
 			<view v-if="current != 2" class="left-content">
@@ -125,16 +133,18 @@
 					</view>
 
 				</view>
-				<view v-if="current!=2" class="btn" @tap="doTask(item,index)">
+				<view v-if="current!=2" class="btn">
 
 					<btnComponent type="default" v-if="item.status != 1 || !info.leader">
-						<button class="btn" :open-type="item.open_type" :data-shareid="item.shareid" @tap="buttonHandler">
+						<button v-if="!item.gopage" class="btn" :open-type="item.open_type" :data-shareid="item.shareid" @tap="buttonHandler">
 							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
 						</button>
-
+						<button v-else class="btn" @tap="doTask(item,index)">
+							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
+						</button>
 					</btnComponent>
 
-					<btnComponent type="success" v-if="item.status == 1 && info.leader">
+					<btnComponent type="success" v-if="item.status == 1 && info.leader" @tap="doTask(item,index)">
 						<view class="flex-set" style="width: 130upx;height: 65upx;">可领取</view>
 					</btnComponent>
 
@@ -166,6 +176,27 @@
 
 
 		<shareModalComponent ref="shareModal"></shareModalComponent>
+		
+		<modalComponent v-if="modal == 'notice'" type="center" title="提示" @closeModal="modal=''">
+			<view class="modal-container editmsg-modal-container">
+				<view class="row flex-set">公告</view>
+				<view class="row">
+					<view class="input-wrap">
+						<textarea v-if="info.leader" class="input" @input="info.notice=$event.detail.value"
+						 placeholder="请输入内容:)"></textarea>
+						<view v-else class="input">{{info.notice || '暂无公告'}}</view>
+					</view>
+		
+				</view>
+		
+				<view class="btn-wrap flex-set">
+					<btnComponent type="default">
+						<view class="btn" v-if="info.leader" @tap="editNotice()">修改</view>
+						<view class="btn" v-else @tap="modal=''">确定</view>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent>
 	</view>
 </template>
 
@@ -187,6 +218,7 @@
 				info: {
 					week_count: 0,
 					week_hot: 0,
+					notice: '暂无公告',
 				},
 			};
 		},
@@ -223,7 +255,7 @@
 			ad() {
 				this.$app.openVideoAd(() => {
 					this.mass(1)
-				})
+				},this.$app.getData('config').kindness_switch)
 			},
 			loadData() {
 				this.$app.request('fans/info', {
@@ -241,19 +273,10 @@
 				})
 			},
 			doTask(task, index) {
-				if (task.status == 0) { // 做任务
-					if (task.gopage) {
-						// 跳转页面
-						this.$app.goPage(task.gopage)
-					}
-
-				} else if (task.status == 1) { // 去领取
-					if (!this.info.leader) {
-						this.$app.toast('你没有权限')
-						return
-					}
-					this.taskSettle(task.id, index)
+				if (task.status !=1 || !this.info.leader) {
+					this.$app.goPage(task.gopage)
 				}
+				else if(task.status == 1 && this.info.leader) this.taskSettle(task.id, index)
 			},
 
 			// 领取奖励
@@ -271,6 +294,21 @@
 					this.$app.toast(toast)
 					this.getTaskList()
 				}, 'POST', true)
+			},
+			
+			editNotice(val) {
+				this.modal = ''
+				if(this.info.notice.length>30){
+					this.$app.toast('公告不能超过30个字')
+					return
+				}
+				this.$app.request('fans/editNotice', {
+					fid: this.fid,
+					notice: this.info.notice,
+				}, res => {
+					this.$app.toast('操作成功', 'success')
+					this.loadData()
+				})
 			}
 
 		}
@@ -283,7 +321,7 @@
 		flex-direction: column;
 
 		.top-container {
-			height: 250upx;
+			height: 220upx;
 			border-radius: 0 0 60upx 60upx;
 			padding: 20upx;
 			color: #fff;
@@ -299,6 +337,12 @@
 					margin: 20upx 0;
 					display: flex;
 					align-items: center;
+					
+					image{
+						width: 40upx;
+						height: 40upx;
+						margin-right: 10upx;
+					}
 				}
 
 				.content-wrap {
@@ -320,22 +364,24 @@
 			.right-wrap {
 				.avatar-wrap {
 					position: relative;
-					margin: 10upx;
+					margin: 40upx;
 
 					.avatar {
-						width: 160upx;
-						height: 160upx;
+						width: 120upx;
+						height: 120upx;
 						border-radius: 50%;
 						box-shadow: 0 2upx 16upx rgba(#999, .6);
 					}
 
 					.bottom {
-						width: 150upx;
+						width: 120upx;
 						height: 34upx;
+						overflow: hidden;
 						position: absolute;
 						left: 50%;
 						transform: translateX(-50%);
 						bottom: -10upx;
+						text-align: center;
 
 						.btn {
 							position: absolute;
@@ -350,6 +396,26 @@
 				}
 			}
 
+		}
+		
+		.notice-container {
+			display: flex;
+			align-items: center;
+			font-size: 26upx;
+			padding: 10upx 30upx;
+		
+			.left-wrap {
+				color: #e3ba0c;
+			}
+		
+			.center-wrap {
+				color: #666666;
+				flex: 1;
+			}
+		
+			.right-wrap {
+				color: #b1b1b1;
+			}
 		}
 
 		.center-container {
@@ -496,6 +562,60 @@
 			}
 
 		}
+		
+		
+		.editmsg-modal-container {
+			margin-top: -80upx;
+		
+			.row {
+				display: flex;
+				align-items: center;
+				margin: 40upx;
+		
+				.title {
+					font-size: 32upx;
+					width: 110upx;
+				}
+		
+				.input-wrap {
+					flex: 1;
+		
+					.input {
+						width: 100%;
+						height: 120upx;
+						padding: 10upx 20upx;
+						border: 1upx solid #ccc;
+						border-radius: 20upx;
+					}
+				}
+		
+				.image-content {
+					width: 250upx;
+					height: 200upx;
+					border-radius: 20upx;
+					overflow: hidden;
+					position: relative;
+		
+					.icon {
+						position: absolute;
+						font-size: 32upx;
+						right: 10upx;
+						bottom: 10upx;
+					}
+				}
+			}
+		
+			.btn-wrap {
+				margin: 40upx;
+		
+				.btn {
+					padding: 20upx 80upx;
+				}
+			}
+		
+		
+		}
+		
 
 	}
 </style>

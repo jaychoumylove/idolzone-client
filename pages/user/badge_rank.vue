@@ -116,7 +116,6 @@
 
 			.tab-item {
 				border-radius: 32upx;
-				border: 1upx solid #FF7E00;
 				padding: 10upx 30upx;
 				justify-content: center;
 				display: flex;
@@ -124,12 +123,13 @@
 				margin: 0 10upx;
 				flex: 1;
 				color: #FF7E00;
+				border: 1upx solid #FFEAC9;
 			}
 
 			.tab-item.active {
-				background-color: #FF7E00;
+				background-color: #FFEAC9;
 				text-align: center;
-				color: #fff;
+				color: #FF9B2E;
 			}
 		}
 

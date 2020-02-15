@@ -9,6 +9,7 @@
 				<button class="btn b-1 flex-set" open-type="share" data-shareid="12">我要拜师</button>
 			</view>
 			<view class="btn-wrap flex-set" v-if="type==1">
+				<view class="btn b-3 flex-set" @tap="$app.goPage('/pages/father/apply_list')">申请列表</view>
 				<view class="btn b-2 flex-set" @tap="modal='editmsg'">招徒宣言</view>
 				<button class="btn b-1 flex-set" open-type="share" data-shareid="13">我要收徒</button>
 			</view>
@@ -18,10 +19,7 @@
 				 mode="aspectFill"></image>
 				<view class="content">
 					<view class="title">师徒玩法</view>
-					<view class="p">1、 农场满级可成为师父，农场不满级可成为徒弟</view>
-					<view class="p">2、 每个师父可以有10位徒弟</view>
-					<view class="p">3、 徒弟完成任务师父有相同奖励</view>
-					<view class="p">4、 拜师30日之后可以出师</view>
+					<view class="p" v-for="(item,index) in $app.getData('config').father_tips" :key="index">{{item}}</view>
 
 				</view>
 			</view>
@@ -34,10 +32,13 @@
 
 				<view class="text-wrapper text-overflow left">
 					<view class="row-wrapper flex-set" v-if="father">
-						我的师父：<text class="bold">{{father.father.nickname}}</text>
+						我的师父：
+						<image class="avatar block" :src="father.father.avatarurl || $app.getData('AVATAR')" mode="aspectFill"></image>
+						<text class="bold">{{father.father.nickname || $app.getData('NICKNAME')}}</text>
+						
 					</view>
 					<view class="row-wrapper flex-set" v-if="sonCount">
-						我的徒弟：<text class="bold">{{sonCount/maxSonCount}}</text>
+						我的徒弟：<text class="bold">{{sonCount}}/{{maxSonCount}}</text>
 					</view>
 					<view class="row-wrapper flex-set s">
 						累计收益：
@@ -63,10 +64,16 @@
 					</view>
 				</view>
 				<view class="text-wrapper btn">
-					<view v-if="sonCount" class="btn-wrap b-2 flex-set" @tap="modal='editmsg'">招徒宣言</view>
+					<view v-if="sonCount" class="btn-wrap b-2 flex-set" @tap="$app.goPage('/pages/father/apply_list')">申请列表</view>
 					<button v-if="sonCount" class="btn-wrap b-1 flex-set" open-type="share" data-shareid="13">我要收徒</button>
-					<button v-if="father&&can_exit" class="btn-wrap b-1 flex-set" @tap="exit()">出师</button>
+					<button v-if="father&&can_exit" class="btn-wrap b-1 flex-set" @tap="exit()">我要出师</button>
 				</view>
+			</view>
+			<!-- 宣言 -->
+			<view class="notice-container" v-if="sonCount">
+				<view class="left-wrap">【宣言】</view>
+				<view class="center-wrap text-overflow">{{father_open_msg}}</view>
+				<view class="right-wrap" @tap="modal='editmsg'">查看></view>
 			</view>
 			<!-- 公告 -->
 			<view class="notice-container">
@@ -91,7 +98,7 @@
 					<view class="text-container">
 						<view>
 							{{item.son.nickname || $app.getData('NICKNAME')}}
-							<image class="img-s" :src="`/static/image/user_level/lv${item.level}.png`" mode=""></image>
+							<image class="img-s" :src="`/static/image/user_level/lv${item.user_level}.png`" mode=""></image>
 						</view>
 					</view>
 					<view class="count">
@@ -161,16 +168,8 @@
 			<view class="modal-container editmsg-modal-container">
 				<view class="row flex-set">招徒宣言</view>
 				<view class="row">
-					<view class="title">消息</view>
 					<view class="input-wrap">
-						<textarea class="input" :value="father_open_msg" @input="father_open_msg=$event.detail.value" placeholder=""></textarea>
-					</view>
-				</view>
-				<view class="row">
-					<view class="title">图片</view>
-					<view class="image-content" @tap='upload'>
-						<image class="img" :src="father_open_img" mode=""></image>
-						<view class="icon iconfont iconeditor"></view>
+						<textarea class="input" :value="father_open_msg" @input="father_open_msg=$event.detail.value" placeholder="请输入内容:)"></textarea>
 					</view>
 				</view>
 
@@ -187,7 +186,7 @@
 				<view class="row">
 					<view class="input-wrap">
 						<textarea v-if="sonCount" class="input" :value="father_notice" @input="father_notice=$event.detail.value"
-						 placeholder=""></textarea>
+						 placeholder="请输入内容:)"></textarea>
 						<view v-else class="input">{{father_notice}}</view>
 					</view>
 
@@ -254,8 +253,8 @@
 
 <script>
 	import prompt from "@/components/zz-prompt/index.vue";
-	import btnComponent from '@/components/btnComponent.vue'
-	import modalComponent from '@/components/modalComponent.vue'
+	import btnComponent from '@/components/btnComponent.vue';
+	import modalComponent from '@/components/modalComponent.vue';
 	export default {
 		components: {
 			prompt,
@@ -276,7 +275,7 @@
 				tabActive: 0, // 入门弟子
 				father_open_msg: '', // 招徒宣言
 				father_open_img: '', // 招徒图片
-				father_notice: '',
+				father_notice: '暂时没有公告',
 				can_exit: false, // 可出师
 
 				// 点击聊天室头像,当前显示用户
@@ -284,6 +283,13 @@
 				sendOtherNum: 1,
 				sendOtherType: '', // 赠送他人是鲜花还是钻石‘’
 			};
+		},
+		onLoad() {
+			if(!this.$app.getData('userStar').id) {
+				uni.reLaunch({
+					url: '/pages/group/group'
+				})
+			}
 		},
 		onShow() {
 			this.loadData()
@@ -293,7 +299,7 @@
 			if (shareid) {
 				shareid = {
 					'path': this.$app.getData('config').share_cfg[shareid].path,
-					'imageUrl': this.father_open_img || this.$app.getData('config').share_cfg[shareid].imageUrl,
+					'imageUrl': this.$app.getData('config').share_cfg[shareid].imageUrl,
 					'title': this.father_open_msg || this.$app.getData('config').share_cfg[shareid].title
 				}
 			}
@@ -301,7 +307,7 @@
 			return this.$app.commonShareAppMessage(shareid)
 		},
 		methods: {
-			// 点击聊天室用户头像
+			// 点击用户头像
 			tapUser(uid) {
 				if (uid == this.$app.getData('userInfo').id) return
 				this.currentUser = {}
@@ -400,16 +406,23 @@
 				}, 'POST', true)
 			},
 			editMsg(val) {
+				if(this.father_open_msg.length>30){
+					this.$app.toast('宣言不能超过30个字')
+					return
+				}
 				this.modal = ''
 				this.$app.request('father/editMsg', {
 					msg: this.father_open_msg,
-					img: this.father_open_img,
 				}, res => {
 					this.$app.toast('操作成功', 'success')
 					this.loadData()
 				})
 			},
 			editNotice(val) {
+				if(this.father_notice.length>30){
+					this.$app.toast('公告不能超过30个字')
+					return
+				}
 				this.modal = ''
 				this.$app.request('father/editNotice', {
 					notice: this.father_notice,
@@ -453,11 +466,11 @@
 					this.maxSonCount = res.data.maxSonCount
 					this.can_exit = res.data.can_exit
 					// 公告
-					this.father_notice = res.data.father_info.father_notice || ''
+					this.father_notice = (res.data.father_info && res.data.father_info.father_notice) || '暂时没有公告'
 					if (this.type == 1) {
 						// 招徒宣言
 						this.father_open_msg = res.data.father_info.father_open_msg || this.$app.getData('config').share_cfg[13].title
-						this.father_open_img = res.data.father_info.father_open_img || this.$app.getData('config').share_cfg[13].imageUrl
+						this.father_open_img = this.$app.getData('config').share_cfg[13].imageUrl
 					}
 
 					if (this.type == 2 && this.father) {
@@ -499,9 +512,11 @@
 				.btn.b-1 {
 					background: linear-gradient(to bottom, #fcc200, #f4930c);
 				}
-
 				.btn.b-2 {
 					background: linear-gradient(to bottom, #7576ff, #534dfd);
+				}
+				.btn.b-3 {
+					background: linear-gradient(to bottom, #F31322, #9C44E3);
 				}
 			}
 
@@ -512,6 +527,7 @@
 				margin: auto;
 
 				.bg-img {
+					z-index: 1;
 					position: absolute;
 					top: 0;
 					left: 0;
@@ -520,9 +536,11 @@
 				}
 
 				.content {
+					position: relative;
 					text-align: left;
 					font-size: 26upx;
 					padding: 55upx;
+					z-index: 2;
 
 					.title {
 						text-align: center;
@@ -546,13 +564,18 @@
 					width: 120upx;
 					height: 120upx;
 				}
+				
+				.avatar.block {
+					border-radius: 0;
+					width: 40upx;
+					height: 40upx;
+				}
 
 				.text-wrapper {
 					line-height: 1.5;
 
 					.row-wrapper {
 						justify-content: flex-start;
-						font-size: 34upx;
 
 						.bold {
 							font-weight: 700;
@@ -581,8 +604,9 @@
 					.btn-wrap {
 						border-radius: 30upx;
 						color: #fff;
-						padding: 10upx 20upx;
-						margin: 10upx 0;
+						padding: 8upx 20upx;
+						margin: 6upx 0;
+						font-size: 26upx;
 					}
 
 					.btn-wrap.b-1 {
@@ -599,14 +623,14 @@
 				display: flex;
 				align-items: center;
 				font-size: 26upx;
-				padding: 20upx 40upx;
+				padding: 0 40upx 20upx 40upx;
 
 				.left-wrap {
 					color: #e3ba0c;
 				}
 
 				.center-wrap {
-					color: #666666;
+					color: #b1b1b1;
 					flex: 1;
 				}
 
@@ -616,20 +640,20 @@
 			}
 
 			.tab-wrap {
-				padding: 15upx 30upx;
+				padding: 15upx 40upx;
 				display: flex;
 				align-items: flex-end;
 				justify-content: space-between;
-				font-size: 32upx;
+				font-size: 28upx;
 
 				.item {
 					position: relative;
 					line-height: 1.2;
-					padding: 0 16upx;
+					padding: 0 8upx;
 				}
 
 				.item.active {
-					font-size: 36upx;
+					font-size: 30upx;
 					font-weight: 700;
 				}
 
@@ -654,7 +678,6 @@
 					display: flex;
 					margin: 0 40upx;
 					padding: 20upx 0;
-					justify-content: space-between;
 					align-items: center;
 
 					border-bottom: 2upx solid #efefef;

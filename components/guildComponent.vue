@@ -137,26 +137,25 @@
 					 mode=""></image>
 					<view class="text">任务</view>
 				</view>
-				<view v-if="$app.getData('config').version != $app.getData('VERSION')" class="btn-item" @tap="invitFakePage=1;modal = 'invit_desert';getFakeInviteList()">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5UuhH4Via2LvZLDvjUXk1BTQW6p1mkbxNuAFqaIFuKKSS9MTicctuJUsg/0"
+				<view class="btn-item" @tap="invitFakePage=1;modal = 'invit_desert';getFakeInviteList()">
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fy1abNSLpfp8oqM7wyicwdCLBXKMv4837p05e2Wg6yDHoosSjSSs8g2SX5YXN7Ntsic3pDrB9espgA/0"
 					 mode=""></image>
-					<view class="text">召集好友</view>
+					<view class="text">拉新</view>
 				</view>
-				<view class="btn-item" @tap="$app.goPage('/pages/father/info')">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5UuhH4Via2LvZLDvjUXk1BTQW6p1mkbxNuAFqaIFuKKSS9MTicctuJUsg/0"
+				<view v-if="$app.getData('config').shitu_switch==1" class="btn-item" @tap="$app.goPage('/pages/father/info')">
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fy1abNSLpfp8oqM7wyicwdCd5T9g9sYiaib1jUqcv5x6u40eqAMaRiaz2TsKc2iaia3DNp4AZGng6CrUnQ/0"
 					 mode=""></image>
 					<view class="text">师徒</view>
 				</view>
-				<view v-if="$app.getData('config').yingyuan_switch==1 && $app.getData('config').version != $app.getData('VERSION')"
-				 class="btn-item" @tap="goPageHasStar('/pages/active_one/active_one_list')">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQquUweIHJ2hkGoLic007iakqBJCyJjsHtbyicFRcibN0S88wkn2yBR1PsOzpw/0"
-					 mode=""></image>
-					<view class="text">应援</view>
+				<view class="btn-item" @tap="goPageHasStar('/pages/fans/fans_club?fid=' + fanclub_id)" v-if="fanclub_id">
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fy1abNSLpfp8oqM7wyicwdCejn5EibDSAzhL2MqfMpWezdUnPichUTwtUpfvNUo0icWPdftauLHZiaXWQ/0"
+						 mode=""></image>
+					<view class="text">粉丝团</view>
 				</view>
-				<view v-if="$app.getData('config').laren_img" class="btn-item" @tap="goPageHasStar('/pages/active/laren')">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVQQUib9EHG5cmEzGyAnCQquUweIHJ2hkGoLic007iakqBJCyJjsHtbyicFRcibN0S88wkn2yBR1PsOzpw/0"
+				<view class="btn-item" @tap="goPageHasStar('/pages/fans/fans_list')" v-else>
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fy1abNSLpfp8oqM7wyicwdCejn5EibDSAzhL2MqfMpWezdUnPichUTwtUpfvNUo0icWPdftauLHZiaXWQ/0"
 					 mode=""></image>
-					<view class="text">新春活动</view>
+					<view class="text">粉丝团</view>
 				</view>
 				<view class="btn-item" @tap="goPageHasStar('/pages/pk/pk_index')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxriczDwYpJxLicMALveZ8I6vxIGDDu9yB41Dicq9XYTtUcggaFYvQEc2ng/0"
@@ -166,9 +165,12 @@
 			</view>
 			<!-- 公告 -->
 			<view v-if="$app.getData('config').version != $app.getData('VERSION')" class="row-info row-2" @tap="$app.goPage('/pages/notice/notice?id='+article.id)">
-				<text class="left-wrap">【公告】</text>
-				<text class="center-wrap">{{article.name}}</text>
-				<text class="right-wrap" @tap.stop="$app.goPage('/pages/notice/list')">更多></text>
+				<view class="text-overflow">
+					<text class="left-wrap text-overflow">【公告】</text>
+					<text class="center-wrap">{{article.name}}</text>
+					<image class="isnew" v-if="article.isNew" src="https://mmbiz.qpic.cn/mmbiz_gif/w5pLFvdua9H2awqYhgKRktNwUT19uEzicRMZbITUbzNRRpUPQUBLSBSrALbX6lI9whDkbhUYeyWW7YUJsicTkCqA/0" mode="widthFix"></image>
+				</view>
+				<text class="right-wrap text-overflow" @tap.stop="$app.goPage('/pages/notice/list')">更多></text>
 			</view>
 		</view>
 
@@ -257,7 +259,7 @@
 
 			<!-- 粉丝团宝箱 -->
 			<view class="btn-wrap" @tap="fansBoxOpen" v-if="$app.getData('config').version != $app.getVal('VERSION') && $app.getData('config').fansbox_open=='1'">
-				<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Ep3RhxrWX9ibdRVKkjMQibIDXFuAk08uV2BgHKn9RO8fLoS8zM0z12ic0SjzHd1IxYNhUibyy5fJEllQ/0"
+				<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fy1abNSLpfp8oqM7wyicwdCHA3wGhWkP3tIu9ztc4sqKr74M5icSkYVNpCdiarySDSggEss5DqJ9ictw/0"
 				 mode="aspectFill"></image>
 				<view class="tips" v-if="sendFansNoSettle">{{sendFansNoSettle}}</view>
 			</view>
@@ -855,6 +857,7 @@
 							// 公告
 							this.article.name = res.data.article.name
 							this.article.id = res.data.article.id
+							this.article.isNew = Date.now() / 1000 - this.$app.strToTime(res.data.article.create_time) < 2 * 24 * 3600
 
 						}, 300)
 
@@ -1959,7 +1962,11 @@
 		.center-container {
 			padding: 10upx 30upx;
 			border-bottom: 10upx solid #efefef;
-
+			
+			.isnew{
+				width: 50upx;
+				height: 27upx;				
+			}
 			.row-info {
 				display: flex;
 				justify-content: space-between;
