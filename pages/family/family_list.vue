@@ -149,7 +149,7 @@
 			},
 			apply(item) {
 				if (item.star_id != this.$app.getData('userStar').id) {
-					this.$app.toast(`需要加入同一个圈子`)
+					this.$app.toast(`你不在同一个圈子`)
 					return
 				}
 

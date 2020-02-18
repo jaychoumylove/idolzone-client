@@ -121,7 +121,7 @@
 			},
 			join(item) {
 				if (item.star_id != this.$app.getData('userStar').id) {
-					this.$app.toast(`请加入${this.$app.getData('userStar').name}的粉丝圈`)
+					this.$app.toast(`你不在同一个圈子`)
 					return
 				}
 
