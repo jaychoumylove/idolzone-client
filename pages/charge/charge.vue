@@ -77,6 +77,8 @@
 				<view class="btn flex-set" @tap="payment(selfInputStone, 'stone')">确认购买</view>
 			</btnComponent>
 		</view>
+		
+		<view class="recharge">充值即表示您同意　<text @tap="$app.goPage(`/pages/notice/notice?id=6`)">爱豆圈子用户充值协议</text></view>
 
 		<!-- modal -->
 		<!-- 代充值 -->
@@ -565,6 +567,17 @@
 
 			.btn {
 				padding: 15upx 50upx;
+			}
+		}
+		
+		.recharge{
+			font-size: $font-s;
+			text-align: center;
+			margin-top: 30upx;
+			
+			text{
+				color: #FBCC3E;
+				text-decoration: underline;
 			}
 		}
 
