@@ -4,9 +4,12 @@
 		<view class="top-container">
 			<view class="left-wrap">
 				<view class="top-wrap">
+					<view class="flex-set">
 					<image class="avatar" :src="info.avatar||$app.getData('AVATAR')" mode="aspectFill"></image>
-					{{info.clubname||''}}
-					<text class="iconfont iconeditor" v-if="info.leader" style="color: #999;" @tap="$app.goPage(`/pages/fans/fans_new?fid=${info.id}`)"></text>
+					<text class="text">{{info.clubname||''}}</text>
+					<text v-if="info.leader" class="iconfont iconeditor" style="color: #999;" @tap="$app.goPage(`/pages/fans/fans_new?fid=${info.id}`)"></text>
+					</view>
+					<view v-if="info.leader" class="btn" @tap="$app.goPage(`/pages/fans/apply_list?fid=${info.id}`)">{{info.apply_count}}人申请></view>
 				</view>
 				<view class="content-wrap">
 					<view class="block" @tap="$app.goPage('/pages/fans/fans_list')">
@@ -336,7 +339,24 @@
 					font-size: 34upx;
 					margin: 20upx 0;
 					display: flex;
-					align-items: center;
+					justify-content: space-between;
+					
+					.flex-set{
+						display: flex;
+						justify-content: start;
+						
+						.text{
+							max-width: 300upx;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+							overflow: hidden;
+						}
+					}
+					
+					.btn{
+						font-weight: normal;
+						font-size: 28upx;
+					}
 					
 					image{
 						width: 40upx;

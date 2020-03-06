@@ -72,8 +72,23 @@
 					</block>
 				</view>
 
-				<image class="btn-add" v-if="!myClub||(myClub&&!myClub.id)" @tap="join(item)" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JWwlVcSNe42f7cdITecxbg4CFAE6PV3BWaSicFpBBqib69VFqcoibLnod84vFJU2Hf5uZs5q57YDthCA/0"
-				 mode="aspectFill"></image>
+
+				<block v-if="!myClub||(myClub&&!myClub.id)">
+					<btnComponent type="green" v-if="item.mystatus==1">
+						<view class="flex-set" style="width: 140upx;padding: 10upx 0;">已申请</view>
+					</btnComponent>
+					
+					<btnComponent type="disable" v-else-if="item.mystatus==-1"  @tap="apply(item)">
+						<view class="flex-set" style="width: 140upx;padding: 10upx 0;">已拒绝</view>
+					</btnComponent>
+					
+					<btnComponent type="default" v-else  @tap="apply(item)">
+						<view class="flex-set" style="width: 140upx;padding: 10upx 0;">申请</view>
+					</btnComponent>
+				</block>
+				
+				<!-- <image class="btn-add" v-if="!myClub||(myClub&&!myClub.id)" @tap="join(item)" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JWwlVcSNe42f7cdITecxbg4CFAE6PV3BWaSicFpBBqib69VFqcoibLnod84vFJU2Hf5uZs5q57YDthCA/0"
+				 mode="aspectFill"></image> -->
 			</view>
 		</view>
 	</view>
@@ -118,23 +133,23 @@
 				this.keyword = e.detail.value
 				this.page = 1
 				this.getList()
-			},
-			join(item) {
+			},			
+			apply(item) {
 				if (item.star_id != this.$app.getData('userStar').id) {
 					this.$app.toast(`你不在同一个圈子`)
 					return
 				}
-
-				this.$app.modal(`是否加入『${item.clubname}』`, () => {
-					this.$app.request('fans/join', {
+			
+				this.$app.modal(`申请加入『${item.clubname}』`, () => {
+					this.$app.request('fans/apply', {
 						id: item.id
 					}, res => {
-						this.$app.toast('加入成功', 'success')
+						this.$app.toast('申请成功，等待团长确认', 'none')
 						this.getMyFansClub()
 						this.getList()
 					}, 'POST', true)
-				}, '加入')
-
+				}, '确定')
+			
 			},
 			
 			getMyFansClub() {

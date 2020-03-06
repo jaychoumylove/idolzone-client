@@ -9,16 +9,16 @@
 						<text class="iconfont iconeditor" v-if="info.leader" style="color: #999;" @tap="$app.goPage(`/pages/family/family_new?fid=${info.id}`)"></text>
 					</view>
 					<btnComponent type="green" v-if="info.cansettle"  @tap="settle()">
-						<view class="flex-set" style="padding: 4upx 16upx;font-size: 22upx;">领取上周奖励</view>
+						<view class="flex-set" style="padding: 4upx 16upx;font-size: 22upx;">领取{{$app.getData('config').family_switch.field_lastname}}奖励</view>
 					</btnComponent>
 					
 					<btnComponent type="disable" v-else>
-						<view class="flex-set" style="padding: 4upx 16upx;font-size: 22upx;">领取上周奖励</view>
+						<view class="flex-set" style="padding: 4upx 16upx;font-size: 22upx;">领取{{$app.getData('config').family_switch.field_lastname}}奖励</view>
 					</btnComponent>
 				</view>
 				<view class="content-wrap">
 					<view class="block" @tap="$app.goPage('/pages/family/family_list')">
-						<view class="item">NO.{{info.week_rank||''}}</view>
+						<view class="item">NO.{{info.rank||''}}</view>
 						<view class="item bottom">排名<text class="iconfont iconjiantou"></text></view>
 					</view>
 					<view class="block">
@@ -26,8 +26,8 @@
 						<view class="item bottom">成员</view>
 					</view>
 					<view class="block">
-						<view class="item">{{(info.thisweek_count/10000).toFixed(1)+'万'||0}}</view>
-						<view class="item bottom">本周贡献</view>
+						<view class="item">{{(info.hot/10000).toFixed(1)+'万'||0}}</view>
+						<view class="item bottom">{{$app.getData('config').family_switch.field_name}}贡献</view>
 					</view>
 				</view>
 			</view>
@@ -68,7 +68,7 @@
 						<image class="img-s" :src="`/static/image/user_level/lv${item.level}.png`" mode=""></image>
 					</view>
 					<view class="star-name text-overflow">
-						<view class="count">贡献人气 {{item.hot}}</view>
+						<view class="count">{{$app.getData('config').family_switch.field_name}}贡献人气 {{item.hot}}</view>
 					</view>
 				</view>				
 				<image class="exit" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JWwlVcSNe42f7cdITecxbg4vgXqHL191U954COPpyUJZk3bVFibGKvBO6lw9qBP2iaJLsB1U01mLcug/0"

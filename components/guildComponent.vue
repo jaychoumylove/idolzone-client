@@ -147,6 +147,8 @@
 					 mode=""></image>
 					<view class="text">师徒</view>
 				</view>
+				
+				<block v-if="$app.getData('config').fanclub_switch==1">				
 				<view class="btn-item" @tap="goPageHasStar('/pages/fans/fans_club?fid=' + fanclub_id)" v-if="fanclub_id">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fy1abNSLpfp8oqM7wyicwdCejn5EibDSAzhL2MqfMpWezdUnPichUTwtUpfvNUo0icWPdftauLHZiaXWQ/0"
 						 mode=""></image>
@@ -157,6 +159,8 @@
 					 mode=""></image>
 					<view class="text">粉丝团</view>
 				</view>
+				</block>
+				
 				<view class="btn-item" @tap="goPageHasStar('/pages/pk/pk_index')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxriczDwYpJxLicMALveZ8I6vxIGDDu9yB41Dicq9XYTtUcggaFYvQEc2ng/0"
 					 mode=""></image>
@@ -173,9 +177,38 @@
 				<text class="right-wrap text-overflow" @tap.stop="$app.goPage('/pages/notice/list')">更多></text>
 			</view>
 		</view>
+		
+		<!-- 排名列表 -->
+		<view class="list-container" v-if="star.chat_off">
+			<view class="item" v-for="(item,index) in userRankList['thisday_count']" :key="index">
+				<view class="rank-num">
+					<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERPO5dPoLHgkajBHNM2z9fooSUMLxB0ogg1mYllIAOuoanico1icDFfYFA/0"
+					 mode=""></image>
+					<image class="icon" v-else-if="index==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERcWnBrw6yAIeVRx4ibIfShZ3tn26ubDUiakNcrwf2F43JI97MYEaYiaib9A/0"
+					 mode=""></image>
+					<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTER7oibKWZCN5ThjI799sONJZAtZmRRTIQmo1R9j26goVMBJ43giaJHLIlA/0"
+					 mode=""></image>
+					<view v-else>{{index+1}}</view>
+				</view>
+				<view class='avatar-wrap'>
+					<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
+					<image v-if="item.user&&item.user.headwear&&item.user.headwear.img" class="headwear position-set" :src="item.user.headwear.img" mode=""></image>
+				</view>
+				<view class="text-container">
+					<view>
+						{{item.user.nickname || NICKNAME}}
+						<image class="img-s" :src="`/static/image/user_level/lv${item.user.level}.png`" mode=""></image>
+					</view>
+				</view>
+				<view class="count">
+					<view>贡献值</view>
+					<view>{{item.hot}}</view>
+				</view>
+			</view>
+		</view>
 
 		<!-- 聊天区域 -->
-		<scroll-view class="chart-container" scroll-y scroll-with-animation :scroll-top="chartScroll">
+		<scroll-view class="chart-container" scroll-y scroll-with-animation :scroll-top="chartScroll" v-else>
 			<view class="chart-item" v-for="(item,index) in chartList" :key="index">
 				<view class="left-wrap">
 					<view class="avatar-wrap" :class="{leader:item.user.isLeader}" @tap="tapUser(item.user.id)">
@@ -234,20 +267,27 @@
 		</scroll-view>
 
 		<!-- 聊天输入 -->
-		<view class="chart-btn-container" v-if="$app.getData('userStar').id == star.id" @tap.stop="inputing=true">
-			<view class="top-wrap" v-if="inputing==true">
-				<view class="trumpet-wrap" @tap="sayworld">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk90Xa3b43zE46M8IkUvFyMR5GgfJN52icBqoicfKWfAJS8QXog0PZtgdEQ/0"
-					 mode="widthFix"></image>x{{userCurrency.trumpet}}
+		<view class="chart-btn-container" v-if="!star.chat_off&&$app.getData('userStar').id == star.id" @tap.stop="inputing=true">
+			<view class="bottom-wrap" @tap="modal = 'phonenumberCheck'" v-if="$app.getData('config').phone_switch=='1' && !$app.getData('userInfo').phoneNumber">
+				<input class="input" type="text" placeholder="聊天一起High!" confirm-type="send"/>
+				<view class="btn flex-set">发言</view>
+			</view>
+						
+			<block v-else>
+				<view class="top-wrap" v-if="inputing==true">
+					<view class="trumpet-wrap" @tap="sayworld">
+						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk90Xa3b43zE46M8IkUvFyMR5GgfJN52icBqoicfKWfAJS8QXog0PZtgdEQ/0"
+						 mode="widthFix"></image>x{{userCurrency.trumpet}}
+					</view>
+					<text class="space">|</text>
+					<text class="tips">发言可输入32字，喊话可以输入16字</text>
 				</view>
-				<text class="space">|</text>
-				<text class="tips">发言可输入32字，喊话可以输入16字</text>
-			</view>
-			<view class="bottom-wrap">
-				<input class="input" type="text" placeholder="聊天一起High!" :value="chartMsg" confirm-type="send" @confirm="sendMsg"
-				 @input="chartMsg=$event.detail.value" />
-				<view class="btn flex-set" @tap="sendMsg">发言</view>
-			</view>
+				<view class="bottom-wrap">
+					<input class="input" type="text" placeholder="聊天一起High!" :value="chartMsg" confirm-type="send" @confirm="sendMsg"
+					 @input="chartMsg=$event.detail.value" />
+					<view class="btn flex-set" @tap="sendMsg">发言</view>
+				</view>
+			</block>
 		</view>
 		<!-- 右下角按钮区域 -->
 		<view class="side-container">
@@ -274,6 +314,43 @@
 		</view>
 
 		<!-- modal区域 -->
+		<!-- 验证手机号 -->
+		<modalComponent v-if="modal == 'phonenumberCheck'" type="center" @closeModal="modal=''">
+			
+			<!-- #ifndef MP-WEIXIN -->
+			<view class="fansbox-modal-container" style="height: 680upx;">
+				<view class="title flex-set">手机号码验证</view>
+				<view class="tips">
+				根据国家互联网相关规定，【发言】功能需进行手机号验证才可使用，手机号码仅自己可见。
+				<text>国内短信：11位手机号码，例如15900000000。</text>
+				<text>国际/港澳台消息：国际区号+号码，例如85200000000。</text>
+				</view>
+				<input class="phonenumber" :value="phoneNumber" @input="setPhoneNumber" type="number" placeholder="输入手机号" />
+				<view class="phonecode flex-set self-input">
+					<input :value="phoneCode" @input="setPhoneCode" type="number" placeholder="输入验证码" />
+					<view @tap="sendPhoneCode()">获得验证码</view>
+				</view>			
+				<button class="btn-wrap"  @tap="savePhoneNumber">
+					<btnComponent type="default">
+						<view class="btn flex-set">立即验证</view>
+					</btnComponent>
+				</button>
+			</view>	
+			<!-- #endif -->
+				
+			<!-- #ifdef MP-WEIXIN -->
+			<view class="fansbox-modal-container" style="height: 550upx;">
+				<view class="title flex-set">手机号码验证</view>
+				<view class="tips">根据国家互联网相关规定，【发言】功能需进行手机号验证才可使用，手机号码仅自己可见。</view>
+				<button class="btn-wrap" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">
+					<btnComponent type="default">
+						<view class="btn flex-set">立即验证</view>
+					</btnComponent>
+				</button>
+			</view>		
+			<!-- #endif -->
+		</modalComponent>
+		
 		<!-- 打榜 -->
 		<modalComponent type="send" v-if="modal == 'send'" title="pick" @closeModal="modal=''">
 			<view class="send-modal-container">
@@ -778,6 +855,9 @@
 				achieveBadge: [],
 
 				showAddXcx: !this.$app.getData('userExt').add_enter, // 显示提示去添加到我的小程序顶部弹框
+				
+				phoneNumber:'',
+				phoneCode:'',
 			};
 		},
 		created() {
@@ -841,6 +921,7 @@
 							share_img: star.share_img,
 							qrcode: star.qrcode,
 							isBirth: star.isBirth || false,
+							chat_off: star.chat_off || 0,
 						}
 						// 聊天
 						this.disLeastCount = res.data.disLeastCount
@@ -1145,6 +1226,39 @@
 						this.userCurrency = this.$app.getData('userCurrency')
 					})
 
+				}, 'POST', true)
+			},
+			/*
+			保存手机号码
+			*/
+			getPhoneNumber(e){
+				let userInfo = this.$app.getData('userInfo')
+				this.$app.request('user/savephone', {
+					iv: e.detail.iv,
+					encryptedData: e.detail.encryptedData,
+				}, res => {
+					userInfo.phoneNumber = res.data.phoneNumber
+					this.$app.setData('userInfo', userInfo)
+					this.modal = ''
+				}, 'POST', true)
+			},			
+			/*
+			保存手机号码
+			*/
+			savePhoneNumber(){
+				if (!this.phoneNumber || !this.phoneCode) {
+					this.$app.toast('手机号码或者验证码不能为空')
+					return;
+				} 
+				
+				let userInfo = this.$app.getData('userInfo')
+				this.$app.request('user/savephone', {
+					phoneNumber: this.phoneNumber,
+					phoneCode: this.phoneCode,
+				}, res => {
+					userInfo.phoneNumber = res.data.phoneNumber
+					this.$app.setData('userInfo', userInfo)
+					this.modal = ''
 				}, 'POST', true)
 			},
 			/**
@@ -1619,6 +1733,20 @@
 						client_id: clientId,
 					}, res => {})
 				}
+			},			
+			setPhoneNumber(e) {
+				this.phoneNumber = e.detail.value
+			},		
+			setPhoneCode(e) {
+				this.phoneCode = e.detail.value
+			},
+			//发送验证码
+			sendPhoneCode(){
+				this.$app.request('page/sendSms', {
+					phoneNumber: this.phoneNumber,
+				}, res => {
+					this.$app.toast('验证码已发送，1天只能发送一次')
+				})
 			}
 		}
 
@@ -1958,6 +2086,64 @@
 				}
 			}
 		}
+		
+		
+		.list-container {
+			padding-bottom: 130upx;
+			font-size: 26rpx;
+			
+			.item {
+				height: 120upx;
+				display: flex;
+				align-items: center;
+
+				.rank-num {
+					text-align: center;
+					width: 100upx;
+
+					.icon {
+						width: 50upx;
+						height: 50upx;
+					}
+				}
+
+				.avatar-wrap {
+					position: relative;
+
+					.avatar {
+						width: 80upx;
+						height: 80upx;
+						border-radius: 50%;
+					}
+
+					.headwear {
+						width: 150%;
+						height: 150%;
+					}
+				}
+
+				.text-container {
+					margin: 0 20upx;
+					width: 280upx;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					overflow: hidden;
+					
+					.bottom-text {
+						display: flex;
+						align-items: center;
+						color: $text-color-1;
+					}
+				}
+
+				.count {
+					margin:0 30upx;
+					color: #ff8421;
+				}
+
+
+			}
+		}
 
 		.center-container {
 			padding: 10upx 30upx;
@@ -2265,7 +2451,11 @@
 		}
 
 		.chart-btn-container {
-
+			.phonenumber{
+				width: 100%;
+				height: 100%;
+			}
+			
 			.top-wrap {
 				padding: 20upx 40upx;
 				padding-bottom: 0;
@@ -2366,7 +2556,9 @@
 
 		}
 
-
+		.phonenumber-modal-container{
+			
+		}
 		.send-modal-container {
 			width: 100%;
 			display: flex;
@@ -2950,6 +3142,29 @@
 					color: #888;
 					margin: 0 10upx;
 					font-size: 26upx;
+				}
+			}
+			/* #ifdef  MP-WEIXIN */
+			/*  只在小程序中生效  */
+			.tips{
+				margin-bottom: 100upx;
+			}
+			/*  #endif  */
+			
+			.tips text{
+					display: block;
+			}
+			
+			.phonenumber{
+				margin-top: 30upx;
+				width: 330upx;
+				border-bottom: 1upx solid #818286;
+			}
+			.phonecode{
+				margin: 30upx 0;
+				input{
+					width: 200upx;
+					border-bottom: 1upx solid #818286;
 				}
 			}
 

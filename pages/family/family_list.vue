@@ -22,7 +22,7 @@
 					</view>
 					<view class="bottom">
 						成员<text class="highlight">{{myClub.mem_count}}</text>
-						本周贡献<text class="highlight">{{myClub.thisweek_count}}</text>
+						{{$app.getData('config').family_switch.field_name}}贡献<text class="highlight">{{myClub.hot}}</text>
 					</view>
 				</view>
 
@@ -64,7 +64,7 @@
 					<!-- <view class="bottom">所属爱豆<text class="highlight">{{item.star.name}}</text></view> -->
 					<view class="bottom">
 						成员<text class="highlight">{{item.mem_count}}</text>
-						本周贡献<text class="highlight">{{item.thisweek_count}}</text>
+						{{$app.getData('config').family_switch.field_name}}贡献<text class="highlight">{{item.hot}}</text>
 					</view>
 				</view>
 				
@@ -103,9 +103,7 @@
 				myClub: null,
 				keyword: '',
 				page: 1,
-				list: [],
-
-				active: 'thisweek_count'
+				list: []
 			};
 		},
 		onShow() {
@@ -136,11 +134,6 @@
 						}
 					})
 				}
-			},
-			changeField(field) {
-				this.active = field
-				this.page = 1
-				this.getList()
 			},
 			setKeyword(e) {
 				this.keyword = e.detail.value
@@ -174,7 +167,7 @@
 				this.$app.request('family/list', {
 					keyword: this.keyword,
 					page: this.page,
-					field: this.active,
+					field: this.$app.getData('config').family_switch.field,
 				}, res => {
 					if (this.page == 1) {
 						this.list = res.data

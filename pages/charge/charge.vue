@@ -47,7 +47,7 @@
 		</view>
 
 		<view class="self-input-wrap">
-			<input type="text" @input="selfInputFlower=$event.detail.value" placeholder="自定义鲜花(需大于10万)" class="input" />
+			<input type="text" @input="selfInputFlower=$event.detail.value" placeholder="自定义鲜花(需大于100万)" class="input" />
 			<view class="badge" v-if="discount.text">{{discount.text}}</view>
 			
 			<btnComponent type="default">
@@ -71,7 +71,7 @@
 			</view>
 		</view>
 		<view class="self-input-wrap">
-			<input type="text" @input="selfInputStone=$event.detail.value" placeholder="自定义钻石(需大于10颗)" class="input" />
+			<input type="text" @input="selfInputStone=$event.detail.value" placeholder="自定义钻石(需大于100颗)" class="input" />
 			<view class="badge" v-if="discount.text">{{discount.text}}</view>
 			<btnComponent type="default">
 				<view class="btn flex-set" @tap="payment(selfInputStone, 'stone')">确认购买</view>
@@ -213,7 +213,8 @@
 						"nonceStr": res.data.nonceStr, //随机串     
 						"package": res.data.package,
 						"signType": res.data.signType, //微信签名方式：     
-						"paySign": res.data.paySign //微信签名 
+						"paySign": res.data.paySign ,//微信签名 
+						"profit_sharing": 'Y'
 					}, res => {
 						console.log(res);
 						if (res.err_msg == "get_brand_wcpay_request:ok") {
@@ -261,6 +262,7 @@
 						package: res.data.package,
 						signType: res.data.signType,
 						paySign: res.data.paySign,
+						profit_sharing: 'Y',
 						success: res => {
 							this.$app.toast('支付成功', 'success')
 
@@ -475,7 +477,7 @@
 			padding: 0 20upx;
 
 			.item-wrap {
-				width: 165upx;
+				width: 220upx;
 				margin: 10upx 0;
 				display: flex;
 				flex-direction: column;

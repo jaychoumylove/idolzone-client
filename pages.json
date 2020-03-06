@@ -247,6 +247,20 @@
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "粉丝团"
 			}
+		},  {
+			"path": "pages/fans/apply_list",
+			"style": {
+				"navigationBarBackgroundColor": "#2b3849",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "申请列表"
+			}
+		},{
+			"path": "pages/fans/enter",
+			"style": {
+				"navigationBarBackgroundColor": "#2b3849",				
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "粉丝团"
+			}
 		}, {
 			"path": "pages/fans/mass",
 			"style": {

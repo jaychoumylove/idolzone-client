@@ -173,7 +173,7 @@
 
 		onLoad(option) {
 			this.getSunday()
-
+			
 			// 跳转到指定页
 			if (option.path) {
 				return this.$app.goPage(option.path)
