@@ -8,6 +8,7 @@
 					<view v-else>+</view>
 				</view>
 				<view style="padding-top: 20upx;">头像上传</view>
+				<view style="padding-top: 20upx;">建议尺寸：120x120，大小不超过10KB</view>
 			</view>
 
 			<view class="input-group">
@@ -78,8 +79,8 @@
 					count: 1,
 					success: res => {
 						let img = res.tempFiles[0]
-						if (img.size > 2097152) {
-							this.$app.toast('图片过大，请上传2M以下的图片')
+						if (img.size > 10240) {
+							this.$app.toast('图片过大，请上传10KB以下的图片')
 						} else {
 							this.$app.upload(img.path, res => {
 								this.avatar = res[0]

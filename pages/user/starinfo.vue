@@ -5,22 +5,22 @@
 		<view class='item' @tap='chooseImg("head_img_s", "头像")'>
 			<view class='left'>头像</view>
 			<image class='right avatar' mode="aspectFill" :src="starInfo.head_img_s" />
-			<view class='tips'>建议尺寸：120x120</view>
+			<view class='tips'>建议尺寸：120x120，大小10KB以下</view>
 		</view>
 		<view class='item' @tap='chooseImg("open_img", "开屏图")'>
 			<view class='left'>开屏图</view>
 			<image class='right open-img' :src="starInfo.open_img" mode="aspectFill" />
-			<view class='tips'>建议尺寸：750x1450</view>
+			<view class='tips'>建议尺寸：750x1450，大小1M以下</view>
 		</view>
 		<view class='item' @tap='chooseImg("share_img", "分享海报")'>
 			<view class='left'>分享海报</view>
 			<image class='right share-img' mode="aspectFill" :src="starInfo.share_img" />
-			<view class='tips'>建议尺寸：500x400</view>
+			<view class='tips'>建议尺寸：500x400，大小300KB以下</view>
 		</view>
 		<view class='item' @tap='chooseImg("head_img_l", "首页banner")'>
 			<view class='left'>首页banner</view>
 			<image class='right index-banner' mode="aspectFill" :src="starInfo.head_img_l" />
-			<view class='tips'>建议尺寸：690x250</view>
+			<view class='tips'>建议尺寸：690x250，大小300KB以下</view>
 		</view>
 		
 		<view class="btn-wrap flex-set" v-if="targetText" @tap="submit">
@@ -71,9 +71,19 @@
 				uni.chooseImage({
 					count: 1,
 					success: res => {
+						let maxsize = 1048576
+						let maxsize_name = '1M'
+						if(field=='head_img_s'){
+							maxsize = 10240
+							maxsize_name = '10KB'
+						}
+						else if(field=='share_img'||field=='head_img_l'){
+							maxsize = 309600
+							maxsize_name = '300KB'
+						}
 						let img = res.tempFiles[0]
-						if (img.size > 2097152) {
-							this.$app.toast('图片过大，请上传2M以下的图片')
+						if (img.size > maxsize) {
+							this.$app.toast('图片过大，请上传'+maxsize_name+'以下的图片')
 						} else {
 							this.$app.upload(img.path, res => {
 								this.$set(this.starInfo, field, res[0])
@@ -117,7 +127,7 @@
 			.tips {
 				position: absolute;
 				bottom: 16upx;
-				font-size: 26upx;
+				font-size: 20upx;
 				color: #bbb;
 				width: 400upx;
 			}

@@ -1039,10 +1039,10 @@
 			},
 			// 加粉丝团
 			addFanclub(id) {
-				this.$app.request('fans/join', {
+				this.$app.request('fans/apply', {
 					id: id
 				}, res => {
-					this.$app.toast('加入成功！', 'success')
+					this.$app.toast('申请成功，等待团长确认', 'none')
 					this.modal = ''
 				}, 'POST', true)
 			},

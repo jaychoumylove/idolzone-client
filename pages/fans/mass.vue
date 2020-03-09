@@ -185,10 +185,10 @@
 						this.$app.toast('你已加入别的粉丝团')
 					} else if (this.status == 2) {
 						this.$app.modal(`是否加入 ${this.fanclub.clubname} ?`, () => {
-							this.$app.request('fans/join', {
+							this.$app.request('fans/apply', {
 								id: this.fanclub.id
 							}, res => {
-								this.$app.toast('加入成功！', 'success')
+								this.$app.toast('申请成功，等待团长确认', 'none')
 								this.loadData()
 								this.modal = 'mass'
 							}, 'POST', true)
@@ -202,10 +202,10 @@
 								this.$app.request(this.$app.API.USER_STAR, {}, res => {
 									this.$app.setData('userStar', res.data)
 									this.$app.setData('noob', true)
-									this.$app.request('fans/join', {
+									this.$app.request('fans/apply', {
 										id: this.fanclub.id
 									}, res => {
-										this.$app.toast('加入成功！', 'success')
+										this.$app.toast('申请成功，等待团长确认', 'none')
 										this.loadData()
 										this.modal = 'mass'
 									})
