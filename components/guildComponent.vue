@@ -356,7 +356,11 @@
 			<view class="send-modal-container">
 				<view class="switch-wrap">
 					<switch :checked="!danmakuClosed" @change="danmakuSwitch" />弹幕
+					<text v-if="current==0" class="absolute-go">1金豆 = 1人气</text>
+					<text v-if="current==1" class="absolute-go">1鲜花 = 1人气</text>
 				</view>
+				
+				<view ></view>
 				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="swiper-change flex-set">
 					<view class="item" :class="{select:current==0}" @tap="current = 0;sendCount=''">送金豆</view>
 					<view class="item" :class="{select:current==1}" @tap="current = 1;sendCount=''">送鲜花</view>
@@ -381,20 +385,22 @@
 							<view class="btn flex-set self-input">
 								<input class="" :value="sendCount" @input="setSendCount" type="number" placeholder="自定义数额" />
 							</view>
-							<view class="btn flex-set pick" @tap="sendHot()">PICK</view>
+							<view class="btn flex-set pick" @tap="sendHot()">冲榜</view>
 						</view>
 
 						<view class="bottom-wrapper">
 							<view v-if="current==0" class="text left flex-set">我的金豆：{{userCurrency['coin']}}</view>
 							<view v-if="current==1" class="text left flex-set">我的鲜花：{{userCurrency['flower']}}</view>
 							<view v-if="current==2" class="text left flex-set">我的旧豆：{{userCurrency['old_coin']}}</view>
-
 							<block v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
 								<view v-if="$app.chargeSwitch()==0" class="right" @tap="$app.goPage('/pages/charge/charge')">
 									充值<text class="iconfont iconjiantou"></text>
 								</view>
-								<button v-else-if="$app.chargeSwitch()==2" open-type="contact">
-									<view class="right">补充鲜花回复"1"<text class="iconfont iconjiantou"></text></view>
+								<button v-else-if="$app.chargeSwitch()==2&&current==0" open-type="contact">
+									<view class="right reply">回复"1"获取更多金豆</view>
+								</button>
+								<button v-else-if="$app.chargeSwitch()==2&&current==1" open-type="contact">
+									<view class="right reply">回复"1"获取更多鲜花</view>
 								</button>
 							</block>
 
@@ -1754,6 +1760,9 @@
 </script>
 
 <style lang="scss" scoped>
+	.reply{
+		color: #FC3131;border-bottom: 2rpx solid #FFD4D4; font-size: 23rpx;
+	}
 	.guild-component-container {
 		display: flex;
 		flex-direction: column;
@@ -3466,5 +3475,11 @@
 				right: 50upx;
 			}
 		}
+	}
+	.absolute-go{
+		position: absolute;
+		left: 400rpx;
+		width: 220rpx;
+
 	}
 </style>

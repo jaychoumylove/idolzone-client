@@ -117,7 +117,9 @@
 				<view class="left-wrap">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E7MFExyreICyFJqp5RoRBLGBtJCqmhlXzuZaoribFll5kYOEewiaxiakgKM8RHibko8U2zWxIMVsdLPA/0"
 					 mode="aspectFill"></image>
-					<view class="text">在线客服</view>
+					<view class="text">在线客服
+					<view class="tips flex-set red">回复<view style="font-weight: bold;">"1"</view>获取更多人气</view>
+					</view>
 				</view>
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</button>
@@ -482,6 +484,10 @@
 								color: #f5c815;
 								font-weight: 700;
 							}
+							
+						}
+						.red{
+							color:#FC3131 ;
 						}
 					}
 				}
