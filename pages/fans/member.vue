@@ -41,8 +41,8 @@
 						<view class="count">本周{{rankFieldDanwei}} {{item.hot}} 上周{{rankFieldDanwei}} {{item.lastweek_hot}}</view>
 					</view>
 				</view>
-				<view class="exit iconfont iconicon_signal" style="padding-right: 5rpx;" @tap="upAdmin(item.user_id,1)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==0&&leader_uid!=item.user_id"></view>
-				<view class="exit iconfont iconicon_signal" style="color: red; padding-right: 5rpx;" @tap="upAdmin(item.user_id,0)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==1&&leader_uid!=item.user_id"></view>
+				<view class="exit iconfont iconicon_signal" style="padding-right: 20rpx;" @tap="upAdmin(item.user_id,1)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==0&&leader_uid!=item.user_id"></view>
+				<view class="exit iconfont iconicon_signal" style="color: red; padding-right: 20rpx;" @tap="upAdmin(item.user_id,0)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==1&&leader_uid!=item.user_id"></view>
 				<view class="exit iconfont iconclose" @tap="exit(item.user_id)" v-if="(leader_uid==$app.getData('userInfo').id||admin)&&leader_uid!=item.user_id"></view>
 			</view>
 		</view>
@@ -370,7 +370,7 @@
 
 				.text-container {
 					margin: 0 20upx;
-					width: 450upx;
+					width: 420upx;
 
 					.bottom-text {
 						display: flex;
