@@ -9,7 +9,7 @@
 					<text class="text">{{info.clubname||''}}</text>
 					<text v-if="info.leader" class="iconfont iconeditor" style="color: #999;" @tap="$app.goPage(`/pages/fans/fans_new?fid=${info.id}`)"></text>
 					</view>
-					<view v-if="info.leader" class="btn" @tap="$app.goPage(`/pages/fans/apply_list?fid=${info.id}`)">{{info.apply_count}}人申请></view>
+					<view v-if="info.leader||info.admin" class="btn" @tap="$app.goPage(`/pages/fans/apply_list?fid=${info.id}`)">{{info.apply_count}}人申请></view>
 				</view>
 				<view class="content-wrap">
 					<view class="block" @tap="$app.goPage('/pages/fans/fans_list')">

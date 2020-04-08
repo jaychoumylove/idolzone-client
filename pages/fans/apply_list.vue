@@ -35,10 +35,12 @@
 		},
 		data() {
 			return {
+				fid:'',
 				list: [],
 			};
 		},
 		onLoad(option) {
+			this.fid=option.fid
 			this.loadData()
 		},
 		onPullDownRefresh() {
@@ -73,7 +75,7 @@
 			},
 			loadData() {
 				this.$app.request('fans/applylist', {
-
+						fid:this.fid
 				}, res => {
 					this.list = res.data
 					uni.stopPullDownRefresh()

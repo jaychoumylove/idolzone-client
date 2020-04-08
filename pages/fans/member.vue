@@ -35,13 +35,15 @@
 				<view class="text-container">
 					<view class="star-name text-overflow">
 						{{item.nickname||$app.getData('NICKNAME')}}
-						<image class="img-s" :src="`/static/image/user_level/lv${item.level}.png`" mode=""></image>
+						<image class="img-s" :src="`/static/image/user_level/lv${item.level}.png`" mode=""></image><text v-if="item.admin==1" class="exit iconfont iconicon_signal" style="color: red;"></text>
 					</view>
 					<view class="count-box">
 						<view class="count">本周{{rankFieldDanwei}} {{item.hot}} 上周{{rankFieldDanwei}} {{item.lastweek_hot}}</view>
 					</view>
 				</view>
-				<view class="exit iconfont iconclose" @tap="exit(item.user_id)" v-if="leader_uid==$app.getData('userInfo').id"></view>
+				<view class="exit iconfont iconicon_signal" style="padding-right: 5rpx;" @tap="upAdmin(item.user_id,1)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==0&&leader_uid!=item.user_id"></view>
+				<view class="exit iconfont iconicon_signal" style="color: red; padding-right: 5rpx;" @tap="upAdmin(item.user_id,0)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==1&&leader_uid!=item.user_id"></view>
+				<view class="exit iconfont iconclose" @tap="exit(item.user_id)" v-if="(leader_uid==$app.getData('userInfo').id||admin)&&leader_uid!=item.user_id"></view>
 			</view>
 		</view>
 		<!-- 我的 -->
@@ -135,6 +137,7 @@
 				userRank: [],
 				page: 1,
 				leader_uid: 0,
+				admin:'',
 				myInfo: {},
 				AVATAR:this.$app.getData('AVATAR'),
 				NICKNAME: this.$app.getData('NICKNAME'),
@@ -218,6 +221,24 @@
 				})
 
 			},
+			upAdmin(uid,admin){
+				let msg = `确定提升TA为管理员吗？`
+				if(admin==0) msg='确定取消TA的管理员吗？'
+				console.log(uid);
+				this.$app.modal(msg,()=>{
+					this.$app.request('fans/upAdmin',{
+						user_id:uid,
+						admin:admin,
+					},res=>{
+						this.$app.toast(res.msg)
+						setTimeout(() => {
+							uni.reLaunch({
+								url: '/pages/fans/member?fid='+this.fid
+							})
+						}, 1000)
+					},'POST',true)
+				})
+			},
 			setKeyword(e) {
 				this.keyword = e.detail.value
 				this.page = 1
@@ -241,6 +262,7 @@
 				}, res => {
 					this.myInfo = res.data.my
 					this.leader_uid = res.data.leader_uid
+					this.admin=res.data.admin
 					if (this.page == 1) {
 						this.userRank = res.data.list
 					} else {

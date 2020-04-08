@@ -493,7 +493,7 @@
 						</view>
 						<view class="text">赠送鲜花</view>
 					</view>
-					<view v-if="captain" class="btn-item" @tap="forbidden">
+					<view v-if="captain" class="btn-item" @tap="forbidden(currentUser.id)">
 						<view class="bg flex-set">
 							<image src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JUPd6ReX2QQW8icquiaicvT70eftKMMonaN4loJTdHIv1pdTeTv5OeIysWmic3BgTmTIzrhp6EgNdDwicg/0"
 							 mode=""></image>
@@ -790,7 +790,7 @@
 				rechargeList: [], // 充值商品列表
 				danmaku: null, // 当前弹幕
 				article: {}, // 公告文章
-
+				cfgBidden:[],
 				fakeinvitList: [],
 				invitFakePage: 1,
 
@@ -867,6 +867,10 @@
 			};
 		},
 		created() {
+			this.$app.request('user/biddenTime', {
+			}, res => {
+				this.cfgBidden=res.data
+			})
 			this.sendDanmakuIndex = 0
 			this.initDanmaku()
 		},
@@ -980,15 +984,43 @@
 				this.modal = 'user'
 			},
 			// 禁言
-			forbidden() {
-				this.$app.modal(`确认将${this.currentUser.nickname}禁言？`, () => {
-					this.$app.request('user/forbidden', {
-						user_id: this.currentUser.id,
-					}, res => {
-						this.$app.toast('操作成功', 'success')
-						this.modal = ''
-					}, 'POST', true)
+			forbidden(uid) {
+				let list=[];
+				let itemList=[];
+				let arr=this.cfgBidden;
+				for(let val of arr) {
+				    list.push(val.time)
+					itemList.push(val.desc)
+				}
+				wx.showActionSheet({
+					itemList,
+					success: res => {
+						let time = list[res.tapIndex]
+						wx.showModal({
+							title: '提示',
+							content: `确定将此用户禁言?`,
+							success: res => {
+								if (res.confirm) {
+									this.$app.request('user/forbidden', {
+										user_id: uid,
+										time: time,
+									}, res => {
+										this.$app.toast(res.msg)
+									})
+								}
+							}
+						})
+					}
 				})
+				
+				// this.$app.modal(`确认将${this.currentUser.nickname}禁言？`, () => {
+				// 	this.$app.request('user/forbidden', {
+				// 		user_id: this.currentUser.id,
+				// 	}, res => {
+				// 		this.$app.toast('操作成功', 'success')
+				// 		this.modal = ''
+				// 	}, 'POST', true)
+				// })
 			},
 
 			sendItemOther(item, num, index) {
