@@ -650,7 +650,7 @@
 				.birStarHeadImg{border-radius: 50%;width: 204rpx;height: 204rpx;position: absolute;top: 46rpx;left: 4rpx;}
 				.birStarCake{width:200rpx;height: 200rpx;position: absolute;top: 288rpx;right: 260rpx;}
 				.birContent{margin-top: 120rpx; text-align: center;}
-				.birMarginLg{margin: 20rpx auto;font-weight: bold;
+				.birMarginLg{margin-top: 30rpx;font-weight: bold;
 				.birButton{border-radius: 40rpx; width: 300rpx;height: 80rpx;line-height: 80rpx; text-align: center;border: 2rpx solid #9C694D ;margin: 5rpx auto}
 				}
 				.birBuy{border-bottom: 2rpx solid #9C694D; font-size: 25rpx; width: 190rpx; margin: 0 auto;}
