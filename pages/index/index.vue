@@ -142,8 +142,8 @@
 					<view style="font-size: 40rpx;" class="birMarginLg"><text style="color: #F1AF00;">{{$app.getData('userStar').name}}</text>生日快乐</view>
 					
 					<view v-if="$app.chargeSwitch()!=1" class="birMarginLg"><view>圈子内专属特权</view>今日购买鲜花可获得<text style="color: #D42D00;">双倍奖励</text></view>
-					<view v-if="$app.chargeSwitch()==2" class="birMarginLg"><button open-type="contact" :session-from="$app.getData('userInfo')" class="birButton">回复“1”去购买</button></view>
-					<view v-if="$app.chargeSwitch()==0" class="birMarginLg" ><button @tap="$app.goPage('/pages/charge/charge')" class="birButton">去充值</button></view>
+					<view v-if="$app.chargeSwitch()==2" class="birMarginLg"><button open-type="contact" :session-from="$app.getData('userInfo')" class="birButton" @tap="modal = ''">回复“1”去购买</button></view>
+					<view v-if="$app.chargeSwitch()==0" class="birMarginLg" ><button @tap="modal = '',$app.goPage('/pages/charge/charge')" class="birButton">去充值</button></view>
 					<view v-if="$app.chargeSwitch()==1" class="birMarginLg" ><button @tap="modal = ''" class="birButton">我知道了</button></view>
 					</view>
 				</view>
