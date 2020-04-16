@@ -30,6 +30,7 @@
 					<image class="headwear position-set" :src="item.headwear" mode=""></image>
 					<view class="badge-wrap">
 						<view class="leader" v-if="item.user_id==leader_uid">团长</view>
+						<view class="leader" v-if="item.admin">管理员</view>
 					</view>
 				</view>
 				<view class="text-container">
@@ -43,7 +44,7 @@
 				</view>
 				<view class="exit iconfont iconicon_signal" style="padding-right: 20rpx;" @tap="upAdmin(item.user_id,1)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==0&&leader_uid!=item.user_id"></view>
 				<view class="exit iconfont iconicon_signal" style="color: red; padding-right: 20rpx;" @tap="upAdmin(item.user_id,0)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==1&&leader_uid!=item.user_id"></view>
-				<view class="exit iconfont iconclose" @tap="exit(item.user_id)" v-if="(leader_uid==$app.getData('userInfo').id||admin)&&leader_uid!=item.user_id"></view>
+				<view class="exit iconfont iconclose" @tap="exit(item.user_id)" v-if="(leader_uid==$app.getData('userInfo').id && leader_uid!=item.user_id)||($app.getData('userInfo').id==item.user_id)||(admin && leader_uid!=item.user_id)"></view>
 			</view>
 		</view>
 		<!-- 我的 -->

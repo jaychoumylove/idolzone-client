@@ -130,8 +130,28 @@
 		</view>
 
 		<view class="open-ad-container flex-set" v-if="($app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN') && modal=='indexBanner' && $app.getData('config').index_open && $app.getData('config').index_open.img">
+			<block v-if="$app.getData('config').isBirthday==1">
+				<view class="mains">
+					<view class="birStarHead"> 
+						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HGIVCLeG1pTUpKKvSl87hVCWia9B0QxJmPJpj1mBh7FDXDBibBSFSLGKTSgA6obibnFdWV8jicsXs4XQ/0"></image>
+						<image class="birStarHeadImg" :src="$app.getData('userStar').head_img_s"></image>
+					
+					<image src="/static/image/birthday/cake.png" mode="aspectFit" class="birStarCake"></image>
+					</view>
+					<view class="birContent">
+					<view style="font-size: 40rpx;" class="birMarginLg"><text style="color: #F1AF00;">{{$app.getData('userStar').name}}</text>生日快乐</view>
+					
+					<view v-if="$app.chargeSwitch()!=1" class="birMarginLg"><view>圈子内专属特权</view>今日购买鲜花可获得<text style="color: #D42D00;">双倍奖励</text></view>
+					<view v-if="$app.chargeSwitch()==2" class="birMarginLg"><button open-type="contact" :session-from="$app.getData('userInfo')" class="birButton">回复“1”去购买</button></view>
+					<view v-if="$app.chargeSwitch()==0" class="birMarginLg" ><button @tap="$app.goPage('/pages/charge/charge')" class="birButton">去充值</button></view>
+					<view v-if="$app.chargeSwitch()==1" class="birMarginLg" ><button @tap="modal = ''" class="birButton">我知道了</button></view>
+					</view>
+				</view>
+			</block>
+			<block v-else>
 			<image class="main" :src="$app.getData('config').index_open.img" mode="aspectFill" @tap="modal='';$app.goPage($app.getData('config').index_open.url)"></image>
 			<view class="close-btn flex-set iconfont iconclose" @tap="modal = ''"></view>
+			</block>
 		</view>
 	</view>
 </template>
@@ -150,7 +170,6 @@
 		},
 		data() {
 			return {
-				global: getApp().globalData,
 				default_index_banner_url: this.$app.getData('config').index_banner && this.$app.getData('config').index_banner.url ||
 					'',
 				theme: this.$app.getData('theme') || 0,
@@ -173,7 +192,7 @@
 
 		onLoad(option) {
 			this.getSunday()
-			
+
 			// 跳转到指定页
 			if (option.path) {
 				return this.$app.goPage(option.path)
@@ -620,6 +639,21 @@
 				height: 800upx;
 				border-radius: 20upx;
 
+			}
+			.mains{
+				width: 500rpx;
+				height: 700upx;
+				border-radius: 20upx;
+				background-color: #FFFFFF;padding: 20rpx;
+				image{width: 212rpx;height: 252rpx;}
+				.birStarHead{position: relative;top:-160rpx;right:-134rpx}
+				.birStarHeadImg{border-radius: 50%;width: 204rpx;height: 204rpx;position: absolute;top: 46rpx;left: 4rpx;}
+				.birStarCake{width:200rpx;height: 200rpx;position: absolute;top: 288rpx;right: 260rpx;}
+				.birContent{margin-top: 120rpx; text-align: center;}
+				.birMarginLg{margin: 20rpx auto;font-weight: bold;
+				.birButton{border-radius: 40rpx; width: 300rpx;height: 80rpx;line-height: 80rpx; text-align: center;border: 2rpx solid #9C694D ;margin: 5rpx auto}
+				}
+				.birBuy{border-bottom: 2rpx solid #9C694D; font-size: 25rpx; width: 190rpx; margin: 0 auto;}
 			}
 
 			.close-btn {
