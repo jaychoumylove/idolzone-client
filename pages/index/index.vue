@@ -149,9 +149,9 @@
 				</view>
 			</block>
 			<block v-else>
-			<image class="main" :src="$app.getData('config').index_open.img" mode="aspectFill" @tap="modal='';$app.goPage($app.getData('config').index_open.url)"></image>
-			<view class="close-btn flex-set iconfont iconclose" @tap="modal = ''"></view>
+				<image class="main" :src="$app.getData('config').index_open.img" mode="aspectFill" @tap="modal='';$app.goPage($app.getData('config').index_open.url)"></image>
 			</block>
+			<view class="close-btn flex-set iconfont iconclose" @tap="modal = ''"></view>
 		</view>
 	</view>
 </template>
