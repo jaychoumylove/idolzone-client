@@ -13,11 +13,11 @@
 					<image v-if="avatar" :src="avatar" mode="aspectFill"></image>
 					<view v-else>+</view>
 				</view>
-				<view style="padding-top: 20upx;">建议尺寸：120x120，大小不超过10KB</view>
+				<view style="padding-top: 20upx;">建议尺寸：120x120，大小不超过30KB</view>
 			</view>
 
 			<view class="input-group">
-				<input type="text" name="clubname" :value="clubname" placeholder="输入粉丝团名字5-25个字" />
+				<input type="text" name="clubname" :value="clubname" placeholder="输入粉丝团名字不超过10个字" />
 			</view>
 
 			<view class="input-group">
@@ -76,8 +76,8 @@
 					this.$app.toast('请输入粉丝团名字')
 					return
 				}
-				if(value['clubname'].length>20){
-					this.$app.toast('粉丝团不能超过20个字')
+				if(value['clubname'].length>10){
+					this.$app.toast('粉丝团不能超过10个字')
 					return
 				}
 				
@@ -111,8 +111,8 @@
 					success: res => {
 						console.log(res)
 						let img = res.tempFiles[0]
-						if (img.size > 10240) {
-							this.$app.toast('图片过大，请上传10KB以下的图片')
+						if (img.size > 30720) {
+							this.$app.toast('图片过大，请上传30KB以下的图片')
 						} else {
 							this.$app.upload(img.path, res => {
 								this.avatar = res[0]

@@ -8,7 +8,7 @@
 					<view v-else>+</view>
 				</view>
 				<view style="padding-top: 20upx;">头像上传</view>
-				<view style="padding-top: 20upx;">建议尺寸：120x120，大小不超过10KB</view>
+				<view style="padding-top: 20upx;">建议尺寸：120x120，大小不超过30KB</view>
 			</view>
 
 			<view class="input-group">
@@ -58,6 +58,10 @@
 					this.$app.toast('请输入昵称')
 					return
 				}
+				if(value['nickname'].length>7) {					
+					this.$app.toast('昵称长度不能超过7个字符')
+					return
+				}
 
 				this.$app.modal(`需要消耗100钻石,是否继续？`, () => {
 					this.$app.request('user/edit', value, res => {
@@ -79,8 +83,8 @@
 					count: 1,
 					success: res => {
 						let img = res.tempFiles[0]
-						if (img.size > 10240) {
-							this.$app.toast('图片过大，请上传10KB以下的图片')
+						if (img.size > 30720) {
+							this.$app.toast('图片过大，请上传30KB以下的图片')
 						} else {
 							this.$app.upload(img.path, res => {
 								this.avatar = res[0]

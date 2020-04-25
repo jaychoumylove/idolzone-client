@@ -112,7 +112,7 @@
 				this.loadData()
 			},
 			out(item, index) {
-				const list = [2, 4, 8, 12, 24, 72];
+				const list = [8, 12, 24, 48, 72];
 				const itemList = []
 				for (let v of list) {
 					itemList.push(`禁止 ${item.name} 参加团战：${v}小时`)

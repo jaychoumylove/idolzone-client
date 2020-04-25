@@ -4,19 +4,19 @@
 		<view class="top-bg"></view>
 		<view class="top-container">
 			<view class="left-wrap flex-set">
-				<button open-type="getUserInfo" @getuserinfo="getUserInfo">
-					<view class="avatar-wrap">
-						<image class="avatar" :src="userInfo.avatarurl" mode="aspectFill"></image>
-						<!-- #ifdef MP -->
+				<view class="avatar-wrap">
+					<image class="avatar" :src="userInfo.avatarurl" mode="aspectFill"></image>
+					<!-- #ifdef MP -->
+					<button open-type="getUserInfo" @getuserinfo="getUserInfo" v-if="userInfo.type!=3">
 						<view class="tips">点击更新</view>
-						<!-- #endif -->
-					</view>
-				</button>
+					</button>
+					<!-- #endif -->
+				</view>
 
 				<view class="text-wrap">
 					<view class="row">
 						{{userInfo.nickname||''}}
-						<text class="iconfont iconeditor" style="color: #666;" @tap="$app.goPage(`/pages/user/edit_user`)"></text>
+						<text class="iconfont iconeditor" style="color: #666;" @tap="$app.goPage(`/pages/user/edit_user`)"  v-if="userInfo.type!=3"></text>
 					</view>
 					<view class="row" @tap="$app.copy(userInfo.id*1234)">ID {{userInfo.id*1234||''}}</view>
 				</view>
@@ -196,6 +196,7 @@
 			this.userInfo = {
 				avatarurl: this.$app.getData('userInfo')['avatarurl'] || this.$app.getData('AVATAR'),
 				nickname: this.$app.getData('userInfo')['nickname'] || this.$app.getData('NICKNAME'),
+				type: this.$app.getData('userInfo')['type'] || 0,
 				id: this.$app.getData('userInfo')['id'] || null,
 			}
 			this.userCurrency = this.$app.getData('userCurrency') || {
@@ -345,6 +346,10 @@
 					width: 120upx;
 					height: 120upx;
 					border: 2upx solid #ffffff;
+					
+					button{
+						overflow: visible;
+					}
 
 					.tips {
 						position: absolute;
