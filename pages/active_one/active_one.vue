@@ -6,7 +6,13 @@
 			<view class="small" style="font-size: 24upx;">距离结束还剩：<text class="text">{{activeInfo.left_time.d}}</text>天<text class="text">{{activeInfo.left_time.h}}</text>小时<text
 				 class="text">{{activeInfo.left_time.m}}</text>分</view>
 		</view>
-
+		<!-- #ifdef MP-WEIXIN -->
+		<!-- <ad :unit-id="adUnitId" ad-type="video" ad-theme="white"></ad>	//视频广告-->
+		<ad :unit-id="adUnitId" ad-type="grid" grid-opacity="0.8" grid-count="5" ad-theme="white"></ad>
+		<!-- #endif -->
+		<!-- #ifdef MP-QQ -->		
+		<ad :unit-id="adUnitId"></ad>
+		<!-- #endif -->
 		<view class="active-center-container">
 			<view class="top-wrap">
 				<view class="left">
@@ -126,7 +132,13 @@
 
 					<!-- <view class='save-btn flex-set' @tap='saveCanvas'>保存到相册</view> -->
 				</view>
-			</view>
+			</view>			
+			<!-- #ifdef MP-WEIXIN -->
+			<ad :unit-id="adUnitId" ad-type="grid" grid-opacity="0.8" grid-count="5" ad-theme="white"></ad>
+			<!-- #endif -->
+			<!-- #ifdef MP-QQ -->		
+			<ad :unit-id="adUnitId"></ad>
+			<!-- #endif -->
 		</modalComponent>
 
 		<!--<view class="canvas-container flex-set" v-if="modal == 'canvas'">
@@ -166,6 +178,12 @@
 		},
 		data() {
 			return {
+				// #ifdef MP-WEIXIN
+				adUnitId: this.$app.gridAd_adUnitId,
+				// #endif
+				// #ifdef MP-QQ				
+				adUnitId: this.$app.qq_bannerAdUnitId,
+				// #endif
 				star: {},
 				activeInfo: {
 					active_info: {
@@ -194,6 +212,7 @@
 			this.id = option.id || 0
 		},
 		onShow() {
+			this.$app.openInterstitialAd()
 			this.starid = this.$app.getData('userStar').id
 			if (!this.starid) {
 				this.$app.toast('请先加入一个圈子')
@@ -352,7 +371,7 @@
 								this.getActiveUserRank()
 								this.$app.toast('今日打卡成功', 'success')
 							}, 'POST', true)
-						},this.$app.getData('config').kindness_switch)
+						},0)
 
 					} else {
 						this.modal = 'cardOver'

@@ -58,7 +58,7 @@
 			</view>
 		</modalComponent>
 		<block v-if="'lottery' == modal">
-			<ad v-if="$app.getData('platform')=='MP-WEIXIN'" class="fixed" :unit-id="$app.getData('bannerGridAdUnitId')" ad-type="grid"
+			<ad v-if="$app.getData('platform')=='MP-WEIXIN'" class="fixed" :unit-id="$app.getData('gridAd_adUnitId')" ad-type="grid"
 			 grid-opacity="0.8" grid-count="5" ad-theme="white"></ad>
 
 			<ad v-if="$app.getData('platform')=='MP-QQ'" class="fixed" :unit-id="$app.getData('qq_bannerAdUnitId')" type="banner"></ad>
