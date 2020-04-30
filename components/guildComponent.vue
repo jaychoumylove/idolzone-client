@@ -724,7 +724,8 @@
 									<block v-if="item.category_id==3">
 										<!-- 充值 -->
 										<view :class="'btn'+item.over" v-if="$app.chargeSwitch()==0">{{item.btn_text}}</view>
-										<button open-type="contact" @tap.stop :class="'btn'+item.over" v-else-if="$app.chargeSwitch()==2">回复"1"</button>
+										<button open-type="contact" @tap.stop :class="'btn'+item.over" v-else-if="item.over==0 && $app.chargeSwitch()==2">回复"1"</button>
+										<view :class="'btn'+item.over" v-else-if="item.over==1 && $app.chargeSwitch()==2">领取</view>
 									</block>
 
 
@@ -765,7 +766,6 @@
 		data() {
 			return {
 				btn_cfg: this.$app.getData('config').btn_cfg,
-				$app: this.$app,
 				showLoading: true,
 				requestCount: 7,
 				tips: false,
