@@ -142,7 +142,7 @@
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</view>
 
-			<view class="item-wrap" v-if="$app.getData('config').game_switch.open" @tap="$app.goPage('/pages/task/game')">
+			<view class="item-wrap" v-if="$app.getData('config').version != $app.getData('VERSION') && $app.getData('config').game_switch.open" @tap="$app.goPage('/pages/task/game')">
 				<view class="left-wrap">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FQwQXv6GvPCnxTAabQ6CSgtIPQE24csmD5a8XhhpIujtre8YqLmICrxtWTNRny1iaS2MfkUkk2bag/0"
 					 mode="aspectFill"></image>

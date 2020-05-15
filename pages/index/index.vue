@@ -32,8 +32,13 @@
 		<!-- tab -->
 		<view class="tab-container">
 			<view class="left-wrap">
-				<view class="tab-item" v-for="(item,index) in $app.getData('config').index_rank" :key="index" :class="{active:rankField == item.field}"
-				 @tap="changeField" :data-item="item">{{item.name}}</view>
+				<block v-for="(item,index) in $app.getData('config').index_rank" :key="index">
+					<view class="tab-item" :class="{active:rankField == item.field, colorful:item.style}" @tap="changeField" :data-item="item">
+						{{item.name}}					
+						<image v-if="item.style" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EvovQTL1wN2eVOwZPOcrpFzOIch0hHclOYTgBP53aRpIYOBEReaeD20Pnib51Qf9HQ1bO2GMV0icHA/0"
+						 mode="aspectFill" style="width: 34upx; height: 28upx;"></image>
+					</view>
+				</block>
 			</view>
 			<view class="right-wrap" @tap="$app.goPage('/pages/index/rank')">往期榜单<text class="iconfont iconicon_workmore"></text></view>
 		</view>
@@ -54,6 +59,7 @@
 							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERabwYgrRn5cjV3uoOa8BonlDPGMn7icL9icvz43XsbexzcqkCcrTcdZqw/0"
 							 mode=""></image>{{$app.formatNumber(rankList[1]&&rankList[1].hot||0)}}
 						</view>
+						<view class="score" v-if="rankList[1]&&rankList[1].score">累计{{rankList[1]&&rankList[1].score||0}}分</view>
 					</view>
 					<view class="content mid" @tap="goGroup(rankList[0]&&rankList[0].star.id)">
 						<view class="avatar-wrap">
@@ -66,6 +72,7 @@
 							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERabwYgrRn5cjV3uoOa8BonlDPGMn7icL9icvz43XsbexzcqkCcrTcdZqw/0"
 							 mode=""></image>{{$app.formatNumber(rankList[0]&&rankList[0].hot||0)}}
 						</view>
+						<view class="score" v-if="rankList[0]&&rankList[0].score">累计{{rankList[0]&&rankList[0].score||0}}分</view>
 					</view>
 					<view class="content" @tap="goGroup(rankList[2]&&rankList[2].star.id)">
 						<view class="avatar-wrap">
@@ -78,6 +85,7 @@
 							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERabwYgrRn5cjV3uoOa8BonlDPGMn7icL9icvz43XsbexzcqkCcrTcdZqw/0"
 							 mode=""></image>{{$app.formatNumber(rankList[2]&&rankList[2].hot||0)}}
 						</view>
+						<view class="score" v-if="rankList[2]&&rankList[2].score">累计{{rankList[2]&&rankList[2].score||0}}分</view>
 					</view>
 
 				</view>
@@ -99,6 +107,12 @@
 									<image class="icon-heart" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERabwYgrRn5cjV3uoOa8BonlDPGMn7icL9icvz43XsbexzcqkCcrTcdZqw/0"
 									 mode=""></image>
 								</view>
+							</view>
+						</template>
+						
+						<template v-slot:center-container>
+							<view class="center-container">
+								<view class="score" v-if="item.score">累计{{item.score}}分</view>
 							</view>
 						</template>
 
@@ -323,6 +337,10 @@
 
 <style lang="scss" scoped>
 	.index-page-container {
+		.score{
+			color: #D89D59;
+		}
+		
 		.top-container {
 			padding: 20upx 30upx;
 			display: flex;
@@ -440,6 +458,10 @@
 					left: 50%;
 					transform: translateX(-50%);
 					background-color: $bg-color-2;
+				}
+				
+				.colorful{
+					color: #E938A3;
 				}
 			}
 

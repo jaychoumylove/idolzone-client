@@ -6,6 +6,11 @@
 
 			<slot name="left-container"></slot>
 		</view>
+		
+		<view class="center-container flex-set">		
+			<slot name="center-container"></slot>
+		</view>
+		
 		<view class="right-container">
 			<slot name="right-container"></slot>
 		</view>
