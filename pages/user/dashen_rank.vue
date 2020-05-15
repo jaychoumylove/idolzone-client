@@ -4,12 +4,13 @@
 			<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FqaxHyorzbibFBO38fUYaoKMMj8XVy3YN8Jdz8gHYtvX2gCl1RJIKCBYFb3W45k3W11GNLVe47o0w/0"
 			 mode=""></image>
 		</view>
-		<!-- <view class="tab-container">
+		<view class="tab-container">
 			<view class="tab-item" :class="{active:current==0}" @tap="switchAct(0);">日榜</view>
 			<view class="tab-item" :class="{active:current==3}" @tap="switchAct(3);">上周</view>
 			<view class="tab-item" :class="{active:current==1}" @tap="switchAct(1);">周榜</view>
-			<view class="tab-item" :class="{active:current==2}" @tap="switchAct(2);">总榜</view>
-		</view> -->
+			<view class="tab-item" :class="{active:current==2}" @tap="switchAct(2);">总</view>
+			<view class="tab-item" :class="{active:current==4}" @tap="switchAct(4);">周日总</view>
+		</view>
 
 		<!-- 列表 -->
 		<view class="list-container">
@@ -99,7 +100,9 @@
 				} else if (this.current == 2) {
 					field = 'total_count'
 				} else if (this.current == 3) {
-					field = 'lastweek_count'
+					field = 'lastweek_count'					
+				}else if (this.current == 4) {
+					field = 'weekend_total_count'
 				}
 				this.$app.request(this.$app.API.USER_RANK, {
 					starid: this.starid,
@@ -126,7 +129,7 @@
 			height: 191upx;
 		}
 		.tab-container {
-			padding: 25upx;
+			padding: 15upx;
 			display: flex;
 			align-items: center;
 			justify-content: space-around;
@@ -135,7 +138,7 @@
 			.tab-item {
 				border-radius: 32upx;
 				border: 1upx solid #FF7E00;
-				padding: 10upx 30upx;
+				padding: 10upx 15upx;
 				justify-content: center;
 				display: flex;
 				font-size: 30upx;
