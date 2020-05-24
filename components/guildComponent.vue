@@ -98,6 +98,10 @@
 						</view>
 					</view>
 				</view>
+				
+				<view class="center-wrap flex-set" v-if="$app.getData('userInfo').type == 1 && $app.getData('userStar').id != star.id">
+					<button class="join flex-set" @tap="sendOrFollow">+切换</button>
+				</view>
 
 				<view class="right-wrap flex-set">
 					<image class="img-m" v-if="star.isBirth" @tap="$app.goPage('/pages/user/birth_rank?starid='+star.id)" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GndUW3a1UarD8yKON3YUcuIpvhibXXbe2jtSdCTo2pKs8dQzXoM1iakuS6r9jVicJMw4DL4zXZTltvg/0"
@@ -1580,14 +1584,6 @@
 						// 打榜
 						this.sendCount = ''
 						this.modal = 'send'
-						// 保存formId
-						const formId = e && e.detail && e.detail.formId || null
-
-						if (formId && formId != 'the formId is a mock one') {
-							this.$app.request(this.$app.API.EXT_SAVEFORMID, {
-								formId
-							})
-						}
 
 						if (this.star.isBirth) {
 							this.current = 1
@@ -1596,7 +1592,6 @@
 						return
 					} else {
 						if (this.$app.getData('userInfo').type != 1) {
-							// 非管理员不能跨圈打榜
 							this.$app.toast(`不能为其他爱豆打榜`)
 							return
 						}
@@ -1610,7 +1605,6 @@
 						rer_user_id: this.$app.getData('referrer'), // 推荐人
 					}, res => {
 						if (this.$app.getData('userInfo').type == 1) {
-							// 管理员
 							this.$app.token = ''
 							this.$app.request(this.$app.API.USER_INFO, {}, res => {
 								this.$app.setData('userInfo', res.data, true)
@@ -2112,7 +2106,22 @@
 
 					}
 				}
-
+				.center-wrap{
+					margin-bottom: 30upx;
+					.join {
+						white-space: nowrap;
+						background-color: #f7ab5f;
+						border-radius: 30upx;
+						font-size: 28upx;
+						font-weight: 300;
+						color: #FFF;
+						padding: 0upx 16upx;
+						margin: 0 14upx;
+						box-shadow: 0 0 2upx rgba(0, 0, 0, .3);
+						position: relative;
+						z-index: 4;
+					}					
+				}
 				.right-wrap {
 					margin-left: 50upx;
 
