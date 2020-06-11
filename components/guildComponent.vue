@@ -98,7 +98,7 @@
 						</view>
 					</view>
 				</view>
-				
+
 				<view class="center-wrap flex-set" v-if="$app.getData('userInfo').type == 1 && $app.getData('userStar').id != star.id">
 					<button class="join flex-set" @tap="sendOrFollow">+切换</button>
 				</view>
@@ -151,20 +151,20 @@
 					 mode=""></image>
 					<view class="text">师徒</view>
 				</view>
-				
-				<block v-if="$app.getData('config').fanclub_switch==1">				
-				<view class="btn-item" @tap="goPageHasStar('/pages/fans/fans_club?fid=' + fanclub_id)" v-if="fanclub_id">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fy1abNSLpfp8oqM7wyicwdCejn5EibDSAzhL2MqfMpWezdUnPichUTwtUpfvNUo0icWPdftauLHZiaXWQ/0"
+
+				<block v-if="$app.getData('config').fanclub_switch==1">
+					<view class="btn-item" @tap="goPageHasStar('/pages/fans/fans_club?fid=' + fanclub_id)" v-if="fanclub_id">
+						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fy1abNSLpfp8oqM7wyicwdCejn5EibDSAzhL2MqfMpWezdUnPichUTwtUpfvNUo0icWPdftauLHZiaXWQ/0"
 						 mode=""></image>
-					<view class="text">粉丝团</view>
-				</view>
-				<view class="btn-item" @tap="goPageHasStar('/pages/fans/fans_list')" v-else>
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fy1abNSLpfp8oqM7wyicwdCejn5EibDSAzhL2MqfMpWezdUnPichUTwtUpfvNUo0icWPdftauLHZiaXWQ/0"
-					 mode=""></image>
-					<view class="text">粉丝团</view>
-				</view>
+						<view class="text">粉丝团</view>
+					</view>
+					<view class="btn-item" @tap="goPageHasStar('/pages/fans/fans_list')" v-else>
+						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fy1abNSLpfp8oqM7wyicwdCejn5EibDSAzhL2MqfMpWezdUnPichUTwtUpfvNUo0icWPdftauLHZiaXWQ/0"
+						 mode=""></image>
+						<view class="text">粉丝团</view>
+					</view>
 				</block>
-				
+
 				<view class="btn-item" @tap="goPageHasStar('/pages/pk/pk_index')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EqVxh70XuVn1VhJLyPnEbxriczDwYpJxLicMALveZ8I6vxIGDDu9yB41Dicq9XYTtUcggaFYvQEc2ng/0"
 					 mode=""></image>
@@ -176,12 +176,13 @@
 				<view class="text-overflow">
 					<text class="left-wrap text-overflow">【公告】</text>
 					<text class="center-wrap">{{article.name}}</text>
-					<image class="isnew" v-if="article.isNew" src="https://mmbiz.qpic.cn/mmbiz_gif/w5pLFvdua9H2awqYhgKRktNwUT19uEzicRMZbITUbzNRRpUPQUBLSBSrALbX6lI9whDkbhUYeyWW7YUJsicTkCqA/0" mode="widthFix"></image>
+					<image class="isnew" v-if="article.isNew" src="https://mmbiz.qpic.cn/mmbiz_gif/w5pLFvdua9H2awqYhgKRktNwUT19uEzicRMZbITUbzNRRpUPQUBLSBSrALbX6lI9whDkbhUYeyWW7YUJsicTkCqA/0"
+					 mode="widthFix"></image>
 				</view>
 				<text class="right-wrap text-overflow" @tap.stop="$app.goPage('/pages/notice/list')">更多></text>
 			</view>
 		</view>
-		
+
 		<!-- 排名列表 -->
 		<view class="list-container" v-if="star.chat_off">
 			<view class="item" v-for="(item,index) in userRankList['thisday_count']" :key="index">
@@ -196,7 +197,8 @@
 				</view>
 				<view class='avatar-wrap'>
 					<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
-					<image v-if="item.user&&item.user.headwear&&item.user.headwear.img" class="headwear position-set" :src="item.user.headwear.img" mode=""></image>
+					<image v-if="item.user&&item.user.headwear&&item.user.headwear.img" class="headwear position-set" :src="item.user.headwear.img"
+					 mode=""></image>
 				</view>
 				<view class="text-container">
 					<view>
@@ -273,10 +275,10 @@
 		<!-- 聊天输入 -->
 		<view class="chart-btn-container" v-if="!star.chat_off&&$app.getData('userStar').id == star.id" @tap.stop="inputing=true">
 			<view class="bottom-wrap" @tap="modal = 'phonenumberCheck'" v-if="$app.getData('config').phone_switch=='1' && !$app.getData('userInfo').phoneNumber">
-				<input class="input" type="text" placeholder="聊天一起High!" confirm-type="send"/>
+				<input class="input" type="text" placeholder="聊天一起High!" confirm-type="send" />
 				<view class="btn flex-set">发言</view>
 			</view>
-						
+
 			<block v-else>
 				<view class="top-wrap" v-if="inputing==true">
 					<view class="trumpet-wrap" @tap="sayworld">
@@ -320,28 +322,28 @@
 		<!-- modal区域 -->
 		<!-- 验证手机号 -->
 		<modalComponent v-if="modal == 'phonenumberCheck'" type="center" @closeModal="modal=''">
-			
+
 			<!-- #ifndef MP-WEIXIN -->
 			<view class="fansbox-modal-container" style="height: 680upx;">
 				<view class="title flex-set">手机号码验证</view>
 				<view class="tips">
-				根据国家互联网相关规定，【发言】功能需进行手机号验证才可使用，手机号码仅自己可见。
-				<text>国内短信：11位手机号码，例如15900000000。</text>
-				<text>国际/港澳台消息：国际区号+号码，例如85200000000。</text>
+					根据国家互联网相关规定，【发言】功能需进行手机号验证才可使用，手机号码仅自己可见。
+					<text>国内短信：11位手机号码，例如15900000000。</text>
+					<text>国际/港澳台消息：国际区号+号码，例如85200000000。</text>
 				</view>
 				<input class="phonenumber" :value="phoneNumber" @input="setPhoneNumber" type="number" placeholder="输入手机号" />
 				<view class="phonecode flex-set self-input">
 					<input :value="phoneCode" @input="setPhoneCode" type="number" placeholder="输入验证码" />
 					<view @tap="sendPhoneCode()">获得验证码</view>
-				</view>			
-				<button class="btn-wrap"  @tap="savePhoneNumber">
+				</view>
+				<button class="btn-wrap" @tap="savePhoneNumber">
 					<btnComponent type="default">
 						<view class="btn flex-set">立即验证</view>
 					</btnComponent>
 				</button>
-			</view>	
+			</view>
 			<!-- #endif -->
-				
+
 			<!-- #ifdef MP-WEIXIN -->
 			<view class="fansbox-modal-container" style="height: 550upx;">
 				<view class="title flex-set">手机号码验证</view>
@@ -351,10 +353,10 @@
 						<view class="btn flex-set">立即验证</view>
 					</btnComponent>
 				</button>
-			</view>		
+			</view>
 			<!-- #endif -->
 		</modalComponent>
-		
+
 		<!-- 打榜 -->
 		<modalComponent type="send" v-if="modal == 'send'" title="pick" @closeModal="modal=''">
 			<view class="send-modal-container">
@@ -363,8 +365,8 @@
 					<text v-if="current==0" class="absolute-go">1金豆 = 1人气</text>
 					<text v-if="current==1" class="absolute-go">1鲜花 = 1人气</text>
 				</view>
-				
-				<view ></view>
+
+				<view></view>
 				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="swiper-change flex-set">
 					<view class="item" :class="{select:current==0}" @tap="current = 0;sendCount=''">送金豆</view>
 					<view class="item" :class="{select:current==1}" @tap="current = 1;sendCount=''">送鲜花</view>
@@ -749,6 +751,43 @@
 			</view>
 		</view>
 
+		<!-- 618活动弹窗 -->
+		<view class="activity618 flex-set" v-if="modal == 'activity618'">
+			<view class="achievebadge-box">
+				<view class="title">618礼包</view>
+				<view class="send-item-list">
+					<view class="send-item">
+						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
+						 mode="widthFix"></image>
+						<text>金豆</text>
+					</view>
+					<view class="send-item">
+						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
+						 mode="widthFix"></image>
+						<text>钻石</text>
+					</view>
+					<view class="send-item">
+						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk90Xa3b43zE46M8IkUvFyMR5GgfJN52icBqoicfKWfAJS8QXog0PZtgdEQ/0"
+						 mode="widthFix"></image>
+						<text>喇叭</text>
+					</view>
+					<view class="send-item">
+						<image src="/static/image/activity/lucky_bag.png"
+						 mode="widthFix"></image>
+						<text>福袋</text>
+					</view>
+				</view>
+				<view class="btn">
+					<button open-type="contact">
+						<view>回复'618'领取</view>
+					</button>
+				</view>
+
+			</view>
+
+			<view class="close-btn flex-set iconfont iconclose" @tap="modal = ''"></view>
+		</view>
+
 		<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
 </template>
@@ -794,7 +833,7 @@
 				rechargeList: [], // 充值商品列表
 				danmaku: null, // 当前弹幕
 				article: {}, // 公告文章
-				cfgBidden:[],
+				cfgBidden: [],
 				fakeinvitList: [],
 				invitFakePage: 1,
 
@@ -865,15 +904,14 @@
 				achieveBadge: [],
 
 				showAddXcx: !this.$app.getData('userExt').add_enter, // 显示提示去添加到我的小程序顶部弹框
-				
-				phoneNumber:'',
-				phoneCode:'',
+
+				phoneNumber: '',
+				phoneCode: '',
 			};
 		},
 		created() {
-			this.$app.request('user/biddenTime', {
-			}, res => {
-				this.cfgBidden=res.data
+			this.$app.request('user/biddenTime', {}, res => {
+				this.cfgBidden = res.data
 			})
 			this.sendDanmakuIndex = 0
 			this.initDanmaku()
@@ -950,7 +988,7 @@
 							this.userRankList['thisday_count'] = res.data.userRank
 
 							// 公告
-							this.article.name = res.data.article.name
+							this.article.name = res.data.article.name || '暂无';
 							this.article.id = res.data.article.id
 							this.article.isNew = Date.now() / 1000 - this.$app.strToTime(res.data.article.create_time) < 2 * 24 * 3600
 
@@ -989,11 +1027,11 @@
 			},
 			// 禁言
 			forbidden(uid) {
-				let list=[];
-				let itemList=[];
-				let arr=this.cfgBidden;
-				for(let val of arr) {
-				    list.push(val.time)
+				let list = [];
+				let itemList = [];
+				let arr = this.cfgBidden;
+				for (let val of arr) {
+					list.push(val.time)
 					itemList.push(val.desc)
 				}
 				wx.showActionSheet({
@@ -1016,7 +1054,7 @@
 						})
 					}
 				})
-				
+
 				// this.$app.modal(`确认将${this.currentUser.nickname}禁言？`, () => {
 				// 	this.$app.request('user/forbidden', {
 				// 		user_id: this.currentUser.id,
@@ -1273,7 +1311,7 @@
 			/*
 			保存手机号码
 			*/
-			getPhoneNumber(e){
+			getPhoneNumber(e) {
 				let userInfo = this.$app.getData('userInfo')
 				this.$app.request('user/savephone', {
 					iv: e.detail.iv,
@@ -1283,16 +1321,16 @@
 					this.$app.setData('userInfo', userInfo)
 					this.modal = ''
 				}, 'POST', true)
-			},			
+			},
 			/*
 			保存手机号码
 			*/
-			savePhoneNumber(){
+			savePhoneNumber() {
 				if (!this.phoneNumber || !this.phoneCode) {
 					this.$app.toast('手机号码或者验证码不能为空')
 					return;
-				} 
-				
+				}
+
 				let userInfo = this.$app.getData('userInfo')
 				this.$app.request('user/savephone', {
 					phoneNumber: this.phoneNumber,
@@ -1765,15 +1803,15 @@
 						client_id: clientId,
 					}, res => {})
 				}
-			},			
+			},
 			setPhoneNumber(e) {
 				this.phoneNumber = e.detail.value
-			},		
+			},
 			setPhoneCode(e) {
 				this.phoneCode = e.detail.value
 			},
 			//发送验证码
-			sendPhoneCode(){
+			sendPhoneCode() {
 				this.$app.request('page/sendSms', {
 					phoneNumber: this.phoneNumber,
 				}, res => {
@@ -1786,9 +1824,12 @@
 </script>
 
 <style lang="scss" scoped>
-	.reply{
-		color: #FC3131;border-bottom: 2rpx solid #FFD4D4; font-size: 23rpx;
+	.reply {
+		color: #FC3131;
+		border-bottom: 2rpx solid #FFD4D4;
+		font-size: 23rpx;
 	}
+
 	.guild-component-container {
 		display: flex;
 		flex-direction: column;
@@ -2106,8 +2147,10 @@
 
 					}
 				}
-				.center-wrap{
+
+				.center-wrap {
 					margin-bottom: 30upx;
+
 					.join {
 						white-space: nowrap;
 						background-color: #f7ab5f;
@@ -2120,8 +2163,9 @@
 						box-shadow: 0 0 2upx rgba(0, 0, 0, .3);
 						position: relative;
 						z-index: 4;
-					}					
+					}
 				}
+
 				.right-wrap {
 					margin-left: 50upx;
 
@@ -2136,12 +2180,12 @@
 				}
 			}
 		}
-		
-		
+
+
 		.list-container {
 			padding-bottom: 130upx;
 			font-size: 26rpx;
-			
+
 			.item {
 				height: 120upx;
 				display: flex;
@@ -2178,7 +2222,7 @@
 					text-overflow: ellipsis;
 					white-space: nowrap;
 					overflow: hidden;
-					
+
 					.bottom-text {
 						display: flex;
 						align-items: center;
@@ -2187,7 +2231,7 @@
 				}
 
 				.count {
-					margin:0 30upx;
+					margin: 0 30upx;
 					color: #ff8421;
 				}
 
@@ -2198,11 +2242,12 @@
 		.center-container {
 			padding: 10upx 30upx;
 			border-bottom: 10upx solid #efefef;
-			
-			.isnew{
+
+			.isnew {
 				width: 50upx;
-				height: 27upx;				
+				height: 27upx;
 			}
+
 			.row-info {
 				display: flex;
 				justify-content: space-between;
@@ -2501,11 +2546,11 @@
 		}
 
 		.chart-btn-container {
-			.phonenumber{
+			.phonenumber {
 				width: 100%;
 				height: 100%;
 			}
-			
+
 			.top-wrap {
 				padding: 20upx 40upx;
 				padding-bottom: 0;
@@ -2606,9 +2651,8 @@
 
 		}
 
-		.phonenumber-modal-container{
-			
-		}
+		.phonenumber-modal-container {}
+
 		.send-modal-container {
 			width: 100%;
 			display: flex;
@@ -3119,6 +3163,75 @@
 			}
 		}
 
+		.activity618 {
+			width: 80%;
+			position: fixed;
+			top: 25%;
+			left: 10%;
+			z-index: 9;
+			background-color: rgba(0, 0, 0, 1);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			color: #FFFFFF;
+
+			.achievebadge-box {
+				width: 90%;
+				margin-left: 5%;
+
+
+				.title {
+					font-size: 40upx;
+					font-weight: 700;
+					padding: 20rpx;
+				}
+
+				.send-item-list {
+					width: 100%;
+					padding: 20rpx;
+					display: flex;
+					flex-direction: row;
+
+					.send-item {
+						width: 25%;
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+						align-items: center;
+
+						image {
+							width: 80rpx;
+						}
+					}
+				}
+			}
+
+			.btn {
+				padding: 40rpx 0;
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+			}
+
+			.btn button {
+				padding: 10upx 20upx;
+				background-color: #fbcc3e;
+				border-radius: 30upx;
+			}
+
+			.close-btn {
+				z-index: 10;
+				border-radius: 50%;
+				color: #FFFFFF;
+				font-size: 45upx;
+				position: absolute;
+				top: 5%;
+				right: 4%;
+			}
+
+		}
+
 		.achievebadge-modal-container {
 			position: fixed;
 			top: 0;
@@ -3194,25 +3307,29 @@
 					font-size: 26upx;
 				}
 			}
+
 			/* #ifdef  MP-WEIXIN */
 			/*  只在小程序中生效  */
-			.tips{
+			.tips {
 				margin-bottom: 100upx;
 			}
+
 			/*  #endif  */
-			
-			.tips text{
-					display: block;
+
+			.tips text {
+				display: block;
 			}
-			
-			.phonenumber{
+
+			.phonenumber {
 				margin-top: 30upx;
 				width: 330upx;
 				border-bottom: 1upx solid #818286;
 			}
-			.phonecode{
+
+			.phonecode {
 				margin: 30upx 0;
-				input{
+
+				input {
 					width: 200upx;
 					border-bottom: 1upx solid #818286;
 				}
@@ -3517,7 +3634,8 @@
 			}
 		}
 	}
-	.absolute-go{
+
+	.absolute-go {
 		position: absolute;
 		left: 400rpx;
 		width: 220rpx;

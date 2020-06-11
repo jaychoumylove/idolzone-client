@@ -350,7 +350,15 @@
 				"navigationBarTitleText": "申请列表"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/active/active618",
+            "style" : {
+				"navigationBarBackgroundColor": "#856B5C",			
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "618活动"
+			}
+        }
+    ],
 	"tabBar": {
 		"color": "#aaaaaa",
 		"selectedColor": "#fbcc3e",
