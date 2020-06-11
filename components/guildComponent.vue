@@ -3178,8 +3178,6 @@
 
 			.achievebadge-box {
 				width: 90%;
-				margin-left: 5%;
-
 
 				.title {
 					font-size: 40upx;

@@ -1,10 +1,33 @@
 <template>
 	<view class="container">
+		<view class="top">
+			<view class="activity-title">618狂欢</view>
+			<view class="activity-time">6月18号24点结束</view>
+			<view class="activity-rule">
+				<view class="lucky">
+					<image src="/static/image/activity/lucky_bag.png" mode="widthFix"></image>
+					<view>+100</view>
+					<view style="padding-left: 10rpx;">
+						<view>使用后，可额外随机获得</view>
+						<view>6.18%、6.66%、8.88%、18%任意一档人气值</view>
+					</view>
 
-		<!-- <view class="swiper-change flex-set">
-			<view class="swiper-item" :class="{select:current==0}" @tap="current = 0;getTaskList();">新手任务</view>
-			<view class="swiper-item" :class="{select:current==1}" @tap="current = 1;getTaskList();">每日任务</view>
-		</view> -->
+				</view>
+				<view class="lucky">
+					<image src="/static/image/activity/lucky_value.png" mode="widthFix"></image>
+					<view>+100</view>
+					<view style="padding-left: 10rpx;">
+						<view>随机获得18%额外人气概率</view>
+						<view>幸运值5=获得额外18%人气的概率为5%</view>
+					</view>
+				</view>
+			</view>
+
+		</view>
+		<view class="tips">
+			<view class="tips-left">做任务得618福袋、提高幸运值</view>
+			<view class="tips-right" @tap="$app.goPage('/pages/active/blessing_list')">福气榜></view>
+		</view>
 		<view class="item" v-for="(item,index) in taskList" :key="index" v-if="!(
 		  (item.id==7 || item.id==21) && 
 		  ($app.getData('config').version == $app.getData('VERSION') || $app.chargeSwitch() == 1)
@@ -28,25 +51,15 @@
 
 			<view class="right-content">
 				<view class="earn">
-					<view class="right-item" v-if="item.coin">
-						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
-						 mode="widthFix"></image>
-						<view class="add-count">+{{item.coin}}</view>
+					<view class="right-item">
+						<image src="/static/image/activity/lucky_bag.png" mode="widthFix"></image>
+						<view class="add-count">+1</view>
 					</view>
-					<view class="right-item" v-if="item.stone">
-						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
-						 mode="widthFix"></image>
-						<view class="add-count">+{{item.stone}}</view>
+					<view class="right-item">
+						<image src="/static/image/activity/lucky_value.png" mode="widthFix"></image>
+						<view class="add-count">+1</view>
 					</view>
-					<view class="right-item" v-if="item.flower">
-						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
-						 mode="widthFix"></image>
-						<view class="add-count">+{{item.flower}}</view>
-					</view>
-					<view class="right-item" v-if="item.trumpet">
-						<image src="/static/image/user/trumpet-icon.png" mode="widthFix"></image>
-						<view class="add-count">+{{item.trumpet}}</view>
-					</view>
+
 
 				</view>
 				<view v-if="current!=2" class="btn" @tap="doTask(item,index)">
@@ -200,7 +213,7 @@
 			openAdver() {
 				this.$app.openVideoAd(() => {
 					this.taskSettle(19)
-				},this.$app.getData('config').kindness_switch)
+				}, this.$app.getData('config').kindness_switch)
 			},
 			clipboard() {
 				uni.setClipboardData({
@@ -298,27 +311,52 @@
 
 <style lang="scss" scoped>
 	.container {
-		.swiper-change {
-			margin: 30upx;
-			border-radius: 30upx;
-			overflow: hidden;
-			box-shadow: 0 2upx 4upx rgba(0, 0, 0, .3);
+		.top {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
 
-			.swiper-item {
-				flex: 1;
-				height: 70upx;
-				line-height: 70upx;
-				background-color: #f5f5f5;
-				color: #ff648d;
-				text-align: center;
-
+			.activity-title {
+				font-size: 40rpx;
+				font-weight: bold;
+				padding-top: 20rpx;
 			}
 
-			.swiper-item.select {
-				background-color: #ff648d;
-				color: #f5f5f5;
+			.activity-time {
+				font-size: 30rpx;
+				padding-bottom: 10rpx;
 			}
 
+			.activity-rule {
+				display: flex;
+				flex-direction: column;
+				padding: 0rpx 20rpx 20rpx 20rpx;
+				font-size: 26rpx;
+				.lucky {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					padding: 10rpx 0rpx;
+					
+					image{
+						width: 60rpx;
+					}
+				}
+			}
+		}
+
+		.tips {
+			width: 100%;
+			padding: 0rpx 40rpx;
+			display: flex;
+			justify-content: space-between;
+			font-size: 32rpx;
+
+			.tips-right {
+				color: #e3ba0c;
+			}
 		}
 
 
@@ -441,6 +479,6 @@
 				color: #333;
 			}
 		}
-		
+
 	}
 </style>

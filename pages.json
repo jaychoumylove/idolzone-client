@@ -353,10 +353,18 @@
 	    ,{
             "path" : "pages/active/active618",
             "style" : {
-				"navigationBarBackgroundColor": "#856B5C",			
+				"navigationBarBackgroundColor": "#F99510",			
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "618活动"
 			}
+        }
+        ,{
+            "path" : "pages/active/blessing_list",
+            "style" : {
+            	"navigationBarBackgroundColor": "#F99510",			
+            	"navigationBarTextStyle": "white",
+            	"navigationBarTitleText": "福气榜"
+            }
         }
     ],
 	"tabBar": {
