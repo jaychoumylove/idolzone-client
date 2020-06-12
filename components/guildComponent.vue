@@ -752,7 +752,7 @@
 		</view>
 
 		<!-- 618活动弹窗 -->
-		<modalComponent v-if="modal == 'activity618'" type="center" @closeModal="modal=''">
+		<modalComponent v-if="modal == 'activity618' && is_open_blessing==1" type="center" @closeModal="modal=''">
 			<view class="activity618 flex-set">
 				<view class="achievebadge-box">
 					<view class="title">618礼包</view>
@@ -773,8 +773,7 @@
 							<text>喇叭+3</text>
 						</view>
 						<view class="send-item">
-							<image src="/static/image/activity/lucky_bag.png"
-							 mode="widthFix"></image>
+							<image src="/static/image/activity/lucky_bag.png" mode="widthFix"></image>
 							<text>福袋+1</text>
 						</view>
 					</view>
@@ -785,13 +784,13 @@
 							</button>
 						</btnComponent>
 					</view>
-			
+
 				</view>
-			
+
 			</view>
 		</modalComponent>
-		
-		<modalComponent v-if="modal == 'blessing'" type="center" title="打榜后福袋使用" @closeModal="modal=''">
+
+		<modalComponent v-if="modal == 'blessing' && is_open_blessing==1" type="center" title="打榜后福袋使用" @closeModal="modal=''">
 			<view class="blessing-modal-container">
 				<view class="title">打榜成功</view>
 				<view class="sengHotNum">{{this.$app.getData('userStar')['name']}}增加{{sendCount}}人气</view>
@@ -814,9 +813,9 @@
 				</view>
 
 			</view>
-		
+
 		</modalComponent>
-		
+
 
 		<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
@@ -850,9 +849,10 @@
 					thisday_count: [],
 					thisweek_count: [],
 				},
-				blessingModalSelect:0,
-				blessing_num:0,
-				lucky_value:5,
+				is_open_blessing: 0,
+				blessingModalSelect: 0,
+				blessing_num: 0,
+				lucky_value: 5,
 				chartList: [],
 				chartScroll: 1, // 聊天窗位置
 				modal: '', // 模态框名称
@@ -953,47 +953,48 @@
 			clearInterval(this.timeId_danmaku)
 		},
 		methods: {
-			blessingBagInfo(){
+			blessingBagInfo() {
+
 				this.$app.request(this.$app.API.USER_BLESSING_BAG, {}, res => {
 					this.blessing_num = res.data.blessing_num
 					this.lucky_value = res.data.lucky_value
 				})
 			},
-			useBlessing(){
-				this.blessingModalSelect=0;
-				let that=this;
+			useBlessing() {
+				this.blessingModalSelect = 0;
+				let that = this;
 				uni.showModal({
-				    title: '提示',
-				    content: '确定要使用福袋吗',
-				    success: function (res) {
-				        if (res.confirm) {
-							
-				            that.$app.request(that.$app.API.ACTIVE_USE_BLESSING_BAG, {
+					title: '提示',
+					content: '确定要使用福袋吗',
+					success: function(res) {
+						if (res.confirm) {
+
+							that.$app.request(that.$app.API.ACTIVE_USE_BLESSING_BAG, {
 								starid: that.star.id,
 								type: that.current + 1,
 								danmaku: Number(!that.danmakuClosed),
 							}, res => {
-								let data=res.data;
+								let data = res.data;
 								that.blessingBagInfo()
 								console.log(data)
-				            	uni.showModal({
-				            	    title: '福袋使用成功',
-				            	    content: '本次使用福袋获得'+parseInt(that.sendCount)+'X'+data.value+'%='+data.addNum+'人气',
-				            		confirmText:'增加概率',
-				            		cancelText:'我知道了',
-				            	    success: function (res) {
-				            	        if (res.confirm) {
-				            	            
-				            	        } else if (res.cancel) {
-				            	            that.modal=''
-				            	        }
-				            	    }
-				            	});
-				            })
-				        } else if (res.cancel) {
-				            console.log('用户点击取消');
-				        }
-				    }
+								uni.showModal({
+									title: '福袋使用成功',
+									content: '本次使用福袋获得' + parseInt(that.sendCount) + 'X' + data.value + '%=' + data.addNum + '人气',
+									confirmText: '增加概率',
+									cancelText: '我知道了',
+									success: function(res) {
+										if (res.confirm) {
+
+										} else if (res.cancel) {
+											that.modal = ''
+										}
+									}
+								});
+							})
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
 				});
 			},
 			buttonHandler(e) {
@@ -1016,8 +1017,18 @@
 
 				// 请求数据
 				this.loadData()
-				
-				this.blessingBagInfo()
+
+				let start_time = this.$app.getData('config').blessing618.start_time;
+				let end_time = this.$app.getData('config').blessing618.end_time;
+				let status = this.$app.getData('config').blessing618.status;
+				let start = Math.round(new Date(start_time).getTime() / 1000);
+				let end = Math.round(new Date(end_time).getTime() / 1000);
+				let nowtime = Math.round(new Date().getTime() / 1000)
+				if (status == 1 && end > nowtime && start < nowtime) {
+					this.is_open_blessing = 1;
+					this.modal = 'activity618';
+					this.blessingBagInfo();
+				}
 
 				this.userCurrency = this.$app.getData('userCurrency')
 			},
@@ -1036,9 +1047,7 @@
 						starid: this.star.id,
 						client_id: clientId,
 					}, res => {
-						if(res.data.activity618){
-							this.modal='activity618';
-						}
+
 						this.fanclub_id = res.data.fanclub_id
 						// 明星信息
 						const star = res.data.starInfo
@@ -3278,7 +3287,8 @@
 						image {
 							width: 80rpx;
 						}
-						text{
+
+						text {
 							font-size: 22rpx;
 						}
 					}
@@ -3700,56 +3710,60 @@
 		width: 220rpx;
 
 	}
-	
-	.blessing-modal-container{
+
+	.blessing-modal-container {
 		width: 100%;
 		padding: 0rpx 20rpx 20rpx 20rpx;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		
-		.title{
+
+		.title {
 			font-size: 32upx;
 			font-weight: bold;
 			padding: 10rpx;
 		}
-		
-		.sengHotNum{
+
+		.sengHotNum {
 			font-size: 32upx;
 			font-weight: bold;
 			padding: 20rpx;
 		}
-		
-		.btn-blessing{
+
+		.btn-blessing {
 			width: 100%;
 			display: flex;
 			justify-content: space-around;
-			
-			.blue{
+
+			.blue {
 				background: #169bd5 !important;
 			}
-			.btn-blessing-text{
+
+			.btn-blessing-text {
 				background: #999999;
 				border-radius: 20rpx;
 				padding: 20rpx 40rpx 20rpx 40rpx;
 				color: #FFF8FF;
 			}
 		}
-		.blessingbag{
+
+		.blessingbag {
 			width: 100%;
 			display: flex;
 			justify-content: space-around;
 			color: #999999;
 		}
-		.blessing-cont{
+
+		.blessing-cont {
 			width: 100%;
 			padding: 20rpx 60rpx;
 			font-size: 32rpx;
-			view{
+
+			view {
 				width: 100%;
 			}
 		}
-		
+
 	}
 </style>
