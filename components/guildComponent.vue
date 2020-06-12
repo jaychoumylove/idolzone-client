@@ -533,7 +533,7 @@
 		</modalComponent>
 
 		<!-- 打榜后 -->
-		<modalComponent v-if="modal == 'sendOver'" type="center" @closeModal="modal=''">
+		<modalComponent v-if="modal == 'sendOver'" type="center" @closeModal="modal='blessing'">
 			<view class="sendover-modal-container">
 				<view class="top-wrap">
 					<view class="title">粉丝贡献周榜</view>
@@ -752,41 +752,71 @@
 		</view>
 
 		<!-- 618活动弹窗 -->
-		<view class="activity618 flex-set" v-if="modal == 'activity618'">
-			<view class="achievebadge-box">
-				<view class="title">618礼包</view>
-				<view class="send-item-list">
-					<view class="send-item">
-						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
-						 mode="widthFix"></image>
-						<text>金豆</text>
+		<modalComponent v-if="modal == 'activity618'" type="center" @closeModal="modal=''">
+			<view class="activity618 flex-set">
+				<view class="achievebadge-box">
+					<view class="title">618礼包</view>
+					<view class="send-item-list">
+						<view class="send-item">
+							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
+							 mode="widthFix"></image>
+							<text>金豆+10000</text>
+						</view>
+						<view class="send-item">
+							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
+							 mode="widthFix"></image>
+							<text>钻石+2</text>
+						</view>
+						<view class="send-item">
+							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk90Xa3b43zE46M8IkUvFyMR5GgfJN52icBqoicfKWfAJS8QXog0PZtgdEQ/0"
+							 mode="widthFix"></image>
+							<text>喇叭+3</text>
+						</view>
+						<view class="send-item">
+							<image src="/static/image/activity/lucky_bag.png"
+							 mode="widthFix"></image>
+							<text>福袋+1</text>
+						</view>
 					</view>
-					<view class="send-item">
-						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
-						 mode="widthFix"></image>
-						<text>钻石</text>
+					<view class="btn-contact">
+						<btnComponent type="default">
+							<button class="btn" open-type="contact">
+								<view class="flex-set" style=" height: 60upx;">回复'618'领取</view>
+							</button>
+						</btnComponent>
 					</view>
-					<view class="send-item">
-						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk90Xa3b43zE46M8IkUvFyMR5GgfJN52icBqoicfKWfAJS8QXog0PZtgdEQ/0"
-						 mode="widthFix"></image>
-						<text>喇叭</text>
-					</view>
-					<view class="send-item">
-						<image src="/static/image/activity/lucky_bag.png"
-						 mode="widthFix"></image>
-						<text>福袋</text>
-					</view>
+			
 				</view>
-				<view class="btn">
-					<button open-type="contact">
-						<view>回复'618'领取</view>
-					</button>
+			
+			</view>
+		</modalComponent>
+		
+		<modalComponent v-if="modal == 'blessing'" type="center" title="打榜后福袋使用" @closeModal="modal=''">
+			<view class="blessing-modal-container">
+				<view class="title">打榜成功</view>
+				<view class="sengHotNum">{{this.$app.getData('userStar')['name']}}增加{{sendCount}}人气</view>
+				<view class="btn-blessing">
+					<view class="btn-blessing-text" :class="{blue:!blessingModalSelect}" @tap="useBlessing">使用福袋</view>
+					<view class="btn-blessing-text" :class="{blue:blessingModalSelect}" @tap="blessingModalSelect=1">{{blessingModalSelect>0?'提高概率':'查看概率'}}</view>
+				</view>
+				<view class="blessingbag">
+					<view class="">剩余福袋:{{blessing_num}}</view>
+					<view class="">18%档次概率:{{lucky_value}}%</view>
+				</view>
+				<view class="blessing-cont" v-if="blessingModalSelect==0">
+					<view class="">使用福袋爱豆和自己可额外增加{{sendCount}}乘以6.18%、6.66%、8.88%、18%任意一档人气值</view>
+				</view>
+				<view class="blessing-cont" v-else>
+					<view class="">获得额外6.18%人气概率:50%</view>
+					<view class="">获得额外6.66%人气概率:30%</view>
+					<view class="">获得额外8.88%人气概率:20%</view>
+					<view class="">获得额外18%人气概率:{{lucky_value}}%</view>
 				</view>
 
 			</view>
-
-			<view class="close-btn flex-set iconfont iconclose" @tap="modal = ''"></view>
-		</view>
+		
+		</modalComponent>
+		
 
 		<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
@@ -820,6 +850,9 @@
 					thisday_count: [],
 					thisweek_count: [],
 				},
+				blessingModalSelect:0,
+				blessing_num:0,
+				lucky_value:5,
 				chartList: [],
 				chartScroll: 1, // 聊天窗位置
 				modal: '', // 模态框名称
@@ -920,6 +953,49 @@
 			clearInterval(this.timeId_danmaku)
 		},
 		methods: {
+			blessingBagInfo(){
+				this.$app.request(this.$app.API.USER_BLESSING_BAG, {}, res => {
+					this.blessing_num = res.data.blessing_num
+					this.lucky_value = res.data.lucky_value
+				})
+			},
+			useBlessing(){
+				this.blessingModalSelect=0;
+				let that=this;
+				uni.showModal({
+				    title: '提示',
+				    content: '确定要使用福袋吗',
+				    success: function (res) {
+				        if (res.confirm) {
+							
+				            that.$app.request(that.$app.API.ACTIVE_USE_BLESSING_BAG, {
+								starid: that.star.id,
+								type: that.current + 1,
+								danmaku: Number(!that.danmakuClosed),
+							}, res => {
+								let data=res.data;
+								that.blessingBagInfo()
+								console.log(data)
+				            	uni.showModal({
+				            	    title: '福袋使用成功',
+				            	    content: '本次使用福袋获得'+parseInt(that.sendCount)+'X'+data.value+'%='+data.addNum+'人气',
+				            		confirmText:'增加概率',
+				            		cancelText:'我知道了',
+				            	    success: function (res) {
+				            	        if (res.confirm) {
+				            	            
+				            	        } else if (res.cancel) {
+				            	            that.modal=''
+				            	        }
+				            	    }
+				            	});
+				            })
+				        } else if (res.cancel) {
+				            console.log('用户点击取消');
+				        }
+				    }
+				});
+			},
 			buttonHandler(e) {
 				const sharetype = e.target.dataset.sharetype
 				if (sharetype == 'share') {
@@ -940,6 +1016,8 @@
 
 				// 请求数据
 				this.loadData()
+				
+				this.blessingBagInfo()
 
 				this.userCurrency = this.$app.getData('userCurrency')
 			},
@@ -958,6 +1036,9 @@
 						starid: this.star.id,
 						client_id: clientId,
 					}, res => {
+						if(res.data.activity618){
+							this.modal='activity618';
+						}
 						this.fanclub_id = res.data.fanclub_id
 						// 明星信息
 						const star = res.data.starInfo
@@ -3164,25 +3245,21 @@
 		}
 
 		.activity618 {
-			width: 80%;
-			position: fixed;
-			top: 25%;
-			left: 10%;
+			width: 100%;
+			padding: 20rpx;
 			z-index: 9;
-			background-color: rgba(0, 0, 0, 1);
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			text-align: center;
-			color: #FFFFFF;
+			color: #000000;
 
 			.achievebadge-box {
-				width: 90%;
+				width: 100%;
 
 				.title {
 					font-size: 40upx;
 					font-weight: 700;
-					padding: 20rpx;
 				}
 
 				.send-item-list {
@@ -3201,31 +3278,15 @@
 						image {
 							width: 80rpx;
 						}
+						text{
+							font-size: 22rpx;
+						}
 					}
 				}
 			}
 
-			.btn {
-				padding: 40rpx 0;
-				display: flex;
-				flex-direction: row;
-				justify-content: center;
-			}
-
-			.btn button {
-				padding: 10upx 20upx;
-				background-color: #fbcc3e;
-				border-radius: 30upx;
-			}
-
-			.close-btn {
-				z-index: 10;
-				border-radius: 50%;
-				color: #FFFFFF;
-				font-size: 45upx;
-				position: absolute;
-				top: 5%;
-				right: 4%;
+			.btn-contact {
+				margin: 20rpx;
 			}
 
 		}
@@ -3638,5 +3699,57 @@
 		left: 400rpx;
 		width: 220rpx;
 
+	}
+	
+	.blessing-modal-container{
+		width: 100%;
+		padding: 0rpx 20rpx 20rpx 20rpx;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		
+		.title{
+			font-size: 32upx;
+			font-weight: bold;
+			padding: 10rpx;
+		}
+		
+		.sengHotNum{
+			font-size: 32upx;
+			font-weight: bold;
+			padding: 20rpx;
+		}
+		
+		.btn-blessing{
+			width: 100%;
+			display: flex;
+			justify-content: space-around;
+			
+			.blue{
+				background: #169bd5 !important;
+			}
+			.btn-blessing-text{
+				background: #999999;
+				border-radius: 20rpx;
+				padding: 20rpx 40rpx 20rpx 40rpx;
+				color: #FFF8FF;
+			}
+		}
+		.blessingbag{
+			width: 100%;
+			display: flex;
+			justify-content: space-around;
+			color: #999999;
+		}
+		.blessing-cont{
+			width: 100%;
+			padding: 20rpx 60rpx;
+			font-size: 32rpx;
+			view{
+				width: 100%;
+			}
+		}
+		
 	}
 </style>

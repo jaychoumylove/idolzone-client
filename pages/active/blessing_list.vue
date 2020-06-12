@@ -15,17 +15,18 @@
 				</view>
 				<view class='avatar-wrap'>
 					<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
-					<image v-if="item.user&&item.user.headwear&&item.user.headwear.img" class="headwear position-set" :src="item.user.headwear.img" mode=""></image>
+					<image v-if="item.user&&item.user.headwear&&item.user.headwear.img" class="headwear position-set" :src="item.user.headwear.img"
+					 mode=""></image>
 				</view>
 				<view class="text-container">
 					<view>
 						{{item.user.nickname || NICKNAME}}
-						<image class="img-s" :src="`/static/image/user_level/lv${item.user.level}.png`" mode=""></image>
+						<image class="img-s" :src="'/static/image/user_level/lv'+item.user.level+'.png'" mode=""></image>
 					</view>
 				</view>
 				<view class="count">
 					<view>618福袋获得</view>
-					<view>{{item.hot}}</view>
+					<view>{{item.send_blessing_num}}</view>
 				</view>
 			</view>
 		</view>
@@ -36,16 +37,17 @@
 			</view>
 			<view class='avatar-wrap'>
 				<image class="avatar" :src="$app.getData('userInfo').avatarurl" mode="aspectFill"></image>
-				<image v-if="myInfo.headwear&&myInfo.headwear.img" class="headwear position-set" :src="myInfo.headwear&&myInfo.headwear.img" mode=""></image>
+				<image v-if="myInfo.user.headwear&&myInfo.user.headwear.img" class="headwear position-set" :src="myInfo.user.headwear.img"
+				 mode=""></image>
 			</view>
 			<view class="text-container">
 				<view>
 					{{$app.getData('userInfo').nickname}}
-					<image class="img-s" :src="`/static/image/user_level/lv${myInfo.level}.png`" mode=""></image>
+					<image class="img-s" :src="'/static/image/user_level/lv'+myInfo.user.level+'.png'" mode=""></image>
 				</view>
 
 			</view>
-			<view class="count">贡献值 {{myInfo.score||''}}</view>
+			<view class="count">618福袋获得 {{myInfo.send_blessing_num||''}}</view>
 		</view>
 	</view>
 </template>
@@ -54,12 +56,10 @@
 	export default {
 		data() {
 			return {
-
-				starid: null,
 				userRank: [],
 				page: 1,
 				myInfo: {},
-				AVATAR:this.$app.getData('AVATAR'),
+				AVATAR: this.$app.getData('AVATAR'),
 				NICKNAME: this.$app.getData('NICKNAME'),
 			};
 		},
@@ -73,13 +73,11 @@
 		methods: {
 			loadData() {
 				if (this.page > 10) return
-				this.$app.request(this.$app.API.USER_RANK, {
-					starid: '1617',
+				this.$app.request(this.$app.API.ACTIVE_BLESSING_LIST, {
 					page: this.page,
-					field:'thisday_count'
 				}, res => {
-					this.myInfo = res.data.my
-
+					this.myInfo = res.data.myinfo
+					console.log(this.myInfo)
 					if (this.page == 1) {
 						this.userRank = res.data.list
 					} else {
@@ -93,7 +91,7 @@
 
 <style lang="scss" scoped>
 	.container {
-		
+
 
 		.list-container {
 			padding-bottom: 130upx;
@@ -140,7 +138,7 @@
 				}
 
 				.count {
-					margin:0 30upx;
+					margin: 0 30upx;
 					color: #ff8421;
 				}
 
