@@ -78,6 +78,58 @@
 
 			</view>
 		</view>
+		
+		<modalComponent v-if="modal == 'weibo'" type="center" title="提示" @closeModal="modal=''">
+			<view class="weibo-modal-container flex-set">
+				<view class="row-line">
+					<view class="left">第一步</view>
+					<view class="right">
+						<view class="btn" style="text-decoration: underline;" @tap="$app.copy(this.shareText)">点击复制微博格式</view>
+					</view>
+				</view>
+				<view class="row-line">
+					<view class="left">第二步</view>
+					<view class="right">
+						<view class="">在支持的爱豆微博超话中发布复制的微博格式的帖子，每日需要发布新的帖子哦</view>
+						<image :src="$app.getData('config').weibo_demo_img" mode="widthFix"></image>
+					</view>
+				</view>
+				<view class="row-line">
+					<view class="left">第三步</view>
+					<view class="right">
+						<view class="">发布的帖子可以直接复制微博链接，在下方输入框提交，系统判定后即可领取奖励</view>
+						<input type="text" @input="weiboUrl = $event.detail.value" placeholder="帖子链接" />
+					</view>
+				</view>
+		
+				<btnComponent type="default">
+					<view class="flex-set btn" style="width: 160upx;height: 80upx;" @tap="weiboCommit(0)">提交</view>
+				</btnComponent>
+			</view>
+		</modalComponent>
+		
+		<modalComponent v-if="modal == 'weibo_zhuanfa'" type="center" title="提示" @closeModal="modal=''">
+			<view class="weibo-modal-container flex-set">
+				<view class="row-line">
+					<view class="left">第一步</view>
+					<view class="right">
+						<view class="">进入{{weibo_zhuanfa.host}}主页查看{{weibo_zhuanfa.text}}</view>
+						<image class="trans" :src="weibo_zhuanfa.img" mode="widthFix"></image>
+					</view>
+				</view>
+				<view class="row-line">
+					<view class="left">第二步</view>
+					<view class="right">
+						<view class="">发布的帖子可以直接复制微博链接，在下方输入框提交，系统判定后即可领取奖励</view>
+						<input type="text" @input="weiboUrl = $event.detail.value" placeholder="帖子链接" />
+					</view>
+				</view>
+		
+				<btnComponent type="default">
+					<view class="flex-set btn" style="width: 160upx;height: 80upx;" @tap="weiboCommit(1)">提交</view>
+				</btnComponent>
+			</view>
+		</modalComponent>
 
 		<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
@@ -99,6 +151,8 @@
 				taskList: this.$app.getData('taskList') || [],
 				modal: '',
 				myinfo: {},
+				weiboUrl: '',
+				weibo_zhuanfa: {},
 
 			};
 		},
@@ -106,7 +160,7 @@
 			this.getTaskList()
 		},
 		onLoad() {
-
+			this.getShareText()
 		},
 		onShareAppMessage(e) {
 			const shareType = e.target && e.target.dataset.shareid
@@ -138,9 +192,26 @@
 					}
 				});
 			},
-
+			weiboCommit(type = 0) {
+				if (!this.weiboUrl) return
+				this.$app.request(this.$app.API.TASK_WEIBO, {
+					weiboUrl: this.weiboUrl,
+					type,
+				}, res => {
+					this.$app.toast('提交成功', 'success')
+					this.modal = ''
+					this.weiboUrl = ''
+					this.getTaskList()
+				})
+			},
 			doTask(task, index) {
-				if (task.id == 4 && task.status == 0) {
+				if (task.id == 8 && task.status == 0) {
+					// 微博超话
+					this.modal = 'weibo'
+				} else if (task.id == 9 && task.status == 0) {
+					// 微博转发
+					this.modal = 'weibo_zhuanfa'
+				} else if (task.id == 4 && task.status == 0) {
 					// 观看视频
 					this.openAdver()
 				} else if (task.gopage && task.status == 0) {
@@ -162,6 +233,12 @@
 					this.getTaskList()
 
 				}, 'POST', true)
+			},
+			getShareText() {
+				this.$app.request(this.$app.API.EXT_SHARETEXT, {}, res => {
+					this.shareText = res.data.share_text
+					this.weibo_zhuanfa = res.data.weibo_zhuanfa
+				})
 			},
 			getTaskList() {
 				this.$app.request(this.$app.API.ACTIVE_BLESSING_TASK_LIST, {}, res => {
