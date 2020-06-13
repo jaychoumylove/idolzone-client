@@ -297,7 +297,7 @@
 		</view>
 		<!-- 右下角按钮区域 -->
 		<view class="side-container">
-			<view v-if="btn_cfg.group" class="btn-wrap" @tap="goPageHasStar(item.path)" v-for="(item,index) in btn_cfg.group"
+			<view v-if="btn_cfg_group" class="btn-wrap" @tap="goPageHasStar(item.path)" v-for="(item,index) in btn_cfg_group"
 			 :key="index">
 				<image class="img" :src="item.icon" mode="aspectFill"></image>
 				<view class="title">{{item.name}}</view>
@@ -838,6 +838,8 @@
 		data() {
 			return {
 				btn_cfg: this.$app.getData('config').btn_cfg,
+				btn_cfg_group: [],
+				is_blessing_gifts: 1,
 				showLoading: true,
 				requestCount: 7,
 				tips: false,
@@ -953,6 +955,39 @@
 			clearInterval(this.timeId_danmaku)
 		},
 		methods: {
+			getGroupList() {
+				this.$app.request(this.$app.API.CONFIG, {key:'btn_cfg'}, res => {
+					this.btn_cfg = res.data;
+					let groupList = res.data.group;
+					if (groupList.length > 0) {
+						for (let j = 0, len = groupList.length; j < len; j++) {
+							let start_time = groupList[j].start_time;
+							let end_time = groupList[j].end_time;
+							let status = groupList[j].status;
+
+							if (start_time && end_time) {
+								let start = Math.round(new Date(start_time).getTime() / 1000);
+								let end = Math.round(new Date(end_time).getTime() / 1000);
+								let nowtime = Math.round(new Date().getTime() / 1000);
+								if (status == 1 && end > nowtime && start < nowtime) {
+									if (groupList[j].path == '/pages/active/active618') {
+										this.is_open_blessing = 1;
+										if (this.is_blessing_gifts == 0) {
+											this.modal = 'activity618';
+										}
+										this.blessingBagInfo();
+									}
+
+								} else {
+									groupList.splice(j, 1);
+								}
+							}
+						}
+						this.btn_cfg_group = groupList;
+					}
+				})
+
+			},
 			blessingBagInfo() {
 
 				this.$app.request(this.$app.API.USER_BLESSING_BAG, {}, res => {
@@ -976,7 +1011,7 @@
 							}, res => {
 								let data = res.data;
 								that.blessingBagInfo()
-								console.log(data)
+								// console.log(data)
 								uni.showModal({
 									title: '福袋使用成功',
 									content: '本次使用福袋获得' + parseInt(that.sendCount) + 'X' + data.value + '%=' + data.addNum + '人气',
@@ -984,9 +1019,9 @@
 									cancelText: '我知道了',
 									success: function(res) {
 										if (res.confirm) {
-
+											that.$app.goPage(`/pages/active/active618`)
 										} else if (res.cancel) {
-											that.modal = ''
+
 										}
 									}
 								});
@@ -1018,18 +1053,6 @@
 				// 请求数据
 				this.loadData()
 
-				let start_time = this.$app.getData('config').blessing618.start_time;
-				let end_time = this.$app.getData('config').blessing618.end_time;
-				let status = this.$app.getData('config').blessing618.status;
-				let start = Math.round(new Date(start_time).getTime() / 1000);
-				let end = Math.round(new Date(end_time).getTime() / 1000);
-				let nowtime = Math.round(new Date().getTime() / 1000)
-				if (status == 1 && end > nowtime && start < nowtime) {
-					this.is_open_blessing = 1;
-					this.modal = 'activity618';
-					this.blessingBagInfo();
-				}
-
 				this.userCurrency = this.$app.getData('userCurrency')
 			},
 			unLoad() {
@@ -1049,6 +1072,7 @@
 					}, res => {
 
 						this.fanclub_id = res.data.fanclub_id
+						this.is_blessing_gifts = res.data.is_blessing_gifts
 						// 明星信息
 						const star = res.data.starInfo
 						uni.setNavigationBarTitle({
@@ -1102,6 +1126,8 @@
 									this.modal = 'achieveBadge'
 							}
 						})
+						
+						this.getGroupList();
 
 					})
 				}
