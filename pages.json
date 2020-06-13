@@ -366,6 +366,14 @@
             	"navigationBarTitleText": "福气榜"
             }
         }
+        ,{
+            "path" : "pages/active/blessing_log",
+            "style" : {
+            	"navigationBarBackgroundColor": "#F99510",			
+            	"navigationBarTextStyle": "white",
+            	"navigationBarTitleText": "领取记录"
+            }
+        }
     ],
 	"tabBar": {
 		"color": "#aaaaaa",

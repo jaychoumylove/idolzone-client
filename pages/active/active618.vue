@@ -1,12 +1,13 @@
 <template>
 	<view class="container">
 		<view class="top">
+			<view class="log" @tap="$app.goPage('/pages/active/blessing_log')">领取记录</view>
 			<view class="activity-title">618狂欢</view>
 			<view class="activity-time">6月18号24点结束</view>
 			<view class="activity-rule">
 				<view class="lucky">
 					<image src="/static/image/activity/lucky_bag.png" mode="widthFix"></image>
-					<view>+{{myinfo.blessing_num||0}}</view>
+					<view style="font-weight: bold;">+{{myinfo.blessing_num||0}}</view>
 					<view style="padding-left: 10rpx;">
 						<view>使用后，可额外随机获得</view>
 						<view>6.18%、6.66%、8.88%、18%任意一档人气值</view>
@@ -15,10 +16,10 @@
 				</view>
 				<view class="lucky">
 					<image src="/static/image/activity/lucky_value.png" mode="widthFix"></image>
-					<view>+{{myinfo.lucky_value||0}}</view>
+					<view style="font-weight: bold;">+{{myinfo.lucky_value||0}}</view>
 					<view style="padding-left: 10rpx;">
 						<view>随机获得18%额外人气概率</view>
-						<view>幸运值5=获得额外18%人气的概率为5%</view>
+						<view>幸运值{{myinfo.lucky_value||0}}=获得额外18%人气的概率为{{myinfo.lucky_value||0}}%</view>
 					</view>
 				</view>
 			</view>
@@ -55,15 +56,23 @@
 				<view class="btn" @tap="doTask(item,index)">
 
 					<btnComponent type="default" v-if="item.status == 0">
-						<button v-if="item.id==6 && $app.chargeSwitch()==2" class="btn" open-type="contact" @tap.stop>
-							<view class="flex-set" style="width: 130upx;height: 65upx;">回复"1"</view>
-						</button>
-						<button v-else-if="item.open_type" class="btn" :open-type="item.open_type" :data-shareid="item.shareid" @tap="buttonHandler">
-							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
-						</button>
-						<button v-else class="btn">
-							<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
-						</button>
+						<block v-if="item.id==6 && $app.chargeSwitch()==2">
+							<button class="btn" open-type="contact" @tap.stop>
+								<view class="flex-set" style="width: 130upx;height: 65upx;">回复"1"</view>
+							</button>
+						</block>
+						<block v-else-if="item.open_type">
+							<button class="btn" :open-type="item.open_type" :data-shareid="item.shareid" @tap="buttonHandler">
+								<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
+							</button>
+
+						</block>
+						<block v-else>
+							<button class="btn">
+								<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
+							</button>
+						</block>
+
 					</btnComponent>
 
 					<btnComponent type="success" v-if="item.status == 1">
@@ -78,7 +87,7 @@
 
 			</view>
 		</view>
-		
+
 		<modalComponent v-if="modal == 'weibo'" type="center" title="提示" @closeModal="modal=''">
 			<view class="weibo-modal-container flex-set">
 				<view class="row-line">
@@ -101,13 +110,13 @@
 						<input type="text" @input="weiboUrl = $event.detail.value" placeholder="帖子链接" />
 					</view>
 				</view>
-		
+
 				<btnComponent type="default">
 					<view class="flex-set btn" style="width: 160upx;height: 80upx;" @tap="weiboCommit(0)">提交</view>
 				</btnComponent>
 			</view>
 		</modalComponent>
-		
+
 		<modalComponent v-if="modal == 'weibo_zhuanfa'" type="center" title="提示" @closeModal="modal=''">
 			<view class="weibo-modal-container flex-set">
 				<view class="row-line">
@@ -124,7 +133,7 @@
 						<input type="text" @input="weiboUrl = $event.detail.value" placeholder="帖子链接" />
 					</view>
 				</view>
-		
+
 				<btnComponent type="default">
 					<view class="flex-set btn" style="width: 160upx;height: 80upx;" @tap="weiboCommit(1)">提交</view>
 				</btnComponent>
@@ -227,7 +236,7 @@
 				this.$app.request(this.$app.API.ACTIVE_GET_BLESSING_BAG, {
 					task_id
 				}, res => {
-					let toast = '领取成功，福袋+'+res.data.blessing_num+'，幸运值+'+res.data.lucky_value;
+					let toast = '领取成功，福袋+' + res.data.blessing_num + '，幸运值+' + res.data.lucky_value;
 
 					this.$app.toast(toast)
 					this.getTaskList()
@@ -259,6 +268,14 @@
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
+			
+			.log{
+				width: 100%;
+				text-align: right;
+				align-items: center;
+				color: #f00f00;
+				margin: 20rpx 60rpx -30rpx 0rpx;
+			}
 
 			.activity-title {
 				font-size: 40rpx;

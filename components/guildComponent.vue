@@ -533,7 +533,7 @@
 		</modalComponent>
 
 		<!-- 打榜后 -->
-		<modalComponent v-if="modal == 'sendOver'" type="center" @closeModal="modal='blessing'">
+		<modalComponent v-if="modal == 'sendOver'" type="center" @closeModal="modal=''">
 			<view class="sendover-modal-container">
 				<view class="top-wrap">
 					<view class="title">粉丝贡献周榜</view>
@@ -790,13 +790,21 @@
 			</view>
 		</modalComponent>
 
-		<modalComponent v-if="modal == 'blessing' && is_open_blessing==1" type="center" title="打榜后福袋使用" @closeModal="modal=''">
+		<modalSpecialComponent v-if="modal == 'blessing' && is_open_blessing==1" type="center" title="打榜后福袋使用" @closeModal="modal=''">
 			<view class="blessing-modal-container">
 				<view class="title">打榜成功</view>
 				<view class="sengHotNum">{{this.$app.getData('userStar')['name']}}增加{{sendCount}}人气</view>
 				<view class="btn-blessing">
-					<view class="btn-blessing-text" :class="{blue:!blessingModalSelect}" @tap="useBlessing">使用福袋</view>
-					<view class="btn-blessing-text" :class="{blue:blessingModalSelect}" @tap="blessingModalSelect=1">{{blessingModalSelect>0?'提高概率':'查看概率'}}</view>
+					<view class="btn-blessing-text" @tap="useBlessing">
+						<btnComponent type="default">
+							<view class="flex-set" style=" padding: 10upx 30upx;font-size: 30upx;font-weight: 600;">使用福袋</view>
+						</btnComponent>
+					</view>
+					<view class="btn-blessing-text" @tap="blessingModalSelect=1">
+						<btnComponent type="success">
+							<view class="flex-set" style=" padding: 10upx 30upx;font-size: 30upx;font-weight: 600;">{{blessingModalSelect>0?'提高概率':'查看概率'}}</view>
+						</btnComponent>
+					</view>
 				</view>
 				<view class="blessingbag">
 					<view class="">剩余福袋:{{blessing_num}}</view>
@@ -814,7 +822,7 @@
 
 			</view>
 
-		</modalComponent>
+		</modalSpecialComponent>
 
 
 		<shareModalComponent ref="shareModal"></shareModalComponent>
@@ -827,6 +835,7 @@
 	import listItemComponent from '@/components/listItemComponent.vue'
 	import badgeComponent from '@/components/badgeComponent.vue'
 	import countToComponent from '@/components/countToComponent.vue'
+	import modalSpecialComponent from '@/components/modalSpecialComponent.vue'
 	export default {
 		components: {
 			modalComponent,
@@ -834,6 +843,7 @@
 			listItemComponent,
 			badgeComponent,
 			countToComponent,
+			modalSpecialComponent,
 		},
 		data() {
 			return {
@@ -956,23 +966,31 @@
 		},
 		methods: {
 			getGroupList() {
-				this.$app.request(this.$app.API.CONFIG, {key:'btn_cfg'}, res => {
+				console.log(1)
+				this.$app.request(this.$app.API.CONFIG, {
+					key: 'btn_cfg'
+				}, res => {
 					this.btn_cfg = res.data;
 					let groupList = res.data.group;
 					if (groupList.length > 0) {
+						console.log(2)
 						for (let j = 0, len = groupList.length; j < len; j++) {
 							let start_time = groupList[j].start_time;
 							let end_time = groupList[j].end_time;
 							let status = groupList[j].status;
-
+							console.log(3)
 							if (start_time && end_time) {
 								let start = Math.round(new Date(start_time).getTime() / 1000);
 								let end = Math.round(new Date(end_time).getTime() / 1000);
 								let nowtime = Math.round(new Date().getTime() / 1000);
+								console.log(4)
 								if (status == 1 && end > nowtime && start < nowtime) {
+									console.log(5)
 									if (groupList[j].path == '/pages/active/active618') {
 										this.is_open_blessing = 1;
-										if (this.is_blessing_gifts == 0) {
+										console.log(6)
+										if (this.is_blessing_gifts == 0 && this.$app.getData('userStar').id) {
+											console.log(7)
 											this.modal = 'activity618';
 										}
 										this.blessingBagInfo();
@@ -1021,7 +1039,7 @@
 										if (res.confirm) {
 											that.$app.goPage(`/pages/active/active618`)
 										} else if (res.cancel) {
-
+											that.modal = '';
 										}
 									}
 								});
@@ -1126,7 +1144,7 @@
 									this.modal = 'achieveBadge'
 							}
 						})
-						
+
 						this.getGroupList();
 
 					})
@@ -1690,7 +1708,11 @@
 					})
 					if (this.star.id == this.$app.getData('userStar').id) {
 						// 弹窗
-						this.modal = 'sendOver'
+						if (this.is_open_blessing == 1) {
+							this.modal = 'blessing'
+						} else {
+							this.modal = 'sendOver'
+						}
 						return
 					}
 					this.$app.toast('打榜成功', 'success')
@@ -3323,6 +3345,8 @@
 
 			.btn-contact {
 				margin: 20rpx;
+				width: 60%;
+				margin-left: 20%;
 			}
 
 		}
@@ -3762,15 +3786,8 @@
 			display: flex;
 			justify-content: space-around;
 
-			.blue {
-				background: #169bd5 !important;
-			}
-
 			.btn-blessing-text {
-				background: #999999;
-				border-radius: 20rpx;
-				padding: 20rpx 40rpx 20rpx 40rpx;
-				color: #FFF8FF;
+				
 			}
 		}
 
