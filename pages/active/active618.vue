@@ -3,7 +3,6 @@
 		<view class="top">
 			<view class="log" @tap="$app.goPage('/pages/active/blessing_log')">领取记录</view>
 			<view class="activity-title">618狂欢</view>
-			<view class="activity-time">6月18号24点结束</view>
 			<view class="activity-rule">
 				<view class="lucky">
 					<image src="/static/image/activity/lucky_bag.png" mode="widthFix"></image>
