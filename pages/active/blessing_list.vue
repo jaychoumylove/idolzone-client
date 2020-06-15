@@ -11,7 +11,7 @@
 					 mode=""></image>
 					<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTER7oibKWZCN5ThjI799sONJZAtZmRRTIQmo1R9j26goVMBJ43giaJHLIlA/0"
 					 mode=""></image>
-					<view v-else>{{index+1}}</view>
+					<view v-else>{{index-0+1}}</view>
 				</view>
 				<view class='avatar-wrap'>
 					<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
@@ -67,8 +67,10 @@
 			this.loadData()
 		},
 		onReachBottom() {
-			this.page++
-			this.loadData()
+			if(this.page<10){
+				this.page++;
+				this.loadData()
+			}
 		},
 		methods: {
 			loadData() {
