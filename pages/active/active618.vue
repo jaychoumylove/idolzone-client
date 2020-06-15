@@ -9,7 +9,7 @@
 					<image src="/static/image/activity/lucky_bag.png" mode="widthFix"></image>
 					<view style="font-weight: bold;">+{{myinfo.blessing_num||0}}</view>
 					<view style="padding-left: 10rpx;">
-						<view>使用后，可额外随机获得</view>
+						<view>冲榜后使用后，可额外随机获得</view>
 						<view>6.18%、6.66%、8.88%、18%任意一档人气值</view>
 					</view>
 

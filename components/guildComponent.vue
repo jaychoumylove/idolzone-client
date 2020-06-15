@@ -966,31 +966,24 @@
 		},
 		methods: {
 			getGroupList() {
-				console.log(1)
 				this.$app.request(this.$app.API.CONFIG, {
 					key: 'btn_cfg'
 				}, res => {
 					this.btn_cfg = res.data;
 					let groupList = res.data.group;
 					if (groupList.length > 0) {
-						console.log(2)
 						for (let j = 0, len = groupList.length; j < len; j++) {
 							let start_time = groupList[j].start_time;
 							let end_time = groupList[j].end_time;
 							let status = groupList[j].status;
-							console.log(3)
 							if (start_time && end_time) {
 								let start = Math.round(new Date(start_time).getTime() / 1000);
 								let end = Math.round(new Date(end_time).getTime() / 1000);
 								let nowtime = Math.round(new Date().getTime() / 1000);
-								console.log(4)
 								if (status == 1 && end > nowtime && start < nowtime) {
-									console.log(5)
 									if (groupList[j].path == '/pages/active/active618') {
 										this.is_open_blessing = 1;
-										console.log(6)
 										if (this.is_blessing_gifts == 0 && this.$app.getData('userStar').id) {
-											console.log(7)
 											this.modal = 'activity618';
 										}
 										this.blessingBagInfo();

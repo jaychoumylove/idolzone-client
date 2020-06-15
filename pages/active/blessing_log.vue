@@ -1,30 +1,36 @@
 <!-- 个人明细 -->
 <template>
 	<view class="log-container">
-		<view class="item" v-for="(item,index) in logList" :key="index">
-			<view class="left-content">
-				<view class="content ">
-					<view class="top">{{item.content}}</view>
-					<view class="bottom">{{item.create_time}}</view>
+		<block v-if="logList.length>0">
+			<view class="item" v-for="(item,index) in logList" :key="index">
+				<view class="left-content">
+					<view class="content ">
+						<view class="top">{{item.content}}</view>
+						<view class="bottom">{{item.create_time}}</view>
+					</view>
 				</view>
-			</view>
 
-			<view class="right-content">
-				<view class="earn">
-					<view class="right-item" v-if="item.blessing_num">
-						<image src="/static/image/activity/lucky_bag.png"
-						 mode="widthFix"></image>
-						<view class="add-count">{{item.blessing_num}}</view>
+				<view class="right-content">
+					<view class="earn">
+						<view class="right-item" v-if="item.blessing_num">
+							<image src="/static/image/activity/lucky_bag.png" mode="widthFix"></image>
+							<view class="add-count">{{item.blessing_num}}</view>
+						</view>
+						<view class="right-item" v-if="item.lucky_value">
+							<image src="/static/image/activity/lucky_value.png" mode="widthFix"></image>
+							<view class="add-count">{{item.lucky_value}}</view>
+						</view>
+
 					</view>
-					<view class="right-item" v-if="item.lucky_value">
-						<image src="/static/image/activity/lucky_value.png"
-						 mode="widthFix"></image>
-						<view class="add-count">{{item.lucky_value}}</view>
-					</view>
-					
 				</view>
 			</view>
-		</view>
+		</block>
+		<block v-else>
+			<view class="item" style="justify-content: center;">
+				暂无任何领取记录
+			</view>
+		</block>
+
 	</view>
 </template>
 
