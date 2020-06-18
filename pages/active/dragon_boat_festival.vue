@@ -23,47 +23,40 @@
 		
 		<!-- 列表 -->
 		<view class="list-container">
-			<view class="item">
-				<view class="title-text">黄金场：1400元奖金</view>
-				<view class="join-add">
-					<view>
-						<btnComponent type="yellow">
-							<button class="btn" open-type="share" data-sharetype="share">
-								<view class="flex-set" style="width: 200upx; height: 60upx;">立即参加</view>
-							</button>
-						</btnComponent>
+			<view class="item" v-for="(item,index) in list" :key="index">
+				<view class="item-cont">
+					<view class="title-text">{{item.title}}：{{item.bonus}}元奖金</view>
+					<view class="join-add">
+						<view>
+							<btnComponent type="yellow">
+								<button class="btn" @tap="">
+									<view class="flex-set" style="width: 200upx; height: 60upx;">立即参加</view>
+								</button>
+							</btnComponent>
+						</view>
+						<view>
+							<btnComponent type="yellow">
+								<button class="btn" open-type="share" data-sharetype="share">
+									<view class="flex-set" style="width: 200upx; height: 60upx;">增加人气</view>
+								</button>
+							</btnComponent>
+						</view>
 					</view>
-					<view>
-						<btnComponent type="yellow">
-							<button class="btn" open-type="share" data-sharetype="share">
-								<view class="flex-set" style="width: 200upx; height: 60upx;">增加人气</view>
-							</button>
-						</btnComponent>
+					<view class="more">更多></view>
+					<view class="funsclub-list">
+						<view class="funsclub-info" v-if="item.fanclub" v-for="(value,key) in item.fanclub" :key="key">
+							<view class="funs-img"><image :src="value.fanclub_avatar" mode="aspectFill"></image></view>
+							<view class="funs-name">{{value.fanclub_name}}</view>
+							<view class="funs-total-hot">{{value.total_count}}</view>
+						</view>
+						
+						<!-- <view class="funsclub-info">
+							<view class="funs-img"><image src="/static/sharemenu/qq.png" mode="widthFix"></image></view>
+							<view class="funs-name">明星粉丝团</view>
+							<view class="funs-total-hot">1000</view>
+						</view> -->
 					</view>
-				</view>
-				<view class="more">更多></view>
-				<view class="funsclub-list">
-					<view class="funsclub-info">
-						<view class="funs-img"><image src="/static/sharemenu/qq.png" mode="widthFix"></image></view>
-						<view class="funs-name">明星粉丝团</view>
-						<view class="funs-total-hot">1000</view>
-					</view>
-					<view class="funsclub-info">
-						<view class="funs-img"><image src="/static/sharemenu/qq.png" mode="widthFix"></image></view>
-						<view class="funs-name">明星粉丝团</view>
-						<view class="funs-total-hot">1000</view>
-					</view>
-					<view class="funsclub-info">
-						<view class="funs-img"><image src="/static/sharemenu/qq.png" mode="widthFix"></image></view>
-						<view class="funs-name">明星粉丝团</view>
-						<view class="funs-total-hot">1000</view>
-					</view>
-					<view class="funsclub-info">
-						<view class="funs-img"><image src="/static/sharemenu/qq.png" mode="widthFix"></image></view>
-						<view class="funs-name">明星粉丝团</view>
-						<view class="funs-total-hot">1000</view>
-					</view>
-				</view>
+				</view>		
 			</view>
 		</view>
 		<!-- 退出活动 -->
@@ -175,7 +168,7 @@
 		},
 		data() {
 			return {
-				funsclubRank: [],
+				list: [],
 				modal:'',
 			};
 		},
@@ -189,7 +182,7 @@
 		methods: {
 			loadData() {
 				this.$app.request(this.$app.API.ACTIVE_DRAGON_BOAT_FESTIVAL, {}, res => {
-					
+					this.list=res.data;
 				})
 			},
 			exitGroup(val) {
@@ -241,62 +234,65 @@
 		
 		.list-container {
 			width: 100%;
-			padding: 20rpx;
+			
 			.item {
-				width: 100%;
-				padding: 20rpx 10rpx;
-				border-radius: 25rpx;
-				background-color: #FFFFFF;
-				box-shadow:0rpx 10rpx 10rpx 0rpx rgba(255,108,121,0.1);
-				border:3rpx solid #F5E0E1;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-
-				.title-text {
-					font-size: 36rpx;
-					font-weight: bold;
-				}
-				.join-add{
-					width: 100%;
-					display: flex;
-					justify-content: space-around;
-					padding: 20rpx 0;
-					view{
-						width: 40%;
-					}
-				}
-				.more{
-					width: 100%;
-					text-align: right;
-					color: #fed525;
-					font-size: 24rpx;
-					padding: 10rpx;
-				}
-				.funsclub-list{
-					width: 100%;
-					display: flex;
-					flex-wrap: wrap;
+				padding: 20rpx 30rpx;
+				.item-cont{
 					
-					.funsclub-info{
-						width: 25%;
-						padding: 5rpx;
+					width: 100%;
+					padding: 20rpx 10rpx;
+					border-radius: 25rpx;
+					background-color: #FFFFFF;
+					box-shadow:0rpx 10rpx 10rpx 0rpx rgba(255,108,121,0.1);
+					border:3rpx solid #F5E0E1;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					
+					.title-text {
+						font-size: 36rpx;
+						font-weight: bold;
+					}
+					.join-add{
+						width: 100%;
+						display: flex;
+						justify-content: space-around;
+						padding: 20rpx 0;
 						view{
-							width: 100%;
-							display: flex;
-							justify-content: center;
-							align-items: center;
-							font-size: 22rpx;
-							image{
-								width: 80%;
-								border-radius: 50%;
+							width: 40%;
+						}
+					}
+					.more{
+						width: 100%;
+						text-align: right;
+						color: #fed525;
+						font-size: 24rpx;
+						padding: 10rpx;
+					}
+					.funsclub-list{
+						width: 100%;
+						display: flex;
+						flex-wrap: wrap;
+						
+						.funsclub-info{
+							width: 25%;
+							padding: 5rpx;
+							view{
+								width: 100%;
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								font-size: 22rpx;
+								image{
+									width: 120rpx;
+									height: 120rpx;
+									border-radius: 50%;
+								}
 							}
 						}
 					}
 				}
-
-
 			}
 		}
 		
