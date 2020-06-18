@@ -383,7 +383,7 @@
             }
         }
         ,{
-            "path" : "pages/active/dragon_boat_festival_funclub",
+            "path" : "pages/active/dragon_boat_festival_fanclub",
             "style" : {
             	"navigationBarBackgroundColor": "#F99510",			
             	"navigationBarTextStyle": "white",
@@ -391,7 +391,7 @@
             }
         }
         ,{
-            "path" : "pages/active/dragon_boat_festival_funclub_user",
+            "path" : "pages/active/dragon_boat_festival_fanclub_user",
             "style" : {
             	"navigationBarBackgroundColor": "#F99510",			
             	"navigationBarTextStyle": "white",
