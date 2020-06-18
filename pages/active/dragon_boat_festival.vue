@@ -6,7 +6,7 @@
 			<view class="top-share">
 				<view>
 					<btnComponent type="default">
-						<button class="btn" open-type="share" data-sharetype="share">
+						<button class="btn" @tap="$app.goPage('/pages/notice/notice?id=1')">
 							<view class="flex-set" style="width: 200upx; height: 60upx;">奖励说明</view>
 						</button>
 					</btnComponent>
@@ -42,7 +42,7 @@
 							</btnComponent>
 						</view>
 					</view>
-					<view class="more">更多></view>
+					<view class="more" @tap="goPage('/pages/active/dragon_boat_festival_fanclub?id=',item.id)">更多></view>
 					<view class="funsclub-list">
 						<view class="funsclub-info" v-if="item.fanclub" v-for="(value,key) in item.fanclub" :key="key">
 							<view class="funs-img"><image :src="value.fanclub_avatar" mode="aspectFill"></image></view>
@@ -180,6 +180,9 @@
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
+			goPage(url,val){
+				this.$app.goPage(url+val);
+			},
 			loadData() {
 				this.$app.request(this.$app.API.ACTIVE_DRAGON_BOAT_FESTIVAL, {}, res => {
 					this.list=res.data;
