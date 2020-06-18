@@ -966,35 +966,13 @@
 		},
 		methods: {
 			getGroupList() {
-				this.$app.request(this.$app.API.CONFIG, {
-					key: 'btn_cfg'
-				}, res => {
-					this.btn_cfg = res.data;
-					let groupList = res.data.group;
-					if (groupList.length > 0) {
-						for (let j = 0, len = groupList.length; j < len; j++) {
-							let start_time = groupList[j].start_time;
-							let end_time = groupList[j].end_time;
-							let status = groupList[j].status;
-							if (start_time && end_time) {
-								let start = Math.round(new Date(start_time).getTime() / 1000);
-								let end = Math.round(new Date(end_time).getTime() / 1000);
-								let nowtime = Math.round(new Date().getTime() / 1000);
-								if (status == 1 && end > nowtime && start < nowtime) {
-									if (groupList[j].path == '/pages/active/active618') {
-										this.is_open_blessing = 1;
-										if (this.is_blessing_gifts == 0 && this.$app.getData('userStar').id) {
-											this.modal = 'activity618';
-										}
-										this.blessingBagInfo();
-									}
-
-								} else {
-									groupList.splice(j, 1);
-								}
-							}
-						}
-						this.btn_cfg_group = groupList;
+				this.$app.request(this.$app.API.BTN_CFG_GROUP, {}, res => {
+					this.btn_cfg = res.data.btn_cfg;
+					this.btn_cfg_group = res.data.groupList;
+					this.is_open_blessing = res.data.is_open_blessing;
+					this.modal = res.data.modal;
+					if(this.is_open_blessing>0){
+						this.blessingBagInfo();
 					}
 				})
 

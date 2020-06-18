@@ -1,0 +1,214 @@
+<template>
+	<view class="container">
+		<view class="top">
+			<view class="title">粉丝团前100名人气PK排名</view>
+			<view class="time">活动时间：6月25日-7月1日</view>
+			<view class="top-share">
+				<view>
+					<btnComponent type="default">
+						<button class="btn" open-type="share" data-sharetype="share">
+							<view class="flex-set" style="width: 200upx; height: 60upx;">奖励说明</view>
+						</button>
+					</btnComponent>
+				</view>
+				<view>
+					<btnComponent type="default">
+						<button class="btn" open-type="share" data-sharetype="share">
+							<view class="flex-set" style="width: 200upx; height: 60upx;">分享召集</view>
+						</button>
+					</btnComponent>
+				</view>
+			</view>
+		</view>
+		
+		<!-- 列表 -->
+		<view class="list-container">
+			<view class="item">
+				<view class="title-text">黄金场：1400元奖金</view>
+				<view class="join-add">
+					<view>
+						<btnComponent type="yellow">
+							<button class="btn" open-type="share" data-sharetype="share">
+								<view class="flex-set" style="width: 200upx; height: 60upx;">立即参加</view>
+							</button>
+						</btnComponent>
+					</view>
+					<view>
+						<btnComponent type="yellow">
+							<button class="btn" open-type="share" data-sharetype="share">
+								<view class="flex-set" style="width: 200upx; height: 60upx;">增加人气</view>
+							</button>
+						</btnComponent>
+					</view>
+				</view>
+				<view class="more">更多></view>
+				<view class="funsclub-list">
+					<view class="funsclub-info">
+						<view class="funs-img"><image src="/static/sharemenu/qq.png" mode="widthFix"></image></view>
+						<view class="funs-name">明星粉丝团</view>
+						<view class="funs-total-hot">1000</view>
+					</view>
+					<view class="funsclub-info">
+						<view class="funs-img"><image src="/static/sharemenu/qq.png" mode="widthFix"></image></view>
+						<view class="funs-name">明星粉丝团</view>
+						<view class="funs-total-hot">1000</view>
+					</view>
+					<view class="funsclub-info">
+						<view class="funs-img"><image src="/static/sharemenu/qq.png" mode="widthFix"></image></view>
+						<view class="funs-name">明星粉丝团</view>
+						<view class="funs-total-hot">1000</view>
+					</view>
+					<view class="funsclub-info">
+						<view class="funs-img"><image src="/static/sharemenu/qq.png" mode="widthFix"></image></view>
+						<view class="funs-name">明星粉丝团</view>
+						<view class="funs-total-hot">1000</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<prompt v-if="modal=='exit'" title="退出活动粉丝团人气将清零,重新参加则从零开始" placeholder="输入你的ID确认退出本次活动" @confirm="exitGroup"
+		 @closeModal="modal=''">
+		
+		</prompt>
+	</view>
+</template>
+
+<script>
+	import modalComponent from '@/components/modalComponent.vue'
+	import btnComponent from '@/components/btnComponent.vue'
+	import prompt from "@/components/zz-prompt/index.vue";
+	export default {
+		components: {
+			modalComponent,
+			btnComponent,
+			prompt,
+		},
+		data() {
+			return {
+				funsclubRank: [],
+				modal:'exit',
+			};
+		},
+		onLoad(option) {
+			this.loadData()
+		},
+		onShareAppMessage(e) {
+			const shareType = e.target && e.target.dataset.shareid
+			return this.$app.commonShareAppMessage(shareType)
+		},
+		methods: {
+			loadData() {
+				this.$app.request(this.$app.API.ACTIVE_DRAGON_BOAT_FESTIVAL, {}, res => {
+					
+				})
+			},
+			exitGroup(val) {
+				if (val != this.$app.getData('userInfo').id * 1234) {
+					this.$app.toast('ID输入不正确')
+					return
+				}
+				this.$app.request(this.$app.API.ACTIVE_DRAGON_BOAT_FESTIVAL_EXIT, {}, res => {
+					this.$app.toast('退出成功')
+					this.modal = ''
+				})
+			},
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.container {
+		.top{
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			padding: 0 40rpx;
+			border-bottom: 4rpx solid #f2f3f4;
+			
+			.title{
+				font-size: 36rpx;
+				font-weight: bold;
+				padding: 15rpx 0 5rpx 0;
+			}
+			.time{
+				font-size: 28rpx;
+				font-weight: bold;
+				padding: 0 40rpx 10rpx 40rpx;
+				
+			}
+			.top-share{
+				width: 100%;
+				display: flex;
+				justify-content: space-around;
+				padding-bottom: 20rpx;
+				view{
+					width: 40%;
+				}
+			}
+		}
+		
+		.list-container {
+			width: 100%;
+			padding: 20rpx;
+			.item {
+				width: 100%;
+				padding: 20rpx 10rpx;
+				border-radius: 25rpx;
+				background-color: #FFFFFF;
+				box-shadow:0rpx 10rpx 10rpx 0rpx rgba(255,108,121,0.1);
+				border:3rpx solid #F5E0E1;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+
+				.title-text {
+					font-size: 36rpx;
+					font-weight: bold;
+				}
+				.join-add{
+					width: 100%;
+					display: flex;
+					justify-content: space-around;
+					padding: 20rpx 0;
+					view{
+						width: 40%;
+					}
+				}
+				.more{
+					width: 100%;
+					text-align: right;
+					color: #fed525;
+					font-size: 24rpx;
+					padding: 10rpx;
+				}
+				.funsclub-list{
+					width: 100%;
+					display: flex;
+					flex-wrap: wrap;
+					
+					.funsclub-info{
+						width: 25%;
+						padding: 5rpx;
+						view{
+							width: 100%;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							font-size: 22rpx;
+							image{
+								width: 80%;
+								border-radius: 50%;
+							}
+						}
+					}
+				}
+
+
+			}
+		}
+
+	}
+</style>

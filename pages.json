@@ -374,6 +374,30 @@
             	"navigationBarTitleText": "领取记录"
             }
         }
+        ,{
+            "path" : "pages/active/dragon_boat_festival",
+            "style" : {
+            	"navigationBarBackgroundColor": "#F99510",			
+            	"navigationBarTextStyle": "white",
+            	"navigationBarTitleText": "粉丝团前100名人气PK排名"
+            }
+        }
+        ,{
+            "path" : "pages/active/dragon_boat_festival_funclub",
+            "style" : {
+            	"navigationBarBackgroundColor": "#F99510",			
+            	"navigationBarTextStyle": "white",
+            	"navigationBarTitleText": "粉丝团前100名人气PK排名"
+            }
+        }
+        ,{
+            "path" : "pages/active/dragon_boat_festival_funclub_user",
+            "style" : {
+            	"navigationBarBackgroundColor": "#F99510",			
+            	"navigationBarTextStyle": "white",
+            	"navigationBarTitleText": "粉丝团人气PK排名"
+            }
+        }
     ],
 	"tabBar": {
 		"color": "#aaaaaa",
