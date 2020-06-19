@@ -1,18 +1,18 @@
 <template>
 	<view class="container">
 		<view class="top">
-			<view class="bonus_total">黄金场：1400元奖金</view>
+			<view class="bonus_total">{{active_info.title || ''}}：{{active_info.bonus || ''}}元奖金</view>
 			<view class="bonus">
-				<view>第一名：1000元</view>
-				<view>第二名：300元</view>
-				<view>第三名：100元</view>
+				<view>第一名：{{active_info.first_bonus || ''}}元</view>
+				<view>第二名：{{active_info.second_bonus || ''}}元</view>
+				<view>第三名：{{active_info.three_bonus || ''}}元</view>
 			</view>
 		</view>
 		<view class="fans_text">本场粉丝贡献排名</view>
 		
 		<!-- 列表 -->
 		<view class="list-container">
-			<view class="item" v-for="(item,index) in userRank" :key="index">
+			<view class="item" v-for="(item,index) in fanclubUserRank" :key="index">
 				<view class="rank-num">
 					<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERPO5dPoLHgkajBHNM2z9fooSUMLxB0ogg1mYllIAOuoanico1icDFfYFA/0"
 					 mode=""></image>
@@ -24,7 +24,7 @@
 				</view>
 				<view class='avatar-wrap'>
 					<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
-					<image v-if="item.user&&item.user.headwear&&item.user.headwear.img" class="headwear position-set" :src="item.user.headwear.img"
+					<image v-if="item.user.headwear && item.user.headwear.img" class="headwear position-set" :src="item.user.headwear.img"
 					 mode=""></image>
 				</view>
 				<view class="text-container">
@@ -32,10 +32,11 @@
 						{{item.user.nickname || NICKNAME}}
 						<image class="img-s" :src="'/static/image/user_level/lv'+item.user.level+'.png'" mode=""></image>
 					</view>
-				</view>
-				<view class="count">
-					<view>618福袋获得</view>
-					<view>{{item.send_blessing_num}}</view>
+					<view class="round_count">
+						<view>本场人气:</view>
+						<view class="count">{{item.dragon_boat_festival_hot || 0}}</view>
+						<image src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F3NAxlopF2oyvfuiaEjgJItws1tcmzFFLo4WGc38l7kibxxk1atGAcjALuqvyvLib3icFPyAicbsOOl3g/0'></image>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -46,17 +47,20 @@
 			</view>
 			<view class='avatar-wrap'>
 				<image class="avatar" :src="$app.getData('userInfo').avatarurl" mode="aspectFill"></image>
-				<image v-if="myInfo.user.headwear&&myInfo.user.headwear.img" class="headwear position-set" :src="myInfo.user.headwear.img"
+				<image v-if="myInfo.headwear && myInfo.headwear.img" class="headwear position-set" :src="myInfo.headwear.img"
 				 mode=""></image>
 			</view>
 			<view class="text-container">
 				<view>
-					{{$app.getData('userInfo').nickname}}
-					<image class="img-s" :src="'/static/image/user_level/lv'+myInfo.user.level+'.png'" mode=""></image>
+					{{$app.getData('userInfo').nickname || NICKNAME}}
+					<image class="img-s" :src="'/static/image/user_level/lv'+myInfo.level+'.png'" mode=""></image>
 				</view>
 
 			</view>
-			<view class="count">618福袋获得 {{myInfo.send_blessing_num||''}}</view>
+			<view class="round_count">
+				<view>本场人气:</view>
+				<view class="count">{{myInfo.dragon_boat_festival_hot || 0}}</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -65,14 +69,21 @@
 	export default {
 		data() {
 			return {
-				userRank: [],
+				fanclubUserRank: [],
 				page: 1,
-				myInfo: {},
+				myInfo:'',
+				active_info:[],
+				active_id:0,
 				AVATAR: this.$app.getData('AVATAR'),
 				NICKNAME: this.$app.getData('NICKNAME'),
 			};
 		},
 		onLoad(option) {
+			if(!option.active_id){
+				this.$app.toast('网络延时')
+				this.goPage('/pages/active/dragon_boat_festival');
+			}
+			this.active_id=option.active_id;
 			this.loadData()
 		},
 		onReachBottom() {
@@ -82,31 +93,26 @@
 			}
 		},
 		methods: {
+			goPage(url, val='') {
+				this.$app.goPage(url + val);
+			},
 			loadData() {
 				if (this.page > 10) return
-				this.$app.request(this.$app.API.ACTIVE_BLESSING_LIST, {
+				this.$app.request(this.$app.API.ACTIVE_DRAGON_BOAT_FESTIVAL_FANCLUB_USER, {
 					page: this.page,
+					active_id:this.active_id,
 				}, res => {
+					this.active_info = res.data.active_info;
 					this.myInfo = res.data.myinfo
-					console.log(this.myInfo)
+					
 					if (this.page == 1) {
-						this.userRank = res.data.list
+						this.fanclubUserRank = res.data.list
 					} else {
-						this.userRank = this.userRank.concat(res.data.list)
+						this.fanclubUserRank = this.fanclubUserRank.concat(res.data.list)
 					}
 				})
 			},
-			buttonHandler(e) {
-				const sharetype = e.target.dataset.sharetype
-				if (sharetype == 'share') {
-					// 分享
-					const shareType = e.target && e.target.dataset.sharetype
-					// #ifdef APP-PLUS
-					const shareOptions = this.$app.commonShareAppMessage(shareType)
-					this.$refs.shareModal.shareShow(shareOptions)
-					// #endif
-				}
-			},
+			
 		}
 	}
 </script>
@@ -179,7 +185,7 @@
 
 				.text-container {
 					margin: 0 20upx;
-					width: 250upx;
+					width: 330upx;
 
 					.bottom-text {
 						display: flex;
@@ -187,11 +193,22 @@
 						color: $text-color-1;
 					}
 				}
-
-				.count {
-					margin: 0 30upx;
-					color: #ff8421;
+				.round_count{
+					display: flex;
+					flex-direction: row;
+					font-size: 24rpx;
+					color: #999999;
+					.count {
+						color: #ff8421;
+					}
+					image{
+						width: 30upx;
+						height: 30upx;
+						vertical-align: middle;
+						margin-left: 10rpx;
+					}
 				}
+				
 
 
 			}
@@ -232,7 +249,7 @@
 			}
 
 			.text-container {
-				margin: 0 20upx;
+				margin: 0 20upx 0 20upx;
 				width: 250upx;
 
 				.bottom-text {
@@ -243,7 +260,6 @@
 			}
 
 			.count {
-				margin-left: 30upx;
 				color: #ff8421;
 			}
 		}
