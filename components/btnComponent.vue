@@ -77,6 +77,27 @@
 		background: linear-gradient(to right bottom, #FDEBB2,#fbcc3e);
 		box-shadow: none;
 	}
+	
+	.button.custom1{
+		background: #f2594c;
+		color: #FFF;
+	}
+	
+	.button.custom2{
+		border: 2upx solid #f2594c;
+		color: #f2594c;
+	}
+	
+	.button.custom3{
+		background: #fed525;
+		color: #000000;
+	}
+	
+	.button.custom4{
+		border: 2upx solid #999999;
+		color: #999999;
+	}
+	
 
 	.button.none {
 		box-shadow: none;

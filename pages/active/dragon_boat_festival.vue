@@ -1,20 +1,14 @@
 <template>
 	<view class="container">
 		<view class="top">
-			<view class="title">粉丝团前100名人气PK排名</view>
-			<view class="time">活动时间：{{time_text}}</view>
 			<view class="top-share">
 				<view>
-					<btnComponent type="default">
-						<button class="btn" @tap="$app.goPage('/pages/notice/notice?id='+notice_id)">
-							<view class="flex-set" style="width: 200upx; height: 60upx;">奖励说明</view>
-						</button>
-					</btnComponent>
+					还剩 22 22 22 22
 				</view>
-				<view>
-					<btnComponent type="default">
-						<button class="btn" open-type="share" data-sharetype="share">
-							<view class="flex-set" style="width: 200upx; height: 60upx;">分享召集</view>
+				<view style="width: 30%;">
+					<btnComponent type="custom4">
+						<button class="btn" @tap="$app.goPage('/pages/notice/notice?id='+notice_id)">
+							<view class="flex-set" style="width: 150upx; height: 50upx; font-size: 28rpx;">活动说明</view>
 						</button>
 					</btnComponent>
 				</view>
@@ -24,29 +18,14 @@
 		<!-- 列表 -->
 		<view class="list-container">
 			<view class="item" v-for="(item,index) in list" :key="index">
-				<view class="item-cont">
-					<view class="title-text">{{item.title}}：{{item.bonus}}元奖金</view>
-					<view class="join-add">
-						<view>
-							<btnComponent type="yellow">
-								<button class="btn" v-if="join_active_id">
-									<view class="flex-set" v-if="join_active_id==item.id" style="width: 200upx; height: 60upx; font-size: 24rpx;">还差{{difference_first}}第一</view>
-									<view class="flex-set" v-else style="width: 200upx; height: 60upx; font-size: 24rpx;">已加入其他场次</view>
-								</button>
-								<button class="btn" v-else @tap="joinClick(item.id)">
-									<view class="flex-set" style="width: 200upx; height: 60upx;">立即参加</view>
-								</button>
-							</btnComponent>
-						</view>
-						<view>
-							<btnComponent type="yellow">
-								<button class="btn" @tap="$app.goPage('/pages/group/group')">
-									<view class="flex-set" style="width: 200upx; height: 60upx;">增加人气</view>
-								</button>
-							</btnComponent>
-						</view>
+				<view class="item-cont" :class="[ join_active_id==item.id?'item-border-join':'item-border-nojoin' ]">
+					<view class="top-title">
+						<image class="bg" v-if="join_active_id==item.id" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9W1BibcOu04iaTBwBo7jxz0htMqHohEE7XqrCSqOKnQCWfTDHKnJZZiaibw/0"
+						 mode="aspectFill"></image>
+						<image class="bg" v-else src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9obQkq8GWNOia2UmbcaDv7BoMiba0C7sa0sAxtD7lM1wyZDT0YcGelcEg/0"
+						 mode="aspectFill"></image>
+						<view class="title-text">{{item.title}}：{{item.bonus}}元奖金</view>
 					</view>
-					<view class="more" @tap="goPage('/pages/active/dragon_boat_festival_fanclub?active_id=',item.id)">更多></view>
 					<view class="funsclub-list">
 						<view class="funsclub-info" v-if="item.fanclub" v-for="(value,key) in item.fanclub" :key="key">
 							<view class="funs-img">
@@ -61,6 +40,29 @@
 							<view class="funs-name">明星粉丝团</view>
 							<view class="funs-total-hot">1000</view>
 						</view> -->
+					</view>
+					<view class="join-add">
+						<view  v-if="join_active_id && join_active_id==item.id">
+							<btnComponent type="custom3">
+								<button class="btn">
+									<view class="flex-set join-add-button">立即冲榜</view>
+								</button>
+							</btnComponent>
+						</view>
+						<view v-else-if="!join_active_id">
+							<btnComponent type="custom1">
+								<button class="btn" @tap="joinClick(item.id)">
+									<view class="flex-set join-add-button">报名参加</view>
+								</button>
+							</btnComponent>
+						</view>
+						<view>
+							<btnComponent type="custom2">
+								<button class="btn" @tap="goPage('/pages/active/dragon_boat_festival_fanclub?active_id=',item.id)">
+									<view class="flex-set join-add-button">查看全部排名>></view>
+								</button>
+							</btnComponent>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -232,31 +234,13 @@
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			padding: 0 40rpx;
-			border-bottom: 4rpx solid #f2f3f4;
-
-			.title {
-				font-size: 36rpx;
-				font-weight: bold;
-				padding: 15rpx 0 5rpx 0;
-			}
-
-			.time {
-				font-size: 28rpx;
-				font-weight: bold;
-				padding: 0 40rpx 10rpx 40rpx;
-
-			}
+			padding: 20rpx 40rpx;
 
 			.top-share {
 				width: 100%;
 				display: flex;
-				justify-content: space-around;
-				padding-bottom: 20rpx;
+				justify-content: space-between;
 
-				view {
-					width: 40%;
-				}
 			}
 		}
 
@@ -264,24 +248,43 @@
 			width: 100%;
 
 			.item {
-				padding: 20rpx 30rpx;
-
+				padding: 40rpx 30rpx;
+				
+				.item-border-join{
+					border: 4upx solid #ff9303;
+					box-shadow: 0 2upx 4upx #870c0e;
+				}
+				.item-border-nojoin{
+					border: 4upx solid #999999;
+					box-shadow: 0 2upx 4upx #666666;
+				}
+				
 				.item-cont {
 
 					width: 100%;
 					padding: 20rpx 10rpx;
-					border-radius: 25rpx;
+					border-radius: 30rpx;
 					background-color: #FFFFFF;
-					box-shadow: 0rpx 10rpx 10rpx 0rpx rgba(255, 108, 121, 0.1);
-					border: 3rpx solid #F5E0E1;
 					display: flex;
 					flex-direction: column;
-					justify-content: center;
-					align-items: center;
-
-					.title-text {
-						font-size: 36rpx;
-						font-weight: bold;
+					
+					.top-title{
+						width: 100%;
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+						align-items: center;
+						.bg{
+							width: 481upx;
+							height: 76upx;
+							margin-top: -80rpx;
+						}
+						.title-text {
+							color: #FFFFFF;
+							font-size: 28rpx;
+							font-weight: bold;
+							margin-top: -65rpx;
+						}
 					}
 
 					.join-add {
@@ -293,15 +296,14 @@
 						view {
 							width: 40%;
 						}
+						
+						.join-add-button{
+							width: 220upx; 
+							height: 70upx; 
+							font-size: 24rpx;
+						}
 					}
 
-					.more {
-						width: 100%;
-						text-align: right;
-						color: #fed525;
-						font-size: 24rpx;
-						padding: 10rpx;
-					}
 
 					.funsclub-list {
 						width: 100%;
