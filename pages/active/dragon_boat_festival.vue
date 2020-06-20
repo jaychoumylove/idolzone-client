@@ -63,7 +63,7 @@
 								</view>
 								<view v-if="myClubInfo.total_count>0" class="funs-total-hot">贡献 <text style="color: #FBCC3E;">{{myClubInfo.total_count}}</text> 人气</view>
 								<view v-else class="funs-total-hot">暂无贡献</view>
-								<view class="difference_first">距离第一名还差{{myClubInfo.difference_first}}人气</view>
+								<view v-if="myClubInfo.rank>1 && myClubInfo.difference_first>0" class="difference_first">距离第一名还差{{myClubInfo.difference_first}}人气</view>
 							</view>
 						</view>
 					</view>
