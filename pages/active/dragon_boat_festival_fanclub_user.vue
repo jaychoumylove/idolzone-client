@@ -1,13 +1,6 @@
 <template>
 	<view class="container">
-		<view class="top">
-			<view class="bonus_total">{{active_info.title || ''}}：{{active_info.bonus || ''}}元奖金</view>
-			<view class="bonus">
-				<view>第一名：{{active_info.first_bonus || ''}}元</view>
-				<view>第二名：{{active_info.second_bonus || ''}}元</view>
-				<view>第三名：{{active_info.three_bonus || ''}}元</view>
-			</view>
-		</view>
+		
 		<view class="fans_text">本场粉丝贡献排名</view>
 		
 		<!-- 列表 -->

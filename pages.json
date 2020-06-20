@@ -377,25 +377,25 @@
         ,{
             "path" : "pages/active/dragon_boat_festival",
             "style" : {
-            	"navigationBarBackgroundColor": "#F99510",			
-            	"navigationBarTextStyle": "white",
-            	"navigationBarTitleText": "粉丝团前100名人气PK排名"
+            	"navigationBarBackgroundColor": "#B5E4D7",			
+            	"navigationBarTextStyle": "black",
+            	"navigationBarTitleText": "粉丝团PK"
             }
         }
         ,{
             "path" : "pages/active/dragon_boat_festival_fanclub",
             "style" : {
-            	"navigationBarBackgroundColor": "#F99510",			
-            	"navigationBarTextStyle": "white",
-            	"navigationBarTitleText": "粉丝团前100名人气PK排名"
+            	"navigationBarBackgroundColor": "#B5E4D7",			
+            	"navigationBarTextStyle": "black",
+            	"navigationBarTitleText": "粉丝团PK排名"
             }
         }
         ,{
             "path" : "pages/active/dragon_boat_festival_fanclub_user",
             "style" : {
-            	"navigationBarBackgroundColor": "#F99510",			
-            	"navigationBarTextStyle": "white",
-            	"navigationBarTitleText": "粉丝团人气PK排名"
+            	"navigationBarBackgroundColor": "#B5E4D7",			
+            	"navigationBarTextStyle": "black",
+            	"navigationBarTitleText": "粉丝团团员PK排名"
             }
         }
     ],

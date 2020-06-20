@@ -1,23 +1,72 @@
 <template>
 	<view class="container">
 		<view class="top">
-			<view class="bonus_total">{{active_info.title || ''}}：{{active_info.bonus || ''}}元奖金</view>
-			<view class="bonus">
-				<view>第一名：{{active_info.first_bonus || ''}}元</view>
-				<view>第二名：{{active_info.second_bonus || ''}}元</view>
-				<view>第三名：{{active_info.three_bonus || ''}}元</view>
+			<view class="top-share">
+				<view class="time-text" >
+					活动时间：{{active_info.time_text || ''}}
+				</view>
+				<view style="width: 30%;">
+					<btnComponent type="custom3">
+						<button class="btn" @tap="$app.goPage('/pages/notice/notice?id='+notice_id)">
+							<view class="flex-set" style="width: 150upx; height: 50upx; font-size: 28rpx;">活动说明</view>
+						</button>
+					</btnComponent>
+				</view>
 			</view>
 		</view>
-		<view class="text-time">
-			<view class="bonus_time">活动时间：{{active_info.time_text || ''}}</view>
-			<view v-if="is_exit" @tap="modal='exit'" class="exit">退出比赛</view>
+		<view class="bonus-cont">
+			<view class="bonus-title">
+				<view class="bonus_total">{{active_info.title || ''}}：{{active_info.bonus || ''}}奖金</view>
+				<view class="bonus">
+					<view>第一名：{{active_info.first_bonus || ''}}</view>
+					<view>第二名：{{active_info.second_bonus || ''}}</view>
+					<view>第三名：{{active_info.three_bonus || ''}}</view>
+				</view>
+			</view>
 		</view>
-		<view class="invite_user">
-			<btnComponent type="default">
-				<button class="btn" open-type="share" data-sharetype="share">
-					<view class="flex-set" style="width: 300upx; height: 60upx;">喊团员一起打榜拿第一</view>
-				</button>
-			</btnComponent>
+		
+		<view v-if="myClubInfo" class="mineinfo">
+			<view class="mineinfo-box">
+				<view class="mineinfo-cont">
+					<view class="mineinfo-rank">
+						<view>NO</view>
+						<view>{{myClubInfo.rank || '0'}}</view>
+					</view>
+					<view class="mineinfo-img">
+						<image :src="myClubInfo.fanclub_avatar || AVATAR" mode="aspectFill"></image>
+					</view>
+					<view class="mineinfo-text">
+						<view class="funs-name-all">
+							<view class="funs-name">{{myClubInfo.fanclub_name || NICKNAME}}</view>
+							<view class='starname'>{{myClubInfo.star_name || ''}}</view>
+						</view>
+						<view v-if="myClubInfo.total_count>0" class="funs-total-hot">贡献 <text style="color: #FBCC3E;">{{myClubInfo.total_count}}</text> 人气</view>
+						<view v-else class="funs-total-hot">暂无贡献</view>
+						<view class="difference_first">距离第一名还差{{myClubInfo.difference_first}}人气</view>
+					</view>
+				</view>
+				
+				<view class="join-add">
+					<view @tap="$app.goPage('/pages/group/group')">
+						<btnComponent type="default">
+							<button class="btn">
+								<view class="flex-set join-add-button">立即冲榜</view>
+							</button>
+						</btnComponent>
+					</view>
+					<view>
+						<btnComponent type="custom2">
+							<button class="btn" @tap="goPage('/pages/active/dragon_boat_festival_fanclub_user?active_id=',myClubInfo.id)">
+								<view class="flex-set join-add-button">成员贡献>></view>
+							</button>
+						</btnComponent>
+					</view>
+					<view class="text-time">
+						<view v-if="is_exit" @tap="modal='exit'" class="exit">退出团战</view>
+					</view>
+				</view>
+			</view>
+			
 		</view>
 		<!-- 列表 -->
 		<view class="list-container">
@@ -35,19 +84,14 @@
 					<image class="avatar" :src="item.fanclub_avatar || AVATAR" mode="aspectFill"></image>
 				</view>
 				<view class="text-container">
-					<view>
-						粉丝团:{{item.fanclub_name || NICKNAME}}
+					<view class="funs-name-all">
+						<view class="funs-name">{{item.fanclub_name || NICKNAME}}</view>
+						<view class='starname'>{{item.star_name || ''}}</view>
 					</view>
-					<view>
-						所属爱豆：{{item.star_name}}
-					</view>
-					<view class="count">
-						<view>本场人气:{{item.total_count}}</view>
-					</view>
+					<view v-if="item.total_count>0" class="funs-total-hot">贡献 <text style="color: #FBCC3E;">{{item.total_count}}</text> 人气</view>
+					<view v-else class="funs-total-hot">暂无贡献</view>
 				</view>
-				<view v-if="item.is_mine" class="count" style="border-bottom: 2rpx solid #ff8421;" @tap="goPage('/pages/active/dragon_boat_festival_fanclub_user?active_id=',item.active_id)">
-					<view>团员贡献人气</view>
-				</view>
+				
 			</view>
 		</view>
 		
@@ -75,9 +119,10 @@
 				active_id:0,
 				modal:'',
 				page: 1,
+				is_exit:false,
+				myClubInfo:'',
 				AVATAR: this.$app.getData('AVATAR'),
 				NICKNAME: '神秘粉丝团',
-				is_exit:false,
 			};
 		},
 		onLoad(option) {
@@ -103,13 +148,14 @@
 				this.$app.goPage(url + val);
 			},
 			loadData() {
-				if (this.page > 10) return
 				this.$app.request(this.$app.API.ACTIVE_DRAGON_BOAT_FESTIVAL_FANCLUB, {
 					page: this.page,
 					active_id:this.active_id,
 				}, res => {
 					this.active_info = res.data.active_info;
-					this.is_exit = res.data.is_exit
+					this.myClubInfo = res.data.myClubInfo;
+					this.is_exit = res.data.is_exit;
+					
 					if (this.page == 1) {
 						this.fanclubRank = res.data.list
 					} else {
@@ -134,46 +180,146 @@
 
 <style lang="scss" scoped>
 	.container {
-		.top{
+		.top {
 			width: 100%;
 			display: flex;
 			flex-direction: column;
-			padding: 0 40rpx;
-			border-bottom: 4rpx solid #f2f3f4;
-			
-			.bonus_total{
-				font-size: 36rpx;
-				font-weight: bold;
-				padding: 15rpx 0;
-			}
-			.bonus{
+			padding: 20rpx 40rpx;
+		
+			.top-share {
+				width: 100%;
 				display: flex;
-				flex-direction: row;
-				view{
-					flex:1 1 0%
+				justify-content: space-between;
+				align-items: center;
+		
+				.time-text {
+					color: #412b13;
+					font-size: 28rpx;
 				}
 			}
 		}
-		.text-time{
+		
+		.bonus-cont{
 			width: 100%;
-			display: flex;
-			justify-content: space-between;
-			.bonus_time{
-				font-size: 28rpx;
-				font-weight: bold;
-				padding: 15rpx 20rpx 15rpx 40rpx;
+			padding: 0rpx 40rpx;
+			
+			.bonus-title{
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				background: #3F907C;
+				border-radius: 25rpx;
+				padding: 20rpx;
+				color: #FFFFFF;
 				
+				.bonus_total{
+					font-size: 36rpx;
+					font-weight: bold;
+					padding: 10rpx 0;
+				}
+				.bonus{
+					display: flex;
+					justify-content: space-between;
+					view{
+						font-size: 24rpx;
+					}
+				}
 			}
-			.exit{
-				padding: 15rpx 40rpx 15rpx 20rpx;
-				font-size: 28rpx;
-				color: #f00f00;
-			}
+			
 		}
 		
-		.invite_user{
+		.mineinfo{
 			width: 100%;
-			padding: 0 25% 15rpx 25%;
+			padding: 20rpx 20rpx;
+			.mineinfo-box{
+				width: 100%;
+				padding: 20rpx 0;
+				display: flex;
+				flex-direction: column;
+				border-top: 2rpx solid #d2d2d3;
+				border-bottom: 2rpx solid #d2d2d3;
+				font-size: 28rpx;
+				.mineinfo-cont{
+					width: 100%;
+					display: flex;
+					flex-direction: row;
+					.mineinfo-rank{
+						width: 10%;
+						color: #999999;
+						font-weight: bold;
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+						align-items: center;
+					}
+					.mineinfo-img{
+						width: 90rpx;
+						padding-left: 10rpx;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						image{
+							width: 80rpx;
+							height: 80rpx;
+							border-radius: 50%;
+						}
+					}
+					.mineinfo-text{
+						padding-left: 20rpx;
+						.funs-name-all{
+							display: flex;
+							flex-direction: row;
+							.funs-name{
+								font-size: 28rpx;
+								font-weight: bold;
+							}
+							.starname {
+								background: -webkit-linear-gradient(#ff7e00, #fccd9f);
+								color: #fff;
+								padding: 0 6rpx;
+								border-radius: 12rpx;
+								font-size: 22rpx;
+								box-shadow: 0 0 2rpx rgba(0, 0, 0, .3);
+							}
+						}
+						.funs-total-hot{
+							font-size: 22rpx;
+							color: #818286;
+						}
+						.difference_first{
+							font-size: 28rpx;
+							color: #f74e37;
+						}
+					}
+				}
+				.join-add {
+					width: 100%;
+					display: flex;
+					justify-content: space-around;
+					padding: 20rpx 0 10rpx 0;
+				
+					view {
+						width: 30%;
+					}
+				
+					.join-add-button {
+						width: 150upx;
+						height: 60upx;
+						font-size: 24rpx;
+					}
+					.text-time{
+						display: flex;
+						align-items: center;
+						text-align: center;
+						.exit{
+							width: 100%;
+							font-size: 28rpx;
+							color: #f00f00;
+						}
+					}
+				}
+			}
+			
 		}
 
 		.list-container {
@@ -210,14 +356,31 @@
 				}
 
 				.text-container {
-					margin: 0 20upx;
-					width: 300upx;
-					font-size: 24rpx;
+					padding-left: 20upx;
 
-					.bottom-text {
+					.funs-name-all{
 						display: flex;
-						align-items: center;
-						color: $text-color-1;
+						flex-direction: row;
+						.funs-name{
+							font-size: 28rpx;
+							font-weight: bold;
+						}
+						.starname {
+							background: -webkit-linear-gradient(#ff7e00, #fccd9f);
+							color: #fff;
+							padding: 0 6rpx;
+							border-radius: 12rpx;
+							font-size: 22rpx;
+							box-shadow: 0 0 2rpx rgba(0, 0, 0, .3);
+						}
+					}
+					.funs-total-hot{
+						padding-top: 10rpx;
+						font-size: 22rpx;
+						color: #818286;
+					}
+					.difference_first{
+						color: #f74e37;
 					}
 				}
 

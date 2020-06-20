@@ -2,11 +2,11 @@
 	<view class="container">
 		<view class="top">
 			<view class="top-share">
-				<view>
-					还剩 22 22 22 22
+				<view class="time-text">
+					活动时间：{{time_text}}
 				</view>
 				<view style="width: 30%;">
-					<btnComponent type="custom4">
+					<btnComponent type="custom3">
 						<button class="btn" @tap="$app.goPage('/pages/notice/notice?id='+notice_id)">
 							<view class="flex-set" style="width: 150upx; height: 50upx; font-size: 28rpx;">活动说明</view>
 						</button>
@@ -22,28 +22,54 @@
 					<view class="top-title">
 						<image class="bg" v-if="join_active_id==item.id" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9W1BibcOu04iaTBwBo7jxz0htMqHohEE7XqrCSqOKnQCWfTDHKnJZZiaibw/0"
 						 mode="aspectFill"></image>
-						<image class="bg" v-else src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9obQkq8GWNOia2UmbcaDv7BoMiba0C7sa0sAxtD7lM1wyZDT0YcGelcEg/0"
+						<image class="bg" v-else src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVicicwqPAD1rdia7hqPIHbyK8aOUOANicmOqKDN4RQZdOEcsFXqqkIaozgTTibJrW3B8CtAxWPUkfTU5w/0"
 						 mode="aspectFill"></image>
 						<view class="title-text">{{item.title}}：{{item.bonus}}元奖金</view>
 					</view>
 					<view class="funsclub-list">
 						<view class="funsclub-info" v-if="item.fanclub" v-for="(value,key) in item.fanclub" :key="key">
+							<view v-if="key==0" class="funs-rank" style="background-color: #ffa726;">1</view>
+							<view v-else-if="key==1" class="funs-rank" style="background-color: #993300;">2</view>
+							<view v-else-if="key==2" class="funs-rank" style="background-color: #ff7043;">3</view>
+							<view v-else-if="key==3" class="funs-rank" style="background-color: #7a89a0;">4</view>
 							<view class="funs-img">
 								<image :src="value.fanclub_avatar || AVATAR" mode="aspectFill"></image>
 							</view>
-							<view class="funs-name">{{value.fanclub_name || NICKNAME}}</view>
-							<view class="funs-total-hot">{{value.total_count>0?value.total_count:'暂无贡献'}}</view>
+							<view class="funs-cont">
+								<view class="funs-name-all">
+									<view class="funs-name">{{value.fanclub_name || NICKNAME}}</view>
+									
+								</view>
+								<view class='starname'>爱豆:{{value.star_name || NICKNAME}}</view>
+								<view v-if="value.total_count>0" class="funs-total-hot">贡献 <text style="color: #FBCC3E;">{{value.total_count}}</text> 人气</view>
+								<view v-else class="funs-total-hot">暂无贡献</view>
+							</view>
 						</view>
 
-						<!-- <view class="funsclub-info">
-							<view class="funs-img"><image src="/static/sharemenu/qq.png" mode="widthFix"></image></view>
-							<view class="funs-name">明星粉丝团</view>
-							<view class="funs-total-hot">1000</view>
-						</view> -->
+					</view>
+					<view v-if="join_active_id && join_active_id==item.id" class="mineinfo">
+						<view class="mineinfo-cont">
+							<view class="mineinfo-rank">
+								<view>NO</view>
+								<view>{{myClubInfo.rank || '0'}}</view>
+							</view>
+							<view class="mineinfo-img">
+								<image :src="myClubInfo.fanclub_avatar || AVATAR" mode="aspectFill"></image>
+							</view>
+							<view class="mineinfo-text">
+								<view class="funs-name-all">
+									<view class="funs-name">{{myClubInfo.fanclub_name || NICKNAME}}</view>
+									<view class='starname'>{{myClubInfo.star_name || ''}}</view>
+								</view>
+								<view v-if="myClubInfo.total_count>0" class="funs-total-hot">贡献 <text style="color: #FBCC3E;">{{myClubInfo.total_count}}</text> 人气</view>
+								<view v-else class="funs-total-hot">暂无贡献</view>
+								<view class="difference_first">距离第一名还差{{myClubInfo.difference_first}}人气</view>
+							</view>
+						</view>
 					</view>
 					<view class="join-add">
-						<view  v-if="join_active_id && join_active_id==item.id">
-							<btnComponent type="custom3">
+						<view v-if="join_active_id && join_active_id==item.id" @tap="$app.goPage('/pages/group/group')">
+							<btnComponent type="default">
 								<button class="btn">
 									<view class="flex-set join-add-button">立即冲榜</view>
 								</button>
@@ -51,7 +77,7 @@
 						</view>
 						<view v-else-if="!join_active_id">
 							<btnComponent type="custom1">
-								<button class="btn" @tap="joinClick(item.id)">
+								<button class="btn" @tap="joinClick(item.id,item.title)">
 									<view class="flex-set join-add-button">报名参加</view>
 								</button>
 							</btnComponent>
@@ -64,17 +90,24 @@
 							</btnComponent>
 						</view>
 					</view>
+					<view v-if="join_active_id && join_active_id==item.id" class="invite_user">
+						<btnComponent type="custom1">
+							<button class="btn" open-type="share" data-sharetype="share">
+								<view class="flex-set" style="width: 320upx; height: 60upx;">召唤团员一起打榜拿第一</view>
+							</button>
+						</btnComponent>
+					</view>
 				</view>
 			</view>
 		</view>
-		
+
 		<!-- 加入活动 -->
 		<modalComponent v-if="modal == 'joinActivity'" type="center" @closeModal="modal=''">
 			<view class="joinActivity flex-set">
 				<view class="box">
 					<view class="title">
 						<view>参加粉丝团百人人气PK</view>
-						<view>黄金场</view>
+						<view>{{active_name}}</view>
 						<view>一个粉丝团只能参加一个场次PK</view>
 						<view>可随时退出，退出人气全部清零</view>
 					</view>
@@ -175,14 +208,16 @@
 				notice_id: '',
 				join_active_id: 0,
 				fanclub_id: '',
-				difference_first:0,
-				time_text:'',
-				is_admin:0,
+				difference_first: 0,
+				time_text: '',
+				is_admin: 0,
+				myClubInfo:'',
+				active_name:'',
 				AVATAR: this.$app.getData('AVATAR'),
-				NICKNAME: '暂无入驻',
+				NICKNAME: '虚位以待',
 			};
 		},
-		onLoad(option) {
+		onShow(option) {
 			this.loadData()
 		},
 		onShareAppMessage(e) {
@@ -190,24 +225,27 @@
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
-			joinClick(active_id) {
-				if(!this.fanclub_id){
-					this.modal='tipsJoinFunsclub';
-				}else if(this.is_admin==0){
-					this.modal='tipsJoinActivity';
-				}else{
-					this.modal='joinActivity';
-					this.active_id=active_id;
+			joinClick(active_id,active_name) {
+				if (!this.fanclub_id) {
+					this.modal = 'tipsJoinFunsclub';
+				} else if (this.is_admin == 0) {
+					this.modal = 'tipsJoinActivity';
+				} else {
+					this.modal = 'joinActivity';
+					this.active_id = active_id;
 				}
+				this.active_name=active_name;
 			},
-			join(){
-				this.$app.request(this.$app.API.ACTIVE_DRAGON_BOAT_FESTIVAL_JOIN, {active_id:this.active_id}, res => {
+			join() {
+				this.$app.request(this.$app.API.ACTIVE_DRAGON_BOAT_FESTIVAL_JOIN, {
+					active_id: this.active_id
+				}, res => {
 					this.$app.toast('加入成功');
 					this.modal = '';
 					this.loadData();
 				})
 			},
-			goPage(url, val='') {
+			goPage(url, val = '') {
 				this.$app.goPage(url + val);
 			},
 			loadData() {
@@ -219,28 +257,32 @@
 					this.difference_first = res.data.difference_first;
 					this.time_text = res.data.time_text;
 					this.is_admin = res.data.is_admin;
+					this.myClubInfo = res.data.myClubInfo;
 				})
 			},
-		
+
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	.container {
+		color: #412b13;
 		.top {
 			width: 100%;
 			display: flex;
 			flex-direction: column;
-			justify-content: center;
-			align-items: center;
 			padding: 20rpx 40rpx;
 
 			.top-share {
 				width: 100%;
 				display: flex;
 				justify-content: space-between;
+				align-items: center;
 
+				.time-text {
+					font-size: 28rpx;
+				}
 			}
 		}
 
@@ -249,16 +291,17 @@
 
 			.item {
 				padding: 40rpx 30rpx;
-				
-				.item-border-join{
-					border: 4upx solid #ff9303;
+
+				.item-border-join {
+					border: 4upx solid #FC7419;
 					box-shadow: 0 2upx 4upx #870c0e;
 				}
-				.item-border-nojoin{
-					border: 4upx solid #999999;
+
+				.item-border-nojoin {
+					border: 4upx solid #948069;
 					box-shadow: 0 2upx 4upx #666666;
 				}
-				
+
 				.item-cont {
 
 					width: 100%;
@@ -267,18 +310,20 @@
 					background-color: #FFFFFF;
 					display: flex;
 					flex-direction: column;
-					
-					.top-title{
+
+					.top-title {
 						width: 100%;
 						display: flex;
 						flex-direction: column;
 						justify-content: center;
 						align-items: center;
-						.bg{
+
+						.bg {
 							width: 481upx;
 							height: 76upx;
 							margin-top: -80rpx;
 						}
+
 						.title-text {
 							color: #FFFFFF;
 							font-size: 28rpx;
@@ -286,22 +331,89 @@
 							margin-top: -65rpx;
 						}
 					}
+					.mineinfo{
+						width: 100%;
+						padding: 20rpx 20rpx;
+						
+						.mineinfo-cont{
+							width: 100%;
+							padding: 20rpx 0;
+							display: flex;
+							flex-direction: row;
+							font-size: 28rpx;
+							border-top: 2rpx solid #d2d2d3;
+							border-bottom: 2rpx solid #d2d2d3;
+							.mineinfo-rank{
+								width: 10%;
+								color: #999999;
+								font-weight: bold;
+								display: flex;
+								flex-direction: column;
+								justify-content: center;
+								align-items: center;
+							}
+							.mineinfo-img{
+								width: 90rpx;
+								padding-left: 10rpx;
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								image{
+									width: 80rpx;
+									height: 80rpx;
+									border-radius: 50%;
+								}
+							}
+							.mineinfo-text{
+								padding-left: 20rpx;
+								.funs-name-all{
+									display: flex;
+									flex-direction: row;
+									.funs-name{
+										font-size: 28rpx;
+										font-weight: bold;
+									}
+									.starname {
+										background: -webkit-linear-gradient(#ff7e00, #fccd9f);
+										color: #fff;
+										padding: 0 6rpx;
+										border-radius: 12rpx;
+										font-size: 22rpx;
+										box-shadow: 0 0 2rpx rgba(0, 0, 0, .3);
+									}
+								}
+								.funs-total-hot{
+									font-size: 22rpx;
+									color: #818286;
+								}
+								.difference_first{
+									font-size: 28rpx;
+									color: #f74e37;
+								}
+							}
+						}
+					}
 
 					.join-add {
 						width: 100%;
 						display: flex;
 						justify-content: space-around;
-						padding: 20rpx 0;
+						padding: 10rpx 0;
 
 						view {
 							width: 40%;
 						}
-						
-						.join-add-button{
-							width: 220upx; 
-							height: 70upx; 
-							font-size: 24rpx;
+
+						.join-add-button {
+							width: 220upx;
+							height: 60upx;
+							font-size: 28rpx;
 						}
+					}
+					
+					.invite_user{
+						width: 100%;
+						padding: 15rpx 5% 15rpx 5%;
 					}
 
 
@@ -309,24 +421,51 @@
 						width: 100%;
 						display: flex;
 						flex-wrap: wrap;
+						padding: 10rpx 0;
 
 						.funsclub-info {
-							width: 25%;
-							padding: 5rpx;
-
-							view {
-								width: 100%;
+							width: 50%;
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							padding: 20rpx 10rpx;
+							font-size: 28rpx;
+							.funs-rank{
+								width: 30rpx;
+								height: 30rpx;
+								color: #FFFFFF;
+								font-size: 22rpx;
+								border-radius: 50%;
 								display: flex;
 								justify-content: center;
-								align-items: center;
-								font-size: 22rpx;
-
-								image {
-									width: 120rpx;
-									height: 120rpx;
+							}
+							.funs-img{
+								width: 60rpx;
+								padding-left: 10rpx;
+								image{
+									width: 50rpx;
+									height: 50rpx;
 									border-radius: 50%;
 								}
 							}
+							.funs-cont{
+								padding-left: 10rpx;
+								.funs-name-all{
+									display: flex;
+									flex-direction: row;
+									.funs-name{
+										font-weight: bold;
+									}
+								}
+								.starname {
+									font-size: 22rpx;
+								}
+								.funs-total-hot{
+									font-size: 22rpx;
+									color: #818286;
+								}
+							}
+							
 						}
 					}
 				}
