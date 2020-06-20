@@ -28,19 +28,18 @@
 					</view>
 					<view class="funsclub-list">
 						<view class="funsclub-info" v-if="item.fanclub" v-for="(value,key) in item.fanclub" :key="key">
-							<view v-if="key==0" class="funs-rank" style="background-color: #ffa726;">1</view>
-							<view v-else-if="key==1" class="funs-rank" style="background-color: #993300;">2</view>
-							<view v-else-if="key==2" class="funs-rank" style="background-color: #ff7043;">3</view>
-							<view v-else-if="key==3" class="funs-rank" style="background-color: #7a89a0;">4</view>
 							<view class="funs-img">
 								<image :src="value.fanclub_avatar || AVATAR" mode="aspectFill"></image>
+								<view v-if="key==0" class="funs-rank" style="background-color: #ffa726;">1</view>
+								<view v-else-if="key==1" class="funs-rank" style="background-color: #993300;">2</view>
+								<view v-else-if="key==2" class="funs-rank" style="background-color: #ff7043;">3</view>
+								<view v-else-if="key==3" class="funs-rank" style="background-color: #7a89a0;">4</view>
 							</view>
 							<view class="funs-cont">
 								<view class="funs-name-all">
 									<view class="funs-name">{{value.fanclub_name || NICKNAME}}</view>
 									
 								</view>
-								<view class='starname'>爱豆:{{value.star_name || NICKNAME}}</view>
 								<view v-if="value.total_count>0" class="funs-total-hot">贡献 <text style="color: #FBCC3E;">{{value.total_count}}</text> 人气</view>
 								<view v-else class="funs-total-hot">暂无贡献</view>
 							</view>
@@ -365,6 +364,7 @@
 								}
 							}
 							.mineinfo-text{
+								width: 100%;
 								padding-left: 20rpx;
 								.funs-name-all{
 									display: flex;
@@ -372,14 +372,22 @@
 									.funs-name{
 										font-size: 28rpx;
 										font-weight: bold;
+										max-width: 70%;
+										white-space:nowrap;
+										word-break:break-all;
+										overflow:hidden;
+										text-overflow:ellipsis;
 									}
 									.starname {
 										background: -webkit-linear-gradient(#ff7e00, #fccd9f);
 										color: #fff;
-										padding: 0 6rpx;
+										padding: 0 12rpx;
 										border-radius: 12rpx;
 										font-size: 22rpx;
 										box-shadow: 0 0 2rpx rgba(0, 0, 0, .3);
+										display: flex;
+										align-items: center;
+										margin-left: 10rpx;
 									}
 								}
 								.funs-total-hot{
@@ -387,8 +395,8 @@
 									color: #818286;
 								}
 								.difference_first{
-									font-size: 28rpx;
-									color: #f74e37;
+									font-size: 24rpx;
+									color: #68696c;
 								}
 							}
 						}
@@ -430,36 +438,45 @@
 							align-items: center;
 							padding: 20rpx 10rpx;
 							font-size: 28rpx;
-							.funs-rank{
-								width: 30rpx;
-								height: 30rpx;
-								color: #FFFFFF;
-								font-size: 22rpx;
-								border-radius: 50%;
-								display: flex;
-								justify-content: center;
-							}
+							
 							.funs-img{
-								width: 60rpx;
-								padding-left: 10rpx;
+								width: 100rpx;
+								display: flex;
+								
 								image{
-									width: 50rpx;
-									height: 50rpx;
+									width: 70rpx;
+									height: 70rpx;
 									border-radius: 50%;
+								}
+								.funs-rank{
+									width: 30rpx;
+									height: 30rpx;
+									color: #FFFFFF;
+									font-size: 22rpx;
+									border-radius: 50%;
+									display: flex;
+									justify-content: center;
+									margin-left: -20rpx;
+									margin-top: -10rpx;
+								
 								}
 							}
 							.funs-cont{
+								width: 100%;
 								padding-left: 10rpx;
 								.funs-name-all{
 									display: flex;
 									flex-direction: row;
 									.funs-name{
+										width: 70%;
 										font-weight: bold;
+										white-space:nowrap;
+										word-break:break-all;
+										overflow:hidden;
+										text-overflow:ellipsis;
 									}
 								}
-								.starname {
-									font-size: 22rpx;
-								}
+								
 								.funs-total-hot{
 									font-size: 22rpx;
 									color: #818286;
