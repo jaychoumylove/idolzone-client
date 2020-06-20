@@ -14,7 +14,11 @@
 				</view>
 			</view>
 		</view>
-		<view class="tips ">{{tips}}</view>
+		<view class="tips">
+			<view v-for="(item,index) in tips" :key="index">
+				{{item}}
+			</view>
+		</view>
 		<view class="bonus-cont">
 			<view class="bonus-title">
 				<view class="bonus_total">{{active_info.title || ''}}：{{active_info.bonus || ''}}奖金</view>
@@ -68,8 +72,12 @@
 							</button>
 						</btnComponent>
 					</view>
-					<view class="text-time">
-						<view v-if="is_exit" @tap="modal='exit'" class="exit">退出团战</view>
+					<view v-if="is_exit" @tap="modal='exit'">
+						<btnComponent type="disable">
+							<button class="btn">
+								<view class="flex-set join-add-button">退出团战</view>
+							</button>
+						</btnComponent>
 					</view>
 				</view>
 			</view>
@@ -139,7 +147,7 @@
 				NICKNAME: '神秘粉丝团',
 			};
 		},
-		onLoad(option) {
+		onShow(option) {
 			if(!option.active_id){
 				this.$app.toast('网络延时')
 				this.goPage('/pages/active/dragon_boat_festival');
@@ -196,12 +204,16 @@
 
 <style lang="scss" scoped>
 	.container {
-		.tips{
+		.tips {
 			width: 100%;
 			display: flex;
-			justify-content: center;
+			flex-direction: column;
 			padding: 10rpx 0;
 			color: #818286;
+			view{
+				display: flex;
+				justify-content: center;
+			}
 		}
 		.top {
 			width: 100%;

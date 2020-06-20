@@ -395,7 +395,7 @@
             "style" : {
             	"navigationBarBackgroundColor": "#B5E4D7",			
             	"navigationBarTextStyle": "black",
-            	"navigationBarTitleText": "粉丝团团员PK排名"
+            	"navigationBarTitleText": "粉丝团成员贡献榜"
             }
         }
     ],

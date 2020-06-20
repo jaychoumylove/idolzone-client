@@ -14,8 +14,12 @@
 				</view>
 			</view>
 		</view>
-		
-		<view class="tips ">{{tips}}</view>
+
+		<view class="tips">
+			<view v-for="(item,index) in tips" :key="index">
+				{{item}}
+			</view>
+		</view>
 
 		<!-- 列表 -->
 		<view class="list-container">
@@ -40,7 +44,7 @@
 							<view class="funs-cont">
 								<view class="funs-name-all">
 									<view class="funs-name">{{value.fanclub_name || NICKNAME}}</view>
-									
+
 								</view>
 								<view v-if="value.total_count>0" class="funs-total-hot">
 									<!-- <view>
@@ -48,7 +52,8 @@
 									</view> -->
 									<view>
 										<text style="color: #FBCC3E; padding-right: 10rpx;">{{value.total_count}}</text>
-										<image src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F3NAxlopF2oyvfuiaEjgJItws1tcmzFFLo4WGc38l7kibxxk1atGAcjALuqvyvLib3icFPyAicbsOOl3g/0' mode="widthFix"></image>
+										<image src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F3NAxlopF2oyvfuiaEjgJItws1tcmzFFLo4WGc38l7kibxxk1atGAcjALuqvyvLib3icFPyAicbsOOl3g/0'
+										 mode="widthFix"></image>
 									</view>
 								</view>
 								<view v-else class="funs-total-hot">暂无贡献</view>
@@ -73,7 +78,8 @@
 								<view v-if="myClubInfo.total_count>0" class="funs-total-hot">
 									<text>本场贡献</text>
 									<text style="color: #FBCC3E; padding: 0 10rpx;">{{myClubInfo.total_count}}</text>
-									<image src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F3NAxlopF2oyvfuiaEjgJItws1tcmzFFLo4WGc38l7kibxxk1atGAcjALuqvyvLib3icFPyAicbsOOl3g/0' mode="widthFix"></image>
+									<image src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F3NAxlopF2oyvfuiaEjgJItws1tcmzFFLo4WGc38l7kibxxk1atGAcjALuqvyvLib3icFPyAicbsOOl3g/0'
+									 mode="widthFix"></image>
 								</view>
 								<view v-else class="funs-total-hot">暂无贡献</view>
 								<view v-if="myClubInfo.rank>1 && myClubInfo.difference_first>0" class="difference_first">距离第一名还差{{myClubInfo.difference_first}}人气</view>
@@ -90,7 +96,7 @@
 						</view>
 						<view v-else-if="!join_active_id">
 							<btnComponent type="custom1">
-								<button class="btn" @tap="joinClick(item.id,item.title)">
+								<button class="btn" @tap="joinClick(item.id,item.title,item.bonus)">
 									<view class="flex-set join-add-button">报名参加</view>
 								</button>
 							</btnComponent>
@@ -105,7 +111,7 @@
 					</view>
 					<view v-if="join_active_id && join_active_id==item.id" class="invite_user">
 						<btnComponent type="custom1">
-							<button class="btn" open-type="share" data-sharetype="share">
+							<button class="btn" open-type="share" @tap="buttonHandler" data-shareid="15">
 								<view class="flex-set" style="width: 320upx; height: 60upx;">召唤团员一起打榜拿第一</view>
 							</button>
 						</btnComponent>
@@ -115,94 +121,83 @@
 		</view>
 
 		<!-- 加入活动 -->
-		<modalComponent v-if="modal == 'joinActivity'" type="center" @closeModal="modal=''">
-			<view class="joinActivity flex-set">
-				<view class="box">
-					<view class="title">
-						<view>参加粉丝团百人人气PK</view>
-						<view>{{active_name}}</view>
-						<view>一个粉丝团只能参加一个场次PK</view>
-						<view>可随时退出，退出人气全部清零</view>
-					</view>
-					<view class="btn-confirm">
-						<view @tap="modal=''">
-							<btnComponent type="default">
-								<button class="btn">
-									<view class="flex-set" style="width: 200rpx; height: 60rpx;">取消</view>
-								</button>
-							</btnComponent>
-						</view>
-						<view @tap="join()">
-							<btnComponent type="default">
-								<button class="btn">
-									<view class="flex-set" style="width: 200rpx; height: 60rpx;">确认</view>
-								</button>
-							</btnComponent>
-						</view>
-					</view>
-
+		<modalComponent v-if="modal == 'joinActivity'" type="center" title="提示" @closeModal="modal=''">
+			<view class="modal-container joinActivity">
+				<view class="title">{{active_name}}</view>
+				<view style="font-size: 24upx;color:#888;">({{active_bonus}}元奖金)</view>
+				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVicicwqPAD1rdia7hqPIHbyK8JqlaEp5tNfgPL21MsWpB60FuSgXSX0nOZkX2IAyJtibM45cWvEQUibCA/0"
+				 mode="widthFix"></image>
+				<view class="joinActivity-text">
+					<text>1个粉丝团只能参加一个场次</text>
+					<text>团长或者管理员报名，团员自动加入</text>
+					<text style="color: #f00f00;">可随时退出，退出后粉丝团人气全部清零</text>
 				</view>
+				<view class="btn-wrap">
+					<btnComponent type="disable">
+						<view class="btn" @tap="modal=''">再想想</view>
+					</btnComponent>
 
+					<btnComponent type="default">
+						<view class="btn" @tap="join()">确认加入</view>
+					</btnComponent>
+				</view>
 			</view>
 		</modalComponent>
+
 		<!-- 提示团长管理员才可参加活动 -->
-		<modalComponent v-if="modal == 'tipsJoinActivity'" type="center" @closeModal="modal=''">
-			<view class="joinActivity flex-set">
-				<view class="box">
-					<view class="title">
-						<view style="color: #f00f00;">提示</view>
-						<view>只有粉丝团团长和管理员才能报名参加粉丝团前一百名成员人气PK</view>
-					</view>
-					<view class="btn-confirm">
-						<view @tap="modal=''">
-							<btnComponent type="default">
-								<button class="btn">
-									<view class="flex-set" style="width: 200rpx; height: 60rpx;">我知道了</view>
-								</button>
-							</btnComponent>
-						</view>
-						<view>
-							<btnComponent type="default">
-								<button class="btn">
-									<view class="flex-set" style="width: 200rpx; height: 60rpx;">喊团长报名</view>
-								</button>
-							</btnComponent>
-						</view>
-					</view>
-
+		<modalComponent v-if="modal == 'tipsJoinActivity'" type="center" title="提示" @closeModal="modal=''">
+			<view class="modal-container joinActivity">
+				<view class="title">{{active_name}}</view>
+				<view style="font-size: 24upx;color:#888;">({{active_bonus}}元奖金)</view>
+				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVicicwqPAD1rdia7hqPIHbyK8JqlaEp5tNfgPL21MsWpB60FuSgXSX0nOZkX2IAyJtibM45cWvEQUibCA/0"
+				 mode="widthFix"></image>
+				<view class="joinActivity-text">
+					<text>只有粉丝团团长和管理员才能报名参加</text>
+					<text>粉丝团成员TOP100人气PK</text>
 				</view>
+				<view class="btn-wrap">
+					<btnComponent type="disable" @tap="modal=''">
+						<button class="btn">
+							<view class="flex-set">再想想</view>
+						</button>
+					</btnComponent>
 
+					<btnComponent type="default">
+						<button class="btn" open-type="share" @tap="buttonHandler" data-shareid="15">
+							<view class="flex-set">喊团长报名</view>
+						</button>
+					</btnComponent>
+				</view>
 			</view>
 		</modalComponent>
+
 		<!-- 提示加入粉丝团才可参加活动 -->
-		<modalComponent v-if="modal == 'tipsJoinFunsclub'" type="center" @closeModal="modal=''">
-			<view class="joinActivity flex-set">
-				<view class="box">
-					<view class="title">
-						<view style="color: #f00f00;">提示</view>
-						<view>你还没有加入粉丝团，无法参加本次活动，快前往加入吧！</view>
-					</view>
-					<view class="btn-confirm">
-						<view @tap="modal=''">
-							<btnComponent type="default">
-								<button class="btn">
-									<view class="flex-set" style="width: 200rpx; height: 60rpx;">我知道了</view>
-								</button>
-							</btnComponent>
-						</view>
-						<view @tap="$app.goPage('/pages/fans/fans_list')">
-							<btnComponent type="default">
-								<button class="btn">
-									<view class="flex-set" style="width: 200rpx; height: 60rpx;">去加入粉丝团</view>
-								</button>
-							</btnComponent>
-						</view>
-					</view>
-
+		<modalComponent v-if="modal == 'tipsJoinFunsclub'" type="center" title="提示" @closeModal="modal=''">
+			<view class="modal-container joinActivity">
+				<view class="title">{{active_name}}</view>
+				<view style="font-size: 24upx;color:#888;">({{active_bonus}}元奖金)</view>
+				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JVicicwqPAD1rdia7hqPIHbyK8JqlaEp5tNfgPL21MsWpB60FuSgXSX0nOZkX2IAyJtibM45cWvEQUibCA/0"
+				 mode="widthFix"></image>
+				<view class="joinActivity-text">
+					<text>你还没有加入粉丝团</text>
+					<text>无法参加本次活动，快前往加入吧！</text>
 				</view>
+				<view class="btn-wrap">
+					<btnComponent type="disable" @tap="modal=''">
+						<button class="btn">
+							<view class="flex-set">再想想</view>
+						</button>
+					</btnComponent>
 
+					<btnComponent type="default" @tap="$app.goPage('/pages/fans/fans_list')">
+						<button class="btn">
+							<view class="flex-set">加入粉丝团</view>
+						</button>
+					</btnComponent>
+				</view>
 			</view>
 		</modalComponent>
+
 	</view>
 </template>
 
@@ -224,9 +219,10 @@
 				difference_first: 0,
 				time_text: '',
 				is_admin: 0,
-				myClubInfo:'',
-				tips:'',
-				active_name:'',
+				myClubInfo: '',
+				tips: [],
+				active_name: '',
+				active_bonus: '',
 				AVATAR: this.$app.getData('AVATAR'),
 				NICKNAME: '虚位以待',
 			};
@@ -239,7 +235,18 @@
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
-			joinClick(active_id,active_name) {
+			buttonHandler(e) {
+				const sharetype = e.target.dataset.sharetype
+				if (sharetype == 'share') {
+					// 分享
+					const shareType = e.target && e.target.dataset.sharetype
+					// #ifdef APP-PLUS
+					const shareOptions = this.$app.commonShareAppMessage(shareType)
+					this.$refs.shareModal.shareShow(shareOptions)
+					// #endif
+				}
+			},
+			joinClick(active_id, active_name, active_bonus) {
 				if (!this.fanclub_id) {
 					this.modal = 'tipsJoinFunsclub';
 				} else if (this.is_admin == 0) {
@@ -248,7 +255,8 @@
 					this.modal = 'joinActivity';
 					this.active_id = active_id;
 				}
-				this.active_name=active_name;
+				this.active_name = active_name;
+				this.active_bonus = active_bonus;
 			},
 			join() {
 				this.$app.request(this.$app.API.ACTIVE_DRAGON_BOAT_FESTIVAL_JOIN, {
@@ -283,13 +291,19 @@
 <style lang="scss" scoped>
 	.container {
 		color: #412b13;
-		.tips{
+
+		.tips {
 			width: 100%;
 			display: flex;
-			justify-content: center;
+			flex-direction: column;
 			padding: 10rpx 0;
 			color: #818286;
+			view{
+				display: flex;
+				justify-content: center;
+			}
 		}
+
 		.top {
 			width: 100%;
 			display: flex;
@@ -353,11 +367,12 @@
 							margin-top: -65rpx;
 						}
 					}
-					.mineinfo{
+
+					.mineinfo {
 						width: 100%;
 						padding: 20rpx 20rpx;
-						
-						.mineinfo-cont{
+
+						.mineinfo-cont {
 							width: 100%;
 							padding: 20rpx 0;
 							display: flex;
@@ -365,7 +380,8 @@
 							font-size: 28rpx;
 							border-top: 2rpx solid #d2d2d3;
 							border-bottom: 2rpx solid #d2d2d3;
-							.mineinfo-rank{
+
+							.mineinfo-rank {
 								width: 10%;
 								color: #999999;
 								font-weight: bold;
@@ -374,34 +390,40 @@
 								justify-content: center;
 								align-items: center;
 							}
-							.mineinfo-img{
+
+							.mineinfo-img {
 								width: 90rpx;
 								padding-left: 10rpx;
 								display: flex;
 								justify-content: center;
 								align-items: center;
-								image{
+
+								image {
 									width: 80rpx;
 									height: 80rpx;
 									border-radius: 50%;
 								}
 							}
-							.mineinfo-text{
+
+							.mineinfo-text {
 								width: 100%;
 								padding-left: 20rpx;
-								.funs-name-all{
+
+								.funs-name-all {
 									display: flex;
 									flex-direction: row;
 									align-items: center;
-									.funs-name{
+
+									.funs-name {
 										font-size: 28rpx;
 										font-weight: bold;
 										max-width: 70%;
-										white-space:nowrap;
-										word-break:break-all;
-										overflow:hidden;
-										text-overflow:ellipsis;
+										white-space: nowrap;
+										word-break: break-all;
+										overflow: hidden;
+										text-overflow: ellipsis;
 									}
+
 									.starname {
 										background: -webkit-linear-gradient(#ff7e00, #fccd9f);
 										color: #fff;
@@ -415,15 +437,18 @@
 										height: 35rpx
 									}
 								}
-								.funs-total-hot{
+
+								.funs-total-hot {
 									font-size: 22rpx;
 									color: #818286;
-									image{
+
+									image {
 										width: 25rpx;
 										height: 25rpx;
 									}
 								}
-								.difference_first{
+
+								.difference_first {
 									font-size: 24rpx;
 									color: #68696c;
 								}
@@ -447,8 +472,8 @@
 							font-size: 28rpx;
 						}
 					}
-					
-					.invite_user{
+
+					.invite_user {
 						width: 100%;
 						padding: 15rpx 5% 15rpx 5%;
 					}
@@ -467,17 +492,18 @@
 							align-items: center;
 							padding: 20rpx 10rpx;
 							font-size: 28rpx;
-							
-							.funs-img{
+
+							.funs-img {
 								width: 100rpx;
 								display: flex;
-								
-								image{
+
+								image {
 									width: 70rpx;
 									height: 70rpx;
 									border-radius: 50%;
 								}
-								.funs-rank{
+
+								.funs-rank {
 									width: 30rpx;
 									height: 30rpx;
 									color: #FFFFFF;
@@ -487,38 +513,42 @@
 									justify-content: center;
 									margin-left: -20rpx;
 									margin-top: -10rpx;
-								
+
 								}
 							}
-							.funs-cont{
+
+							.funs-cont {
 								width: 100%;
 								padding-left: 10rpx;
-								.funs-name-all{
+
+								.funs-name-all {
 									display: flex;
 									flex-direction: row;
 									align-items: center;
-									.funs-name{
+
+									.funs-name {
 										width: 70%;
 										font-weight: bold;
-										white-space:nowrap;
-										word-break:break-all;
-										overflow:hidden;
-										text-overflow:ellipsis;
+										white-space: nowrap;
+										word-break: break-all;
+										overflow: hidden;
+										text-overflow: ellipsis;
 									}
 								}
-								
-								.funs-total-hot{
+
+								.funs-total-hot {
 									display: flex;
 									flex-direction: column;
 									font-size: 22rpx;
 									color: #818286;
-									image{
+
+									image {
 										width: 20rpx;
 										height: 20rpx;
 									}
 								}
 							}
-							
+
 						}
 					}
 				}
@@ -526,33 +556,46 @@
 		}
 
 		.joinActivity {
-			width: 100%;
 			display: flex;
 			flex-direction: column;
+			align-items: center;
 
-			.box {
-				width: 80%;
-
-				.title {
-					width: 100%;
-					font-weight: bold;
-
-					view {
-						display: flex;
-						align-items: center;
-						justify-content: center;
-					}
-				}
-
-				.btn-confirm {
-					width: 100%;
-					display: flex;
-					justify-content: space-around;
-					margin: 20rpx 0;
-				}
+			.title {
+				font-size: 36upx;
+				font-weight: 700;
 			}
 
+			.btn-wrap {
+				margin: 30rpx 0;
+				text-align: center;
+				display: flex;
+				width: 100%;
+				justify-content: space-around;
+				padding: 0 20rpx;
+			}
+
+			.joinActivity-text {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				padding-top: 20rpx;
+			}
+
+			.bg {
+				width: 150rpx;
+				overflow: hidden;
+				margin: 20rpx 0;
+			}
+
+			.btn {
+				padding: 10rpx 30rpx;
+				font-size: 30rpx;
+				font-weight: 600;
+				width: 220rpx;
+			}
 		}
+
+
 
 	}
 </style>
