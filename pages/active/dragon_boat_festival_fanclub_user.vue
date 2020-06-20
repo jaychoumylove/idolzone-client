@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		
-		<view class="fans_text">本场粉丝贡献排名</view>
+		<!-- <view class="fans_text">本场粉丝贡献排名</view> -->
 		
 		<!-- 列表 -->
 		<view class="list-container">
