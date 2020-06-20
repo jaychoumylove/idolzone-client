@@ -14,6 +14,7 @@
 				</view>
 			</view>
 		</view>
+		<view class="tips ">{{tips}}</view>
 		<view class="bonus-cont">
 			<view class="bonus-title">
 				<view class="bonus_total">{{active_info.title || ''}}：{{active_info.bonus || ''}}奖金</view>
@@ -40,9 +41,15 @@
 							<view class="funs-name">{{myClubInfo.fanclub_name || NICKNAME}}</view>
 							<view class='starname'>{{myClubInfo.star_name || ''}}</view>
 						</view>
-						<view v-if="myClubInfo.total_count>0" class="funs-total-hot">贡献 <text style="color: #FBCC3E;">{{myClubInfo.total_count}}</text> 人气</view>
+						<view v-if="myClubInfo.total_count>0" class="funs-total-hot">
+							<text>本场贡献</text>
+							<text style="color: #FBCC3E; padding: 0 10rpx;">{{myClubInfo.total_count}}</text>
+							<image src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F3NAxlopF2oyvfuiaEjgJItws1tcmzFFLo4WGc38l7kibxxk1atGAcjALuqvyvLib3icFPyAicbsOOl3g/0' mode="widthFix"></image>
+						</view>
 						<view v-else class="funs-total-hot">暂无贡献</view>
-						<view v-if="myClubInfo.rank>1 && myClubInfo.difference_first>0" class="difference_first">距离第一名还差{{myClubInfo.difference_first}}人气</view>
+						<view v-if="myClubInfo.rank>1 && myClubInfo.difference_first>0" class="difference_first">
+							距离第一名还差<text style="color: #FBCC3E; padding: 0 10rpx;">{{myClubInfo.difference_first}}</text>人气
+						</view>
 					</view>
 				</view>
 				
@@ -70,6 +77,7 @@
 		</view>
 		<!-- 列表 -->
 		<view class="list-container">
+			
 			<view class="item" v-for="(item,index) in fanclubRank" :key="index">
 				<view class="rank-num">
 					<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERPO5dPoLHgkajBHNM2z9fooSUMLxB0ogg1mYllIAOuoanico1icDFfYFA/0"
@@ -88,7 +96,11 @@
 						<view class="funs-name">{{item.fanclub_name || NICKNAME}}</view>
 						<view class='starname'>{{item.star_name || ''}}</view>
 					</view>
-					<view v-if="item.total_count>0" class="funs-total-hot">贡献 <text style="color: #FBCC3E;">{{item.total_count}}</text> 人气</view>
+					<view v-if="item.total_count>0" class="funs-total-hot"> 
+						<text>本场贡献</text>
+						<text style="color: #FBCC3E; padding: 0 10rpx;">{{item.total_count}}</text>
+						<image src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F3NAxlopF2oyvfuiaEjgJItws1tcmzFFLo4WGc38l7kibxxk1atGAcjALuqvyvLib3icFPyAicbsOOl3g/0' mode="widthFix"></image>
+					</view>
 					<view v-else class="funs-total-hot">暂无贡献</view>
 				</view>
 				
@@ -119,6 +131,7 @@
 				active_id:0,
 				modal:'',
 				page: 1,
+				tips:'',
 				notice_id:'',
 				is_exit:false,
 				myClubInfo:'',
@@ -157,6 +170,7 @@
 					this.myClubInfo = res.data.myClubInfo;
 					this.is_exit = res.data.is_exit;
 					this.notice_id = res.data.notice_id;
+					this.tips = res.data.tips;
 					
 					if (this.page == 1) {
 						this.fanclubRank = res.data.list
@@ -182,6 +196,13 @@
 
 <style lang="scss" scoped>
 	.container {
+		.tips{
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			padding: 10rpx 0;
+			color: #818286;
+		}
 		.top {
 			width: 100%;
 			display: flex;
@@ -273,6 +294,7 @@
 							width: 100%;
 							display: flex;
 							flex-direction: row;
+							align-items: center;
 							.funs-name{
 								max-width: 60%;
 								font-size: 28rpx;
@@ -291,11 +313,17 @@
 								box-shadow: 0 0 2rpx rgba(0, 0, 0, .3);
 								display: flex;
 								align-items: center;
+								margin-left: 10rpx;
+								height: 35rpx;
 							}
 						}
 						.funs-total-hot{
 							font-size: 22rpx;
 							color: #818286;
+							image{
+								width: 25rpx;
+								height: 25rpx;
+							}
 						}
 						.difference_first{
 							font-size: 24rpx;
@@ -374,6 +402,7 @@
 						width: 100%;
 						display: flex;
 						flex-direction: row;
+						align-items: center;
 						.funs-name{
 							max-width: 60%;
 							font-size: 28rpx;
@@ -383,12 +412,28 @@
 							overflow:hidden;
 							text-overflow:ellipsis;
 						}
+						.starname {
+							background: -webkit-linear-gradient(#ff7e00, #fccd9f);
+							color: #fff;
+							padding: 0 12rpx;
+							border-radius: 12rpx;
+							font-size: 22rpx;
+							box-shadow: 0 0 2rpx rgba(0, 0, 0, .3);
+							display: flex;
+							align-items: center;
+							margin-left: 10rpx;
+							height: 35rpx
+						}
 						
 					}
 					.funs-total-hot{
 						padding-top: 10rpx;
 						font-size: 22rpx;
 						color: #818286;
+						image{
+							width: 25rpx;
+							height: 25rpx;
+						}
 					}
 					.difference_first{
 						font-size: 24rpx;

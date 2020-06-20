@@ -14,6 +14,8 @@
 				</view>
 			</view>
 		</view>
+		
+		<view class="tips ">{{tips}}</view>
 
 		<!-- 列表 -->
 		<view class="list-container">
@@ -40,7 +42,15 @@
 									<view class="funs-name">{{value.fanclub_name || NICKNAME}}</view>
 									
 								</view>
-								<view v-if="value.total_count>0" class="funs-total-hot">贡献 <text style="color: #FBCC3E;">{{value.total_count}}</text> 人气</view>
+								<view v-if="value.total_count>0" class="funs-total-hot">
+									<!-- <view>
+										本场贡献
+									</view> -->
+									<view>
+										<text style="color: #FBCC3E; padding-right: 10rpx;">{{value.total_count}}</text>
+										<image src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F3NAxlopF2oyvfuiaEjgJItws1tcmzFFLo4WGc38l7kibxxk1atGAcjALuqvyvLib3icFPyAicbsOOl3g/0' mode="widthFix"></image>
+									</view>
+								</view>
 								<view v-else class="funs-total-hot">暂无贡献</view>
 							</view>
 						</view>
@@ -60,7 +70,11 @@
 									<view class="funs-name">{{myClubInfo.fanclub_name || NICKNAME}}</view>
 									<view class='starname'>{{myClubInfo.star_name || ''}}</view>
 								</view>
-								<view v-if="myClubInfo.total_count>0" class="funs-total-hot">贡献 <text style="color: #FBCC3E;">{{myClubInfo.total_count}}</text> 人气</view>
+								<view v-if="myClubInfo.total_count>0" class="funs-total-hot">
+									<text>本场贡献</text>
+									<text style="color: #FBCC3E; padding: 0 10rpx;">{{myClubInfo.total_count}}</text>
+									<image src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F3NAxlopF2oyvfuiaEjgJItws1tcmzFFLo4WGc38l7kibxxk1atGAcjALuqvyvLib3icFPyAicbsOOl3g/0' mode="widthFix"></image>
+								</view>
 								<view v-else class="funs-total-hot">暂无贡献</view>
 								<view v-if="myClubInfo.rank>1 && myClubInfo.difference_first>0" class="difference_first">距离第一名还差{{myClubInfo.difference_first}}人气</view>
 							</view>
@@ -211,6 +225,7 @@
 				time_text: '',
 				is_admin: 0,
 				myClubInfo:'',
+				tips:'',
 				active_name:'',
 				AVATAR: this.$app.getData('AVATAR'),
 				NICKNAME: '虚位以待',
@@ -257,6 +272,7 @@
 					this.time_text = res.data.time_text;
 					this.is_admin = res.data.is_admin;
 					this.myClubInfo = res.data.myClubInfo;
+					this.tips = res.data.tips;
 				})
 			},
 
@@ -267,6 +283,13 @@
 <style lang="scss" scoped>
 	.container {
 		color: #412b13;
+		.tips{
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			padding: 10rpx 0;
+			color: #818286;
+		}
 		.top {
 			width: 100%;
 			display: flex;
@@ -369,6 +392,7 @@
 								.funs-name-all{
 									display: flex;
 									flex-direction: row;
+									align-items: center;
 									.funs-name{
 										font-size: 28rpx;
 										font-weight: bold;
@@ -388,11 +412,16 @@
 										display: flex;
 										align-items: center;
 										margin-left: 10rpx;
+										height: 35rpx
 									}
 								}
 								.funs-total-hot{
 									font-size: 22rpx;
 									color: #818286;
+									image{
+										width: 25rpx;
+										height: 25rpx;
+									}
 								}
 								.difference_first{
 									font-size: 24rpx;
@@ -467,6 +496,7 @@
 								.funs-name-all{
 									display: flex;
 									flex-direction: row;
+									align-items: center;
 									.funs-name{
 										width: 70%;
 										font-weight: bold;
@@ -478,8 +508,14 @@
 								}
 								
 								.funs-total-hot{
+									display: flex;
+									flex-direction: column;
 									font-size: 22rpx;
 									color: #818286;
+									image{
+										width: 20rpx;
+										height: 20rpx;
+									}
 								}
 							}
 							
