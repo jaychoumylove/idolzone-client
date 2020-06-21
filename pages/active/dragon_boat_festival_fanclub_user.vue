@@ -80,17 +80,14 @@
 			this.loadData()
 		},
 		onReachBottom() {
-			if (this.page < 10) {
-				this.page++;
-				this.loadData()
-			}
+			this.page++;
+			this.loadData()
 		},
 		methods: {
 			goPage(url, val='') {
 				this.$app.goPage(url + val);
 			},
 			loadData() {
-				if (this.page > 10) return
 				this.$app.request(this.$app.API.ACTIVE_DRAGON_BOAT_FESTIVAL_FANCLUB_USER, {
 					page: this.page,
 					active_id:this.active_id,

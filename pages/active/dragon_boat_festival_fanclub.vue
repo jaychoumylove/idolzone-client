@@ -147,19 +147,20 @@
 				NICKNAME: '神秘粉丝团',
 			};
 		},
-		onShow(option) {
+		onLoad(option) {
 			if(!option.active_id){
 				this.$app.toast('网络延时')
 				this.goPage('/pages/active/dragon_boat_festival');
 			}
 			this.active_id=option.active_id;
+			// this.loadData()
+		},
+		onShow() {
 			this.loadData()
 		},
 		onReachBottom() {
-			if (this.page < 10) {
-				this.page++;
-				this.loadData()
-			}
+			this.page++;
+			this.loadData()
 		},
 		onShareAppMessage(e) {
 			const shareType = e.target && e.target.dataset.shareid
