@@ -24,7 +24,7 @@
 		</view>
 
 		<!-- 顶部浮 -->
-		<view class="top-float-container" v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
+		<view class="top-float-container" v-if="$app.getData('config').version != $app.getData('VERSION') ||  ($app.getData('platform')!='MP-WEIXIN' && $app.getData('platform')!='MP-QQ')">
 			<view class="row row-1">
 
 				<view class="item-wrap">

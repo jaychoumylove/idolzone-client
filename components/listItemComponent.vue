@@ -57,7 +57,7 @@
 				width: 80upx;
 				height: 80upx;
 				border-radius: 50%;
-				margin-right: 40upx;
+				margin-right: 30upx;
 			}
 		}
 	}

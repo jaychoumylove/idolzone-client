@@ -59,7 +59,7 @@
 							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERabwYgrRn5cjV3uoOa8BonlDPGMn7icL9icvz43XsbexzcqkCcrTcdZqw/0"
 							 mode=""></image>{{$app.formatNumber(rankList[1]&&rankList[1].hot||0)}}
 						</view>
-						<view class="score" v-if="rankList[1]&&rankList[1].score">累计{{rankList[1]&&rankList[1].score||0}}分</view>
+						<view class="score" v-if="rankList[1]&&rankList[1].score">{{rankList[1]&&rankList[1].score||0}}<image :src="$app.getData('config').pkactive_info.img"></image></view>
 					</view>
 					<view class="content mid" @tap="goGroup(rankList[0]&&rankList[0].star.id)">
 						<view class="avatar-wrap">
@@ -72,7 +72,7 @@
 							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERabwYgrRn5cjV3uoOa8BonlDPGMn7icL9icvz43XsbexzcqkCcrTcdZqw/0"
 							 mode=""></image>{{$app.formatNumber(rankList[0]&&rankList[0].hot||0)}}
 						</view>
-						<view class="score" v-if="rankList[0]&&rankList[0].score">累计{{rankList[0]&&rankList[0].score||0}}分</view>
+						<view class="score" v-if="rankList[0]&&rankList[0].score">{{rankList[0]&&rankList[0].score||0}}<image :src="$app.getData('config').pkactive_info.img"></image></view>
 					</view>
 					<view class="content" @tap="goGroup(rankList[2]&&rankList[2].star.id)">
 						<view class="avatar-wrap">
@@ -85,7 +85,7 @@
 							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERabwYgrRn5cjV3uoOa8BonlDPGMn7icL9icvz43XsbexzcqkCcrTcdZqw/0"
 							 mode=""></image>{{$app.formatNumber(rankList[2]&&rankList[2].hot||0)}}
 						</view>
-						<view class="score" v-if="rankList[2]&&rankList[2].score">累计{{rankList[2]&&rankList[2].score||0}}分</view>
+						<view class="score" v-if="rankList[2]&&rankList[2].score">{{rankList[2]&&rankList[2].score||0}}<image :src="$app.getData('config').pkactive_info.img"></image></view>
 					</view>
 
 				</view>
@@ -112,7 +112,7 @@
 						
 						<template v-slot:center-container>
 							<view class="center-container">
-								<view class="score" v-if="item.score">累计{{item.score}}分</view>
+								<view class="score" v-if="item.score">{{item.score}}<image :src="$app.getData('config').pkactive_info.img"></image></view>
 							</view>
 						</template>
 
@@ -339,6 +339,10 @@
 	.index-page-container {
 		.score{
 			color: #D89D59;
+			image{
+				width: 40upx;
+				height: 40upx;
+			}
 		}
 		
 		.top-container {

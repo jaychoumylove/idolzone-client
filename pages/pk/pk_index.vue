@@ -41,12 +41,13 @@
 
 		<view class="space-line"></view>
 		<view class="flex-set title-bottom">
-			<button class="item left flex-set" open-type="share" @tap="buttonHandler" data-sharetype="share" data-shareid="5">
+			<!-- <button class="item left flex-set" open-type="share" @tap="buttonHandler" data-sharetype="share" data-shareid="5">
 				<image class="" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9JLxccByJ4Q7E6acQ50SAJYcGdFQgIGGOAF9zXVunNh9nM2YJArQ1RQ/0"></image>
 				<text class="">分享</text>
-			</button>
+			</button> -->
 			<view class="item" :class="{'bi-title':rankCurrent==0}" @tap='goUserRank' data-current='0'>粉丝荣誉墙</view>
-			<text class="item right" :class="{'bi-title':rankCurrent==1}" @tap='goUserRank' data-current='1'>团战贡献总榜</text>
+			<view v-if="pk_active_enable" class="item" :class="{'bi-title':rankCurrent==2}" @tap='goUserRank' data-current='2'>{{$app.getData('config').pkactive_info.name}}贡献榜</view>
+			<text class="item" :class="{'bi-title':rankCurrent==1}" @tap='goUserRank' data-current='1'>团战贡献总榜</text>
 		</view>
 
 		<view class='rank-box'>
@@ -77,10 +78,13 @@
 							</view>
 							<view class='flower'>
 								<text class="" v-if="pkStatus==1 && rankCurrent==0">上场贡献</text>
-								<text class="" v-if="pkStatus==2 && rankCurrent==0">本场贡献</text>
-								<text class="" v-if="rankCurrent==1">总贡献</text>
+								<text class="" v-else-if="pkStatus==2 && rankCurrent==0">本场贡献</text>
+								<text class="" v-else-if="rankCurrent==1">总贡献</text>
+								<text class="" v-else-if="rankCurrent==2">活动贡献</text>
 
-								<text class='color'>{{rankCurrent==0?item.last_pk_count:item.total_count}}</text>
+								<text class='color' v-if="rankCurrent==0">{{item.last_pk_count}}</text>
+								<text class='color' v-else-if="rankCurrent==1">{{item.total_count}}</text>
+								<text class='color' v-else-if="rankCurrent==2">{{item.pkactive_count}}</text>
 								<image src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F3NAxlopF2oyvfuiaEjgJItws1tcmzFFLo4WGc38l7kibxxk1atGAcjALuqvyvLib3icFPyAicbsOOl3g/0'></image>
 							</view>
 
@@ -96,7 +100,7 @@
 								<image class="" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9D5Kf1wgaoK5WibPiangOicSd663v6KHgrXx5asU8haias3RdRRskTia8Qvg/0"></image>
 							</view>
 						</view>
-						<view class="award" v-else>
+						<view class="award" v-else-if="rankCurrent == 1">
 							<view v-if="item.gold" class="flex-set">
 								<image class="" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk91MFUUnActzcz1MGV2BchSQt4zB0HibmS4aDz6nt9kVVlKUWMsna4oxg/0"></image>x{{item.gold}}
 							</view>
@@ -106,14 +110,14 @@
 							<view v-if="item.bronze" class="flex-set">
 								<image class="" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9D5Kf1wgaoK5WibPiangOicSd663v6KHgrXx5asU8haias3RdRRskTia8Qvg/0"></image>x{{item.bronze}}
 							</view>
+						</view>						
+						<view class="award" v-else-if="rankCurrent == 2">
+							<view class="flex-set" v-if="item.pkactive_score>0">
+								<image class="" :src="$app.getData('config').pkactive_info.img"></image>x{{item.pkactive_score}}
+							</view>
 						</view>
-
-						<view v-if="rankCurrent == 0" class="zan active flex-set" @tap='dianzan' :data-name="item.name" :data-uid='item.uid'
+						<view class="zan active flex-set" @tap='dianzan' :data-name="item.name" :data-uid='item.uid'
 						 :data-i='index'>
-							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9WHoedvqgMtrImliawH7SeVNpS99fQvLdtJqL4XNtQI9KhD22BD7No2g/0"></image>
-							{{item.total_zan}}
-						</view>
-						<view v-else class="zan flex-set">
 							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk9WHoedvqgMtrImliawH7SeVNpS99fQvLdtJqL4XNtQI9KhD22BD7No2g/0"></image>
 							{{item.total_zan}}
 						</view>
@@ -145,7 +149,8 @@
 				rankCurrent: 0,
 				page: 1,
 				userList: [],
-				timeLeft: ''
+				timeLeft: '',
+				pk_active_enable:false,
 			};
 		},
 		onShareAppMessage(e) {
@@ -247,6 +252,7 @@
 					this.arcId = res.data.arcId
 					this.pkStatus = res.data.status
 					this.curPkTime = res.data.curPkTime
+					this.pk_active_enable = res.data.pk_active_enable
 
 					let timeLeft
 					for (let key in this.pkTimeList) {
