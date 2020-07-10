@@ -15,7 +15,7 @@
 			this.$app.setData('sysInfo', uni.getSystemInfoSync())
 			// 弹幕队列
 			this.$app.danmakuQueue = []
-
+            //
 			// 检查更新
 			this.$app.checkUpdate()
 		},
