@@ -362,8 +362,19 @@
 			<view class="send-modal-container">
 				<view class="switch-wrap">
 					<switch :checked="!danmakuClosed" @change="danmakuSwitch" />弹幕
-					<text v-if="current==0" class="absolute-go">1金豆 = 1人气</text>
-					<text v-if="current==1" class="absolute-go">1鲜花 = 1人气</text>
+					
+					<block v-if="extHot.dog4&&extHot.dog4.percent>0">
+						<view class="absolute-dog4" v-if="current==0" @tap="goFourSkill">
+							冲榜后额外赠送<text style="color: #fb8100;">{{extHot.dog4.percent*100}}%</text>
+							<text>金豆<text class="iconfont iconicon-test1"></text></text>
+						</view>
+						<view class="absolute-dog4" v-if="current==1" @tap="goFourSkill">
+							冲榜后额外赠送<text style="color: #FF0019;">{{extHot.dog4.percent*100}}%</text>
+							<text>鲜花<text class="iconfont iconicon-test1"></text></text>
+						</view>
+						<text class="absolute-go-dog">1{{current==0 ? "金豆": "鲜花"}} = 1人气</text>
+					</block>
+					<text v-else class="absolute-go">1{{current==0 ? "金豆": "鲜花"}} = 1人气</text>
 				</view>
 
 				<view></view>
@@ -952,6 +963,8 @@
 
 				phoneNumber: '',
 				phoneCode: '',
+				
+				extHot: {},// 额外的打榜信息
 			};
 		},
 		created() {
@@ -965,6 +978,18 @@
 			clearInterval(this.timeId_danmaku)
 		},
 		methods: {
+			// 获取打榜额外的加成
+			getExtSendHot() {
+				this.$app.request(this.$app.API.SPRITE_SKILL, {type: 4}, res => {
+					this.extHot.dog4 = res.data.myskill;
+				})
+			},
+			goFourSkill() {
+				this.$app.setData('queryString', {'skill': 4, 'modal': 'skill'})
+				uni.switchTab({
+					url: "/pages/farm/farm",
+				})
+			},
 			getGroupList() {
 				this.$app.request(this.$app.API.BTN_CFG_GROUP, {}, res => {
 					this.btn_cfg = res.data.btn_cfg;
@@ -2777,6 +2802,28 @@
 				font-size: 34upx;
 				transform: scale(0.7);
 			}
+			
+			.absolute-dog4 {
+				position: absolute;
+				left: 250rpx;
+				top: 0;
+				width: 500rpx;
+				font-size: 40upx;
+				font-weight: 500;
+			}
+
+			.absolute-go {
+				position: absolute;
+				left: 400rpx;
+				width: 220rpx;
+			}
+
+			.absolute-go-dog {
+				position: absolute;
+				left: 0rpx;
+				top: 80rpx;
+				width: 220rpx;
+			}
 
 			.explain-wrapper {
 				font-size: 24upx;
@@ -2784,6 +2831,7 @@
 
 			.swiper-change {
 				margin: 30upx;
+				margin-top: 60upx;
 				border-radius: 30upx;
 				overflow: hidden;
 				box-shadow: 0 2upx 4upx rgba(0, 0, 0, .3);
@@ -3723,13 +3771,6 @@
 				right: 50upx;
 			}
 		}
-	}
-
-	.absolute-go {
-		position: absolute;
-		left: 400rpx;
-		width: 220rpx;
-
 	}
 
 	.blessing-modal-container {

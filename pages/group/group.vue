@@ -85,6 +85,7 @@
 
 				this.getRankList()
 			}
+			this.$refs.guildComponent.getExtSendHot && this.$refs.guildComponent.getExtSendHot()
 
 		},
 		onHide() {

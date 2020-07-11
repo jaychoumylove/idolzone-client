@@ -122,7 +122,7 @@
 				<image v-if="skillType==3" class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F3NAxlopF2oyvfuiaEjgJIt5WfJDfUDFicqFqjs0GGoK5icRRflIj1oU27Ad4HrpQP3TutO28z1brGg/0"
 				 mode="aspectFill"></image>
 				<!-- 离线收益 -->
-				<image v-if="skillType==4" class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F3NAxlopF2oyvfuiaEjgJIt5WfJDfUDFicqFqjs0GGoK5icRRflIj1oU27Ad4HrpQP3TutO28z1brGg/0"
+				<image v-if="skillType==4" class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HpzCGqSicmQMtJico7gHXMsWX1mic8AEa8u3u4BnXDTuTYNxTZhc9Drckoo5uYASP0smy8CctSUY27A/0"
 				 mode="aspectFill"></image>
 				<!-- 房子 -->
 				<image v-if="skillType==5" class="bg" :src="farm.house_img" mode="widthFix"></image><!-- 房子 -->
@@ -334,6 +334,13 @@
 		onShow() {
 			this.getSpriteInfo()
 			this.userCurrency = this.$app.getData('userCurrency')
+			let queryString = this.$app.getData('queryString');
+			if (queryString) {
+				this.skillType = queryString.skill;
+				this.getSkill(this.skillType);
+				this.modal = queryString.modal;
+				this.$app.setData('queryString', undefined)
+			}
 		},
 		methods: {
 			goPage(url) {
