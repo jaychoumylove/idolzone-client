@@ -113,6 +113,7 @@
 				<view class="title" v-if="skillType==1">挖钻石</view>
 				<view class="title" v-if="skillType==2">养家糊口</view>
 				<view class="title" v-if="skillType==3">精心护理</view>
+				<view class="title" v-if="skillType==4">熟能生巧</view>
 
 				<!-- 挖钻石 -->
 				<image v-if="skillType==1" class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HUWa4ibYRGeP9Kkz6Vd4icsiaYhw3c8VbuhCrUW0xLiaGRyeV7Dle0ZuLN9LW0hh47BQiaDr4icqf361Yg/0"
@@ -421,7 +422,9 @@
 					type
 				}, res => {
 					if (type == 4) {
-						res.data.nextskill.point = Math.round(res.data.nextskill.point / 10000);
+						if (res.data.nextskill) {
+							res.data.nextskill.point = Math.round(res.data.nextskill.point / 10000);
+						}
 					}
 					this.skillInfo = res.data
 					this.modal = "skill"
