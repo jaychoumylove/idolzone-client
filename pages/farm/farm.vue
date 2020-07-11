@@ -87,10 +87,10 @@
 					 mode="aspectFill"></image>
 					<view class="text">离线收益</view>
 				</view>
-				<view class="btn-wrap four">
+				<view class="btn-wrap four" @tap="getSkill(4);modal='skill'">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5yCU7TO4mjsUPicBSYlc9EXE49FuArcD6iaQKOfRmjWF0ibxK9elIaQjCw/0"
 					 mode="aspectFill"></image>
-					<view class="text">敬请期待</view>
+					<view class="text">熟能生巧</view>
 				</view>
 			</view>
 
@@ -119,6 +119,9 @@
 				 mode="aspectFill"></image>
 				<!-- 离线收益 -->
 				<image v-if="skillType==3" class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F3NAxlopF2oyvfuiaEjgJIt5WfJDfUDFicqFqjs0GGoK5icRRflIj1oU27Ad4HrpQP3TutO28z1brGg/0"
+				 mode="aspectFill"></image>
+				<!-- 离线收益 -->
+				<image v-if="skillType==4" class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F3NAxlopF2oyvfuiaEjgJIt5WfJDfUDFicqFqjs0GGoK5icRRflIj1oU27Ad4HrpQP3TutO28z1brGg/0"
 				 mode="aspectFill"></image>
 				<!-- 房子 -->
 				<image v-if="skillType==5" class="bg" :src="farm.house_img" mode="widthFix"></image><!-- 房子 -->
@@ -177,8 +180,17 @@
 						<view class="top">
 							<view class="left">下一等级 Lv.{{skillInfo.nextskill.level}}</view>
 							<btnComponent type="fangde">
-								<view class="right flex-set" @tap="upgrade()">升级<image class="img-s" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
-									 mode="aspectFill"></image>{{skillInfo.nextskill.stone}}</view>
+								<view class="right flex-set" @tap="upgrade()" v-if="skillInfo.nextskill.stone">
+									升级<image class="img-s" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
+																					   mode="aspectFill"></image>
+									{{skillInfo.nextskill.stone}}
+								</view>
+								
+								<view class="right flex-set" @tap="upgrade()" v-if="skillInfo.nextskill.point">
+									升级<image class="img-s" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXX6zqzjkSn01fIlGmzJw6u6spsa2iclibKUibzkneYdS4CE4FGmmysZiaW3V3rz08MFNsIY8hFsXoKgg/0"
+																					   mode="aspectFill"></image>
+									{{skillInfo.nextskill.point}}
+								</view>
 							</btnComponent>
 						</view>
 						<view class="desc">{{skillInfo.nextskill.desc}}</view>
@@ -408,6 +420,9 @@
 				this.$app.request(this.$app.API.SPRITE_SKILL, {
 					type
 				}, res => {
+					if (type == 4) {
+						res.data.nextskill.point = Math.round(res.data.nextskill.point / 10000);
+					}
 					this.skillInfo = res.data
 					this.modal = "skill"
 
