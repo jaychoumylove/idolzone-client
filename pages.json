@@ -398,6 +398,14 @@
             	"navigationBarTitleText": "粉丝团成员贡献榜"
             }
         }
+        ,{
+            "path" : "pages/active_conform/active_conform",
+            "style" : {
+            	"navigationBarBackgroundColor": "#fbcc3e",			
+            	"navigationBarTextStyle": "black",
+            	"navigationBarTitleText": "福利活动"
+            }
+        }
     ],
 	"tabBar": {
 		"color": "#aaaaaa",
@@ -422,10 +430,10 @@
 				"text": "圈子"
 			},
 			{
-				"pagePath": "pages/active_one/active_one_list",
+				"pagePath": "pages/active_conform/active_conform",
 				"iconPath": "/static/image/tab/square.png",
 				"selectedIconPath": "/static/image/tab/square-tap.png",
-				"text": "应援"
+				"text": "福利活动"
 			},
 			{
 				"pagePath": "pages/user/user",
