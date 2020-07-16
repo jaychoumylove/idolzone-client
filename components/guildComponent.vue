@@ -366,7 +366,6 @@
 					<text v-if="current==1" class="absolute-go">1鲜花 = 1人气</text>
 				</view>
 
-				<view></view>
 				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="swiper-change flex-set">
 					<view class="item" :class="{select:current==0}" @tap="current = 0;sendCount=''">送金豆</view>
 					<view class="item" :class="{select:current==1}" @tap="current = 1;sendCount=''">送鲜花</view>

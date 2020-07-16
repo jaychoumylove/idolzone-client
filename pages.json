@@ -397,7 +397,31 @@
             	"navigationBarTextStyle": "black",
             	"navigationBarTitleText": "粉丝团成员贡献榜"
             }
-        }
+        },
+		{
+		    "path" : "pages/open/rank",
+		    "style" : {
+		    	"navigationBarBackgroundColor": "#fbcc3e",			
+		    	"navigationBarTextStyle": "black",
+		    	"navigationBarTitleText": "最美军装"
+		    }
+		},
+		{
+		    "path" : "pages/open/detail",
+		    "style" : {
+		    	"navigationBarBackgroundColor": "#fbcc3e",			
+		    	"navigationBarTextStyle": "black",
+		    	"navigationBarTitleText": "开屏贡献榜"
+		    }
+		},
+		{
+		    "path" : "pages/open/upload",
+		    "style" : {
+		    	"navigationBarBackgroundColor": "#fbcc3e",			
+		    	"navigationBarTextStyle": "black",
+		    	"navigationBarTitleText": "开屏上传"
+		    }
+		}
     ],
 	"tabBar": {
 		"color": "#aaaaaa",
