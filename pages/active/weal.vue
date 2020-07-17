@@ -236,7 +236,7 @@
 					mask:true,
 					title:"正在领取..."
 				});
-				this.$app.request(this.$app.API.ACTIVE_WEAL_GET_BAG, {
+				this.$app.request(this.$app.API.ACTIVE_WEAL_BAG_GET, {
 					task_id
 				}, res => {
 					let toast = '领取成功，福袋+' + res.data.blessing_num + '，幸运值+' + res.data.lucky_value;

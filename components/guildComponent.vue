@@ -1062,7 +1062,7 @@
 					success: function(res) {
 						if (res.confirm) {
 
-							that.$app.request(that.$app.API.ACTIVE_USE_BLESSING_BAG, {
+							that.$app.request(that.$app.API.ACTIVE_WEAL_BAG_USE, {
 								starid: that.star.id,
 								type: that.current + 1,
 								danmaku: Number(!that.danmakuClosed),
