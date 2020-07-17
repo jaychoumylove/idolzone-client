@@ -1,6 +1,7 @@
 <template>
 	<view class="rank-container">
-		<view class="fixed-btn">
+		<!-- 只有领袖粉才可以上传 -->
+		<view class="fixed-btn" v-if="$app.getData('userStar').captain">
 			<btnComponent type="css">
 				<view class="flex-set" style="width: 200upx;height: 65upx;" @tap="$app.goPage('/pages/open/upload')">我要上传</view>
 			</btnComponent>
@@ -17,7 +18,8 @@
 		<view class="scroll-wrap">
 			<view class="item" :class="{active:rankType=='rank'}" @tap="setRankType('rank')">人气排名</view>
 			<view class="item" :class="{active:rankType=='star'}" @tap="setRankType('star')">只看{{$app.getData('userStar').name}}</view>
-			<view class="item" :class="{active:rankType=='my'}" @tap="setRankType('my')">我的上传</view>
+			<!-- 只有领袖粉才可以上传 -->
+			<view v-if="$app.getData('userStar').captain" class="item" :class="{active:rankType=='my'}" @tap="setRankType('my')">我的上传</view>
 		</view>
 
 		<view class="list-container">
@@ -62,12 +64,12 @@
 							</view>
 							<view class="mb2 flex-set" style="text-align: center;" v-if="!item.open_rank.length">
 								<text class="iconfont iconempty"></text>
-								暂无鲜花贡献
+								暂无贡献
 							</view>
 						</view>
 						<view class="action" v-if="$app.getData('userStar').id == item.star_id">
 							<btnComponent type="css">
-								<view class="flex-set" style="width: 130upx;height: 50upx;" @tap="openSend(item)">鲜花助力</view>
+								<view class="flex-set" style="width: 130upx;height: 50upx;" @tap="openSend(item)">打榜助力</view>
 							</btnComponent>
 							<btnComponent type="yellow" class="right-btn">
 								<button class="btn" open-type="share" data-share="109" :data-otherparam="item.id" :data-image="item.img_url">
