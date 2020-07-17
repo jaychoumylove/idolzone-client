@@ -30,7 +30,7 @@
 						<view class="star-name mb2" @tap="goDetail(item)">{{item.star.name}}</view>
 						<view class="open-hot mb2 text-overflow" @tap="goDetail(item)">
 							<view>获得 <text class="disinl pdlf10" style="color: red;">{{$app.formatNumber(item.hot)}}</text></view>
-							<image lazy-load="true" class="img4" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
+							<image lazy-load="true" class="img4" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERabwYgrRn5cjV3uoOa8BonlDPGMn7icL9icvz43XsbexzcqkCcrTcdZqw/0"
 								 mode="widthFix"></image>
 						</view>
 						<view class="label mb2" @tap="goDetail(item)">
@@ -57,7 +57,7 @@
 											贡献  
 											<text class="disinl pdlf10" style="color: red;">{{$app.formatNumber(assistItem.count)}}</text>
 										</view>
-										<image class="img4" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
+										<image class="img4" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERabwYgrRn5cjV3uoOa8BonlDPGMn7icL9icvz43XsbexzcqkCcrTcdZqw/0"
 								 mode="widthFix"></image>
 									</view>
 								</view>
@@ -119,44 +119,65 @@
 					<switch :checked="!danmakuClosed" @change="danmakuSwitch" />弹幕
 					
 					<block v-if="extHot.dog4&&extHot.dog4.percent>0">
-						<view class="absolute-dog4" @tap="goFourSkill">
-							助力后额外赠送<text style="color: #FF0019;">{{extHot.dog4.percent*100}}%</text>
+						<view class="absolute-dog4" v-if="current==0" @tap="goFourSkill">
+							冲榜后额外赠送<text style="color: #fb8100;">{{extHot.dog4.percent*100}}%</text>
+							<text>金豆<text class="iconfont iconicon-test1"></text></text>
+						</view>
+						<view class="absolute-dog4" v-if="current==1" @tap="goFourSkill">
+							冲榜后额外赠送<text style="color: #FF0019;">{{extHot.dog4.percent*100}}%</text>
 							<text>鲜花<text class="iconfont iconicon-test1"></text></text>
 						</view>
-						<text class="absolute-go-dog">鲜花 = 1人气</text>
+						<text class="absolute-go-dog">1{{current==0 ? "金豆": "鲜花"}} = 1人气</text>
 					</block>
-					<text v-else class="absolute-go">鲜花 = 1人气</text>
+					<text v-else class="absolute-go">1{{current==0 ? "金豆": "鲜花"}} = 1人气</text>
 				</view>
-		
+
+				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="swiper-change flex-set" :class="{mt6: extHot&&extHot.dog4.percent>0}">
+					<view class="item" :class="{select:current==0}" @tap="current = 0;sendCount=''">送金豆</view>
+					<view class="item" :class="{select:current==1}" @tap="current = 1;sendCount=''">送鲜花</view>
+					<view class="item" v-if="$app.getData('config').old_coin_open=='1'&&userCurrency.old_coin>0" :class="{select:current==2}"
+					 @tap="current = 2;sendCount=''">送旧豆</view>
+				</view>
+
 				<view class="swiper-item">
-					<view class="wrap" :class="{mt5: extHot.dog4&&extHot.dog4.percent>0}">
+					<view class="wrap">
+
 						<view class="btn-wrapper">
 							<view class="btn flex-set" @tap="sendHot(item)" v-for="(item,index) in send_num_list" :key="index">
-								<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
+								<image v-if="current==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
+								 mode="widthFix"></image>
+								<image v-if="current==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
+								 mode="widthFix"></image>
+								<image v-if="current==2" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXlbbzMr1KRN6DJJyCKicqpD86VGeUeoibFPryXF3iaSF1bJba11sBtrCg6SNpEAxxPCyB2ictoq4Iia2Q/0"
 								 mode="widthFix"></image>
 								+{{item}}
 							</view>
-		
+
 							<view class="btn flex-set self-input">
-								<input class="" :value="sendCount?sendCount:undefined" @input="setSendCount" type="number" placeholder="自定义数额" />
+								<input class="" :value="sendCount" @input="setSendCount" type="number" placeholder="自定义数额" />
 							</view>
-							<view class="btn flex-set pick" @tap="sendHot()">助力</view>
+							<view class="btn flex-set pick" @tap="sendHot()">冲榜</view>
 						</view>
-		
+
 						<view class="bottom-wrapper">
-							<view class="text left flex-set">我的鲜花:<text style="color: #FC3131;">{{userCurrency['flower']}}</text></view>
+							<view v-if="current==0" class="text left flex-set">我的金豆：{{userCurrency['coin']}}</view>
+							<view v-if="current==1" class="text left flex-set">我的鲜花：{{userCurrency['flower']}}</view>
+							<view v-if="current==2" class="text left flex-set">我的旧豆：{{userCurrency['old_coin']}}</view>
 							<block v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
 								<view v-if="$app.chargeSwitch()==0" class="right" @tap="$app.goPage('/pages/charge/charge')">
 									充值<text class="iconfont iconjiantou"></text>
 								</view>
-								<button v-else-if="$app.chargeSwitch()==2" open-type="contact">
+								<button v-else-if="$app.chargeSwitch()==2&&current==0" open-type="contact">
+									<view class="right reply">回复"1"获取更多金豆</view>
+								</button>
+								<button v-else-if="$app.chargeSwitch()==2&&current==1" open-type="contact">
 									<view class="right reply">回复"1"获取更多鲜花</view>
 								</button>
 							</block>
+
 						</view>
 					</view>
 				</view>
-		
 			</view>
 		</modalComponent>
 	</view>
@@ -174,11 +195,13 @@
 			return {
 				modal: '',
 				list: [],
+				danmakuClosed: false,
 				type: '',
 				page: 1,
 				size: 10,
 				sendId: 0,
 				end: false,
+				current: 0,
 				extHot: {},
 				loading: false,
 				userCurrency: {},
@@ -196,6 +219,7 @@
 		},
 		onShow() {
 			this.type = this.$app.getData('config').open.current
+			this.danmakuClosed = this.$app.getData('danmakuClosed')
 			this.userCurrency = this.$app.getData('userCurrency')
 			this.refresh()
 		},
@@ -221,6 +245,11 @@
 			},
 			goDetail(item) {
 				this.$app.goPage('/pages/open/detail?id=' + item.id);
+			},
+			// 打榜弹幕开关
+			danmakuSwitch(e) {
+				this.danmakuClosed = !e.detail.value
+				this.$app.setData('danmakuClosed', !e.detail.value)
 			},
 			goFourSkill() {
 				this.$app.setData('queryString', {
@@ -276,19 +305,30 @@
 			},
 			sendHot(count) {
 				if (count == '全送') {
-					this.sendCount = this.userCurrency.flower;
+					const typeMap = ['coin', 'flower', 'old_coin'];
+					this.sendCount = this.userCurrency[typeMap[this.current]];
 				} else {
 					if (count) this.sendCount = parseInt(count)
 					if (!this.sendCount) {
 						return this.$app.toast('数额不正确')
 					}
-					if (this.sendCount > this.userCurrency.flower) {
-						return this.$app.toast('鲜花不足');
+					const typeMap = ['coin', 'flower', 'old_coin'];
+					const numbers = this.userCurrency[typeMap[this.current]];
+					if (this.sendCount > numbers) {
+						const typeMsgMap = ['金豆', '鲜花', '旧豆'];
+						return this.$app.toast(`${typeMsgMap[this.current]}不足`);
 					}
 				}
-				const sendData = {id: this.sendId, hot: this.sendCount, type: this.type};
+				const sendData = {
+					id: this.sendId, 
+					hot: this.sendCount, 
+					type: this.type, 
+					current:this.current,
+					danmaku: Number(!this.danmakuClosed),
+				};
 				uni.showLoading({
-					title:"助力中..."
+					title:"助力中...",
+					mask: true
 				})
 				this.$app.request(this.$app.API.OPEN_SEND_HOT, sendData, res => {
 					this.modal = ''
@@ -327,12 +367,14 @@
 			},
 			remove(item) {
 				uni.showModal({
-					title: '你确认删除这张图片么',
+					title: '提示',
+					content:"你确认删除这张图片么",
 					success: (res) => {
 						if (res.cancel) return;
 						if (res.confirm) {
 							uni.showLoading({
-								title: '正在删除...'
+								title: '正在删除...',
+								mask: true
 							})
 						
 							this.$app.request(this.$app.API.OPEN_REMOVE, {open_id: item.id}, res => {
@@ -355,6 +397,9 @@
 	}
 	.disinl {
 		display: inline-block;
+	}
+	.mt6 {
+		margin-top: 60upx;
 	}
 	.pdlf10 {
 		padding: 0 10upx;
@@ -632,7 +677,6 @@
 
 			.swiper-change {
 				margin: 30upx;
-				margin-top: 60upx;
 				border-radius: 30upx;
 				overflow: hidden;
 				box-shadow: 0 2upx 4upx rgba(0, 0, 0, .3);
