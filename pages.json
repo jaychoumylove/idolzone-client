@@ -398,6 +398,30 @@
             	"navigationBarTitleText": "粉丝团成员贡献榜"
             }
         }
+	    ,{
+            "path" : "pages/active/weal",
+            "style" : {
+				"navigationBarBackgroundColor": "#F99510",			
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "夏日福袋"
+			}
+        }
+        ,{
+            "path" : "pages/active/weal_list",
+            "style" : {
+            	"navigationBarBackgroundColor": "#F99510",			
+            	"navigationBarTextStyle": "white",
+            	"navigationBarTitleText": "福气榜"
+            }
+        }
+        ,{
+            "path" : "pages/active/weal_log",
+            "style" : {
+            	"navigationBarBackgroundColor": "#F99510",			
+            	"navigationBarTextStyle": "white",
+            	"navigationBarTitleText": "领取记录"
+            }
+        }
     ],
 	"tabBar": {
 		"color": "#aaaaaa",

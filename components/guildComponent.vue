@@ -784,18 +784,52 @@
 							</button>
 						</btnComponent>
 					</view>
-
 				</view>
-
+			</view>
+		</modalComponent>
+		<!-- 夏日福袋活动弹窗 -->
+		<modalComponent v-if="modal == 'activity_weal' && is_open_weal==1" type="center" @closeModal="modal=''">
+			<view class="activity618 flex-set">
+				<view class="achievebadge-box">
+					<view class="title">夏日福袋礼包</view>
+					<view class="send-item-list">
+						<view class="send-item">
+							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
+							 mode="widthFix"></image>
+							<text>金豆+10000</text>
+						</view>
+						<view class="send-item">
+							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
+							 mode="widthFix"></image>
+							<text>钻石+2</text>
+						</view>
+						<view class="send-item">
+							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk90Xa3b43zE46M8IkUvFyMR5GgfJN52icBqoicfKWfAJS8QXog0PZtgdEQ/0"
+							 mode="widthFix"></image>
+							<text>喇叭+3</text>
+						</view>
+						<view class="send-item">
+							<image src="/static/image/activity/lucky_bag.png" mode="widthFix"></image>
+							<text>福袋+1</text>
+						</view>
+					</view>
+					<view class="btn-contact">
+						<btnComponent type="default">
+							<button class="btn" open-type="contact">
+								<view class="flex-set" style=" height: 60upx;">回复'夏日福袋'领取</view>
+							</button>
+						</btnComponent>
+					</view>
+				</view>
 			</view>
 		</modalComponent>
 
-		<modalSpecialComponent v-if="modal == 'blessing' && is_open_blessing==1" type="center" title="打榜后福袋使用" @closeModal="modal=''">
+		<modalSpecialComponent v-if="modal == 'weal' && is_open_weal==1" type="center" title="打榜后福袋使用" @closeModal="modal=''">
 			<view class="blessing-modal-container">
 				<view class="title">打榜成功</view>
 				<view class="sengHotNum">{{this.$app.getData('userStar')['name']}}增加{{sendCount}}人气</view>
 				<view class="btn-blessing">
-					<view class="btn-blessing-text" @tap="useBlessing">
+					<view class="btn-blessing-text" @tap="useBag">
 						<btnComponent type="default">
 							<view class="flex-set" style=" padding: 10upx 30upx;font-size: 30upx;font-weight: 600;">使用福袋</view>
 						</btnComponent>
@@ -819,9 +853,7 @@
 					<view class="">获得额外8.88%人气概率:20%</view>
 					<view class="">获得额外18%人气概率:{{lucky_value}}%</view>
 				</view>
-
 			</view>
-
 		</modalSpecialComponent>
 
 
@@ -1017,6 +1049,44 @@
 							})
 						} else if (res.cancel) {
 							console.log('用户点击取消');
+						}
+					}
+				});
+			},
+			useBag() {
+				this.blessingModalSelect = 0;
+				let that = this;
+				uni.showModal({
+					title: '提示',
+					content: '确定要使用福袋吗',
+					success: function(res) {
+						if (res.confirm) {
+
+							that.$app.request(that.$app.API.ACTIVE_USE_BLESSING_BAG, {
+								starid: that.star.id,
+								type: that.current + 1,
+								danmaku: Number(!that.danmakuClosed),
+							}, res => {
+								let data = res.data;
+								that.blessingBagInfo()
+								// console.log(data)
+								uni.showModal({
+									title: '福袋使用成功',
+									content: '本次使用福袋获得' + parseInt(that.sendCount) + 'X' + data.value + '%=' + data.addNum + '人气',
+									confirmText: '增加概率',
+									cancelText: '我知道了',
+									success: function(res) {
+										if (res.confirm) {
+											that.$app.goPage(`/pages/active/active_weal`)
+										} else if (res.cancel) {
+											that.modal = '';
+										}
+									}
+								});
+							})
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+							that.modal = '';
 						}
 					}
 				});
