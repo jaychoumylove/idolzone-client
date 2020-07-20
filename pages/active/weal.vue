@@ -47,8 +47,8 @@
 			<view class="right-content">
 				<view class="earn">
 					<view class="right-item">
-						<image src="/static/image/activity/lucky_value.png" mode="widthFix"></image>
-						<view class="add-count">+{{item.reward}}</view>
+						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERabwYgrRn5cjV3uoOa8BonlDPGMn7icL9icvz43XsbexzcqkCcrTcdZqw/0" mode="widthFix"></image>
+						<view class="add-count">*{{item.reward}}</view>
 					</view>
 				</view>
 				<view class="btn" @tap="doTask(item,index)">
@@ -214,9 +214,9 @@
 				} else if (task.key == 'WEIBO_RE_POST' && task.status == 0) {
 					// 微博转发
 					this.modal = 'weibo_zhuanfa'
-				} else if (task.id == 4 && task.status == 0) {
-					// 观看视频
-					this.openAdver()
+				// } else if (task.id == 4 && task.status == 0) {
+				// 	// 观看视频
+				// 	this.openAdver()
 				} else if (task.gopage && task.status == 0) {
 					// 跳转页面
 					this.$app.goPage(task.gopage)

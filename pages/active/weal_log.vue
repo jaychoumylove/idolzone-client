@@ -13,8 +13,8 @@
 				<view class="right-content">
 					<view class="earn">
 						<view class="right-item" v-if="item.lucky">
-							<image src="/static/image/activity/lucky_value.png" mode="widthFix"></image>
-							<view class="add-count">{{item.lucky > 0 ? '+' + item.lucky: item.lucky}}</view>
+							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERabwYgrRn5cjV3uoOa8BonlDPGMn7icL9icvz43XsbexzcqkCcrTcdZqw/0" mode="widthFix"></image>
+							<view class="add-count">*{{item.lucky}}</view>
 						</view>
 					</view>
 				</view>
