@@ -421,7 +421,31 @@
             	"navigationBarTextStyle": "white",
             	"navigationBarTitleText": "领取记录"
             }
-        }
+        },
+		{
+		    "path" : "pages/open/rank",
+		    "style" : {
+		    	"navigationBarBackgroundColor": "#fbcc3e",			
+		    	"navigationBarTextStyle": "black",
+		    	"navigationBarTitleText": "备选开屏"
+		    }
+		},
+		{
+		    "path" : "pages/open/detail",
+		    "style" : {
+		    	"navigationBarBackgroundColor": "#fbcc3e",			
+		    	"navigationBarTextStyle": "black",
+		    	"navigationBarTitleText": "开屏贡献榜"
+		    }
+		},
+		{
+		    "path" : "pages/open/upload",
+		    "style" : {
+		    	"navigationBarBackgroundColor": "#fbcc3e",			
+		    	"navigationBarTextStyle": "black",
+		    	"navigationBarTitleText": "开屏上传"
+		    }
+		}
     ],
 	"tabBar": {
 		"color": "#aaaaaa",
