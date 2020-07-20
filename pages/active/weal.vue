@@ -1,28 +1,32 @@
 <template>
 	<view class="container">
 		<view class="top">
-			<view class="log" @tap="$app.goPage('/pages/active/weal_log')">领取记录</view>
-			<view class="activity-title">夏日福袋</view>
-			<view class="activity-rule">
-				<view class="lucky">
-					<image src="/static/image/activity/lucky_bag.png" mode="widthFix"></image>
-					<view style="font-weight: bold;">+{{myinfo.bag_num||0}}</view>
-					<view style="padding-left: 10rpx;">
-						<view>冲榜后使用后，可额外随机获得</view>
-						<view>6.18%、6.66%、8.88%、18%任意一档人气值</view>
-					</view>
-
-				</view>
-				<view class="lucky">
-					<image src="/static/image/activity/lucky_value.png" mode="widthFix"></image>
-					<view style="font-weight: bold;">+{{myinfo.lucky||0}}</view>
-					<view style="padding-left: 10rpx;">
-						<view>随机获得18%额外人气概率</view>
-						<view>幸运值{{myinfo.lucky||0}}=获得额外18%人气的概率为{{myinfo.lucky||0}}%</view>
+			<view class="left-label">
+				<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HaRS8zyO4qfZ6KE3GsvdKcKQ1Tj3Dic4V8UibaicVxQbnYiblStG6lzUG3s0FZY7vxaywUEU9HWjIGPQ/0"
+				mode="aspectFit"></image>
+				<view class="position-set">夏日福利</view>
+			</view>
+			<view class="dialog">
+				<view style="position: relative;">
+					<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HaRS8zyO4qfZ6KE3GsvdKcJm83ucaLXo2HBW2T0KRPrH6yBbnsvk9340iaQPnvPX7uembUMVTibdoA/0"
+					mode="aspectFit"></image>
+					<view class="position-set tip">
+						<view class="tip-content">
+							当前冲榜增加
+							<text class="percent">{{myinfo.lucky || 0}}%</text>
+							额外人气
+							<text class="iconfont iconicon-test trip"></text>
+						</view>
 					</view>
 				</view>
 			</view>
-
+			<image class="fudai-img" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HaRS8zyO4qfZ6KE3GsvdKcvuXhdSjohDPXfudibqhwhhu7UVIhyBwd9SNEHGueXOPEwt6Bj4edMMQ/0"
+			mode="aspectFit"></image>
+			<view class="progress">
+				<progress class="per-info" :percent="myinfo.lucky || 0" stroke-width="10" activeColor="#ff9f08" border-radius="5" />
+			</view>
+			<view class="percent-num">{{myinfo.lucky || 0}}%</view>
+			<view class="go-log" @tap="$app.goPage('/pages/active/weal_log')">领取记录</view>
 		</view>
 		<view class="tips">
 			<view class="tips-left">做任务得夏日福袋、提高幸运值</view>
@@ -35,25 +39,19 @@
 				<view class="content">
 					<view class="text-overflow">{{item.name}}</view>
 					<view class="bottom" v-if="item.desc">{{item.desc}}</view>
-					<view class="bottom">({{item.done_times||0}}/{{item.times||0}})</view>
+					<view class="bottom" v-if="item.key == 'USE_POINT'">({{item.done_times ? $app.formatFloatNum(item.done_times/10000):0}}/{{item.done ? $app.formatFloatNum(item.done/10000):0}})</view>
+					<view class="bottom" v-else>({{item.done_times||0}}/{{item.done||0}})</view>
 				</view>
 			</view>
 
 			<view class="right-content">
 				<view class="earn">
 					<view class="right-item">
-						<image src="/static/image/activity/lucky_bag.png" mode="widthFix"></image>
-						<view class="add-count">+1</view>
-					</view>
-					<view class="right-item">
 						<image src="/static/image/activity/lucky_value.png" mode="widthFix"></image>
-						<view class="add-count">+1</view>
+						<view class="add-count">+{{item.reward}}</view>
 					</view>
-
-
 				</view>
 				<view class="btn" @tap="doTask(item,index)">
-
 					<btnComponent type="default" v-if="item.status == 0">
 						<block v-if="item.id==6 && $app.chargeSwitch()==2">
 							<button class="btn" open-type="contact" @tap.stop>
@@ -64,14 +62,12 @@
 							<button class="btn" :open-type="item.open_type" :data-shareid="item.shareid" @tap="buttonHandler">
 								<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
 							</button>
-
 						</block>
 						<block v-else>
 							<button class="btn">
 								<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
 							</button>
 						</block>
-
 					</btnComponent>
 
 					<btnComponent type="success" v-if="item.status == 1">
@@ -81,7 +77,6 @@
 					<btnComponent type="disable" v-if="item.status == 2">
 						<view class="flex-set" style="width: 130upx;height: 65upx;">已完成</view>
 					</btnComponent>
-
 				</view>
 
 			</view>
@@ -142,7 +137,6 @@
 		<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
 
-
 </template>
 
 <script>
@@ -197,6 +191,7 @@
 					data: this.shareText,
 					success: () => {
 						this.$app.toast('复制成功', 'success')
+						
 					}
 				});
 			},
@@ -213,10 +208,10 @@
 				})
 			},
 			doTask(task, index) {
-				if (task.id == 8 && task.status == 0) {
+				if (task.key == 'WEIBO_SUPER' && task.status == 0) {
 					// 微博超话
 					this.modal = 'weibo'
-				} else if (task.id == 9 && task.status == 0) {
+				} else if (task.key == 'WEIBO_RE_POST' && task.status == 0) {
 					// 微博转发
 					this.modal = 'weibo_zhuanfa'
 				} else if (task.id == 4 && task.status == 0) {
@@ -226,7 +221,6 @@
 					// 跳转页面
 					this.$app.goPage(task.gopage)
 				} else if (task.status == 1) { // 去领取
-					this.taskList[index].status = 2
 					this.taskSettle(task.id)
 				}
 			},
@@ -239,8 +233,8 @@
 				this.$app.request(this.$app.API.ACTIVE_WEAL_BAG_GET, {
 					task_id
 				}, res => {
-					let toast = '领取成功，福袋+' + res.data.blessing_num + '，幸运值+' + res.data.lucky_value;
-					this.$app.toast(toast)
+					let toast = '领取成功，幸运值+' + res.data;
+					this.$app.toast(toast, 'success')
 					this.getTaskList()
 				}, 'POST', true)
 			},
@@ -263,62 +257,107 @@
 <style lang="scss" scoped>
 	.container {
 		.top {
+			position: relative;
 			width: 100%;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			
-			.log{
-				width: 100%;
-				text-align: right;
-				align-items: center;
-				color: #f00f00;
-				margin: 20rpx 60rpx -30rpx 0rpx;
+			height:367upx;
+			background:rgba(251,204,62,0.16);
+			// opacity:0.16;
+			.left-label {
+				position: absolute;
+				left: 46upx;
+				top: 69upx;
+				image {
+					width: 84upx;
+					height: 230upx;
+				}
+				view {
+					font-size: 26upx;
+					width: 24upx;
+					color: white;
+					line-height: 34upx;
+					font-weight: 500;
+					margin: 0 auto;
+				}
 			}
-
-			.activity-title {
-				font-size: 40rpx;
-				font-weight: bold;
-				padding-top: 20rpx;
-			}
-
-			.activity-time {
-				font-size: 30rpx;
-				padding-bottom: 10rpx;
-			}
-
-			.activity-rule {
-				display: flex;
-				flex-direction: column;
-				padding: 0rpx 20rpx 20rpx 20rpx;
-				font-size: 26rpx;
-
-				.lucky {
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					padding: 10rpx 0rpx;
-
-					image {
-						width: 60rpx;
+			.dialog {
+				position: absolute;
+				top: 79upx;
+				left:390upx;
+				width: 332upx;
+				height: 66upx;
+				.bg{
+					width: 332upx;
+					height: 66upx;
+				}
+				.tip {
+					width: 330upx;
+					height: 30upx;
+					line-height: 20upx;
+					text-align: center;
+					.tip-content {
+						color: white;
+						font-size: 20upx;
+						.percent {
+							color: #D86215;
+							font-size: 30upx;
+							display: inline-block;
+							padding:0 7upx;
+						}
+						.trip {
+							width: 20upx;
+							padding-left: 5upx;
+							height: 20upx;
+							padding: auto;
+							display: inline-block;
+						}
 					}
 				}
 			}
+			.fudai-img {
+				position: absolute;
+				width: 117upx;
+				height: 109upx;
+				left: 318upx;
+				top: 141upx;
+			}
+			.progress {
+				position: absolute;
+				top: 275upx;
+				left: 222upx;
+				width: 260upx;
+				height: 30upx;
+			}
+			.percent-num {
+				position: absolute;
+				left: 500upx;
+				top: 264upx;
+				width: 60upx;
+				height: 20upx;
+				color: #8D857A;
+			}
+			.go-log {
+				position: absolute;
+				top: 20upx;
+				left: 605upx;
+				font-size: 30upx;
+				width: 130upx;
+				height: 30upx;
+				font-weight: 500;
+				text-decoration:underline;
+				color:rgba(255,114,0,1);
+			}
 		}
-
 		.tips {
 			width: 100%;
-			padding: 0rpx 40rpx;
+			padding: 10rpx 40rpx;
 			display: flex;
 			justify-content: space-between;
-			font-size: 32rpx;
+			font-size: 30rpx;
 
 			.tips-right {
 				color: #e3ba0c;
 			}
 		}
-
 
 		.item {
 			margin: 20upx;

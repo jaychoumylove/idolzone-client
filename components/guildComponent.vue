@@ -362,12 +362,22 @@
 			<view class="send-modal-container">
 				<view class="switch-wrap">
 					<switch :checked="!danmakuClosed" @change="danmakuSwitch" />弹幕
-					<text v-if="current==0" class="absolute-go">1金豆 = 1人气</text>
-					<text v-if="current==1" class="absolute-go">1鲜花 = 1人气</text>
+					
+					<block v-if="extHot.percent&&extHot.percent>0">
+						<view class="absolute-dog4" v-if="current==0" @tap="goExtraHotPage">
+							冲榜后额外赠送<text style="color: #fb8100;">{{extHot.percent*100}}%</text>
+							<text>金豆<text class="iconfont iconicon-test1"></text></text>
+						</view>
+						<view class="absolute-dog4" v-if="current==1" @tap="goExtraHotPage">
+							冲榜后额外赠送<text style="color: #FF0019;">{{extHot.percent*100}}%</text>
+							<text>鲜花<text class="iconfont iconicon-test1"></text></text>
+						</view>
+						<text class="absolute-go-dog">1{{current==0 ? "金豆": "鲜花"}} = 1人气</text>
+					</block>
+					<text v-else class="absolute-go">1{{current==0 ? "金豆": "鲜花"}} = 1人气</text>
 				</view>
 
-				<view></view>
-				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="swiper-change flex-set">
+				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" :class="{mt6: extHot.percent&&extHot.percent>0}" class="swiper-change flex-set">
 					<view class="item" :class="{select:current==0}" @tap="current = 0;sendCount=''">送金豆</view>
 					<view class="item" :class="{select:current==1}" @tap="current = 1;sendCount=''">送鲜花</view>
 					<view class="item" v-if="$app.getData('config').old_coin_open=='1'&&userCurrency.old_coin>0" :class="{select:current==2}"
@@ -984,6 +994,8 @@
 
 				phoneNumber: '',
 				phoneCode: '',
+				
+				extHot: {},
 			};
 		},
 		created() {
@@ -997,6 +1009,17 @@
 			clearInterval(this.timeId_danmaku)
 		},
 		methods: {
+			// 获取打榜额外的加成
+			getExtraSendHot() {
+				this.$app.request(this.$app.API.STAR_EXTRA_SEND_HOT, {}, res => {
+					this.extHot = res.data;
+				})
+			},
+			goExtraHotPage() {
+				uni.navigateTo({
+					url: "/pages/active/weal"
+				})
+			},
 			getGroupList() {
 				this.$app.request(this.$app.API.BTN_CFG_GROUP, {}, res => {
 					this.btn_cfg = res.data.btn_cfg;
@@ -2008,6 +2031,9 @@
 		border-bottom: 2rpx solid #FFD4D4;
 		font-size: 23rpx;
 	}
+	.mt6 {
+		margin-top: 60upx !important;
+	}
 
 	.guild-component-container {
 		display: flex;
@@ -2846,6 +2872,28 @@
 				left: 20upx;
 				font-size: 34upx;
 				transform: scale(0.7);
+			}
+			.absolute-dog4 {
+				position: absolute;
+				left: 100%;
+				top: 0;
+				width: 440%;
+				font-size: 40upx;
+				font-weight: 500;
+				text-align: center;
+			}
+			
+			.absolute-go {
+				position: absolute;
+				left: 400rpx;
+				width: 220rpx;
+			}
+			
+			.absolute-go-dog {
+				position: absolute;
+				left: 0rpx;
+				top: 80rpx;
+				width: 220rpx;
 			}
 
 			.explain-wrapper {

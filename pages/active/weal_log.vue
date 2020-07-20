@@ -12,15 +12,10 @@
 
 				<view class="right-content">
 					<view class="earn">
-						<view class="right-item" v-if="item.bag_num">
-							<image src="/static/image/activity/lucky_bag.png" mode="widthFix"></image>
-							<view class="add-count">{{item.bag_num}}</view>
-						</view>
 						<view class="right-item" v-if="item.lucky">
 							<image src="/static/image/activity/lucky_value.png" mode="widthFix"></image>
-							<view class="add-count">{{item.lucky}}</view>
+							<view class="add-count">{{item.lucky > 0 ? '+' + item.lucky: item.lucky}}</view>
 						</view>
-
 					</view>
 				</view>
 			</view>

@@ -77,6 +77,7 @@
 			if (this.starid) {
 				this.$nextTick(function(){
 					this.$refs.guildComponent.load && this.$refs.guildComponent.load(this.starid)
+					this.$refs.guildComponent.getExtraSendHot && this.$refs.guildComponent.getExtraSendHot()
 				})
 			} else {
 				setTimeout(() => {
