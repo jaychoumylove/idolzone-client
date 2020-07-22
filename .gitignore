@@ -1,1 +1,4 @@
 unpackage
+.idea
+.vscode
+node_modules

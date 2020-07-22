@@ -398,6 +398,54 @@
             	"navigationBarTitleText": "粉丝团成员贡献榜"
             }
         }
+	    ,{
+            "path" : "pages/active/weal",
+            "style" : {
+				"navigationBarBackgroundColor": "#F99510",			
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "夏日福袋"
+			}
+        }
+        ,{
+            "path" : "pages/active/weal_list",
+            "style" : {
+            	"navigationBarBackgroundColor": "#F99510",			
+            	"navigationBarTextStyle": "white",
+            	"navigationBarTitleText": "福气榜"
+            }
+        }
+        ,{
+            "path" : "pages/active/weal_log",
+            "style" : {
+            	"navigationBarBackgroundColor": "#F99510",			
+            	"navigationBarTextStyle": "white",
+            	"navigationBarTitleText": "领取记录"
+            }
+        },
+		{
+		    "path" : "pages/open/rank",
+		    "style" : {
+		    	"navigationBarBackgroundColor": "#fbcc3e",			
+		    	"navigationBarTextStyle": "black",
+		    	"navigationBarTitleText": "开屏备选"
+		    }
+		},
+		{
+		    "path" : "pages/open/detail",
+		    "style" : {
+		    	"navigationBarBackgroundColor": "#fbcc3e",			
+		    	"navigationBarTextStyle": "black",
+		    	"navigationBarTitleText": "开屏贡献榜"
+		    }
+		},
+		{
+		    "path" : "pages/open/upload",
+		    "style" : {
+		    	"navigationBarBackgroundColor": "#fbcc3e",			
+		    	"navigationBarTextStyle": "black",
+		    	"navigationBarTitleText": "开屏上传"
+		    }
+		}
     ],
 	"tabBar": {
 		"color": "#aaaaaa",
