@@ -14,7 +14,25 @@
 				</view>
 			</btnComponent>
 		</view>
-		<view :style="{'background': 'url('+$app.getData('config').open.content[type].banner+') no-repeat left top', 'background-size': 'cover'}" class="banner" @tap="openDesc"></view>
+		<view :style="{'background': 'url('+banner+') no-repeat center center', 'background-size': 'cover'}" 
+		class="banner" @tap="openDesc">
+			<view class="small" style="font-size: 24upx;" v-if="left_time.full >= 0">
+				距离结束还剩：
+				<block v-if="left_time.d">
+					<text class="text">{{left_time.d}}</text>
+					天
+				</block>
+				<text class="text">{{left_time.h}}</text>
+				时
+				<text class="text">{{left_time.i}}</text>
+				分
+				<text class="text">{{left_time.s}}</text>
+				秒
+			</view>
+			<view class="small" style="font-size: 24upx;" v-else>
+				活动已截止
+			</view>
+		</view>
 		<view class="scroll-wrap">
 			<view class="item" :class="{active:rankType=='rank'}" @tap="setRankType('rank')">人气排名</view>
 			<view class="item" :class="{active:rankType=='star'}" @tap="setRankType('star')">只看{{$app.getData('userStar').name}}</view>
@@ -121,11 +139,11 @@
 					
 					<block v-if="extHot.percent&&extHot.percent>0">
 						<view class="absolute-dog4" v-if="current==0" @tap="goExtraHotPage">
-							冲榜后额外赠送<text style="color: #fb8100;">{{extHot.percent*100}}%</text>
+							冲榜后额外赠送<text style="color: #fb8100;">{{$app.formatFloatNum(extHot.percent*100, 2)}}%</text>
 							<text>金豆<text class="iconfont iconicon-test1"></text></text>
 						</view>
 						<view class="absolute-dog4" v-if="current==1" @tap="goExtraHotPage">
-							冲榜后额外赠送<text style="color: #FF0019;">{{extHot.percent*100}}%</text>
+							冲榜后额外赠送<text style="color: #FF0019;">{{$app.formatFloatNum(extHot.percent*100, 2)}}%</text>
 							<text>鲜花<text class="iconfont iconicon-test1"></text></text>
 						</view>
 						<text class="absolute-go-dog">1{{current==0 ? "金豆": "鲜花"}} = 1人气</text>
@@ -204,6 +222,7 @@
 				sendId: '',
 				end: false,
 				current: 0,
+				banner: '',
 				extHot: {},
 				loading: false,
 				userCurrency: {},
@@ -217,10 +236,18 @@
 						star_id: this.$app
 					}
 				},
+				left_time: {
+					full: 0,
+					d: 0,
+					h: 0,
+					i: 0,
+					s: 0,
+				},
+				left_timer: undefined,
 			};
 		},
 		onShow() {
-			this.type = this.$app.getData('config').open.current
+			this.setCurrentBanner()
 			this.danmakuClosed = this.$app.getData('danmakuClosed')
 			this.userCurrency = this.$app.getData('userCurrency')
 			this.getExtraSendHot()
@@ -241,7 +268,57 @@
 				this.getList()
 			}
 		},
+		onUnload() {
+			this.cleanTimer()
+		},
 		methods: {
+			setCurrentBanner() {
+				this.type = this.$app.getData('config').open.current
+				const bannerList = this.$app.getData('config').open.content[this.type].banner,
+					dateTime = Math.round(Date.now() / 1000),
+					bannerChoose = bannerList.findIndex(item => {
+						return item.vote_end > dateTime
+					});
+				
+				if (bannerChoose < 0) {
+					this.cleanTimer();
+					this.left_time = {
+						full: -1,
+					}
+					uni.showToast({
+						mask:true,
+						title:'活动已截止'
+					})
+					return;
+				}
+				
+				this.setTimer(bannerList[bannerChoose].vote_end)
+				this.banner = bannerList[bannerChoose].img_url;	
+			},
+			setTimer(endTime) {
+				this.left_timer = setInterval(() => {
+					const now = Math.round(Date.now() / 1000),
+						diff = endTime - now;
+					
+					if (diff <= 0) {
+						this.setCurrentBanner();
+					} else {
+						const time = this.$app.timeGethms(diff);
+						
+						this.left_time = {
+							full: endTime,
+							d: time.day,
+							h: time.hour,
+							i: time.min,
+							s: time.sec
+						}
+					}
+				}, 1000);
+			},
+			cleanTimer() {
+				clearInterval(this.left_timer);
+				this.left_timer = undefined;
+			},
 			openDesc() {
 				const id = this.$app.getData('config').open.content[this.type].help.article;
 				this.$app.goPage('/pages/notice/notice?id=' + id);
@@ -396,7 +473,7 @@
 		display: inline-block;
 	}
 	.mt6 {
-		margin-top: 60upx;
+		margin-top: 60upx !important;
 	}
 	.pdlf10 {
 		padding: 0 10upx;
@@ -431,8 +508,23 @@
 		.banner {
 			width: 690upx;
 			height: 250upx;
-			margin: 20upx;
+			margin: 10rpx auto;
 			border-radius: 20upx;
+			position: relative;
+			.small {
+				position: absolute;
+				bottom: 20upx;
+				left: 20upx;
+				color: #fff;
+				background-color: rgba(#000, .8);
+				border-radius: 30upx;
+				padding: 5upx 20upx;
+			
+				.text {
+					padding: 0 10upx;
+					color: yellow;
+				}
+			}
 		}
 
 		.fixed-btn {
@@ -648,11 +740,12 @@
 			
 			.absolute-dog4 {
 				position: absolute;
-				left: 250rpx;
+				left: 100%;
 				top: 0;
-				width: 500rpx;
+				width: 440%;
 				font-size: 40upx;
 				font-weight: 500;
+				text-align: center;
 			}
 
 			.absolute-go {

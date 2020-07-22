@@ -26,7 +26,7 @@
 				</view>
 				<view class="count">
 					<view>夏日福袋获得</view>
-					<view>{{item.send_weal_hot}}</view>
+					<view>{{$app.formatNumber(item.send_weal_hot||0)}}</view>
 				</view>
 			</view>
 		</view>

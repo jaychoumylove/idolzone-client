@@ -153,11 +153,11 @@
 					
 					<block v-if="extHot.percent&&extHot.percent>0">
 						<view class="absolute-dog4" v-if="current==0" @tap="goExtraHotPage">
-							冲榜后额外赠送<text style="color: #fb8100;">{{extHot.percent*100}}%</text>
+							冲榜后额外赠送<text style="color: #fb8100;">{{$app.formatFloatNum(extHot.percent*100, 2)}}%</text>
 							<text>金豆<text class="iconfont iconicon-test1"></text></text>
 						</view>
 						<view class="absolute-dog4" v-if="current==1" @tap="goExtraHotPage">
-							冲榜后额外赠送<text style="color: #FF0019;">{{extHot.percent*100}}%</text>
+							冲榜后额外赠送<text style="color: #FF0019;">{{$app.formatFloatNum(extHot.percent*100, 2)}}%</text>
 							<text>鲜花<text class="iconfont iconicon-test1"></text></text>
 						</view>
 						<text class="absolute-go-dog">1{{current==0 ? "金豆": "鲜花"}} = 1人气</text>
@@ -414,7 +414,7 @@
 		padding: 0 10upx;
 	}
 	.mt6 {
-		margin-top: 60upx;
+		margin-top: 60upx !important;
 	}
 	
 	.img4 {
@@ -765,11 +765,12 @@
 			
 			.absolute-dog4 {
 				position: absolute;
-				left: 250rpx;
+				left: 100%;
 				top: 0;
-				width: 500rpx;
+				width: 440%;
 				font-size: 40upx;
 				font-weight: 500;
+				text-align: center;
 			}
 
 			.absolute-go {

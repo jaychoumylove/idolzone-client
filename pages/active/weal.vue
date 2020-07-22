@@ -23,24 +23,25 @@
 			<image class="fudai-img" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HaRS8zyO4qfZ6KE3GsvdKcvuXhdSjohDPXfudibqhwhhu7UVIhyBwd9SNEHGueXOPEwt6Bj4edMMQ/0"
 			mode="aspectFit"></image>
 			<view class="progress">
-				<progress class="per-info" :percent="myinfo.lucky || 0" stroke-width="10" activeColor="#ff9f08" border-radius="5" />
+				<progress class="per-info" :percent="myinfo.percent || 0" stroke-width="10" activeColor="#ff9f08" border-radius="5" />
 			</view>
-			<view class="percent-num">{{myinfo.lucky || 0}}%</view>
+			<view class="percent-num">18%</view>
 			<view class="go-log" @tap="$app.goPage('/pages/active/weal_log')">领取记录</view>
 		</view>
 		<view class="tips">
-			<view class="tips-left">做任务得夏日福袋、提高幸运值</view>
-			<view class="tips-right" @tap="$app.goPage('/pages/active/weal_list')">福气榜></view>
+			<view class="tips-left">每次完成增加0.1%额外人气</view>
+			<view class="tips-right" @tap="$app.goPage('/pages/active/weal_list')">夏日福袋收益></view>
 		</view>
 		<view class="item" v-for="(item,index) in taskList" :key="index" v-if="!($app.getData('config').version == $app.getData('VERSION') || $app.chargeSwitch() == 1)">
 
 			<view class="left-content badge-type">
-				<image class="img" :src="item.icon" mode=""></image>
+				<image class="img" :src="'/static/image/user_level/lv'+level+'.png'" v-if="item.key == 'LEVEL'"></image>
+				<image class="img" :src="item.icon" mode="" v-else></image>
 				<view class="content">
 					<view class="text-overflow">{{item.name}}</view>
 					<view class="bottom" v-if="item.desc">{{item.desc}}</view>
 					<view class="bottom" v-if="item.key == 'USE_POINT'">({{item.done_times ? $app.formatFloatNum(item.done_times/10000):0}}/{{item.done ? $app.formatFloatNum(item.done/10000):0}})</view>
-					<view class="bottom" v-else>({{item.done_times||0}}/{{item.done||0}})</view>
+					<view class="bottom" v-else>({{$app.formatNumber(item.done_times||0)}}/{{$app.formatNumber(item.done || 0)}})</view>
 				</view>
 			</view>
 
@@ -48,7 +49,7 @@
 				<view class="earn">
 					<view class="right-item">
 						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERabwYgrRn5cjV3uoOa8BonlDPGMn7icL9icvz43XsbexzcqkCcrTcdZqw/0" mode="widthFix"></image>
-						<view class="add-count">*{{item.reward}}</view>
+						<view class="add-count">+{{item.reward}}%</view>
 					</view>
 				</view>
 				<view class="btn" @tap="doTask(item,index)">
@@ -155,11 +156,12 @@
 				myinfo: {},
 				weiboUrl: '',
 				weibo_zhuanfa: {},
-
+				level: undefined,
 			};
 		},
 		onShow() {
 			this.getTaskList()
+			this.getUserLevel();
 		},
 		onLoad() {
 			this.getShareText()
@@ -169,6 +171,13 @@
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
+			getUserLevel() {
+				this.$app.request('user/level', {
+					user_id: this.$app.getData('userInfo').id
+				}, res => {
+					this.level = res.data.level
+				})
+			},
 			buttonHandler(e) {
 				const sharetype = e.target.dataset.sharetype
 				if (sharetype == 'share') {
@@ -219,6 +228,11 @@
 				// 	this.openAdver()
 				} else if (task.gopage && task.status == 0) {
 					// 跳转页面
+					// #ifdef MP
+					if (task.hasOwnProperty('open_type') && !!task.open_type) {
+						return;
+					}
+					// #endif
 					this.$app.goPage(task.gopage)
 				} else if (task.status == 1) { // 去领取
 					this.taskSettle(task.id)
@@ -233,8 +247,11 @@
 				this.$app.request(this.$app.API.ACTIVE_WEAL_BAG_GET, {
 					task_id
 				}, res => {
-					let toast = '领取成功，幸运值+' + res.data;
-					this.$app.toast(toast, 'success')
+					uni.showToast({
+						mask:true,
+						title:"领取成功",
+						icon:'success'
+					})
 					this.getTaskList()
 				}, 'POST', true)
 			},

@@ -1,6 +1,6 @@
 <template>
 	<view class="user-page-container">
-		<view class="item-wrap" v-if="$app.getData('userStar').id" @tap="modal='exit'">
+		<view class="item-wrap" v-if="$app.getData('userStar').id&&!never" @tap="modal='exit'" @longpress="nerverOnce">
 			<view class="left-wrap">
 				<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JWwlVcSNe42f7cdITecxbg4vgXqHL191U954COPpyUJZk3bVFibGKvBO6lw9qBP2iaJLsB1U01mLcug/0"
 				 mode="aspectFill"></image>
@@ -32,10 +32,69 @@
 			<view class="right-wrap iconfont iconjiantou"></view>
 		</view>
 		<!-- #endif -->
-		<prompt v-if="modal=='exit'" title="退圈后等级、贡献、粉丝团、徽章(圈子相关数据)将清零。再次退圈需要90天之后才能操作" placeholder="输入你的ID确认退圈" @confirm="exitGroup"
+		<!-- <prompt v-if="modal=='exit'" title="退圈后等级、贡献、粉丝团、徽章(圈子相关数据)将清零。再次退圈需要90天之后才能操作" placeholder="输入你的ID确认退圈" @confirm="exitGroup"
 		 @closeModal="modal=''">
-
-		</prompt>
+		</prompt> -->
+		
+		<modalComponent v-if="modal == 'exit'" type="center" title="提示" @closeModal="modal=''">
+			<view class="confirm-modal-container flex-set">
+				<view class="title flex-set">退圈</view>
+				<view class="desc flex-set">退圈后等级、贡献、粉丝团、徽章(圈子相关数据)将清零。再次退圈需要90天之后才能操作</view>
+				<view class="input">
+					<input type="number" @input="setConfrimId" placeholder="输入你的ID确认退圈" />
+				</view>
+				<view class="btn">
+					<btnComponent type="" style="margin-right: 100upx;">
+						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="modal=''">取消</view>
+					</btnComponent>
+					<btnComponent type="default">
+						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="exitGroup">确认</view>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent>
+		
+		<modalComponent v-if="modal == 'neverQuitOnce'" type="center" title="提示" @closeModal="cancelNever">
+			<view class="confirm-modal-container flex-set">
+				<view class="title flex-set" v-if="!commitOnce">永不退圈</view>
+				<view class="title flex-set" v-if="commitOnce">确认永不退圈</view>
+				<view class="desc flex-set" v-if="!commitOnce">操作后,您再也无法退出当前圈子</view>
+				<view class="desc flex-set" v-if="commitOnce">确认操作后,您再也无法退出当前圈子</view>
+				<view class="input">
+					<input type="number" v-if="!commitOnce" @input="setNeverOnce" placeholder="请输入你的ID" />
+					<input type="number" v-if="commitOnce" @input="setNeverAgain" placeholder="再次请输入你的ID" />
+				</view>
+				<view class="btn">
+					<btnComponent type="" style="margin-right: 100upx;">
+						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="cancelNever">取消</view>
+					</btnComponent>
+					<btnComponent type="default"  v-if="!commitOnce">
+						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="nerverAgain">确认</view>
+					</btnComponent>
+					<btnComponent type="default"  v-if="commitOnce">
+						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="nerverQuit">确认</view>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent>
+		
+		<!-- <modalComponent v-if="modal == 'neverQuitAgain'" type="center" title="提示" @closeModal="cancelNever">
+			<view class="confirm-modal-container flex-set">
+				<view class="title flex-set">永不退圈</view>
+				<view class="desc flex-set">确认操作后,您再也无法退出当前圈子</view>
+				<view class="input">
+					<input type="number" @input="setNeverAgain" placeholder="再次请输入你的ID" />
+				</view>
+				<view class="btn">
+					<btnComponent type="" style="margin-right: 100upx;">
+						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="cancelNever">取消</view>
+					</btnComponent>
+					<btnComponent type="default">
+						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="nerverQuit">确认</view>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent> -->
 	</view>
 </template>
 
@@ -54,28 +113,85 @@
 		data() {
 			return {
 				requestCount: 0,
-
 				userInfo: {},
 				userCurrency: {},
 				userStar: {},
 				modal: '',
+				never: false,
+				neverOnceVal: '',
+				commitOnce: false,
+				neverAgainVal: '',
 				rechargeList: [],
+				confrimId: '',
 			};
 		},
 		onLoad() {},
-		onShow() {},
+		onShow() {
+			const now = Math.round(Date.now() / 1000);
+			const neverTime = this.$app.getData('userExt').exit_group_time
+			if (now < neverTime) {
+				this.never = true;
+			}
+		},
 		onShareAppMessage(e) {
 			const shareType = e.target && e.target.dataset.share
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
-			exitGroup(val) {
-				if (val != this.$app.getData('userInfo').id * 1234) {
+			nerverOnce() {
+				this.modal= 'neverQuitOnce'
+			},
+			cancelNever() {
+				this.modal = '';
+				this.neverOnceVal = '';
+				this.neverAgainVal = '';
+			},
+			setNeverOnce(e) {
+				this.neverOnceVal = e.target.value;
+			},
+			setNeverAgain(e) {
+				this.neverAgainVal = e.target.value;
+			},
+			setConfrimId(e) {
+				this.confrimId = e.target.value;
+			},
+			nerverAgain() {
+				if (this.neverOnceVal != this.$app.getData('userInfo').id * 1234) {
+					this.$app.toast('ID输入不正确')
+					return;
+				}
+				this.commitOnce = true;
+				// this.modal = 'neverQuitAgain';
+			},
+			nerverQuit() {
+				if (this.neverAgainVal != this.$app.getData('userInfo').id * 1234) {
+					this.$app.toast('ID输入不正确')
+					return;
+				}
+				uni.showLoading({
+					mask:true,
+					title:'请稍后...'
+				})
+				this.$app.request(this.$app.API.USER_NERVER_QUIT, {}, res => {
+					this.$app.toast('设置成功','success')
+					this.modal = ''
+					this.never = true;
+					const userExt = this.$app.getData('userExt');
+					userExt.exit_group_time = 2147483647;
+					this.$app.setData('userExt', userExt);
+				})
+			},
+			exitGroup() {
+				if (this.confrimId != this.$app.getData('userInfo').id * 1234) {
 					this.$app.toast('ID输入不正确')
 					return
 				}
+				uni.showLoading({
+					mask:true,
+					title:'请稍后...'
+				})
 				this.$app.request(this.$app.API.USER_EXIT, {}, res => {
-					this.$app.toast('退出成功')
+					this.$app.toast('退出成功', 'success')
 					this.modal = ''
 					this.$app.setData('userStar', {}, true)
 					this.userStar = {}
@@ -129,5 +245,52 @@
 			}
 		}
 
+		.confirm-modal-container {
+			height: 100%;
+			padding: 30upx;
+			flex-direction: column;
+			justify-content: center;
+			color: #333;
+			margin-top: -40upx;
+			.title {
+				margin-bottom: 40upx;
+				font-size: 36rpx;
+				font-weight: 600;
+			}
+			
+			.input {
+				margin: 40upx 0;
+			}
+
+			.buttom {
+				margin: 30upx;
+				width: 100%;
+				display: flex;
+				justify-content: flex-start;
+				.left {
+					// width: 200upx
+				}
+				.right {
+					margin-left: auto;
+					border-bottom:1px solid red
+				}
+			}
+			.btn {
+				margin: 0 auto;
+				display: flex;
+				justify-content: space-around;
+				flex-direction: row;
+			}
+
+			input {
+				margin: 10upx 0;
+				background-color: #eee;
+				border-radius: 60upx;
+				height: 70upx;
+				padding: 0 20upx;
+				color: #333;
+				text-align: center;
+			}
+		}
 	}
 </style>
