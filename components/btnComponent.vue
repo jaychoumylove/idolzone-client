@@ -29,6 +29,13 @@
 		border-radius: 40upx;
 		box-shadow: 0 2upx 4upx rgba(#666, 0.3);
 	}
+	
+	.button.unset {
+		color: unset;
+		border-radius: unset;
+		background: unset;
+		box-shadow: unset;
+	}
 
 	.button.scale {
 		transform: scale(0.7);
