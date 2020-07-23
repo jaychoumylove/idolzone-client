@@ -10,139 +10,66 @@
 				<view class="swiper-item" :style="{'background': 'url('+bannerList[0].img_url+') no-repeat left top', 'background-size': 'cover'}"></view>
 			</view>
 		</view>
-		<view class="normal-container">
-			<view class="header">
+		<view class="normal-container" v-for="(item,index) in viewData" :key="index">
+			<view class="header" v-if="item.head">
 				<view class="title">
-					每日精彩活动
+					{{item.head.title}}
 				</view>
-				<view class="goPage">
-					活动说明>
+				<view class="goPage" @tap="$app.goPage(item.head.gopage)">
+					{{item.head.page_desc}}
 				</view>
 			</view>
-			
-			<scroll-view scroll-x="true" class="scroll">
-				<view class='scroll-container'>
-					<block v-for="(item,index) in scrollList" :key="index">
-						<view :id="'scroll'+index" class="scroll-item" @tap="changeLabel(item.value)" :data-item="item">
-							<view class="active-item">
-								<view class="active-tip tip-s flex-set">
-									{{item.tip}}
-								</view>
-								<image class="active-image" mode="aspectFit" :src="item.img"></image>
-								<view class="active-title">{{item.title}}</view>
-								<view class="active-desc">{{item.desc}}</view>
-								<view class="active-btn">
-									<btnComponent type="unset">
-										<block v-if="item.open_type">
-											<button class="btn" :open-type="item.open_type" :data-shareid="item.shareid" @tap.stop>
-												<view class="flex-set" :class="{'hot-s-bg': index == 0, 'normal-s-bg': index > 0}">
-													{{item.btn_text||'去参与'}}
-												</view>
-											</button>
-										</block>
-										<view v-else @tap="$app.goPage(item.gopage)" class="flex-set">
-											{{item.btn_text||'去参与'}}
-										</view>
-									</btnComponent>
+			<block v-if="item.type == 'scroll'">
+				<scroll-view scroll-x="true" class="scroll">
+					<view class='scroll-container'>
+						<block v-for="(ite,ind) in item.list" :key="ind">
+							<view :id="'scroll'+ind" class="scroll-item">
+								<view class="active-item">
+									<view class="active-tip tip-s flex-set" v-if="ite.tip">
+										{{ite.tip}}
+									</view>
+									<image class="active-image" mode="aspectFit" :src="ite.img"></image>
+									<view class="active-title">{{ite.title}}</view>
+									<view class="active-desc">{{ite.desc}}</view>
+									<view class="active-btn">
+										<btnComponent type="unset">
+											<block v-if="ite.open_type">
+												<button class="btn" :open-type="ite.open_type" :data-shareid="ite.shareid" @tap.stop>
+													<view class="flex-set" :class="{'hot-s-bg': index == 0, 'normal-s-bg': index > 0}">
+														{{ite.btn_text||'去参与'}}
+													</view>
+												</button>
+											</block>
+											<view v-else @tap="$app.goPage(ite.gopage)" class="flex-set">
+												{{ite.btn_text||'去参与'}}
+											</view>
+										</btnComponent>
+									</view>
 								</view>
 							</view>
-						</view>
+						</block>
+					</view>
+				</scroll-view>
+			</block>
+			<view class="flex" v-if="item.type == 'flex'" :class="{one: item.list.length == 1, two: item.list.length == 2}">
+				<view class="active-item" v-for="(ite,ind) in item.list" :key="ind">
+					<view class="active-tip tip-s flex-set" v-if="ite.tip">
+						{{ite.tip}}
+					</view>
+					<block v-if="item.list.length > 2">
+						<image class="active-image" mode="aspectFit" :src="ite.img"></image>
+						<view class="active-title">{{ite.title}}</view>
+						<view class="active-desc">{{ite.desc}}</view>
 					</block>
-				</view>
-			</scroll-view>
-		</view>
-		
-		<view class="normal-container" v-if="1 < 0">
-			<view class="header">
-				<view class="title">
-					领取更多人气
-				</view>
-				<view class="goPage">
-					玩法说明>
-				</view>
-			</view>
-			
-			<view class="flex">
-				<view class="active-item" v-for="(item,index) in flexList" :key="index">
-					<view class="active-tip tip-s flex-set">
-						{{item.tip}}
-					</view>
-					<image class="active-image" mode="aspectFit" :src="item.img"></image>
-					<view class="active-title">{{item.title}}</view>
-					<view class="active-desc">{{item.desc}}</view>
-					<view class="active-btn">
-						<btnComponent type="unset">
-							<block v-if="item.open_type">
-								<button class="btn" :open-type="item.open_type" :data-shareid="item.shareid" @tap.stop>
-									<view class="flex-set" :class="{'hot-s-bg': index == 0, 'normal-s-bg': index > 0}">
-										{{item.btn_text||'去参与'}}
-									</view>
-								</button>
-							</block>
-							<view v-else @tap="$app.goPage(item.gopage)" class="flex-set">
-								{{item.btn_text||'去参与'}}
-							</view>
-						</btnComponent>
-					</view>
-				</view>
-			</view>
-		</view>
-		<view class="normal-container" v-for="(ite, ind) in [1,2]" :key="ind">
-			<view class="header">
-				<view class="title">
-					福利活动
-				</view>
-				<view class="goPage">
-					往期福利发放>
-				</view>
-			</view>
-			
-			<view class="flex two">
-				<view class="active-item" v-for="(item,index) in flexList" :key="index" v-if="index < 2">
-					<view class="active-tip tip-l flex-set">
-						{{item.tip}}
-					</view>
-					<view class="active-center">
+					
+					<view class="active-center" v-if="item.list.length < 3">
 						<view class="active-lr">
-							<image class="left-image" mode="aspectFit" :src="item.img"></image>
+							<image class="left-image" mode="aspectFit" :src="ite.img"></image>
 							<view class="right">
-								<view class="title">{{item.title}}</view>
-								<view class="desc">{{item.desc}}</view>
+								<view class="title">{{ite.title}}</view>
+								<view class="desc">{{ite.desc}}</view>
 							</view>
-						</view>
-					</view>
-					<view class="active-btn">
-						<btnComponent type="unset">
-							<block v-if="item.open_type">
-								<button class="btn" :open-type="item.open_type" :data-shareid="item.shareid" @tap.stop>
-									<view class="flex-set normal-m-bg">
-										{{item.btn_text||'去参与'}}
-									</view>
-								</button>
-							</block>
-							<view v-else @tap="$app.goPage(item.gopage)" class="flex-set">
-								{{item.btn_text||'去参与'}}
-							</view>
-						</btnComponent>
-					</view>
-				</view>
-			</view>
-		</view>
-		
-		<view class="normal-container" v-if="1 < 0">
-			<view class="flex one">
-				<view class="active-item">
-					<!-- <view class="active-tip tip-l flex-set">
-						{{flexList[0].tip}}
-					</view> -->
-					<view class="active-center">
-						<view class="active-lr">
-							<image class="left-image" mode="aspectFit" :src="flexList[0].img"></image>
-							<view class="right">
-								<view class="title">{{flexList[0].title}}</view>
-								<view class="desc">{{flexList[0].desc}}</view>
-							</view>
-							<view class="right-btn">
+							<view class="right-btn" v-if="item.list.length == 1">
 								<btnComponent type="unset">
 									<block v-if="flexList[0].open_type">
 										<button class="btn" :open-type="flexList[0].open_type" :data-shareid="flexList[0].shareid" @tap.stop>
@@ -151,12 +78,26 @@
 											</view>
 										</button>
 									</block>
-									<view v-else @tap="$app.goPage(flexList[0].gopage)" class="flex-set">
+									<view v-else @tap="$app.goPage(flexList[0].gopage)" class="flex-set normal-m-bg">
 										{{flexList[0].btn_text||'去参与'}}
 									</view>
 								</btnComponent>
 							</view>
 						</view>
+					</view>
+					<view class="active-btn" v-if="item.list.length > 1">
+						<btnComponent type="unset">
+							<block v-if="ite.open_type">
+								<button class="btn" :open-type="ite.open_type" :data-shareid="ite.shareid" @tap.stop>
+									<view class="flex-set" :class="{'hot-s-bg': index == 0, 'normal-s-bg': index > 0}">
+										{{ite.btn_text||'去参与'}}
+									</view>
+								</button>
+							</block>
+							<view v-else @tap="$app.goPage(ite.gopage)" class="flex-set" :class="{'hot-s-bg': index == 0, 'normal-s-bg': index > 0}">
+								{{ite.btn_text||'去参与'}}
+							</view>
+						</btnComponent>
 					</view>
 				</view>
 			</view>
@@ -180,8 +121,7 @@
 				interval: 4000,
 				duration: 500,
 				bannerList: [],
-				scrollList: [],
-				flexList: [],
+				viewData: [],
 			}
 		},
 		onShow() {
@@ -196,15 +136,65 @@
 				tip: 'NEW',
 				'open_type': "share",
 				'btn_text': '立即参与',
-			}, scrollmap = [], flexMap = [];
+			}, scrollmap = [], flexMap = [], one = [], two= [], three = [];
 			for (let i = 0; i < 9; i++) {
 				scrollmap.push(item);
 			}
-			this.scrollList = scrollmap;
 			for (let i = 0; i < 4; i++) {
 				flexMap.push(item);
 			}
-			this.flexList = flexMap;
+			for (let i = 0; i < 3; i++) {
+				three.push(item);
+			}
+			for (let i = 0; i < 2; i++) {
+				two.push(item);
+			}
+			let ii = {
+				img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EGbxgC4CjR5wKtNQuKiaDnrSibVnxo0Xj1f435iaTTmStDN9Roojib89LNwXzqfTeqoicdcEuKPo7ktqg/0',
+				title: "团战PK",
+				desc: '超多奖励',
+				gopage: "",
+				shareid: '4',
+				'open_type': "share",
+				'btn_text': '立即参与',
+			};
+			one.push(ii)
+			let item1 = {};
+			item1.head = {
+				title: '福利活动',
+				page_desc: '玩法说明>',
+				gopage: "/pages/task/task"
+			};
+			item1.list = scrollmap;
+			item1.type = 'scroll';
+			let item2 = {};
+			item2.head = {
+				title: '福利活动',
+				page_desc: '玩法说明>',
+				gopage: "/pages/task/task"
+			};
+			item2.list = flexMap;
+			item2.type = 'flex';
+			let item3 = {};
+			item3.head = {
+				title: '福利活动',
+				page_desc: '玩法说明>',
+				gopage: "/pages/task/task"
+			};
+			item3.list = three;
+			item3.type = 'flex';
+			let item4 = {};
+			item4.head = {
+				title: '福利活动',
+				page_desc: '玩法说明>',
+				gopage: "/pages/task/task"
+			};
+			item4.list = two;
+			item4.type = 'flex';
+			let item5 = {};
+			item5.list = one;
+			item5.type = 'flex';
+			this.viewData = [item, item2, item3, item4, item5];
 		},
 		methods: {
 			
@@ -235,7 +225,7 @@
 		}
 		.normal-container {
 			&:not(:last-child) {
-				border-bottom: rgba(240,235,242,1) 4upx solid;
+				// border-bottom: rgba(240,235,242,1) 4upx solid;
 			}
 			.header {
 				display: flex;
@@ -265,7 +255,10 @@
 					justify-content: flex-start;
 					.scroll-item {
 						margin-right: 10upx;
-						height: 220upx;
+						height: 250upx;
+						.active-item {
+							height: 200upx;
+						}
 					}
 				}
 			}
@@ -275,13 +268,14 @@
 				justify-content: flex-start;
 				width: 100%;
 				padding: 0 30upx 20upx 30upx;
-				height: 230upx;
+				height: 250upx;
 				
 				.active-item {
 					margin: 0 5upx 20upx 5upx;
 					width: unset;
 					flex: 1;
 					border-radius: 30upx;
+					height: 200upx;
 				}
 			}
 			
@@ -354,8 +348,8 @@
 							flex-direction: column;
 							justify-content: center;
 							.title {
-								font-size: 26upx;
-								font-weight: 600;
+								font-size: 30upx;
+								font-weight: 650;
 							}
 							.desc {
 								font-size: 20upx;
