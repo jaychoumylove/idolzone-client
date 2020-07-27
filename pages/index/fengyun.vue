@@ -153,30 +153,6 @@
 				size: 10,
 				end: false,
 				star: {},
-				// topImg: {
-				// 	count: 2064001040,
-				// 	create_time: "2020-07-21 09:45:53",
-				// 	id: 658129,
-				// 	star: {
-				// 		id: 711, 
-				// 		name: "周杰伦", 
-				// 		head_img_l: "",
-				// 	},
-				// 	head_img_l: "",
-				// 	id: 711,
-				// 	name: "周杰伦",
-				// 	star_id: 711,
-				// 	time: "2020072109",
-				// 	user: {
-				// 		id: 679995, 
-				// 		nickname: "才先",
-				// 		avatarurl: "https://wx.qlogo.cn/mmopen/vi_32/QNxwK0GqTw7MsuqAQA8EaHhtor4EU261v2cTH19eP2YSxRQtmGdU8RvHqDfXTofjP6uu4ZV4HoiaCXkTOwCGsnQ/132",
-				// 	},
-				// 	avatarurl: "https://wx.qlogo.cn/mmopen/vi_32/QNxwK0GqTw7MsuqAQA8EaHhtor4EU261v2cTH19eP2YSxRQtmGdU8RvHqDfXTofjP6uu4ZV4HoiaCXkTOwCGsnQ/132",
-				// 	id: 679995,
-				// 	nickname: "才先",
-				// 	user_id: 679995,
-				// }, // 风云榜
 				topImg: {},
 				my: 0,
 				diff: 0,
@@ -209,9 +185,9 @@
 			},
 			// 获取打榜额外的加成
 			getExtraSendHot() {
-				// this.$app.request(this.$app.API.STAR_EXTRA_SEND_HOT, {}, res => {
-				// 	this.extHot = res.data;
-				// })
+				this.$app.request(this.$app.API.STAR_EXTRA_SEND_HOT, {}, res => {
+					this.extHot = res.data;
+				})
 			},
 			setSendCount(e) {
 				this.sendCount = e.target.value;
