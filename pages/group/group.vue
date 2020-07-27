@@ -77,7 +77,6 @@
 			if (this.starid) {
 				this.$nextTick(function(){
 					this.$refs.guildComponent.load && this.$refs.guildComponent.load(this.starid)
-					this.$refs.guildComponent.getExtraSendHot && this.$refs.guildComponent.getExtraSendHot()
 				})
 			} else {
 				setTimeout(() => {
@@ -86,8 +85,6 @@
 
 				this.getRankList()
 			}
-			this.$refs.guildComponent.getExtSendHot && this.$refs.guildComponent.getExtSendHot()
-
 		},
 		onHide() {
 			if (this.starid) {

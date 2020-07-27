@@ -1133,6 +1133,8 @@
 
 				// 请求数据
 				this.loadData()
+				
+				this.getExtraSendHot()
 
 				this.userCurrency = this.$app.getData('userCurrency')
 			},
