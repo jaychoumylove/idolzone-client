@@ -446,6 +446,10 @@
 		    	"navigationBarTitleText": "开屏上传"
 		    }
 		}
+        ,{
+            "path" : "pages/welfare/welfare",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#aaaaaa",
