@@ -5,7 +5,7 @@
 			<view class="tab-item" :class="{active:rankField == 'fengyun'}" @tap="changeField('fengyun')">粉丝风云榜</view>
 		</view> -->
 		
-		<view class="swiper-container" v-if="topImg.star" @tap="goTofengyun()">
+		<view class="swiper-container" v-if="topImg.star">
 			<image class='img' :src="topImg.star.head_img_l" mode="aspectFill"></image>
 			<view class="bottom-hold" v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
 				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5TZUvVibQBxK00NyCdWmK7QNRDKdkAn4xFuXtEYgY4ib2gL4dEh0RIyIg/0"
@@ -20,15 +20,12 @@
 		
 		<view class="occopy">
 			<view class="diff flex-set">
-				还差123万第一
+				{{diff > 0 ? `还差${$app.formatNumber(diff)}第一`: '已经占领'}}
 			</view>
-			<view class="btn">
+			<view class="btn" @tap="openSend">
 				<btnComponent type="default">
-					<view class="get-bg-bm">
-						<view class="get-bg">
-							<view class="left">立刻</view>
-							抢占封面
-						</view>
+					<view class="get-bg">
+						抢占封面
 					</view>
 				</btnComponent>
 			</view>
@@ -64,67 +61,225 @@
 						<view class="star flex-set text-overflow">{{item.star.name}}</view>
 					</view>
 					
-					<view></view>
 					<view class="bottom">
 						贡献{{$app.formatNumber(item.count||0)}}
 						<image class="icon-heart" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
 						 mode=""></image>
 					</view>
 				</view>
+				
+				<view class="right" v-if="index < 1">
+					{{item.top_minute > 0 ? `占领${item.top_minute}分钟`: '刚刚占领'}}
+				</view>
 			</view>
 
 		</view>
 
+		<!-- 打榜 -->
+		<modalComponent type="send" v-if="modal == 'send'" title="pick" @closeModal="cleanSend">
+			<view class="send-modal-container">
+				<view class="switch-wrap">
+					<switch :checked="!danmakuClosed" @change="danmakuSwitch" />弹幕
+					<text v-if="current==0" class="absolute-go">1金豆 = 1人气</text>
+					<text v-if="current==1" class="absolute-go">1鲜花 = 1人气</text>
+				</view>
+
+				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="swiper-change flex-set">
+					<view class="item" :class="{select:current==0}" @tap="current = 0;sendCount=''">送金豆</view>
+					<view class="item" :class="{select:current==1}" @tap="current = 1;sendCount=''">送鲜花</view>
+					<view class="item" v-if="$app.getData('config').old_coin_open=='1'&&userCurrency.old_coin>0" :class="{select:current==2}"
+					 @tap="current = 2;sendCount=''">送旧豆</view>
+				</view>
+
+				<view class="swiper-item">
+					<view class="wrap">
+
+						<view class="btn-wrapper">
+							<view class="btn flex-set" @tap="sendHot(item)" v-for="(item,index) in send_num_list" :key="index">
+								<image v-if="current==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
+								 mode="widthFix"></image>
+								<image v-if="current==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
+								 mode="widthFix"></image>
+								<image v-if="current==2" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXlbbzMr1KRN6DJJyCKicqpD86VGeUeoibFPryXF3iaSF1bJba11sBtrCg6SNpEAxxPCyB2ictoq4Iia2Q/0"
+								 mode="widthFix"></image>
+								+{{item}}
+							</view>
+
+							<view class="btn flex-set self-input">
+								<input class="" :value="sendCount" @input="setSendCount" type="number" placeholder="自定义数额" />
+							</view>
+							<view class="btn flex-set pick" @tap="sendHot()">冲榜</view>
+						</view>
+
+						<view class="bottom-wrapper">
+							<view v-if="current==0" class="text left flex-set">我的金豆：{{userCurrency['coin']}}</view>
+							<view v-if="current==1" class="text left flex-set">我的鲜花：{{userCurrency['flower']}}</view>
+							<view v-if="current==2" class="text left flex-set">我的旧豆：{{userCurrency['old_coin']}}</view>
+							<block v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
+								<view v-if="$app.chargeSwitch()==0" class="right" @tap="$app.goPage('/pages/charge/charge')">
+									充值<text class="iconfont iconjiantou"></text>
+								</view>
+								<button v-else-if="$app.chargeSwitch()==2&&current==0" open-type="contact">
+									<view class="right reply">回复"1"获取更多金豆</view>
+								</button>
+								<button v-else-if="$app.chargeSwitch()==2&&current==1" open-type="contact">
+									<view class="right reply">回复"1"获取更多鲜花</view>
+								</button>
+							</block>
+						</view>
+					</view>
+				</view>
+			</view>
+		</modalComponent>
 	</view>
 </template>
 
 <script>
 	import listItemComponent from '@/components/listItemComponent.vue';
+	import btnComponent from "@/components/btnComponent.vue";
+	import modalComponent from "@/components/modalComponent.vue";
+	
 	export default {
 		components: {
-			listItemComponent
+			listItemComponent,
+			btnComponent,
+			modalComponent,
 		},
 		data() {
 			return {
 				rankField: 'fengyun',
 				rankList: [],
 				page: 1,
-				topImg: {
-					count: 2064001040,
-					create_time: "2020-07-21 09:45:53",
-					id: 658129,
-					star: {
-						id: 711, 
-						name: "周杰伦", 
-						head_img_l: "",
-					},
-					head_img_l: "",
-					id: 711,
-					name: "周杰伦",
-					star_id: 711,
-					time: "2020072109",
-					user: {
-						id: 679995, 
-						nickname: "才先",
-						avatarurl: "https://wx.qlogo.cn/mmopen/vi_32/QNxwK0GqTw7MsuqAQA8EaHhtor4EU261v2cTH19eP2YSxRQtmGdU8RvHqDfXTofjP6uu4ZV4HoiaCXkTOwCGsnQ/132",
-					},
-					avatarurl: "https://wx.qlogo.cn/mmopen/vi_32/QNxwK0GqTw7MsuqAQA8EaHhtor4EU261v2cTH19eP2YSxRQtmGdU8RvHqDfXTofjP6uu4ZV4HoiaCXkTOwCGsnQ/132",
-					id: 679995,
-					nickname: "才先",
-					user_id: 679995,
-				}, // 风云榜
+				size: 10,
+				end: false,
+				star: {},
+				// topImg: {
+				// 	count: 2064001040,
+				// 	create_time: "2020-07-21 09:45:53",
+				// 	id: 658129,
+				// 	star: {
+				// 		id: 711, 
+				// 		name: "周杰伦", 
+				// 		head_img_l: "",
+				// 	},
+				// 	head_img_l: "",
+				// 	id: 711,
+				// 	name: "周杰伦",
+				// 	star_id: 711,
+				// 	time: "2020072109",
+				// 	user: {
+				// 		id: 679995, 
+				// 		nickname: "才先",
+				// 		avatarurl: "https://wx.qlogo.cn/mmopen/vi_32/QNxwK0GqTw7MsuqAQA8EaHhtor4EU261v2cTH19eP2YSxRQtmGdU8RvHqDfXTofjP6uu4ZV4HoiaCXkTOwCGsnQ/132",
+				// 	},
+				// 	avatarurl: "https://wx.qlogo.cn/mmopen/vi_32/QNxwK0GqTw7MsuqAQA8EaHhtor4EU261v2cTH19eP2YSxRQtmGdU8RvHqDfXTofjP6uu4ZV4HoiaCXkTOwCGsnQ/132",
+				// 	id: 679995,
+				// 	nickname: "才先",
+				// 	user_id: 679995,
+				// }, // 风云榜
+				topImg: {},
+				my: 0,
+				diff: 0,
+				danmakuClosed: false,
+				current: 0,
+				extHot: {percent: 0.18},
+				userCurrency: {},
+				send_num_list: [99, 520, 1314, 9999, 66666, '全送'],
+				sendCount: '',
+				modal: '',
 			};
 		},
-		onLoad(option) {
-			this.getBannerList()
+		onShow() {
+			this.getBannerTop()
+			this.getMyRank()
 			this.getRankList()
+			this.getExtraSendHot()
+			this.userCurrency = this.$app.getData('userCurrency')
+			this.star = this.$app.getData('userStar')
 		},
 		onReachBottom() {
 			this.page++
 			this.getRankList()
 		},
 		methods: {
-			getBannerList() {
+			// 打榜弹幕开关
+			danmakuSwitch(e) {
+				this.danmakuClosed = !e.detail.value
+				this.$app.setData('danmakuClosed', !e.detail.value)
+			},
+			// 获取打榜额外的加成
+			getExtraSendHot() {
+				// this.$app.request(this.$app.API.STAR_EXTRA_SEND_HOT, {}, res => {
+				// 	this.extHot = res.data;
+				// })
+			},
+			setSendCount(e) {
+				this.sendCount = e.target.value;
+			},
+			openSend() {
+				this.modal = 'send';
+			},
+			cleanSend() {
+				this.modal = '';
+				this.sendCount = '';
+			},
+			sendHot(count) {
+				if (count == '全送') {
+					const typeMap = ['coin', 'flower', 'old_coin'];
+					this.sendCount = this.userCurrency[typeMap[this.current]];
+				} else {
+					if (count) this.sendCount = parseInt(count)
+					if (!this.sendCount) {
+						return this.$app.toast('数额不正确')
+					}
+					const typeMap = ['coin', 'flower', 'old_coin'];
+					const numbers = this.userCurrency[typeMap[this.current]];
+					if (this.sendCount > numbers) {
+						const typeMsgMap = ['金豆', '鲜花', '旧豆'];
+						return this.$app.toast(`${typeMsgMap[this.current]}不足`);
+					}
+				}
+				uni.showLoading({
+					title:"助力中...",
+					mask: true
+				});
+				const sendData = {
+					starid: this.star.id,
+					hot: parseInt(this.sendCount),
+					type: this.current + 1,
+					danmaku: Number(!this.danmakuClosed),
+				};
+				this.$app.request(this.$app.API.STAR_SENDHOT, sendData, res => {
+					this.cleanSend()
+					this.$app.toast("助力成功", 'success')
+
+					this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {
+						this.$app.setData('userCurrency', res.data)
+						this.userCurrency = res.data
+					})
+					this.refresh();
+					this.getMyRank();
+				}, 'POST', true)
+			},
+			goExtraHotPage() {
+				uni.navigateTo({
+					url: "/pages/active/weal"
+				})
+			},
+			getMyRank() {
+				this.$app.request(this.$app.API.STAR_MYRANK, {}, res => {
+					this.my = res.data;
+					if (this.topImg.hasOwnProperty('count')) {
+						const diff = parseInt(this.topImg.count - this.my)
+						if (diff < 0) {
+							this.getBannerTop()
+						} else {
+							this.diff = diff
+						}
+					}
+				})
+			},
+			getBannerTop() {
 				this.$app.request('banner/top', {}, res => {
 					if (res.data instanceof Array) {
 						if (res.data.length) this.topImg = res.data;
@@ -133,28 +288,30 @@
 						const length = Object.keys(res.data).length;
 						if (length) this.topImg = res.data;
 					}
+					this.diff = parseInt(this.topImg.count - this.my)
 				})
 			},
 			changeField(field) {
 				this.page = 1
 				this.rankField = field
 				this.keywords = ''
+				this.end = false;
+				this.getRankList()
+			},
+			refresh() {
+				this.page = 1;
+				this.end = false;
 				this.getRankList()
 			},
 			getRankList() {
+				if (this.end) return;
 				this.$app.request(this.$app.API.STAR_RANK, {
 					page: this.page,
+					size: this.size,
 					rankField: this.rankField,
 				}, res => {
-					if (res.data.length) {
-						if (this.page == 1) {
-							this.rankList = res.data
-						} else {
-							this.rankList = this.rankList.concat(res.data)
-						}
-					} else {
-						this.rankList = [this.topImg];
-					}
+					this.rankList = this.page == 1 ? res.data: this.rankList.concat(res.data);
+					if (res.data.length < this.size) this.end = true;
 				})
 			},
 		},
@@ -163,6 +320,11 @@
 
 <style lang="scss" scoped>
 	.container {
+		.reply {
+			color: #FC3131;
+			border-bottom: 2rpx solid #FFD4D4;
+			font-size: 23rpx;
+		}
 		.swiper-container {
 			margin: 5upx 30upx;
 			height: 250upx;
@@ -237,46 +399,35 @@
 			}
 		}
 		.occopy {
-			margin: 20upx auto;
+			margin: 30upx auto;
 			display: flex;
 			flex-direction: row;
 			justify-content: space-around;
 			height: 66upx;
 			.diff {
-				background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FBlImEL23YOTuiciaSo0JyAju3ncCTQTVDWzVhEtJR7JkTUnYvOGGTx4cKxibKttkUQhs3UCn3qcxxA/0") no-repeat center center;
+				background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FDIxqXSWnDQQ5LzdoiabR5Hr4OvrPzyOY8IBUJd395nicUqGUFHG7gqqk1R34AZeu0JuMiba6TjoVCg/0") no-repeat center center;
 				background-size: cover;
+				width: 240upx;
+				height: 70upx;
+				font-size: 26upx;
+				padding-left: 15upx;
+				color: white;
 			}
 			.btn {
-				display: flex;
-				justify-content: center;
-				align-content: center;
-				.get-bg-bm {
-					background:#ec7934;
+				.get-bg {
+					background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FDIxqXSWnDQQ5LzdoiabR5H9ExaSicdZ8yqq8r8icAYB1hdgETfL2MWCkbj47rm6ljtHITZdeAB8RoQ/0") no-repeat center center;
+					background-size: cover;
+					padding: 10upx 30upx;
+					font-size:24upx;
+					color: white;
+					line-height:45upx;
 					border-radius:30upx;
-					padding:5upx 0;
-					.get-bg {
-						background:#fa9050;
-						padding:5upx;
-						padding-right: 20upx;
-						font-size:24upx;
-						color:rgba(255,255,255,1);
-						line-height:45upx;
-						display: flex;
-						flex-direction: row;
-						border-radius:30upx;
-						.left {
-							padding: 0 10upx;
-							background:#ffb273;
-							border-radius:26upx;
-							margin-right: 7upx;
-						}
-					}
 				}
 			}
 		}
 		
 		.recharge {
-			margin: 50upx 20upx 0;
+			margin: 60upx 20upx 0;
 			background: rgba(248,247,253,0.8);
 			
 			.content {
@@ -365,6 +516,17 @@
 					}
 				}
 				
+				.right {
+					margin: auto;
+					margin-right: 30upx;
+					background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FDIxqXSWnDQQ5LzdoiabR5HFHgxY7B1FfibCtvYOGsAZKp7iaax42lMLw045SsDttnu8QR56y21vE7g/0") no-repeat center center;
+					background-size: cover;
+					width: 170upx;
+					height: 60upx;
+					line-height: 50upx;
+					text-align: center;
+					color: #723511;
+				}
 				.bottom {
 					display: flex;
 					align-items: center;
@@ -385,6 +547,159 @@
 
 		}
 
+		.mt6 {
+			margin-top: 60upx !important;
+		}
+		
+		.img4 {
+			width: 40upx;
+			height: 40upx;
+		}
+	
+		.send-modal-container {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			position: relative;
 
+			.switch-wrap {
+				position: absolute;
+				top: -60upx;
+				left: 20upx;
+				font-size: 34upx;
+				transform: scale(0.7);
+			}
+			
+			.absolute-dog4 {
+				position: absolute;
+				left: 100%;
+				top: 0;
+				width: 440%;
+				font-size: 40upx;
+				font-weight: 500;
+				text-align: center;
+			}
+
+			.absolute-go {
+				position: absolute;
+				left: 400rpx;
+				width: 220rpx;
+			}
+
+			.absolute-go-dog {
+				position: absolute;
+				left: 0rpx;
+				top: 80rpx;
+				width: 220rpx;
+			}
+
+			.explain-wrapper {
+				font-size: 24upx;
+			}
+
+			.swiper-change {
+				margin: 30upx;
+				border-radius: 30upx;
+				overflow: hidden;
+				box-shadow: 0 2upx 4upx rgba(0, 0, 0, .3);
+
+				.item {
+					width: 200upx;
+					height: 50upx;
+					line-height: 50upx;
+					background-color: #FFF;
+					text-align: center;
+				}
+
+				.item.select {
+					background-color: #ffc918;
+					color: #2d1408;
+				}
+
+			}
+
+			swiper {
+				width: 100%;
+				height: 100%;
+			}
+
+			.swiper-item {
+				flex: 1;
+
+				.wrap {
+					position: relative;
+					width: 100%;
+				}
+				.mt5 {
+					margin-top: 50upx;
+				}
+			}
+
+			.btn-wrapper {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+
+				.btn {
+					border-radius: 10upx;
+					margin: 8upx 16upx;
+					width: 190upx;
+					height: 100upx;
+					color: $text-color-1;
+					border: 2upx solid $text-color-1;
+
+					image {
+						width: 40upx;
+						height: 40upx;
+					}
+				}
+
+				.btn.self-input {
+					width: 412upx;
+
+					input {
+						// background-color: ￥;
+						border-radius: 60upx;
+						width: 100%;
+						height: 110upx;
+						text-align: center;
+						line-height: 110upx;
+					}
+				}
+
+				.btn.pick {
+					font-size: 34upx;
+					font-weight: 700;
+					background-color: #f8648a;
+					color: #FFF;
+				}
+			}
+
+			.bottom-wrapper {
+				border-top: 2upx solid #EEE;
+				margin: 20upx 60upx;
+				padding: 20upx 0;
+				color: $text-color-1;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				width: 80%;
+
+				.btn {
+					text-decoration: underline;
+					margin: 10upx;
+				}
+
+				.right {
+					font-weight: 700;
+
+					.iconfont {
+						font-size: 24upx;
+					}
+				}
+			}
+		}
 	}
 </style>
