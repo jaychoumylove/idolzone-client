@@ -17,9 +17,15 @@
 				</view>
 			</view>
 		</view>
+		<view class="swiper-container" v-else @tap="$app.goPage('/pages/notice/notice?id=1')">
+			<image class='img' :src="$app.getData('config').index_banner.img" mode="aspectFill"></image>
+		</view>
 		
 		<view class="occopy">
-			<view class="diff flex-set">
+			<view class="diff flex-set" v-if="!rankList.length">
+				无人占领
+			</view>
+			<view class="diff flex-set" v-else>
 				{{diff > 0 ? `还差${$app.formatNumber(diff)}第一`: '已经占领'}}
 			</view>
 			<view class="btn" @tap="openSend">
@@ -76,15 +82,26 @@
 		</view>
 
 		<!-- 打榜 -->
-		<modalComponent type="send" v-if="modal == 'send'" title="pick" @closeModal="cleanSend">
+		<modalComponent type="send" v-if="modal == 'send'" title="pick" @closeModal="modal=''">
 			<view class="send-modal-container">
 				<view class="switch-wrap">
 					<switch :checked="!danmakuClosed" @change="danmakuSwitch" />弹幕
-					<text v-if="current==0" class="absolute-go">1金豆 = 1人气</text>
-					<text v-if="current==1" class="absolute-go">1鲜花 = 1人气</text>
+					
+					<block v-if="extHot.percent&&extHot.percent>0">
+						<view class="absolute-dog4" v-if="current==0" @tap="goExtraHotPage">
+							冲榜后额外赠送<text style="color: #fb8100;">{{$app.formatFloatNum(extHot.percent*100, 2)}}%</text>
+							<text>金豆<text class="iconfont iconicon-test1"></text></text>
+						</view>
+						<view class="absolute-dog4" v-if="current==1" @tap="goExtraHotPage">
+							冲榜后额外赠送<text style="color: #FF0019;">{{$app.formatFloatNum(extHot.percent*100, 2)}}%</text>
+							<text>鲜花<text class="iconfont iconicon-test1"></text></text>
+						</view>
+						<text class="absolute-go-dog">1{{current==0 ? "金豆": "鲜花"}} = 1人气</text>
+					</block>
+					<text v-else class="absolute-go">1{{current==0 ? "金豆": "鲜花"}} = 1人气</text>
 				</view>
 
-				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="swiper-change flex-set">
+				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" :class="{mt6: extHot.percent&&extHot.percent>0}" class="swiper-change flex-set">
 					<view class="item" :class="{select:current==0}" @tap="current = 0;sendCount=''">送金豆</view>
 					<view class="item" :class="{select:current==1}" @tap="current = 1;sendCount=''">送鲜花</view>
 					<view class="item" v-if="$app.getData('config').old_coin_open=='1'&&userCurrency.old_coin>0" :class="{select:current==2}"
@@ -93,7 +110,6 @@
 
 				<view class="swiper-item">
 					<view class="wrap">
-
 						<view class="btn-wrapper">
 							<view class="btn flex-set" @tap="sendHot(item)" v-for="(item,index) in send_num_list" :key="index">
 								<image v-if="current==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
@@ -126,6 +142,7 @@
 									<view class="right reply">回复"1"获取更多鲜花</view>
 								</button>
 							</block>
+
 						</view>
 					</view>
 				</view>
@@ -216,7 +233,7 @@
 					}
 				}
 				uni.showLoading({
-					title:"助力中...",
+					title:"打榜中...",
 					mask: true
 				});
 				const sendData = {
@@ -227,7 +244,7 @@
 				};
 				this.$app.request(this.$app.API.STAR_SENDHOT, sendData, res => {
 					this.cleanSend()
-					this.$app.toast("助力成功", 'success')
+					this.$app.toast("打榜成功", 'success')
 
 					this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {
 						this.$app.setData('userCurrency', res.data)
