@@ -309,8 +309,8 @@
 							height: 100%;
 							object-fit: cover;
 							margin: auto 10upx;
-							max-width: 120upx;
-							max-height: 120upx;
+							max-width: 100upx;
+							max-height: 100upx;
 						}
 						.right {
 							flex: 1;
