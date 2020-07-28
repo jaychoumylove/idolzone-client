@@ -453,7 +453,15 @@
 		    	"navigationBarTextStyle": "black",
 		    	"navigationBarTitleText": "开屏上传"
 		    }
-		}
+		},
+		{
+            "path" : "pages/lucky/lucky",
+            "style" : {
+            	"navigationBarBackgroundColor": "#F99510",			
+            	"navigationBarTextStyle": "white",
+            	"navigationBarTitleText": "幸运抽奖"
+            }
+        }
     ],
 	"tabBar": {
 		"color": "#aaaaaa",
