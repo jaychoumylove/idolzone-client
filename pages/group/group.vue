@@ -85,7 +85,6 @@
 
 				this.getRankList()
 			}
-
 		},
 		onHide() {
 			if (this.starid) {

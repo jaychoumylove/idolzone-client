@@ -362,11 +362,22 @@
 			<view class="send-modal-container">
 				<view class="switch-wrap">
 					<switch :checked="!danmakuClosed" @change="danmakuSwitch" />弹幕
-					<text v-if="current==0" class="absolute-go">1金豆 = 1人气</text>
-					<text v-if="current==1" class="absolute-go">1鲜花 = 1人气</text>
+					
+					<block v-if="extHot.percent&&extHot.percent>0">
+						<view class="absolute-dog4" v-if="current==0" @tap="goExtraHotPage">
+							冲榜后额外赠送<text style="color: #fb8100;">{{$app.formatFloatNum(extHot.percent*100, 2)}}%</text>
+							<text>金豆<text class="iconfont iconicon-test1"></text></text>
+						</view>
+						<view class="absolute-dog4" v-if="current==1" @tap="goExtraHotPage">
+							冲榜后额外赠送<text style="color: #FF0019;">{{$app.formatFloatNum(extHot.percent*100, 2)}}%</text>
+							<text>鲜花<text class="iconfont iconicon-test1"></text></text>
+						</view>
+						<text class="absolute-go-dog">1{{current==0 ? "金豆": "鲜花"}} = 1人气</text>
+					</block>
+					<text v-else class="absolute-go">1{{current==0 ? "金豆": "鲜花"}} = 1人气</text>
 				</view>
 
-				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" class="swiper-change flex-set">
+				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" :class="{mt6: extHot.percent&&extHot.percent>0}" class="swiper-change flex-set">
 					<view class="item" :class="{select:current==0}" @tap="current = 0;sendCount=''">送金豆</view>
 					<view class="item" :class="{select:current==1}" @tap="current = 1;sendCount=''">送鲜花</view>
 					<view class="item" v-if="$app.getData('config').old_coin_open=='1'&&userCurrency.old_coin>0" :class="{select:current==2}"
@@ -375,7 +386,6 @@
 
 				<view class="swiper-item">
 					<view class="wrap">
-
 						<view class="btn-wrapper">
 							<view class="btn flex-set" @tap="sendHot(item)" v-for="(item,index) in send_num_list" :key="index">
 								<image v-if="current==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
@@ -782,18 +792,52 @@
 							</button>
 						</btnComponent>
 					</view>
-
 				</view>
-
+			</view>
+		</modalComponent>
+		<!-- 夏日福袋活动弹窗 -->
+		<modalComponent v-if="modal == 'activity_weal' && is_open_weal==1" type="center" @closeModal="modal=''">
+			<view class="activity618 flex-set">
+				<view class="achievebadge-box">
+					<view class="title">夏日福袋礼包</view>
+					<view class="send-item-list">
+						<view class="send-item">
+							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
+							 mode="widthFix"></image>
+							<text>金豆+10000</text>
+						</view>
+						<view class="send-item">
+							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
+							 mode="widthFix"></image>
+							<text>钻石+2</text>
+						</view>
+						<view class="send-item">
+							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk90Xa3b43zE46M8IkUvFyMR5GgfJN52icBqoicfKWfAJS8QXog0PZtgdEQ/0"
+							 mode="widthFix"></image>
+							<text>喇叭+3</text>
+						</view>
+						<view class="send-item">
+							<image src="/static/image/activity/lucky_bag.png" mode="widthFix"></image>
+							<text>福袋+1</text>
+						</view>
+					</view>
+					<view class="btn-contact">
+						<btnComponent type="default">
+							<button class="btn" open-type="contact">
+								<view class="flex-set" style=" height: 60upx;">回复'夏日福袋'领取</view>
+							</button>
+						</btnComponent>
+					</view>
+				</view>
 			</view>
 		</modalComponent>
 
-		<modalSpecialComponent v-if="modal == 'blessing' && is_open_blessing==1" type="center" title="打榜后福袋使用" @closeModal="modal=''">
+		<modalSpecialComponent v-if="modal == 'weal' && is_open_weal==1" type="center" title="打榜后福袋使用" @closeModal="modal=''">
 			<view class="blessing-modal-container">
 				<view class="title">打榜成功</view>
 				<view class="sengHotNum">{{this.$app.getData('userStar')['name']}}增加{{sendCount}}人气</view>
 				<view class="btn-blessing">
-					<view class="btn-blessing-text" @tap="useBlessing">
+					<view class="btn-blessing-text" @tap="useBag">
 						<btnComponent type="default">
 							<view class="flex-set" style=" padding: 10upx 30upx;font-size: 30upx;font-weight: 600;">使用福袋</view>
 						</btnComponent>
@@ -817,9 +861,7 @@
 					<view class="">获得额外8.88%人气概率:20%</view>
 					<view class="">获得额外18%人气概率:{{lucky_value}}%</view>
 				</view>
-
 			</view>
-
 		</modalSpecialComponent>
 
 
@@ -950,6 +992,8 @@
 
 				phoneNumber: '',
 				phoneCode: '',
+				
+				extHot: {},
 			};
 		},
 		created() {
@@ -963,6 +1007,17 @@
 			clearInterval(this.timeId_danmaku)
 		},
 		methods: {
+			// 获取打榜额外的加成
+			getExtraSendHot() {
+				this.$app.request(this.$app.API.STAR_EXTRA_SEND_HOT, {}, res => {
+					this.extHot = res.data;
+				})
+			},
+			goExtraHotPage() {
+				uni.navigateTo({
+					url: "/pages/active/weal"
+				})
+			},
 			getGroupList() {
 				this.$app.request(this.$app.API.BTN_CFG_GROUP, {}, res => {
 					this.btn_cfg = res.data.btn_cfg;
@@ -1019,6 +1074,44 @@
 					}
 				});
 			},
+			useBag() {
+				this.blessingModalSelect = 0;
+				let that = this;
+				uni.showModal({
+					title: '提示',
+					content: '确定要使用福袋吗',
+					success: function(res) {
+						if (res.confirm) {
+
+							that.$app.request(that.$app.API.ACTIVE_WEAL_BAG_USE, {
+								starid: that.star.id,
+								type: that.current + 1,
+								danmaku: Number(!that.danmakuClosed),
+							}, res => {
+								let data = res.data;
+								that.blessingBagInfo()
+								// console.log(data)
+								uni.showModal({
+									title: '福袋使用成功',
+									content: '本次使用福袋获得' + parseInt(that.sendCount) + 'X' + data.value + '%=' + data.addNum + '人气',
+									confirmText: '增加概率',
+									cancelText: '我知道了',
+									success: function(res) {
+										if (res.confirm) {
+											that.$app.goPage(`/pages/active/active_weal`)
+										} else if (res.cancel) {
+											that.modal = '';
+										}
+									}
+								});
+							})
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+							that.modal = '';
+						}
+					}
+				});
+			},
 			buttonHandler(e) {
 				const sharetype = e.target.dataset.sharetype
 				if (sharetype == 'share') {
@@ -1039,6 +1132,8 @@
 
 				// 请求数据
 				this.loadData()
+				
+				this.getExtraSendHot()
 
 				this.userCurrency = this.$app.getData('userCurrency')
 			},
@@ -1936,6 +2031,9 @@
 		border-bottom: 2rpx solid #FFD4D4;
 		font-size: 23rpx;
 	}
+	.mt6 {
+		margin-top: 60upx !important;
+	}
 
 	.guild-component-container {
 		display: flex;
@@ -2775,6 +2873,28 @@
 				font-size: 34upx;
 				transform: scale(0.7);
 			}
+			.absolute-dog4 {
+				position: absolute;
+				left: 100%;
+				top: 0;
+				width: 440%;
+				font-size: 40upx;
+				font-weight: 500;
+				text-align: center;
+			}
+			
+			.absolute-go {
+				position: absolute;
+				left: 400rpx;
+				width: 220rpx;
+			}
+			
+			.absolute-go-dog {
+				position: absolute;
+				left: 0rpx;
+				top: 80rpx;
+				width: 220rpx;
+			}
 
 			.explain-wrapper {
 				font-size: 24upx;
@@ -2782,6 +2902,7 @@
 
 			.swiper-change {
 				margin: 30upx;
+				margin-top: 60upx;
 				border-radius: 30upx;
 				overflow: hidden;
 				box-shadow: 0 2upx 4upx rgba(0, 0, 0, .3);
@@ -3721,13 +3842,6 @@
 				right: 50upx;
 			}
 		}
-	}
-
-	.absolute-go {
-		position: absolute;
-		left: 400rpx;
-		width: 220rpx;
-
 	}
 
 	.blessing-modal-container {
