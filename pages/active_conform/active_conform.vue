@@ -1,30 +1,31 @@
 <template>
 	<view class="container">
 		<view class="banner">
-			<swiper v-if="bannerList.length > 1" class="banner-swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
-				<swiper-item v-for="(item, index) in bannerList" :key="index">
-					<view class="swiper-item" :style="{'background': 'url('+item.img_url+') no-repeat left top', 'background-size': 'cover'}"></view>
+			<swiper v-if="banner.length > 1" class="banner-swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
+				<swiper-item v-for="(item, index) in banner" :key="index">
+					<view class="swiper-item" :style="{'background': 'url('+item.img_url+') no-repeat center center', 'background-size': 'cover'}"></view>
 				</swiper-item>
 			</swiper>
 			<view v-else class="banner-swiper">
-				<view class="swiper-item" :style="{'background': 'url('+bannerList[0].img_url+') no-repeat left top', 'background-size': 'cover'}"></view>
+				<view class="swiper-item" :style="{'background': 'url('+banner[0].img_url+') no-repeat center center', 'background-size': 'cover'}"></view>
 			</view>
 		</view>
-		<view class="normal-container" v-for="(item,index) in viewData" :key="index">
+		<view class="normal-container" v-for="(item,index) in active" :key="index" :class="{unb: item.list.length == 1}">
 			<view class="header" v-if="item.head">
 				<view class="title">
 					{{item.head.title}}
 				</view>
 				<view class="goPage" @tap="$app.goPage(item.head.gopage)">
-					{{item.head.page_desc}}
+					<text>{{item.head.page_desc}}</text>
 				</view>
 			</view>
 			<block v-if="item.type == 'scroll'">
 				<scroll-view scroll-x="true" class="scroll">
 					<view class='scroll-container'>
 						<block v-for="(ite,ind) in item.list" :key="ind">
-							<view :id="'scroll'+ind" class="scroll-item">
+							<view :id="'scroll'+ind" class="scroll-item" @tap="goActive(ite)">
 								<view class="active-item">
+									<!-- <view class="wait-hover" v-if="ite.status == 'WAIT'"></view> -->
 									<view class="active-tip tip-s flex-set" v-if="ite.tip">
 										{{ite.tip}}
 									</view>
@@ -35,12 +36,12 @@
 										<btnComponent type="unset">
 											<block v-if="ite.open_type">
 												<button class="btn" :open-type="ite.open_type" :data-shareid="ite.shareid" @tap.stop>
-													<view class="flex-set" :class="{'hot-s-bg': index == 0, 'normal-s-bg': index > 0}">
+													<view class="flex-set" :class="ite.btn_class">
 														{{ite.btn_text||'去参与'}}
 													</view>
 												</button>
 											</block>
-											<view v-else @tap="$app.goPage(ite.gopage)" class="flex-set">
+											<view v-else @tap="$app.goPage(ite.gopage)" class="flex-set" :class="ite.btn_class">
 												{{ite.btn_text||'去参与'}}
 											</view>
 										</btnComponent>
@@ -52,7 +53,8 @@
 				</scroll-view>
 			</block>
 			<view class="flex" v-if="item.type == 'flex'" :class="{one: item.list.length == 1, two: item.list.length == 2}">
-				<view class="active-item" v-for="(ite,ind) in item.list" :key="ind">
+				<view class="active-item" v-for="(ite,ind) in item.list" :key="ind"  @tap="goActive(ite)">
+					<!-- <view class="wait-hover" v-if="ite.status == 'WAIT'"></view> -->
 					<view class="active-tip tip-s flex-set" v-if="ite.tip">
 						{{ite.tip}}
 					</view>
@@ -69,16 +71,16 @@
 								<view class="title">{{ite.title}}</view>
 								<view class="desc">{{ite.desc}}</view>
 							</view>
-							<view class="right-btn" v-if="item.list.length == 1">
+							<view class="right-btn flex-set" v-if="item.list.length == 1">
 								<btnComponent type="unset">
 									<block v-if="flexList[0].open_type">
 										<button class="btn" :open-type="flexList[0].open_type" :data-shareid="flexList[0].shareid" @tap.stop>
-											<view class="flex-set normal-m-bg">
+											<view class="flex-set" :class="flexList[0].btn_class">
 												{{flexList[0].btn_text||'去参与'}}
 											</view>
 										</button>
 									</block>
-									<view v-else @tap="$app.goPage(flexList[0].gopage)" class="flex-set normal-m-bg">
+									<view v-else @tap="$app.goPage(flexList[0].gopage)" class="flex-set" :class="flexList[0].btn_class">
 										{{flexList[0].btn_text||'去参与'}}
 									</view>
 								</btnComponent>
@@ -89,12 +91,12 @@
 						<btnComponent type="unset">
 							<block v-if="ite.open_type">
 								<button class="btn" :open-type="ite.open_type" :data-shareid="ite.shareid" @tap.stop>
-									<view class="flex-set" :class="{'hot-s-bg': index == 0, 'normal-s-bg': index > 0}">
+									<view class="flex-set" :class="ite.btn_class">
 										{{ite.btn_text||'去参与'}}
 									</view>
 								</button>
 							</block>
-							<view v-else @tap="$app.goPage(ite.gopage)" class="flex-set" :class="{'hot-s-bg': index == 0, 'normal-s-bg': index > 0}">
+							<view v-else @tap="$app.goPage(ite.gopage)" class="flex-set" :class="ite.btn_class">
 								{{ite.btn_text||'去参与'}}
 							</view>
 						</btnComponent>
@@ -115,89 +117,45 @@
 		
 		data() {
 			return {
-				type: '',
 				indicatorDots: true,
 				autoplay: true,
 				interval: 4000,
 				duration: 500,
-				bannerList: [],
-				viewData: [],
+				banner: [],
+				active: [],
+				loading: false,
 			}
 		},
 		onShow() {
-			this.type = this.$app.getData('config').open.current;
-			this.bannerList = this.$app.getData('config').open.content[this.type].banner;
-			const item = {
-				img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EGbxgC4CjR5wKtNQuKiaDnrSibVnxo0Xj1f435iaTTmStDN9Roojib89LNwXzqfTeqoicdcEuKPo7ktqg/0',
-				title: "团战PK",
-				desc: '超多奖励',
-				gopage: "",
-				shareid: '4',
-				tip: 'NEW',
-				'open_type': "share",
-				'btn_text': '立即参与',
-			}, scrollmap = [], flexMap = [], one = [], two= [], three = [];
-			for (let i = 0; i < 9; i++) {
-				scrollmap.push(item);
-			}
-			for (let i = 0; i < 4; i++) {
-				flexMap.push(item);
-			}
-			for (let i = 0; i < 3; i++) {
-				three.push(item);
-			}
-			for (let i = 0; i < 2; i++) {
-				two.push(item);
-			}
-			let ii = {
-				img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EGbxgC4CjR5wKtNQuKiaDnrSibVnxo0Xj1f435iaTTmStDN9Roojib89LNwXzqfTeqoicdcEuKPo7ktqg/0',
-				title: "团战PK",
-				desc: '超多奖励',
-				gopage: "",
-				shareid: '4',
-				'open_type': "share",
-				'btn_text': '立即参与',
-			};
-			one.push(ii)
-			let item1 = {};
-			item1.head = {
-				title: '福利活动',
-				page_desc: '玩法说明>',
-				gopage: "/pages/task/task"
-			};
-			item1.list = scrollmap;
-			item1.type = 'scroll';
-			let item2 = {};
-			item2.head = {
-				title: '福利活动',
-				page_desc: '玩法说明>',
-				gopage: "/pages/task/task"
-			};
-			item2.list = flexMap;
-			item2.type = 'flex';
-			let item3 = {};
-			item3.head = {
-				title: '福利活动',
-				page_desc: '玩法说明>',
-				gopage: "/pages/task/task"
-			};
-			item3.list = three;
-			item3.type = 'flex';
-			let item4 = {};
-			item4.head = {
-				title: '福利活动',
-				page_desc: '玩法说明>',
-				gopage: "/pages/task/task"
-			};
-			item4.list = two;
-			item4.type = 'flex';
-			let item5 = {};
-			item5.list = one;
-			item5.type = 'flex';
-			this.viewData = [item, item2, item3, item4, item5];
+			this.getConform();
 		},
 		methods: {
-			
+			getConform() {
+				if (!this.active.length) {
+					this.loading = true;
+					uni.showLoading({
+						mask:true,
+						title:"请稍后"
+					})	
+				}
+				this.$app.request(this.$app.API.ACTIVE_CONFORM, {}, res => {
+					const {banner, active} = res.data
+					this.banner = banner;
+					this.active = active;
+					if (this.loading) {
+						uni.hideLoading();
+						this.loading = false;
+					}
+				})
+			},
+			goActive(active) {
+				if (active.open_type) {
+					return;
+				}
+				if (active.gopage) {
+					this.$app.goPage(active.gopage);
+				}
+			},
 		}
 	}
 </script>
@@ -207,7 +165,7 @@
 		width: 100%;
 		.banner {
 			height: 250upx;
-			border-radius: 20upx;
+			margin: 20upx;
 			
 			.banner-swiper {
 				height: 250upx;
@@ -216,6 +174,7 @@
 					display: block;
 					height: 250upx;
 					line-height: 250upx;
+					border-radius: 20upx;
 					text-align: center;
 					color: white;
 					font-size: $font-l;
@@ -223,9 +182,12 @@
 				}
 			}
 		}
+		.unb {
+			border-top: unset !important;
+		}
 		.normal-container {
-			&:not(:last-child) {
-				// border-bottom: rgba(240,235,242,1) 4upx solid;
+			&:not(:first-child) {
+				border-top: rgba(240,235,242,1) 4upx solid;
 			}
 			.header {
 				display: flex;
@@ -279,7 +241,6 @@
 				}
 			}
 			
-			
 			.one {
 				.active-item {
 					height: 120upx;
@@ -293,6 +254,17 @@
 				}
 			}
 			
+			.wait-hover{
+				background-color: rgba(#000, 0.3);
+				z-index: 1;
+				width: 100%;
+				height: 100%;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%);
+				position: absolute;
+				border-radius: 20rpx;
+			}
 			.active-item {
 				position: relative;
 				width:170upx;
@@ -303,7 +275,7 @@
 					position: absolute;
 					right: 0;
 					top: 0;
-					color: white;
+					color: #FFD773;
 				}
 				.tip-s {
 					width: 52upx;
@@ -328,31 +300,31 @@
 					justify-content: center;
 					flex-direction: column;
 					.active-lr {
-						margin-left: 10%;
 						display: flex;
 						flex-direction: row;
 						justify-content: flex-start;
+						height: 120upx;
 						.left-image {
 							width: 100%;
 							height: 100%;
 							object-fit: cover;
+							margin: auto 10upx;
 							max-width: 120upx;
-							max-height: 95upx;
+							max-height: 120upx;
 						}
 						.right {
 							flex: 1;
 							width: 100%;
 							text-align: left;
-							margin-left: 10upx;
 							display: flex;
 							flex-direction: column;
 							justify-content: center;
 							.title {
-								font-size: 30upx;
+								font-size: 30rpx;
 								font-weight: 650;
 							}
 							.desc {
-								font-size: 20upx;
+								font-size: 20rpx;
 								color: #928F8E;
 							}
 						}
@@ -363,44 +335,47 @@
 					top: 60upx;
 					left: 50%;
 					transform: translate(-50%, -50%);
-					width: 55upx;
-					height: 55upx;
+					width: 80upx;
+					height: 80upx;
 				}
 				.active-title {
 					position: absolute;
 					top: 55%;
 					width: 100%;
-					font-size: 22upx;
+					font-size: 28rpx;
 					font-weight: 600;
 					text-align: center;
 				}
 				.active-desc {
 					position: absolute;
-					top: 75%;
+					top: 72%;
 					width: 100%;
-					font-size: 15upx;
+					font-size: 20rpx;
 					color: #928F8E;
 					text-align: center;
 				}
-				.normal-s-bg {
-					width: 100upx;
+				.btn-s {
 					height: 40upx;
-					font-size: 20upx;
+					font-size: 24rpx;
 					border-radius: 20upx;
-					background-color: #FDEB3F;
+					padding: 10upx 20upx;
 				}
-				.normal-m-bg {
-					width: 150upx;
+				.btn-m {
+					height: 44upx;
+					font-size: 28rpx;
+					border-radius: 22upx;
+					padding: 10upx 20upx;
+				}
+				.btn-l {
 					height: 50upx;
-					font-size: 22upx;
+					font-size: 30rpx;
 					border-radius: 25upx;
+					padding: 10upx 20upx;
+				}
+				.normal {
 					background-color: #FDEB3F;
 				}
-				.hot-s-bg {
-					width: 100upx;
-					font-size: 20upx;
-					height: 40upx;
-					border-radius: 20upx;
+				.hot {
 					background: linear-gradient(103deg, #fba934, #fb669c);;
 					color: white;
 				}
@@ -409,6 +384,7 @@
 					left: 50%;
 					transform: translate(-50%, -50%);
 					bottom: -24%;
+					z-index: 2;
 					button {
 						font-size: 19upx;
 					}
