@@ -469,6 +469,10 @@
             	"navigationBarTextStyle": "white",
             	"navigationBarTitleText": "抽奖记录"
             }
+		}
+        ,{
+            "path" : "pages/welfare/welfare",
+            "style" : {}
         }
     ],
 	"tabBar": {
