@@ -43,14 +43,7 @@
 			<view class="right-content">
 				<view class="earn">
 					<view class="right-item">
-						<image v-if="item.item.key == 'coin'" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERgEQSHS0566j091KHGzhdQNKZpBKHPuWicKkHxXxNdSneZX4JLGn7BqQ/0"
-						 mode="widthFix"></image>
-						<image v-if="item.item.key == 'stone'" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
-						 mode="widthFix"></image>
-						<image v-if="item.item.key == 'flower'" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
-						  mode="widthFix"></image>
-						<image v-if="item.item.key == 'trumpet'" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk90Xa3b43zE46M8IkUvFyMR5GgfJN52icBqoicfKWfAJS8QXog0PZtgdEQ/0"
-						 mode="widthFix"></image>
+						<image v-if="item.item.image" :src="item.item.image" mode="widthFix"></image>
 						<view class="add-count add">+{{item.item.number || 0}}</view>
 					</view>
 				</view>
