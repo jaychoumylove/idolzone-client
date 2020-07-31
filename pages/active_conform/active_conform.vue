@@ -342,7 +342,7 @@
 					position: absolute;
 					top: 55%;
 					width: 100%;
-					font-size: 28rpx;
+					font-size: 26rpx;
 					font-weight: 600;
 					text-align: center;
 				}

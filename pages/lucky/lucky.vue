@@ -1,47 +1,30 @@
 <template>
 	<view class="lucky-container">
-		<view class="day-recharge">
+		<view class="day-recharge" v-if="dayPaid">
 			<view class="content">
 				<view class="header">
 					<view class="bg">
 						<view class="m-title">
-							每日首冲礼包
+							{{lrtext.day_first_charge.title || ''}}
 						</view>
 					</view>
 				</view>
 				<view class="btn">
-					<btnComponent type="unset">
+					<btnComponent type="unset" @tap="getPaidReward(dayPaid)">
 						<view class="btn-bg-m">
 							<view class="btn-bg flex-set">
-								领取首冲礼包
+								{{lrtext.day_first_charge.btn_text || ''}}
 							</view>
 						</view>
 					</btnComponent>
 				</view>
 				<view class="title">
-					充值任意金额（≧35元）即可领取超值礼包
+					{{lrtext.day_first_charge.desc || ''}}
 				</view>
 				<view class="prize">
-					<!-- <view class="item" v-for="(item, index) in [1,2,3, 4]" :key="index"> -->
-					<view class="item">
-						<image mode="widthFix" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"></image>
-						<view class="number flex-set">X 3.5万</view>
-					</view>
-					<!-- <view class="item">
-						<image mode="widthFix" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"></image>
-						<view class="number flex-set">X 1000</view>
-					</view> -->
-					<view class="item">
-						<image mode="widthFix" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk90Xa3b43zE46M8IkUvFyMR5GgfJN52icBqoicfKWfAJS8QXog0PZtgdEQ/0"></image>
-						<view class="number flex-set">X 1</view>
-					</view>
-					<view class="item">
-						<image mode="widthFix" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"></image>
-						<view class="number flex-set">X 1</view>
-					</view>
-					<view class="item">
-						<image mode="widthFix" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKo5M09v5iajLMIlAb5MR4ib0kA9OnkhXodC6M6SmjAjmjj7VcwgUYklmfA/0"></image>
-						<view class="number flex-set">X 1</view>
+					<view class="item" v-for="(item, index) in dayPaid.reward" :key="index">
+						<image mode="widthFix" :src="item.image"></image>
+						<view class="number flex-set">X {{$app.formatNumber(item.number || 0)}}</view>
 					</view>
 				</view>
 			</view>
@@ -51,34 +34,37 @@
 			<view class="content">
 				<view class="header">
 					<view class="bg">
-						超值返利 100%中奖
+						{{lrtext.sum_charge.title || ''}}
 					</view>
 				</view>
 				<view class="tip flex-set">
-					<view class="tip-desc">每日首次充值各档均返利，首冲用户抽奖券翻倍</view>
+					<view class="tip-desc">{{lrtext.sum_charge.desc || ''}}</view>
 				</view>
-				<view class="charge-prize">
-					<view class="item" v-for="(item, index) in [1,2,3, 4]" :key="index">
+				<view class="charge-prize" v-if="sumPaid">
+					<view class="item" v-for="(item, index) in sumPaid" :key="index">
 						<view class="card">
 							<view style="margin: 0 50upx;">
 								<view style="display: flex;flex-direction: column;">
 									<view class="lable">
-										<view class="">领30万</view>
-										<view class="">18张</view>
+										<view v-for="(ite, ind) in item.reward" :key="ind">
+											{{ite.type == 'currency' ? '领': ''}}
+											{{$app.formatNumber(ite.number || 0)}}
+											{{ite.type == 'prop' ? '张': ''}}
+										</view>
 									</view>
 									<view class="image-group">
-										<image mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"></image>
-										<image mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FBlImEL23YOTuiciaSo0JyAjRhZiawN3SGG2Tj8hpZj0npgoHhuhVhAYOsXAsDgichuHA1d8wdYK911Q/0"></image>
+										<image v-for="(ite, ind) in item.reward" :key="ind" mode="aspectFit" :src="ite.image"></image>										
 									</view>
 								</view>
 							</view>
 						</view>
 						<view class="btn">
-							<btnComponent type="default">
+							<btnComponent type="default" @tap="getPaidReward(item)">
 								<view class="get-bg-bm">
 									<view class="get-bg">
-										<view class="left">7000元</view>
-										领充值礼
+										{{$app.formatNumber(my.sumPaid.count || 0)}}/
+										<view class="left">{{$app.formatNumber(item.count || 0)}}鲜花</view>
+										<!-- 领充值礼 -->
 									</view>
 								</view>
 							</btnComponent>
@@ -87,44 +73,58 @@
 				</view>
 				<view class="lottery-tip">
 					<view class="label">
-						奖品每周更新
+						{{lrtext.sum_charge.lucky.title || ''}}
 					</view>
-					<view class="go-label">
-						中奖纪录
+					<view class="go-label" @tap="$app.goPage('/pages/lucky/log')">
+						{{lrtext.sum_charge.lucky.tip || ''}}
 					</view>
 				</view>
 				
 				<view class="dial-container">
 					<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5ibLeIKoQPDMLgiblRd3GPSHeJ54HqaQ78IQkMPALILcFaorZOiafQ3lGg/0"
 					 mode=""></image>
-					<image class="dial-main" :style="{transition:lotteryTransition+'s', transform: 'rotate('+lotteryRotate+'deg)'}" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5H4zzF5xB3nzZNU0ZjOvMia94VeBrnibFLbdW8DdNMq8QsXMBaTBdkTyg/0"
-					 mode="aspectFill"></image>
+					<image class="dial-main" :style="{transition:lotteryTransition+'s', transform: 'rotate('+lotteryRotate+'deg)'}" :src="lucky_draw.draw||'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5H4zzF5xB3nzZNU0ZjOvMia94VeBrnibFLbdW8DdNMq8QsXMBaTBdkTyg/0'" mode="aspectFill"></image>
 					<view class="cursor-wrap" @tap="lotteryStart">
 						<btnComponent>
 							<image class="cursor" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HpdKa9zTbvwsKmJ6hE0kNdFsSibhljHgVZicHO5mUiaeViaDyCDuowWtcB6CcdygE8W2KwGlQPIfKCAg/0"
 							 mode="aspectFill"></image>
 						</btnComponent>
 					</view>
-					<view class="bg-bottom"></view>
+					<view class="bg-bottom"  v-if="lucky_draw"></view>
 				</view>
 				
 				<view class="reamin flex-set">
 					<view class="bg-b">
 						<view class="bg">
-							 剩余次数：17
+							 我的抽奖券：{{my_lucky_num}}张
 						</view>
 					</view>
 				</view>
 				
-				<view class="notice">
+				<view class="notice" v-if="rewardList.length">
 					<image class="notice-icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPXtMTFLV2ydAKSiawiapkia2icuuW67SfcBKp3mbQWicrWJb4rJskIWFuhQ/0"></image>
 					<view class="notice-info">
-						<image class="notice-avatar" src="https://mmbiz.qpic.cn/mmbiz_jpg/h9gCibVJa7JU7RSNRWzPRg6BzMTn0H2NTlgLuFB1qEb0ialKRVC6ia0D9yFSZQjr5ITC7akY2ib3MA4RNjVfQFmHcg/0"></image>
-						<view class="notice-con">
-							<view class="user-name text-overflow">用户昵称用户昵称用户昵称</view>
-							获得
-							<view class="reward-name text-overflow">奖品名称用户昵称用户昵称</view>
-						</view>
+						<swiper 
+							:indicator-dots="false" 
+							:autoplay="true" 
+							:interval="3000" 
+							:duration="1000" 
+							vertical="true"
+							touchable="false"
+							circular='true'
+							disable-touch="true"
+						>
+							<swiper-item v-for="(item, index) in rewardList" :key="index">
+								<view class="notice-item">
+									<image class="notice-avatar" :src="item.user.avatarurl || AVATAR"></image>
+									<view class="notice-con">
+										<view class="user-name text-overflow">{{item.user.nickname || NICKNAME}}</view>
+										获得
+										<view class="reward-name text-overflow">{{item.item.name}} X {{$app.formatNumber(item.item.number || 0)}}</view>
+									</view>
+								</view>
+							</swiper-item>
+						</swiper>
 					</view>
 				</view>
 			</view>
@@ -134,29 +134,40 @@
 			<view class="content">
 				<view class="header">
 					<view class="bg">
-						集齐碎片获得相应的礼物
+						{{lrtext.scrap.title || ''}}
 					</view>
 				</view>
 				<view class="tip flex-set">
-					<view class="tip-desc">活动时间：8月3日——8月9日</view>
+					<view class="tip-desc">
+						{{lrtext.scrap.desc || ''}}
+					</view>
 				</view>
 				<view class="charge-prize">
-					<view class="item" v-for="(item, index) in [1,2,3, 4]" :key="index">
+					<view class="item" v-for="(item, index) in scrapList" :key="index" :class="{'auto-flex': scrapList.length == 1}">
 						<view class="up">
-							<image v-if="item == 1" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoibe7bdHGH2icR6cs7PCILZKIooG44pGchYZKGb4YicdQ8ichs3q6dEu1bQ/0"></image>
+							<!-- <image v-if="item == 1" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoibe7bdHGH2icR6cs7PCILZKIooG44pGchYZKGb4YicdQ8ichs3q6dEu1bQ/0"></image>
 							<image v-if="item == 2" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPVpqtoXHtz6OhLfRMCg4wK1dNZ2C4PTcJVwrqWTblRlWSE2fs6UB3Q/0"></image>
 							<image v-if="item == 3" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoyZkhpAiawiaTWqs72ynSnAl3Yf8A1Cp8oMianQtru2xtmYiamwwLXrQnEQ/0"></image>
-							<image v-if="item == 4" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoOxUXk3YG5KlOA4lYByS7xppcrEwOcJAQeUia6IxKBRicmwBtzgfELQYg/0"></image>
+							<image v-if="item == 4" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoOxUXk3YG5KlOA4lYByS7xppcrEwOcJAQeUia6IxKBRicmwBtzgfELQYg/0"></image> -->
+							<image mode="aspectFit" :src="item.image_l"></image>
 							<view class="info">
-								<view class="title">腾讯视频VIP</view>
-								<view class="desc">还剩：20张</view>
+								<view class="title">{{item.name || ''}}</view>
+								<view class="desc">还剩：{{item.limit_exchange - item.exchange_number}}</view>
+							</view>
+							<view class="exchange flex-set" @tap="exchange(item.id)">
+								<btnComponent :type="item.has_number > item.count ? 'success': 'yellow'">
+									<view class="flex-set">兑换</view>
+								</btnComponent>
 							</view>
 						</view>
 						<view class="down">
-							<view class="progress-label">获取进度</view>
+							<view class="progress-label flex-set">获取进度</view>
 							<view class="progress">
-								<progress percent="66" stroke-width="10" activeColor="#ff9f08" border-radius="5" />
-								<view class="percent-cover">6 / 9</view>
+								<progress :percent="item.percent || 0" stroke-width="10" activeColor="#ff9f08" border-radius="5" />
+								<view class="percent-cover">{{item.has_number}} / {{item.count}}</view>
+							</view>
+							<view class="exchange-desc flex-set">
+								已兑换 <view class="exchange-number">{{item.has_exchange}}</view>
 							</view>
 						</view>
 					</view>
@@ -177,34 +188,90 @@
 		data() {
 			return {
 				modal: '',
-				remainCount: 0, // 剩余抽奖次数
 
 				lotteryRotate: 0, // 旋转度数
 				lotteryTransition: 0,
 
 				lottery: {},
+				sumPaid: [],
+				dayPaid: {},
+				my_lucky_num: 0,
+				lucky_draw: null,
+				my: {
+					sumPaid: {},
+					dayPaid: {}
+				},
+				lrtext: {},
+				rewardList: [],
+				scrapList: [],
+				delay: 0,
 			};
 		},
 		onLoad() {
 			this.lotteryLock = 0
 		},
 		onShow() {
-			this.addCount()
+			this.refresh()
+			this.lrtext = this.$app.getData('config').recharge_lucky;
 		},
 		methods: {
-			openVideo(flag = 0) {
-				this.$app.openVideoAd(() => {
-					if (flag == 0) {
-						// 看视频抽奖次数增加
-						this.addCountRequest(2)
-					} else if (flag == 1) {
-						// 双倍奖励
-						this.$app.request('lottery/double', {}, res => {
-							this.$app.toast('双倍领取成功')
-							this.modal = ''
-						})
-					}
-				},this.$app.getData('config').kindness_switch)
+			refresh() {
+				this.getPageInfo();
+				this.getPaidInfo();
+				this.getLuckyDrawInfo();
+			},
+			getPageInfo() {
+				this.$app.request(this.$app.API.PAGE_LUCKY_CHARGE, {}, res => {
+					setTimeout(() => {
+						this.lrtext = res.data.recharge_lucky;
+						this.rewardList = res.data.lucky_log;
+						this.scrapList = res.data.scrap_list;
+						if (this.delay) this.deley = 0;
+					}, this.delay);
+				})
+			},
+			getPaidInfo () {
+				this.$app.request(this.$app.API.USER_PAID_INFO, {}, res => {
+					setTimeout(() => {
+						const {sumPaid, dayPaid, mySumPaid, myDayPaid} = res.data;
+						this.sumPaid = sumPaid;
+						this.dayPaid = dayPaid;
+						this.my = {
+							sumPaid: mySumPaid,
+							dayPaid: myDayPaid,
+						};
+						if (this.delay) this.deley = 0;
+					}, this.delay);
+				})
+			},
+			getLuckyDrawInfo () {
+				this.$app.request(this.$app.API.LUCKY_DRAW_INFO, {}, res => {
+					setTimeout(() => {
+						this.my_lucky_num = res.data.my_num;
+						this.lucky_draw = res.data.lucky_draw;
+						if (this.delay) this.deley = 0;
+					}, this.delay);
+				})
+			},
+			getPaidReward(item) {
+				uni.showLoading({
+					mask:true,
+					title: "领取中"
+				})
+				this.$app.request(this.$app.API.USER_PAID_SETTLE, {paid: item.id}, res => {
+					this.$app.toast('已领取', 'success');
+					this.refresh()
+				})
+			},
+			exchange(scrap) {
+				uni.showLoading({
+					mask:true,
+					title: "兑换中"
+				})
+				this.$app.request(this.$app.API.LUCKY_DRAW_EXCHANGE, {scrap}, res => {
+					this.$app.toast('已兑换', 'success');
+					this.refresh()
+				})
 			},
 			lotteryStart() {
 				// 奖品数
@@ -212,8 +279,8 @@
 				// 转的时间 单位秒
 				let rotateTime = 6
 		
-				if (this.remainCount <= 0) {
-					this.$app.toast('没有抽奖次数了')
+				if (this.my_lucky_num < 1) {
+					this.$app.toast('没有抽奖券了')
 					return
 				}
 		
@@ -222,11 +289,12 @@
 					this.$app.toast('点太快拉')
 					return
 				}
-				this.$app.request('lottery/start', {}, res => {
+				this.$app.request(this.$app.API.LUCKY_DRAW_START, {}, res => {
 					const lottery = res.data
 					// 获取抽奖次数
-					this.addCount()
 					this.lotteryLock = Math.round(new Date().getTime() / 1000)
+					this.delay = 6000;
+					this.refresh();
 		
 					// 转盘转之前回到初始位置
 					this.lotteryTransition = 0
@@ -241,29 +309,11 @@
 							if (this.$app.getData('config').lottery_modal == 1) {
 								this.modal = 'lottery'
 							} else {
-								this.$app.toast(`恭喜！获得${lottery.name}x${lottery.num}`)
+								this.$app.toast(`恭喜！获得${lottery.name}x${lottery.number}`)
 							}
 						}, rotateTime * 1000)
 					}, 200)
 				}, 'POST', true)
-			},
-		
-			addCountRequest(type) {
-				this.$app.request('lottery/addCount', {
-					type
-				}, res => {
-					this.remainCount = res.data
-				})
-			},
-			addCount() {
-				this.addCountRequest(0)
-		
-				clearInterval(this.timeId)
-				this.timeId = setInterval(() => {
-		
-					this.addCountRequest(1)
-		
-				}, 60 * 1000)
 			},
 		}
 	}
@@ -554,46 +604,49 @@
 					border-radius:19upx;
 					display: flex;
 					justify-content: flex-start;
-					.notice-info, .notice-icon {
-						margin-bottom: 10upx;
-					}
 					.notice-icon {
-						margin-left: 8%;
-						margin-top: 20upx;
+						margin:0 8%;
 						width: 35upx;
+						align-self: center;
 						height: 35upx;
 						border-radius:50%;
 					}
 					.notice-info {
-						margin-left: 5%;
-						margin-top: 10upx;
+						margin: 10upx 4%;
 						flex: 1;
 						display: inline-block;
-						display: flex;
-						justify-content: flex-start;
-						.notice-avatar {
-							width: 50upx;
+						overflow: hidden;
+						height: 50upx;
+						swiper {
 							height: 50upx;
-							border-radius:50%;
-							margin-right: 10upx;
 						}
-						.notice-con {
-							flex: 1;
-							height: 50upx;
-							margin-right: 10%;
-							display: inline-block;
+						.notice-item {
 							display: flex;
-							flex-direction: row;
-							justify-content: space-around;
-							font-size:26upx;
-							line-height: 50upx;
-							.user-name {
-								width: 180upx;
-								color: #FFCC00
+							justify-content: flex-start;
+							.notice-avatar {
+								width: 50upx;
+								height: 50upx;
+								border-radius:50%;
+								margin-right: 10upx;
 							}
-							.reward-name {
-								width: 180upx;
-								color: #FF6600
+							.notice-con {
+								flex: 1;
+								height: 50upx;
+								margin-right: 10%;
+								display: inline-block;
+								display: flex;
+								flex-direction: row;
+								justify-content: space-around;
+								font-size:26upx;
+								line-height: 50upx;
+								.user-name {
+									max-width: 180upx;
+									color: #FFCC00
+								}
+								.reward-name {
+									width: 180upx;
+									color: #FF6600
+								}
 							}
 						}
 					}
@@ -630,9 +683,12 @@
 				}
 				.charge-prize {
 					display: flex;
-					flex-direction: row;
+					flex-direction: column;
 					flex-wrap: wrap;
 					justify-content: flex-start;
+					.auto-flex {
+						flex: 1;
+					}
 					.item {
 						background:rgba(255,253,232,1);
 						border-radius:30px;
@@ -655,21 +711,32 @@
 								flex-direction: column;
 								justify-content: center;
 								margin-left: 30upx;
-								font-size:24upx;
 								.title {
 									color:rgba(88,87,87,1);
 								}
 								.desc {
 									color:rgba(146,143,142,1);
+									font-size:24rpx;
+								}
+							}
+							.exchange {
+								margin-left: auto;
+								view {
+									height: 50upx;
+									width: 120upx;
+									padding: 10upx 20upx;
 								}
 							}
 						}
 						
 						.down {
+							margin-top: 20upx;
 							.progress-label {
 								width: 80upx;
+							}
+							.progress-label, .exchange-number, .exchange-desc {
 								text-align: center;
-								font-size:20upx;
+								font-size: 20upx;
 								color:rgba(88,87,87,1);
 							}
 							.progress {
@@ -690,6 +757,14 @@
 									transform: translate(-50%,-50%);
 									line-height: 30upx;
 									height: 30upx;
+								}
+							}
+							.exchange-desc {
+								margin-left: auto;
+								margin-right: 10rpx;
+								.exchange-number {
+									padding-left: 20upx;
+									color: red;
 								}
 							}
 						}
