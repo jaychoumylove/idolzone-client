@@ -8,7 +8,7 @@
 					<view class="count flex-set">
 						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
 						 mode="aspectFill"></image>
-						<text class="num">{{earn.coin||0}}</text>
+						<text class="num">{{$app.formatNumber(earn.coin||0)}}</text>
 					</view>
 					<view class="text">金豆</view>
 				</view>
@@ -16,7 +16,7 @@
 					<view class="count flex-set">
 						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
 						 mode="aspectFill"></image>
-						<text class="num">{{earn.flower||0}}</text>
+						<text class="num">{{$app.formatNumber(earn.flower||0)}}</text>
 					</view>
 					<view class="text">鲜花</view>
 				</view>
@@ -24,7 +24,7 @@
 					<view class="count flex-set">
 						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
 						 mode="aspectFill"></image>
-						<text class="num">{{earn.stone||0}}</text>
+						<text class="num">{{$app.formatNumber(earn.stone || 0)}}</text>
 					</view>
 					<view class="text">钻石</view>
 				</view>
@@ -44,7 +44,7 @@
 				<view class="earn">
 					<view class="right-item">
 						<image v-if="item.item.image" :src="item.item.image" mode="widthFix"></image>
-						<view class="add-count add">+{{item.item.number || 0}}</view>
+						<view class="add-count add">+{{$app.formatNumber(item.item.number || 0)}}</view>
 					</view>
 				</view>
 			</view>

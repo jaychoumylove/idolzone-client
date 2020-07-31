@@ -472,7 +472,11 @@
 		}
         ,{
             "path" : "pages/welfare/welfare",
-            "style" : {}
+			"style" : {
+				"navigationBarBackgroundColor": "#F99510",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "公益打卡"
+			}
         }
     ],
 	"tabBar": {

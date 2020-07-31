@@ -3,11 +3,11 @@
 		<view class="banner">
 			<swiper v-if="banner.length > 1" class="banner-swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
 				<swiper-item v-for="(item, index) in banner" :key="index">
-					<view class="swiper-item" :style="{'background': 'url('+item.img_url+') no-repeat center center', 'background-size': 'cover'}"></view>
+					<view @tap="$app.goPage(item.gopage)" class="swiper-item" :style="{'background': 'url('+item.img_url+') no-repeat center center', 'background-size': 'cover'}"></view>
 				</swiper-item>
 			</swiper>
 			<view v-else class="banner-swiper">
-				<view class="swiper-item" :style="{'background': 'url('+banner[0].img_url+') no-repeat center center', 'background-size': 'cover'}"></view>
+				<view @tap="$app.goPage(banner[0].gopage)" class="swiper-item" :style="{'background': 'url('+banner[0].img_url+') no-repeat center center', 'background-size': 'cover'}"></view>
 			</view>
 		</view>
 		<view class="normal-container" v-for="(item,index) in active" :key="index" :class="{unb: item.list.length == 1}">

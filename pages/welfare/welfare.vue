@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
-		<view class="swiper-container" v-if="topImg.star">
-			<image class='img' src="https://mmbiz.qpic.cn/mmbiz_jpg/aENwJia6J8bwOQTEOR3BKkMRZKLN02iaQGEp4NCYebjaUVicgR55n1xiacKyxNmhibO0m5OIiaG2OibHyW0G9J65GPjYg/0" mode="aspectFill"></image>
+		<view class="swiper-container">
+			<image class='img' :src="welfare.welfare.extra.banner" mode="aspectFill"></image>
 			<view class="small" v-if="left_time.full >= 0">
 				距离结束还剩：
 				<block v-if="left_time.d">
@@ -24,26 +24,25 @@
 			<view class="content">
 				<view class="header">
 					<view class="bg" style="font-size: 28upx;font-weight: 700;line-height: 28upx;">
-						朱一龙
+						{{star.name}}
 					</view>
 				</view>
 				<view class="tip flex-set">
-					<view class="tip-desc">100万钻石公益计划</view>
+					<view class="tip-desc">{{welfare.welfare.title}}</view>
 				</view>
 				
 				<!-- 里程碑进度条 -->
 				<view class="milestone-wrap">
 					<view class="dot finished"></view>
-					<view class="item-box" v-for="(item,index) in [100,50,0]" :key="index">
+					<view class="item-box" v-for="(item,index) in welfare.welfare.extra.progress" :key="index">
 						<view class="progress">
-							<view class="progress-finished" :style="{width: item+'%'}"></view>
+							<view class="progress-finished" :style="{width: item.percent+'%'}"></view>
 						</view>
-						<view class="dot" :class="{finished: index<1}">
-							<view class="name">￥{{(index+1)*100}}</view>
+						<view class="dot" :class="{finished: item.percent == 100}">
+							<view class="name">{{$app.formatNumber(item.step)}}</view>
 						</view>
-						<view class="reward" :class="{finish: index<1}">
-							<view class="p">小程序开屏{{(index+1)}}天</view>
-							<view class="p">公益植树x{{(index+1)*10}}</view>
+						<view class="reward" :class="{finish: item.percent == 100}">
+							<view class="p" v-for="(pv, pk) in item.reward_desc" :key="pk">{{pv}}</view>
 						</view>
 					</view>
 				</view>
@@ -51,7 +50,7 @@
 				<view class="buttom flex-set">
 					<btnComponent type='default'>
 						<view class="btn">
-							圈内当前已使用钻石：1345
+							圈内当前已使用钻石:{{$app.formatNumber(welfare.star ? welfare.star.count: 0)}}
 							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
 							 mode="aspectFill"></image>
 						</view>
@@ -70,14 +69,11 @@
 			<view class="content">
 				<view class="header">
 					<view class="bg">
-						活动说明
+						{{welfare.welfare.notice.title}}
 					</view>
 				</view>
 				<view class="desc">
-					<view class="p">1、在一小时内，贡献鲜花第一的粉丝可以助力爱豆占领封面</view>
-					<view class="p">2、鲜花小时榜的贡献值每小时清零，重新计算数值占领封面</view>
-					<view class="p">3、爱豆首页封面图由各圈领袖粉上传，尺寸649X247</view>
-					<view class="p">4、无领袖粉请加客服申请</view>
+					<view class="p" v-for="(cv, ck) in welfare.welfare.notice.content" :key="ck">{{cv}}</view>
 				</view>
 			</view>
 		</view>
@@ -90,12 +86,12 @@
 					<image v-else class='avatar' :src="$app.getData('AVATAR')" mode="aspectFill"></image>
 					<view class="text-wrap">
 						<view class="name">{{item.user&& item.user.nickname?item.user.nickname:$app.getData('NICKNAME')}}</view>
-						<view class="card">累计打卡天数：{{item.count}}天</view>
+						<view class="card">累计使用：{{item.count}}</view>
 					</view>
 					<view class="rank flex-set">{{index+1}}</view>
 				</view>
 				<view class="item-wrap flex-set" v-if="!rankList.length">
-					还没有人来打卡
+					还没有人来钻石打卡
 				</view>
 			</view>
 		</view>
@@ -113,36 +109,12 @@
 		},
 		data() {
 			return {
-				rankField: 'fengyun',
+				type: 'STONE_WELFARE',
 				rankList: [],
 				page: 1,
 				size: 10,
 				end: false,
 				star: {},
-				topImg: {
-					count: 200064001040,
-					create_time: "2020-07-21 09:45:53",
-					id: 658129,
-					star: {
-						id: 711, 
-						name: "周杰伦", 
-						head_img_l: "",
-					},
-					head_img_l: "",
-					id: 711,
-					name: "周杰伦",
-					star_id: 711,
-					time: "2020072109",
-					user: {
-						id: 679995, 
-						nickname: "才先",
-						avatarurl: "https://wx.qlogo.cn/mmopen/vi_32/QNxwK0GqTw7MsuqAQA8EaHhtor4EU261v2cTH19eP2YSxRQtmGdU8RvHqDfXTofjP6uu4ZV4HoiaCXkTOwCGsnQ/132",
-					},
-					avatarurl: "https://wx.qlogo.cn/mmopen/vi_32/QNxwK0GqTw7MsuqAQA8EaHhtor4EU261v2cTH19eP2YSxRQtmGdU8RvHqDfXTofjP6uu4ZV4HoiaCXkTOwCGsnQ/132",
-					id: 679995,
-					nickname: "才先",
-					user_id: 679995,
-				}, // 风云榜
 				left_time: {
 					full: 0,
 					d: 0,
@@ -151,13 +123,13 @@
 					s: 0,
 				},
 				left_timer: undefined,
+				welfare: {}
 			};
 		},
 		onShow() {
-			this.setTimer(Math.round(Date.now() / 1000) + 3600*24*3)
-			this.getBannerTop()
-			this.getRankList()
 			this.star = this.$app.getData('userStar')
+			this.getWelfare()
+			this.getRankList()
 		},
 		onReachBottom() {
 			this.page++
@@ -191,23 +163,11 @@
 				clearInterval(this.left_timer);
 				this.left_timer = undefined;
 			},
-			getBannerTop() {
-				this.$app.request('banner/top', {}, res => {
-					if (res.data instanceof Array) {
-						if (res.data.length) this.topImg = res.data;
-					}
-					if (res.data instanceof Object) {
-						const length = Object.keys(res.data).length;
-						if (length) this.topImg = res.data;
-					}
+			getWelfare() {
+				this.$app.request(this.$app.API.WELFARE_INFO, {type: this.type}, res => {
+					this.welfare = res.data;
+					this.setTimer(res.data.welfare.end)
 				})
-			},
-			changeField(field) {
-				this.page = 1
-				this.rankField = field
-				this.keywords = ''
-				this.end = false;
-				this.getRankList()
 			},
 			refresh() {
 				this.page = 1;
@@ -216,18 +176,13 @@
 			},
 			getRankList() {
 				if (this.end) return;
-				this.$app.request(this.$app.API.STAR_RANK, {
+				this.$app.request(this.$app.API.WELFARE_RANK, {
 					page: this.page,
 					size: this.size,
-					rankField: this.rankField,
+					type: this.type,
 				}, res => {
-					if (res.data.length) {
-						this.rankList = this.page == 1 ? res.data: this.rankList.concat(res.data);
-					}
+					this.rankList = this.page == 1 ? res.data: this.rankList.concat(res.data);
 					if (res.data.length < this.size) this.end = true;
-					if (!this.rankList.length) {
-						this.rankList = [this.topImg,this.topImg];
-					}
 				})
 			},
 		},
