@@ -22,13 +22,14 @@
 
 						<view class="content">
 							<view class="top" v-if="item.prop&&item.prop.name">{{item.prop.name}}</view>
-							<view class="bottom">过期时间：{{item.end_time || ''}}</view>
+							<view class="bottom">过期时间：{{item.end_time || '无'}}</view>
 						</view>
 					</view>
 
 					<view class="right">
 						<btnComponent v-if="item.status == 0" type="green">
-							<view @tap="useProp(item)" class="flex-set" style="padding: 10upx 36upx;">使用</view>
+							<view @tap="$app.goPage('/pages/lucky/lucky')" v-if="item.prop.key=='lucky_draw'" class="flex-set" style="padding: 10upx 36upx;">去抽奖</view>
+							<view v-else @tap="useProp(item)" class="flex-set" style="padding: 10upx 36upx;">使用</view>
 						</btnComponent>
 						<btnComponent v-if="item.status == 1" type="disable">
 							<view class="flex-set" style="padding: 10upx 36upx;">已使用</view>
@@ -106,6 +107,9 @@
 		},
 		onShow() {
 			this.current ? this.getProList() : this.getUserPro();
+		},
+		onReachBottom() {
+			return;
 		},
 		methods: {
 			getProList(item) {

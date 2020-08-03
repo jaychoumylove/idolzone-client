@@ -24,11 +24,11 @@
 			<view class="content">
 				<view class="header">
 					<view class="bg" style="font-size: 28upx;font-weight: 700;line-height: 28upx;">
-						{{star.name}}
+						{{star.name || ''}}
 					</view>
 				</view>
 				<view class="tip flex-set">
-					<view class="tip-desc">{{welfare.welfare.title}}</view>
+					<view class="tip-desc">{{welfare.welfare.title || ''}}</view>
 				</view>
 				
 				<!-- 里程碑进度条 -->
@@ -39,7 +39,7 @@
 							<view class="progress-finished" :style="{width: item.percent+'%'}"></view>
 						</view>
 						<view class="dot" :class="{finished: item.percent == 100}">
-							<view class="name">{{$app.formatNumber(item.step)}}</view>
+							<view class="name">{{$app.formatNumber(item.step || 0)}}</view>
 						</view>
 						<view class="reward" :class="{finish: item.percent == 100}">
 							<view class="p" v-for="(pv, pk) in item.reward_desc" :key="pk">{{pv}}</view>
@@ -50,7 +50,7 @@
 				<view class="buttom flex-set">
 					<btnComponent type='default'>
 						<view class="btn">
-							圈内当前已使用钻石:{{$app.formatNumber(welfare.star ? welfare.star.count: 0)}}
+							圈内当前已使用钻石:{{welfare.star ? $app.formatNumber(welfare.star.count): 0}}
 							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
 							 mode="aspectFill"></image>
 						</view>
@@ -69,7 +69,7 @@
 			<view class="content">
 				<view class="header">
 					<view class="bg">
-						{{welfare.welfare.notice.title}}
+						{{welfare.welfare.notice.title || ''}}
 					</view>
 				</view>
 				<view class="desc">
@@ -86,7 +86,7 @@
 					<image v-else class='avatar' :src="$app.getData('AVATAR')" mode="aspectFill"></image>
 					<view class="text-wrap">
 						<view class="name">{{item.user&& item.user.nickname?item.user.nickname:$app.getData('NICKNAME')}}</view>
-						<view class="card">累计使用：{{item.count}}</view>
+						<view class="card">累计使用钻石：{{item.count}}</view>
 					</view>
 					<view class="rank flex-set">{{index+1}}</view>
 				</view>

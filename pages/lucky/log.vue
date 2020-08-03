@@ -35,7 +35,7 @@
 			<view class="left-content">
 				<view class="num">{{index+1}}.</view>
 				<view class="content ">
-					<view class="top">获得{{item.item.name}}</view>
+					<view class="top">{{item.item.number > 0 ? '获得': '失去'}}{{item.item.name}}</view>
 					<view class="bottom">{{item.create_time}}</view>
 				</view>
 			</view>
@@ -44,7 +44,7 @@
 				<view class="earn">
 					<view class="right-item">
 						<image v-if="item.item.image" :src="item.item.image" mode="widthFix"></image>
-						<view class="add-count add">+{{$app.formatNumber(item.item.number || 0)}}</view>
+						<view class="add-count add">{{item.item.number > 0 ? '+' : ''}}{{$app.formatNumber(item.item.number || 0)}}</view>
 					</view>
 				</view>
 			</view>

@@ -1,10 +1,5 @@
 <template>
 	<view class="container">
-
-		<!-- <view class='tab-container'>
-			<view class="tab-item" :class="{active:rankField == 'fengyun'}" @tap="changeField('fengyun')">粉丝风云榜</view>
-		</view> -->
-		
 		<view class="swiper-container" v-if="topImg.star">
 			<image class='img' :src="topImg.star.head_img_l" mode="aspectFill"></image>
 			<view class="bottom-hold" v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
@@ -41,14 +36,11 @@
 			<view class="content">
 				<view class="header">
 					<view class="bg">
-						活动说明
+						{{notice.title || ''}}
 					</view>
 				</view>
 				<view class="desc">
-					<view class="p">1、在一小时内，贡献鲜花第一的粉丝可以助力爱豆占领封面</view>
-					<view class="p">2、鲜花小时榜的贡献值每小时清零，重新计算数值占领封面</view>
-					<view class="p">3、爱豆首页封面图由各圈领袖粉上传，尺寸649X247</view>
-					<view class="p">4、无领袖粉请加客服申请</view>
+					<view class="p" v-for="(item, index) in notice.content" :key="index">{{item}}</view>
 				</view>
 			</view>
 		</view>
@@ -88,27 +80,28 @@
 					<switch :checked="!danmakuClosed" @change="danmakuSwitch" />弹幕
 					
 					<block v-if="extHot.percent&&extHot.percent>0">
-						<view class="absolute-dog4" v-if="current==0" @tap="goExtraHotPage">
+						<!-- <view class="absolute-dog4" v-if="current==0" @tap="goExtraHotPage">
 							冲榜后额外赠送<text style="color: #fb8100;">{{$app.formatFloatNum(extHot.percent*100, 2)}}%</text>
 							<text>金豆<text class="iconfont iconicon-test1"></text></text>
-						</view>
+						</view> -->
 						<view class="absolute-dog4" v-if="current==1" @tap="goExtraHotPage">
 							冲榜后额外赠送<text style="color: #FF0019;">{{$app.formatFloatNum(extHot.percent*100, 2)}}%</text>
 							<text>鲜花<text class="iconfont iconicon-test1"></text></text>
 						</view>
-						<text class="absolute-go-dog">1{{current==0 ? "金豆": "鲜花"}} = 1人气</text>
+						<text class="absolute-go-dog" style="left: 400rpx;">1{{current==0 ? "金豆": "鲜花"}} = 1人气</text>
 					</block>
 					<text v-else class="absolute-go">1{{current==0 ? "金豆": "鲜花"}} = 1人气</text>
+					<!-- <text class="absolute-go">1{{current==0 ? "金豆": "鲜花"}} = 1人气</text> -->
 				</view>
 
-				<view v-if="$app.getData('config').version != $app.getVal('VERSION')" :class="{mt6: extHot.percent&&extHot.percent>0}" class="swiper-change flex-set">
+				<!-- <view v-if="$app.getData('config').version != $app.getVal('VERSION')" :class="{mt6: extHot.percent&&extHot.percent>0}" class="swiper-change flex-set">
 					<view class="item" :class="{select:current==0}" @tap="current = 0;sendCount=''">送金豆</view>
 					<view class="item" :class="{select:current==1}" @tap="current = 1;sendCount=''">送鲜花</view>
 					<view class="item" v-if="$app.getData('config').old_coin_open=='1'&&userCurrency.old_coin>0" :class="{select:current==2}"
 					 @tap="current = 2;sendCount=''">送旧豆</view>
-				</view>
+				</view> -->
 
-				<view class="swiper-item">
+				<view class="swiper-item" :class="{mt6: extHot.percent&&extHot.percent>0}">
 					<view class="wrap">
 						<view class="btn-wrapper">
 							<view class="btn flex-set" @tap="sendHot(item)" v-for="(item,index) in send_num_list" :key="index">
@@ -174,15 +167,17 @@
 				my: 0,
 				diff: 0,
 				danmakuClosed: false,
-				current: 0,
-				extHot: {percent: 0.18},
+				current: 1,
+				extHot: {},
 				userCurrency: {},
 				send_num_list: [99, 520, 1314, 9999, 66666, '全送'],
 				sendCount: '',
 				modal: '',
+				notice: {},
 			};
 		},
 		onShow() {
+			this.notice = this.$app.getData('config').occupy_notice;
 			this.getBannerTop()
 			this.getMyRank()
 			this.getRankList()
@@ -251,6 +246,7 @@
 						this.userCurrency = res.data
 					})
 					this.refresh();
+					this.getBannerTop();
 					this.getMyRank();
 				}, 'POST', true)
 			},
@@ -421,7 +417,7 @@
 		
 		.recharge {
 			margin: 60upx 20upx 0;
-			background: rgba(248,247,253,0.8);
+			background: rgba(#FFE5D5, 0.35);
 			
 			.content {
 				position: relative;
@@ -447,6 +443,7 @@
 				.desc {
 					padding: 40upx 40upx 20upx;
 					font-size: 24upx;
+					color: rgba(0,0,0,0.5);
 				}
 			}
 		}

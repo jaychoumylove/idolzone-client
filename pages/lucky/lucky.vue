@@ -60,12 +60,9 @@
 						</view>
 						<view class="btn">
 							<btnComponent type="default" @tap="getPaidReward(item)">
-								<view class="get-bg-bm">
-									<view class="get-bg">
-										{{$app.formatNumber(my.sumPaid.count || 0)}}/
-										<view class="left">{{$app.formatNumber(item.count || 0)}}鲜花</view>
-										<!-- 领充值礼 -->
-									</view>
+								<view class="get-bg-bm flex-set" :class="my.sumPaid.count > item.count ? 'settle-bg-bm': 'normal-bg-bm'">
+									<text v-if="my.sumPaid.count >= item.count">可领取</text>
+									<text v-else>{{$app.formatNumber(my.sumPaid.count || 0)}}/{{$app.formatNumber(item.count || 0)}}鲜花</text>
 								</view>
 							</btnComponent>
 						</view>
@@ -96,7 +93,7 @@
 				<view class="reamin flex-set">
 					<view class="bg-b">
 						<view class="bg">
-							 我的抽奖券：{{my_lucky_num}}张
+							 我的抽奖券：{{my_lucky_num || 0}}张
 						</view>
 					</view>
 				</view>
@@ -154,8 +151,8 @@
 								<view class="title">{{item.name || ''}}</view>
 								<view class="desc">还剩：{{item.limit_exchange - item.exchange_number}}</view>
 							</view>
-							<view class="exchange flex-set" @tap="exchange(item.id)">
-								<btnComponent :type="item.has_number > item.count ? 'success': 'yellow'">
+							<view class="exchange flex-set" @tap="exchange(item)">
+								<btnComponent :type="item.has_number >= item.count ? 'success': 'yellow'">
 									<view class="flex-set">兑换</view>
 								</btnComponent>
 							</view>
@@ -264,13 +261,31 @@
 				})
 			},
 			exchange(scrap) {
-				uni.showLoading({
-					mask:true,
-					title: "兑换中"
-				})
-				this.$app.request(this.$app.API.LUCKY_DRAW_EXCHANGE, {scrap}, res => {
-					this.$app.toast('已兑换', 'success');
-					this.refresh()
+				if (scrap.limit_exchange <= scrap.exchange_number) {
+					return this.$app.toast('奖品数量不足');
+				}
+				if (scrap.has_number < scrap.count) {
+					return this.$app.toast('碎片不够哦');
+				}
+				uni.showModal({
+					title:`兑换${scrap.name}`,
+					confirmText:"兑换",
+					content:`确认兑换${scrap.name}吗?`,
+					success: (res) => {
+						if (res.confirm) {
+							uni.showLoading({
+								mask:true,
+								title: "兑换中"
+							})
+							this.$app.request(this.$app.API.LUCKY_DRAW_EXCHANGE, {scrap:scrap.id}, res => {
+								this.$app.toast('兑换成功', 'success');
+								this.refresh()
+							})
+						}
+						if (res.cancel) {
+							this.$app.toast('取消兑换');
+						}
+					}
 				})
 			},
 			lotteryStart() {
@@ -502,26 +517,35 @@
 							justify-content: center;
 							align-content: center;
 							.get-bg-bm {
-								background:#ec7934;
 								border-radius:30upx;
-								padding:5upx 0;
-								.get-bg {
-									background:#fa9050;
-									padding:5upx;
-									padding-right: 20upx;
-									font-size:24upx;
-									color:rgba(255,255,255,1);
-									line-height:45upx;
-									display: flex;
-									flex-direction: row;
-									border-radius:30upx;
-									.left {
-										padding: 0 10upx;
-										background:#ffb273;
-										border-radius:26upx;
-										margin-right: 7upx;
-									}
-								}
+								font-size:24upx;
+								color: white;
+								padding:10upx 30upx;
+								// .get-bg {
+								// 	background:#fa9050;
+								// 	padding:5upx;
+								// 	padding-right: 20upx;
+								// 	font-size:24upx;
+								// 	color:rgba(255,255,255,1);
+								// 	line-height:45upx;
+								// 	display: flex;
+								// 	flex-direction: row;
+								// 	border-radius:30upx;
+								// 	.left {
+								// 		padding: 0 10upx;
+								// 		background:#ffb273;
+								// 		border-radius:26upx;
+								// 		margin-right: 7upx;
+								// 	}
+								// }
+							}
+							.normal-bg-bm {
+								background:url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vcef7WGKxvBTuXAEwsWeAHbgk4oV9fHGxgxVaiclicLibHfFAOdTd6vO7pKg/0") no-repeat center center;
+								background-size: cover;
+							}
+							.settle-bg-bm {
+								background:url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vcexDOGKtQObydGP6JIsK8beArHv69icnhRG7tHeemibngmmvqEmO1FXNJQ/0") no-repeat center center;
+								background-size: cover;
 							}
 						}
 					}
