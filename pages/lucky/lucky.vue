@@ -406,7 +406,7 @@
 			.bg {
 				background:rgba(236,121,52,1);
 				border-radius:0px 0px 60px 60px;
-				padding: 10upx 20upx;
+				padding: 10rpx 40rpx;
 				font-size: 24upx;
 				color: white;
 				margin: 0 auto;
