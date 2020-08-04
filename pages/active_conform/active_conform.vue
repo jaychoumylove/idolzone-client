@@ -15,7 +15,7 @@
 				<view class="title">
 					{{item.head.title}}
 				</view>
-				<view class="goPage" @tap="$app.goPage(item.head.gopage)">
+				<view class="goPage" @tap="goHeadPage(item.head.gopage)">
 					<text>{{item.head.page_desc}}</text>
 				</view>
 			</view>
@@ -73,15 +73,15 @@
 							</view>
 							<view class="right-btn flex-set" v-if="item.list.length == 1">
 								<btnComponent type="unset">
-									<block v-if="flexList[0].open_type">
-										<button class="btn" :open-type="flexList[0].open_type" :data-shareid="flexList[0].shareid" @tap.stop>
-											<view class="flex-set" :class="flexList[0].btn_class">
-												{{flexList[0].btn_text||'去参与'}}
+									<block v-if="item.list[0].open_type">
+										<button class="btn" :open-type="item.list[0].open_type" :data-shareid="item.list[0].shareid" @tap.stop>
+											<view class="flex-set" :class="item.list[0].btn_class">
+												{{item.list[0].btn_text||'去参与'}}
 											</view>
 										</button>
 									</block>
-									<view v-else @tap="$app.goPage(flexList[0].gopage)" class="flex-set" :class="flexList[0].btn_class">
-										{{flexList[0].btn_text||'去参与'}}
+									<view v-else @tap="$app.goPage(item.list[0].gopage)" class="flex-set" :class="item.list[0].btn_class">
+										{{item.list[0].btn_text||'去参与'}}
 									</view>
 								</btnComponent>
 							</view>
@@ -130,6 +130,9 @@
 			this.getConform();
 		},
 		methods: {
+			goHeadPage (url) {
+				this.$app.goPage(url);
+			},
 			getConform() {
 				if (!this.active.length) {
 					this.loading = true;
@@ -242,6 +245,7 @@
 			}
 			
 			.one {
+				height: unset;
 				.active-item {
 					height: 120upx;
 					flex: 1;
@@ -302,13 +306,14 @@
 					.active-lr {
 						display: flex;
 						flex-direction: row;
-						justify-content: flex-start;
-						height: 120upx;
+						justify-content: space-around;
+						// height: 120upx;
 						.left-image {
-							width: 100%;
-							height: 100%;
-							object-fit: cover;
-							margin: auto 10upx;
+							width: 80upx;
+							height: 80upx;
+							// z-index:1;
+							// object-fit: cover;
+							margin: auto 20upx;
 							max-width: 100upx;
 							max-height: 100upx;
 						}
@@ -322,6 +327,7 @@
 							.title {
 								font-size: 30rpx;
 								font-weight: 650;
+								margin-bottom: 10rpx;
 							}
 							.desc {
 								font-size: 20rpx;
@@ -355,10 +361,11 @@
 					text-align: center;
 				}
 				.btn-s {
+					width: 150rpx;
 					height: 40upx;
 					font-size: 24rpx;
 					border-radius: 20upx;
-					padding: 10upx 20upx;
+					padding: 0 8upx;
 				}
 				.btn-m {
 					height: 44upx;

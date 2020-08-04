@@ -1,6 +1,6 @@
 <template>
 	<view class="lucky-container">
-		<view class="day-recharge" v-if="dayPaid">
+		<view class="day-recharge">
 			<view class="content">
 				<view class="header">
 					<view class="bg">
@@ -10,11 +10,18 @@
 					</view>
 				</view>
 				<view class="btn">
-					<btnComponent type="unset" @tap="getPaidReward(dayPaid)">
+					<!-- <btnComponent type="unset" @tap="getPaidReward(dayPaid)">
 						<view class="btn-bg-m">
 							<view class="btn-bg flex-set">
 								{{lrtext.day_first_charge.btn_text || ''}}
 							</view>
+						</view>
+					</btnComponent> -->
+					
+					<btnComponent type="default" @tap="getPaidReward(dayPaid)">
+						<view class="get-bg-bm flex-set" :class="my.dayPaid.count >= dayPaid.count&&my.dayPaid.is_settle == 0 ? 'settle-bg-bm': 'normal-bg-bm'">
+							<text v-if="my.dayPaid.is_settle > 0">今日已领取</text>
+							<text v-else>{{lrtext.day_first_charge.btn_text || ''}}</text>
 						</view>
 					</btnComponent>
 				</view>
@@ -23,6 +30,8 @@
 				</view>
 				<view class="prize">
 					<view class="item" v-for="(item, index) in dayPaid.reward" :key="index">
+						<!-- <image mode="widthFix" :src="item.image_o" v-if="isDayDouble&&item.image_o"></image>
+						<image mode="widthFix" :src="item.image" v-else></image> -->
 						<image mode="widthFix" :src="item.image"></image>
 						<view class="number flex-set">X {{$app.formatNumber(item.number || 0)}}</view>
 					</view>
@@ -37,6 +46,11 @@
 						{{lrtext.sum_charge.title || ''}}
 					</view>
 				</view>
+				<view class="right-tip" @tap="$app.goPage('/pages/lucky/paid_log')">
+					<view class="flex-set get-btn">
+						我的领取
+					</view>
+				</view>
 				<view class="tip flex-set">
 					<view class="tip-desc">{{lrtext.sum_charge.desc || ''}}</view>
 				</view>
@@ -49,20 +63,23 @@
 										<view v-for="(ite, ind) in item.reward" :key="ind">
 											{{ite.type == 'currency' ? '领': ''}}
 											{{$app.formatNumber(ite.number || 0)}}
-											{{ite.type == 'prop' ? '张': ''}}
+											{{ite.type == 'prop'&&ite.key_name&&ite.key_name=="lucky_draw" ? '张': ''}}
 										</view>
 									</view>
 									<view class="image-group">
-										<image v-for="(ite, ind) in item.reward" :key="ind" mode="aspectFit" :src="ite.image"></image>										
+										<block v-for="(ite, ind) in item.reward" :key="ind">
+											<image v-if="isSumDouble&&ite.image_o" mode="aspectFit" :src="ite.image_o"></image>
+											<image v-else mode="aspectFit" :src="ite.image"></image>
+										</block>
 									</view>
 								</view>
 							</view>
 						</view>
 						<view class="btn">
 							<btnComponent type="default" @tap="getPaidReward(item)">
-								<view class="get-bg-bm flex-set" :class="my.sumPaid.count > item.count ? 'settle-bg-bm': 'normal-bg-bm'">
+								<view class="get-bg-bm flex-set" :class="my.sumPaid.count >= item.count ? 'settle-bg-bm': 'normal-bg-bm'">
 									<text v-if="my.sumPaid.count >= item.count">可领取</text>
-									<text v-else>{{$app.formatNumber(my.sumPaid.count || 0)}}/{{$app.formatNumber(item.count || 0)}}鲜花</text>
+									<text v-else>补充{{$app.formatNumber(my.sumPaid.count || 0)}}/{{$app.formatNumber(item.count || 0)}}领取</text>
 								</view>
 							</btnComponent>
 						</view>
@@ -171,6 +188,27 @@
 				</view>
 			</view>
 		</view>
+		
+		<modalComponent v-if="modal == 'goRecharge'" type="center" title="提示" @closeModal="modal=''">
+			<view class="confirm-modal-container flex-set">
+				<view class="desc flex-set">未达到领取要求</view>
+				<view class="btn">
+					<btnComponent type="" style="margin-right: 100upx;">
+						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="modal=''">取消</view>
+					</btnComponent>
+					<btnComponent type="default">
+						<block v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
+							<view v-if="$app.chargeSwitch()==0" class="flex-set btn-unlock" @tap="$app.goPage('/pages/charge/charge')">
+								充值<text class="iconfont iconjiantou"></text>
+							</view>
+							<button v-else-if="$app.chargeSwitch()==2" open-type="contact">
+								<view class="flex-set btn-unlock">回复"1"补充鲜花</view>
+							</button>
+						</block>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent>
 	</view>
 </template>
 
@@ -198,6 +236,8 @@
 					sumPaid: {},
 					dayPaid: {}
 				},
+				isSumDouble: false,
+				isDayDouble: false,
 				lrtext: {},
 				rewardList: [],
 				scrapList: [],
@@ -229,16 +269,15 @@
 			},
 			getPaidInfo () {
 				this.$app.request(this.$app.API.USER_PAID_INFO, {}, res => {
-					setTimeout(() => {
-						const {sumPaid, dayPaid, mySumPaid, myDayPaid} = res.data;
-						this.sumPaid = sumPaid;
-						this.dayPaid = dayPaid;
-						this.my = {
-							sumPaid: mySumPaid,
-							dayPaid: myDayPaid,
-						};
-						if (this.delay) this.deley = 0;
-					}, this.delay);
+					const {sumPaid, dayPaid, mySumPaid, myDayPaid,isSumDouble,isDayDouble} = res.data;
+					this.sumPaid = sumPaid;
+					this.dayPaid = dayPaid;
+					this.isSumDouble = isSumDouble;
+					this.isDayDouble = isDayDouble;
+					this.my = {
+						sumPaid: mySumPaid,
+						dayPaid: myDayPaid,
+					};
 				})
 			},
 			getLuckyDrawInfo () {
@@ -251,6 +290,19 @@
 				})
 			},
 			getPaidReward(item) {
+				if (item.type == 'DAY') {
+					if (this.my.dayPaid.is_settle > 0) {
+						return;
+					}
+					if (this.my.dayPaid.count < item.count) {
+						return this.modal = 'goRecharge';
+					}
+				}
+				if (item.type == 'SUM') {
+					if (this.my.sumPaid.count < item.count) {
+						return this.modal = 'goRecharge';
+					}
+				}
 				uni.showLoading({
 					mask:true,
 					title: "领取中"
@@ -350,6 +402,7 @@
 			transform: translate(-50%,-50%);
 			background:rgba(255,230,115,1);
 			border-radius:0px 0px 60px 60px;
+			padding: 5upx 10upx;
 			.bg {
 				background:rgba(236,121,52,1);
 				border-radius:0px 0px 60px 60px;
@@ -358,6 +411,7 @@
 				color: white;
 				margin: 0 auto;
 				text-align: center;
+				white-space: nowrap;
 			}
 		}
 		.btn-bg {
@@ -381,26 +435,27 @@
 				.btn {
 					position: absolute;
 					bottom: -20%;
-					right: 20%;
+					right: 10%;
 					.btn-bg-m {
 						height: 52upx;
 						background-color: #FFF100;
 						border-radius: 26upx;
 						padding-left: 10upx;
 						padding-top: 7upx;
-						.btn-bg {
-							padding: 10upx 10upx;
-							width: 180upx;
-							height: 44upx;
-							background-color: #F3E503;
-							border-radius: 22upx;
-						}
 					}
-				}
-				.header {
-					width: 220upx;
-					.bg {
-						width: 200upx;
+					.get-bg-bm {
+						border-radius:30upx;
+						font-size:24upx;
+						color: white;
+						padding:10upx 30upx;
+					}
+					.normal-bg-bm {
+						background:url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vcef7WGKxvBTuXAEwsWeAHbgk4oV9fHGxgxVaiclicLibHfFAOdTd6vO7pKg/0") no-repeat center center;
+						background-size: cover;
+					}
+					.settle-bg-bm {
+						background:url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vcexDOGKtQObydGP6JIsK8beArHv69icnhRG7tHeemibngmmvqEmO1FXNJQ/0") no-repeat center center;
+						background-size: cover;
 					}
 				}
 				.title {
@@ -445,15 +500,23 @@
 				.header {
 					top: 20upx;
 					height: 62upx;
-					width: 320upx;
 					.bg {
 						height: 56upx;
-						width: 300upx;
-						font-size: 28upx;
+						font-size: 24rpx;
+					}
+				}
+				.right-tip {
+					position: absolute;
+					transform: translate(-50%,-50%);
+					top: 1.5%;
+					right: -6%;
+					.get-btn {
+						font-size: 28rpx;
+						text-decoration: underline;
+						color: #FBCC3E;
 					}
 				}
 				.tip {
-					width: 80%;
 					padding-top: 60rpx;
 					margin: 0 auto;
 					.tip-desc {
@@ -471,10 +534,10 @@
 					display: flex;
 					flex-direction: row;
 					flex-wrap: wrap;
-					justify-content: flex-start;
+					justify-content: center;
 					width: 710upx;
 					.item {
-						margin: 18upx;
+						margin: 10upx;
 						margin-top: 25upx;
 						.card{
 							width: 320upx;
@@ -664,11 +727,9 @@
 								font-size:26upx;
 								line-height: 50upx;
 								.user-name {
-									max-width: 180upx;
 									color: #FFCC00
 								}
 								.reward-name {
-									width: 180upx;
 									color: #FF6600
 								}
 							}
@@ -688,11 +749,8 @@
 				.header {
 					top: 20upx;
 					height: 62upx;
-					width: 470upx;
 					.bg {
 						height: 56upx;
-						width: 440upx;
-						font-size: 28upx;
 					}
 				}
 				.tip {
@@ -794,6 +852,29 @@
 						}
 					}
 				}
+			}
+		}
+		
+		.confirm-modal-container {
+			height: 100%;
+			padding: 30upx;
+			flex-direction: column;
+			justify-content: center;
+			color: #333;
+			margin-top: -40upx;
+			.desc {
+				margin-bottom: 40upx;
+			}
+			
+			.btn {
+				margin: 0 auto;
+				padding: 10upx 20upx;
+				display: flex;
+				justify-content: space-around;
+				flex-direction: row;
+			}
+			.btn-unlock {
+				padding: 10rpx 20rpx;
 			}
 		}
 	}

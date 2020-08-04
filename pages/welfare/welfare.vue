@@ -73,7 +73,10 @@
 					</view>
 				</view>
 				<view class="desc">
-					<view class="p" v-for="(cv, ck) in welfare.welfare.notice.content" :key="ck">{{cv}}</view>
+					<view class="p" v-for="(cv, ck) in welfare.welfare.notice.content" :key="ck">
+						<text class="c-title">{{cv.title}}:</text>
+						<text class="c-desc">{{cv.desc}}</text>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -86,7 +89,11 @@
 					<image v-else class='avatar' :src="$app.getData('AVATAR')" mode="aspectFill"></image>
 					<view class="text-wrap">
 						<view class="name">{{item.user&& item.user.nickname?item.user.nickname:$app.getData('NICKNAME')}}</view>
-						<view class="card">累计使用钻石：{{item.count}}</view>
+						<view class="card">
+							累计使用：{{item.count}}
+							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
+							 mode="aspectFill"></image>
+						</view>
 					</view>
 					<view class="rank flex-set">{{index+1}}</view>
 				</view>
@@ -295,6 +302,13 @@
 					padding-bottom: 20upx;
 					font-size: 24upx;
 					color: rgba(0,0,0,0.5);
+					.c-title {
+						color: rgba(0,0,0,0.7);
+						font-weight: 650;
+					}
+					.c-desc {
+						padding-left: 20upx;
+					}
 				}
 				.buttom {
 					padding-bottom: 30rpx;
@@ -440,6 +454,11 @@
 						.card {
 							color: #db7979;
 							font-size: 24upx;
+							.icon {
+								width: 40rpx;
+								height: 40rpx;
+								margin-left: 10rpx;
+							}
 						}
 		
 						.progress {

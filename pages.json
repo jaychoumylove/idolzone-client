@@ -459,7 +459,7 @@
             "style" : {
             	"navigationBarBackgroundColor": "#F99510",			
             	"navigationBarTextStyle": "white",
-            	"navigationBarTitleText": "幸运抽奖"
+            	"navigationBarTitleText": "每日福利"
             }
         },
 		{
@@ -468,6 +468,14 @@
             	"navigationBarBackgroundColor": "#F99510",			
             	"navigationBarTextStyle": "white",
             	"navigationBarTitleText": "抽奖记录"
+            }
+		},
+		{
+            "path" : "pages/lucky/paid_log",
+            "style" : {
+            	"navigationBarBackgroundColor": "#F99510",			
+            	"navigationBarTextStyle": "white",
+            	"navigationBarTitleText": "领取记录"
             }
 		}
         ,{

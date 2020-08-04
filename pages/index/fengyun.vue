@@ -21,12 +21,19 @@
 				无人占领
 			</view>
 			<view class="diff flex-set" v-else>
-				{{diff > 0 ? `还差${$app.formatNumber(diff)}第一`: '已经占领'}}
+<!--			<view class="diff flex-set">-->
+				<view v-if="diff>0">
+					还差{{$app.formatNumber(diff)}}
+					<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
+					 mode="widthFix"></image>
+					第一
+				</view>
+				<text v-else>您已占领</text>
 			</view>
 			<view class="btn" @tap="openSend">
 				<btnComponent type="default">
 					<view class="get-bg">
-						抢占封面
+						打榜抢占封面
 					</view>
 				</btnComponent>
 			</view>
@@ -394,13 +401,20 @@
 			justify-content: space-around;
 			height: 66upx;
 			.diff {
+				white-space: nowrap;
 				background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FDIxqXSWnDQQ5LzdoiabR5Hr4OvrPzyOY8IBUJd395nicUqGUFHG7gqqk1R34AZeu0JuMiba6TjoVCg/0") no-repeat center center;
 				background-size: cover;
-				width: 240upx;
 				height: 70upx;
 				font-size: 26upx;
-				padding-left: 15upx;
+				padding:0 15upx;
 				color: white;
+				view {
+					image {
+						width: 40rpx;
+						height: 40rpx;
+						padding: 0 5rpx;
+					}
+				}
 			}
 			.btn {
 				.get-bg {
