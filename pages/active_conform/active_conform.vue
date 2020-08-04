@@ -131,7 +131,9 @@
 		},
 		methods: {
 			goHeadPage (url) {
-				this.$app.goPage(url);
+				if (url) {
+					this.$app.goPage(url);
+				}
 			},
 			getConform() {
 				if (!this.active.length) {
