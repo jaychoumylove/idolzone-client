@@ -59,7 +59,9 @@
 				
 				<view class="tr-affix">
 					<btnComponent type='unset'>
-						<view class="share-bg"></view>
+						<button class="btn" open-type="share" :data-share="welfare.welfare.extra.share_id">
+							<view class="share-bg"></view>
+						</button>
 					</btnComponent>
 				</view>
 			</view>
@@ -144,6 +146,11 @@
 		},
 		onUnload() {
 			this.cleanTimer()
+		},
+		onShareAppMessage(e) {
+			const shareType = e.target && e.target.dataset.share;
+			
+			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
 			setTimer(endTime) {

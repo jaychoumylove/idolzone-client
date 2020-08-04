@@ -30,7 +30,7 @@
 				</view>
 				<view class="prize">
 					<view class="item" v-for="(item, index) in dayPaid.reward" :key="index">
-						<!-- <image mode="widthFix" :src="item.image_o" v-if="isDayDouble&&item.image_o"></image>
+						<!-- <image mode="widthFix" :src="item.image_o" v-if="dayPaid.double&&item.image_o"></image>
 						<image mode="widthFix" :src="item.image" v-else></image> -->
 						<image mode="widthFix" :src="item.image"></image>
 						<view class="number flex-set">X {{$app.formatNumber(item.number || 0)}}</view>
@@ -68,7 +68,7 @@
 									</view>
 									<view class="image-group">
 										<block v-for="(ite, ind) in item.reward" :key="ind">
-											<image v-if="isSumDouble&&ite.image_o" mode="aspectFit" :src="ite.image_o"></image>
+											<image v-if="item.double&&ite.image_o" mode="aspectFit" :src="ite.image_o"></image>
 											<image v-else mode="aspectFit" :src="ite.image"></image>
 										</block>
 									</view>
@@ -166,7 +166,7 @@
 							<image mode="aspectFit" :src="item.image_l"></image>
 							<view class="info">
 								<view class="title">{{item.name || ''}}</view>
-								<view class="desc">还剩：{{item.limit_exchange - item.exchange_number}}</view>
+								<view class="desc" v-if="item.key!='coin'">还剩：{{item.limit_exchange - item.exchange_number}}</view>
 							</view>
 							<view class="exchange flex-set" @tap="exchange(item)">
 								<btnComponent :type="item.has_number >= item.count ? 'success': 'yellow'">
@@ -189,20 +189,47 @@
 			</view>
 		</view>
 		
-		<modalComponent v-if="modal == 'goRecharge'" type="center" title="提示" @closeModal="modal=''">
+		<!-- <modalComponent v-if="modal == 'goRecharge'" type="center" title="提示" @closeModal="modal=''">
 			<view class="confirm-modal-container flex-set">
+				<view class="tip-image flex-set">
+					<image src=""
+						mode="aspectFit"
+					>
+					</image>
+				</view>
 				<view class="desc flex-set">未达到领取要求</view>
 				<view class="btn">
-					<btnComponent type="" style="margin-right: 100upx;">
-						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="modal=''">取消</view>
+					<btnComponent type="">
+						<view class="flex-set btn-unlock" style="width: 120upx;height: 60upx;" @tap="modal=''">取消</view>
 					</btnComponent>
-					<btnComponent type="default">
+					<btnComponent type="default" style="margin-left: 20upx">
 						<block v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
 							<view v-if="$app.chargeSwitch()==0" class="flex-set btn-unlock" @tap="$app.goPage('/pages/charge/charge')">
 								充值<text class="iconfont iconjiantou"></text>
 							</view>
 							<button v-else-if="$app.chargeSwitch()==2" open-type="contact">
 								<view class="flex-set btn-unlock">回复“1”补充鲜花、钻石</view>
+							</button>
+						</block>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent> -->
+		
+		<!-- 离线收益 -->
+		<modalComponent v-if="modal == 'goRecharge'" type="center" title="提示" @closeModal="modal=''">
+			<view class="modal-container offline-modal-container">
+				<view class="title">未达到领取要求</view>
+				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HUKRibxkbQUYy5TEicA6o19g4NiaDHHf2Y2dyskS4nV0fskOXXCsxXY1D6cpFWia41f3DrwRqbNl2e8A/0"
+				 mode="aspectFill"></image>
+				<view class="btn-wrap">
+					<btnComponent type="success">
+						<block v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
+							<view v-if="$app.chargeSwitch()==0" class="btn flex-set btn-unlock" @tap="$app.goPage('/pages/charge/charge')">
+								充值<text class="iconfont iconjiantou"></text>
+							</view>
+							<button v-else-if="$app.chargeSwitch()==2" open-type="contact">
+								<view class="btn flex-set btn-unlock">回复“1”补充鲜花、钻石领取</view>
 							</button>
 						</block>
 					</btnComponent>
@@ -269,11 +296,9 @@
 			},
 			getPaidInfo () {
 				this.$app.request(this.$app.API.USER_PAID_INFO, {}, res => {
-					const {sumPaid, dayPaid, mySumPaid, myDayPaid,isSumDouble,isDayDouble} = res.data;
+					const {sumPaid, dayPaid, mySumPaid, myDayPaid} = res.data;
 					this.sumPaid = sumPaid;
 					this.dayPaid = dayPaid;
-					this.isSumDouble = isSumDouble;
-					this.isDayDouble = isDayDouble;
 					this.my = {
 						sumPaid: mySumPaid,
 						dayPaid: myDayPaid,
@@ -313,8 +338,10 @@
 				})
 			},
 			exchange(scrap) {
-				if (scrap.limit_exchange <= scrap.exchange_number) {
-					return this.$app.toast('奖品数量不足');
+				if (scrap.limit_exchange) {
+					if (scrap.limit_exchange <= scrap.exchange_number) {
+						return this.$app.toast('奖品数量不足');
+					}
 				}
 				if (scrap.has_number < scrap.count) {
 					return this.$app.toast('碎片不够哦');
@@ -330,7 +357,7 @@
 								title: "兑换中"
 							})
 							this.$app.request(this.$app.API.LUCKY_DRAW_EXCHANGE, {scrap:scrap.id}, res => {
-								this.$app.toast('兑换成功', 'success');
+								this.$app.toast(res.msg, 'success');
 								this.refresh()
 							})
 						}
@@ -584,23 +611,6 @@
 								font-size:24upx;
 								color: white;
 								padding:10upx 30upx;
-								// .get-bg {
-								// 	background:#fa9050;
-								// 	padding:5upx;
-								// 	padding-right: 20upx;
-								// 	font-size:24upx;
-								// 	color:rgba(255,255,255,1);
-								// 	line-height:45upx;
-								// 	display: flex;
-								// 	flex-direction: row;
-								// 	border-radius:30upx;
-								// 	.left {
-								// 		padding: 0 10upx;
-								// 		background:#ffb273;
-								// 		border-radius:26upx;
-								// 		margin-right: 7upx;
-								// 	}
-								// }
 							}
 							.normal-bg-bm {
 								background:url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vcef7WGKxvBTuXAEwsWeAHbgk4oV9fHGxgxVaiclicLibHfFAOdTd6vO7pKg/0") no-repeat center center;
@@ -855,6 +865,98 @@
 			}
 		}
 		
+		.offline-modal-container {
+			.btn {
+				font-size: 30upx;
+				width: 220upx;
+			}
+		}
+		
+		.btn-wrapper .submit {
+			margin: 40upx 20upx;
+		}
+		
+		.modal-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: -80upx;
+			padding: 40upx;
+		
+			.title {
+				font-size: 36upx;
+				font-weight: 700;
+			}
+		
+			.tips {
+				padding: 20upx;
+			}
+		
+			.coin-count {
+				font-size: 50upx;
+				padding-bottom: 20upx;
+				margin-top: -20upx;
+				font-weight: 700;
+				color: $bg-color-2;
+			}
+		
+			.bg {
+				width: 300upx;
+				height: 300upx;
+			}
+		
+			.btn {
+				padding: 10upx 30upx;
+				font-size: 30upx;
+				font-weight: 600;
+			}
+		
+			.btn.s {
+				padding: 5upx 20upx;
+				font-size: 30upx;
+			}
+		
+			.btn-wrap {
+				margin: 10upx 0;
+				text-align: center;
+				display: flex;
+				width: 100%;
+				justify-content: space-around;
+				padding: 0 20upx;
+				.btn-unlock {
+					width: unset;
+					white-space: nowrap;
+				}
+			}
+		
+			.desc {
+				padding-top: 10upx;
+			}
+		
+			.row {
+				width: 100%;
+				padding: 10upx 20upx;
+		
+				.top {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					height: 60upx;
+		
+					.left {
+						font-weight: 600;
+						border-left: 8upx solid $bg-color-2;
+						padding: 0 20upx;
+						line-height: 1.2;
+					}
+		
+					.right {
+						padding: 5upx 20upx;
+					}
+				}
+			}
+		}
+		
 		.confirm-modal-container {
 			height: 100%;
 			padding: 30upx;
@@ -862,6 +964,12 @@
 			justify-content: center;
 			color: #333;
 			margin-top: -40upx;
+			.tip-image {
+				image {
+					width: 400rpx;
+					height: 400rpx;
+				}
+			}
 			.desc {
 				margin-bottom: 40upx;
 			}

@@ -33,7 +33,7 @@
 
 		<view class="item" v-for="(item,index) in logList" :key="index">
 			<view class="left-content">
-				<view class="num">{{index+1}}.</view>
+				<view class="num">{{count - index}}.</view>
 				<view class="content ">
 					<view class="top">{{item.item.number > 0 ? '获得': '失去'}}{{item.item.name}}</view>
 					<view class="bottom">{{item.create_time}}</view>
@@ -60,7 +60,8 @@
 				size: 15,
 				page: 1,
 				end : false,
-				earn: {}
+				earn: {},
+				count: 0,
 			};
 		},
 		onLoad() {
@@ -68,6 +69,7 @@
 			this.getLog()
 		},
 		onReachBottom() {
+			if (this.end) return;
 			this.page++
 			this.getLog()
 		},
@@ -84,7 +86,8 @@
 					size: this.size
 				}, res => {
 					if (res.data.length < this.size) this.end = true;
-					this.logList = this.page == 1 ? res.data : this.logList.concat(res.data);
+					this.count = res.data.count;
+					this.logList = this.page == 1 ? res.data.list : this.logList.concat(res.data.list);
 				})
 			},
 		}
