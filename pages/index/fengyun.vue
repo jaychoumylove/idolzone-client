@@ -21,7 +21,6 @@
 				无人占领
 			</view>
 			<view class="diff flex-set" v-else>
-<!--			<view class="diff flex-set">-->
 				<view v-if="diff>0">
 					还差{{$app.formatNumber(diff)}}
 					<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
@@ -402,12 +401,12 @@
 			height: 66upx;
 			.diff {
 				white-space: nowrap;
-				background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FDIxqXSWnDQQ5LzdoiabR5Hr4OvrPzyOY8IBUJd395nicUqGUFHG7gqqk1R34AZeu0JuMiba6TjoVCg/0") no-repeat center center;
-				background-size: cover;
-				height: 70upx;
-				font-size: 26upx;
-				padding:0 15upx;
-				color: white;
+				background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HUKRibxkbQUYy5TEicA6o19gNcLebseoWjl26dZtg8I3O23xxlMR3411YubWXiaLWDpQhmdiaIs1ywyQ/0") no-repeat center center/100% 100%;
+				color: #723511;
+				padding: 10rpx 30rpx;
+				font-size: 24rpx;
+				line-height: 45rpx;
+				border-radius: 30rpx;
 				view {
 					image {
 						width: 40rpx;
@@ -438,20 +437,20 @@
 				.header {
 					position: absolute;
 					top: 0;
-					width: 220upx;
 					left: 50%;
 					transform: translate(-50%,-50%);
 					background:rgba(255,230,115,1);
 					border-radius:0px 0px 60px 60px;
+					padding: 5upx 10upx;
 					.bg {
 						background:rgba(236,121,52,1);
 						border-radius:0px 0px 60px 60px;
 						padding: 10upx 20upx;
-						width: 200upx;
 						font-size: 24upx;
 						color: white;
 						margin: 0 auto;
 						text-align: center;
+						white-space: nowrap;
 					}
 				}
 				.desc {

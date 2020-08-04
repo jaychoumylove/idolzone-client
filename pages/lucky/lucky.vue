@@ -202,7 +202,7 @@
 								充值<text class="iconfont iconjiantou"></text>
 							</view>
 							<button v-else-if="$app.chargeSwitch()==2" open-type="contact">
-								<view class="flex-set btn-unlock">回复"1"补充鲜花</view>
+								<view class="flex-set btn-unlock">回复“1”补充鲜花、钻石</view>
 							</button>
 						</block>
 					</btnComponent>

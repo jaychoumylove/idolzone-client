@@ -2902,7 +2902,6 @@
 
 			.swiper-change {
 				margin: 30upx;
-				margin-top: 60upx;
 				border-radius: 30upx;
 				overflow: hidden;
 				box-shadow: 0 2upx 4upx rgba(0, 0, 0, .3);

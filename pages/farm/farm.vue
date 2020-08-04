@@ -87,10 +87,18 @@
 					 mode="aspectFill"></image>
 					<view class="text">离线收益</view>
 				</view>
-				<view class="btn-wrap four" @tap="getSkill(4);modal='skill'">
+				<!-- <view class="btn-wrap four" @tap="getSkill(4);modal='skill'">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5yCU7TO4mjsUPicBSYlc9EXE49FuArcD6iaQKOfRmjWF0ibxK9elIaQjCw/0"
-					 mode="aspectFill"></image>
+						mode="aspectFill"></image>
 					<view class="text">熟能生巧</view>
+				</view> -->
+
+				<view class="btn-wrap four">
+					<view class="btn-wrap four">
+						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5yCU7TO4mjsUPicBSYlc9EXE49FuArcD6iaQKOfRmjWF0ibxK9elIaQjCw/0"
+							   mode="aspectFill"></image>
+						<view class="text">敬请期待</view>
+					</view>
 				</view>
 			</view>
 

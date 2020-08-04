@@ -56,7 +56,7 @@
 		data() {
 			return {
 				logList: [],
-				size: 10,
+				size: 15,
 				page: 1,
 				end : false,
 				earn: {}
