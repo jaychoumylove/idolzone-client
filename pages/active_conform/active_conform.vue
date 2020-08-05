@@ -7,7 +7,7 @@
 				</swiper-item>
 			</swiper>
 			<view v-else class="banner-swiper">
-				<view @tap="goActive(banner[0])" class="swiper-item" :style="{'background': 'url('+banner[0].img_url+') no-repeat center center', 'background-size': 'cover'}"></view>
+				<view v-if="banner.length" @tap="goActive(banner[0])" class="swiper-item" :style="{'background': 'url('+banner[0].img_url+') no-repeat center center', 'background-size': 'cover'}"></view>
 			</view>
 		</view>
 		<view class="normal-container" v-for="(item,index) in active" :key="index" :class="{unb: item.list.length == 1}">
