@@ -18,8 +18,8 @@
 						</view>
 					</btnComponent> -->
 					
-					<btnComponent type="default" @tap="getPaidReward(dayPaid)">
-						<view class="get-bg-bm flex-set" :class="my.dayPaid.count >= dayPaid.count&&my.dayPaid.is_settle == 0 ? 'settle-bg-bm': 'normal-bg-bm'">
+					<btnComponent :type="my.dayPaid.count >= dayPaid.count&&my.dayPaid.is_settle == 0 ? 'success': 'unset'" @tap="getPaidReward(dayPaid)">
+						<view class="get-bg-bm flex-set" :class="my.dayPaid.count >= dayPaid.count&&my.dayPaid.is_settle == 0 ? '': 'normal-bg-bm'">
 							<text v-if="my.dayPaid.is_settle > 0">今日已领取</text>
 							<text v-else>{{lrtext.day_first_charge.btn_text || ''}}</text>
 						</view>
@@ -76,8 +76,8 @@
 							</view>
 						</view>
 						<view class="btn">
-							<btnComponent type="default" @tap="getPaidReward(item)">
-								<view class="get-bg-bm flex-set" :class="my.sumPaid.count >= item.count ? 'settle-bg-bm': 'normal-bg-bm'">
+							<btnComponent :type="my.sumPaid.count >= item.count&&my.sumPaid.is_settle == 0 ? 'success': 'default'" @tap="getPaidReward(item)">
+								<view class="get-bg-bm flex-set" :class="my.sumPaid.count >= item.count ? '': 'normal-bg-bm'">
 									<text v-if="my.sumPaid.count >= item.count">可领取</text>
 									<text v-else>补充{{$app.formatNumber(my.sumPaid.count || 0)}}/{{$app.formatNumber(item.count || 0)}}领取</text>
 								</view>

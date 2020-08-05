@@ -3,11 +3,11 @@
 		<view class="banner">
 			<swiper v-if="banner.length > 1" class="banner-swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
 				<swiper-item v-for="(item, index) in banner" :key="index">
-					<view @tap="$app.goPage(item.gopage)" class="swiper-item" :style="{'background': 'url('+item.img_url+') no-repeat center center', 'background-size': 'cover'}"></view>
+					<view @tap="goActive(item)" class="swiper-item" :style="{'background': 'url('+item.img_url+') no-repeat center center', 'background-size': 'cover'}"></view>
 				</swiper-item>
 			</swiper>
 			<view v-else class="banner-swiper">
-				<view @tap="$app.goPage(banner[0].gopage)" class="swiper-item" :style="{'background': 'url('+banner[0].img_url+') no-repeat center center', 'background-size': 'cover'}"></view>
+				<view @tap="goActive(banner[0])" class="swiper-item" :style="{'background': 'url('+banner[0].img_url+') no-repeat center center', 'background-size': 'cover'}"></view>
 			</view>
 		</view>
 		<view class="normal-container" v-for="(item,index) in active" :key="index" :class="{unb: item.list.length == 1}">
@@ -41,7 +41,7 @@
 													</view>
 												</button>
 											</block>
-											<view v-else @tap="$app.goPage(ite.gopage)" class="flex-set" :class="ite.btn_class">
+											<view v-else @tap="goActive(ite)" class="flex-set" :class="ite.btn_class">
 												{{ite.btn_text||'去参与'}}
 											</view>
 										</btnComponent>
@@ -80,7 +80,7 @@
 											</view>
 										</button>
 									</block>
-									<view v-else @tap="$app.goPage(item.list[0].gopage)" class="flex-set" :class="item.list[0].btn_class">
+									<view v-else @tap="goActive(item.list[0])" class="flex-set" :class="item.list[0].btn_class">
 										{{item.list[0].btn_text||'去参与'}}
 									</view>
 								</btnComponent>
@@ -96,7 +96,7 @@
 									</view>
 								</button>
 							</block>
-							<view v-else @tap="$app.goPage(ite.gopage)" class="flex-set" :class="ite.btn_class">
+							<view v-else @tap="goActive(ite)" class="flex-set" :class="ite.btn_class">
 								{{ite.btn_text||'去参与'}}
 							</view>
 						</btnComponent>

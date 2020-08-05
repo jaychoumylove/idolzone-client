@@ -22,8 +22,7 @@
 
 						<view class="content">
 							<view class="top" v-if="item.prop&&item.prop.name">{{item.prop.name}}</view>
-							<view class="bottom" v-if="item.prop.key=='lucky_draw'">获得时间：{{item.create_time || '无'}}</view>
-							<view class="bottom" v-else>过期时间：{{item.end_time || '无'}}</view>
+							<view class="bottom">过期时间：{{item.end_time || '无'}}</view>
 						</view>
 					</view>
 
