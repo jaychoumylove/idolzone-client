@@ -17,11 +17,15 @@
 							</view>
 						</view>
 					</btnComponent> -->
-					
-					<btnComponent :type="my.dayPaid.count >= dayPaid.count&&my.dayPaid.is_settle == 0 ? 'success': 'unset'" @tap="getPaidReward(dayPaid)">
-						<view class="get-bg-bm flex-set" :class="my.dayPaid.count >= dayPaid.count&&my.dayPaid.is_settle == 0 ? '': 'normal-bg-bm'">
+					<btnComponent v-if="my.dayPaid.count >= dayPaid.count" :type="my.dayPaid.is_settle == 0 ? 'success': 'disable'" @tap="getPaidReward(dayPaid)">
+						<view class="get-bg-bm flex-set">
 							<text v-if="my.dayPaid.is_settle > 0">今日已领取</text>
 							<text v-else>{{lrtext.day_first_charge.btn_text || ''}}</text>
+						</view>
+					</btnComponent>
+					<btnComponent v-else type="default" @tap="getPaidReward(dayPaid)">
+						<view class="get-bg-bm flex-set normal-bg-bm">
+							<text>{{lrtext.day_first_charge.btn_text || ''}}</text>
 						</view>
 					</btnComponent>
 				</view>
@@ -175,7 +179,8 @@
 							</view>
 						</view>
 						<view class="down">
-							<view class="progress-label flex-set">获取进度</view>
+							<image style="width: 25rpx;height: 25rpx; margin-right: 10rpx;" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vceee3ribmebyLp4YUkEa7my8VjaX641mQdlnTgrXCl0xWLSIicQMKicKb3Q/0"></image>
+							<view class="progress-label flex-set">碎片兑换奖品进度</view>
 							<view class="progress">
 								<progress :percent="item.percent || 0" stroke-width="10" activeColor="#ff9f08" border-radius="5" />
 								<view class="percent-cover">{{item.has_number}} / {{item.count}}</view>
@@ -189,32 +194,6 @@
 			</view>
 		</view>
 		
-		<!-- <modalComponent v-if="modal == 'goRecharge'" type="center" title="提示" @closeModal="modal=''">
-			<view class="confirm-modal-container flex-set">
-				<view class="tip-image flex-set">
-					<image src=""
-						mode="aspectFit"
-					>
-					</image>
-				</view>
-				<view class="desc flex-set">未达到领取要求</view>
-				<view class="btn">
-					<btnComponent type="">
-						<view class="flex-set btn-unlock" style="width: 120upx;height: 60upx;" @tap="modal=''">取消</view>
-					</btnComponent>
-					<btnComponent type="default" style="margin-left: 20upx">
-						<block v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
-							<view v-if="$app.chargeSwitch()==0" class="flex-set btn-unlock" @tap="$app.goPage('/pages/charge/charge')">
-								充值<text class="iconfont iconjiantou"></text>
-							</view>
-							<button v-else-if="$app.chargeSwitch()==2" open-type="contact">
-								<view class="flex-set btn-unlock">回复“1”补充鲜花、钻石</view>
-							</button>
-						</block>
-					</btnComponent>
-				</view>
-			</view>
-		</modalComponent> -->
 		
 		<!-- 离线收益 -->
 		<modalComponent v-if="modal == 'goRecharge'" type="center" title="提示" @closeModal="modal=''">
@@ -223,7 +202,7 @@
 				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HUKRibxkbQUYy5TEicA6o19g4NiaDHHf2Y2dyskS4nV0fskOXXCsxXY1D6cpFWia41f3DrwRqbNl2e8A/0"
 				 mode="aspectFill"></image>
 				<view class="btn-wrap">
-					<btnComponent type="success">
+					<btnComponent type="unset">
 						<block v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
 							<view v-if="$app.chargeSwitch()==0" class="btn flex-set btn-unlock" @tap="$app.goPage('/pages/charge/charge')">
 								充值<text class="iconfont iconjiantou"></text>
@@ -824,7 +803,7 @@
 						.down {
 							margin-top: 20upx;
 							.progress-label {
-								width: 80upx;
+								width: 160upx;
 							}
 							.progress-label, .exchange-number, .exchange-desc {
 								text-align: center;
@@ -926,6 +905,12 @@
 				.btn-unlock {
 					width: unset;
 					white-space: nowrap;
+					background:url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vcef7WGKxvBTuXAEwsWeAHbgk4oV9fHGxgxVaiclicLibHfFAOdTd6vO7pKg/0") no-repeat center center;
+					background-size: cover;
+					border-radius:30upx;
+					font-size:28upx;
+					color: white;
+					padding:15upx 40upx;
 				}
 			}
 		
