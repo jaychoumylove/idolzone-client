@@ -73,40 +73,32 @@
 				<!-- 挖钻石 -->
 				<view class="btn-wrap one" @tap="getSkill(1);modal='skill'">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5TVlulTu5ROdmlibyyeWB6Glia2ALG8BehAN9PGJEbbIhJS46YiaVQSGaA/0"
-					 mode="aspectFill"></image>
+						   mode="aspectFill"></image>
 					<view class="text">{{skillOneRemainTime}}</view>
 				</view>
 				<!-- 挖金豆 -->
 				<view class="btn-wrap two" @tap="getSkill(2);modal='skill'">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5GusQpnkq1bE2iamkm82iaIIvd4ncT5VsECpf0GJtNjwLroialSKMv5ibdw/0"
-					 mode="aspectFill"></image>
+						   mode="aspectFill"></image>
 					<view class="text">挖金豆{{skillTwoRemainCount||0}}次</view>
 				</view>
 				<view class="btn-wrap three" @tap="getSkill(3);modal='skill'">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5IlJwmZhzhgbSnnXLhPHmZFBFDzibYRYqI8CuTgictRDnBB7QqYvVjyIw/0"
-					 mode="aspectFill"></image>
+						   mode="aspectFill"></image>
 					<view class="text">离线收益</view>
 				</view>
-				<!-- <view class="btn-wrap four" @tap="getSkill(4);modal='skill'">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5yCU7TO4mjsUPicBSYlc9EXE49FuArcD6iaQKOfRmjWF0ibxK9elIaQjCw/0"
-						mode="aspectFill"></image>
-					<view class="text">熟能生巧</view>
-				</view> -->
-
 				<view class="btn-wrap four">
-					<view class="btn-wrap four">
-						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5yCU7TO4mjsUPicBSYlc9EXE49FuArcD6iaQKOfRmjWF0ibxK9elIaQjCw/0"
-							   mode="aspectFill"></image>
-						<view class="text">敬请期待</view>
-					</view>
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5yCU7TO4mjsUPicBSYlc9EXE49FuArcD6iaQKOfRmjWF0ibxK9elIaQjCw/0"
+						   mode="aspectFill"></image>
+					<view class="text">敬请期待</view>
 				</view>
 			</view>
 
 			<!-- 左侧fix按钮 -->
 			<image class='charge-btn help-btn' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45O9VISGePLn218y3vGBpeopmcRsia3Wicjib3Qnib7rAz7YL4ozyduPduUg/0'
-			 @tap="$app.goPage('/pages/notice/notice?id=2')"></image>
+				   @tap="$app.goPage('/pages/notice/notice?id=2')"></image>
 			<image class='charge-btn help-btn btn3' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HwicF1tVq5W0eW4Ow73MEzIwbLFt1AHBiawQgPt2ficIOq9bic15hMylyQDAsczJicArnyxyfaec1wMtQ/0'
-			 @tap='speedModal'></image>
+				   @tap='speedModal'></image>
 			<view class="speed-content">农场加速</view>
 			<block v-if="btn_cfg.farm">
 				<image class='charge-btn help-btn btn4' @tap="$app.goPage(btn_cfg.farm[0].path)" :src="btn_cfg.farm[0].icon"></image>
@@ -121,17 +113,13 @@
 				<view class="title" v-if="skillType==1">挖钻石</view>
 				<view class="title" v-if="skillType==2">养家糊口</view>
 				<view class="title" v-if="skillType==3">精心护理</view>
-				<view class="title" v-if="skillType==4">熟能生巧</view>
 
 				<!-- 挖钻石 -->
 				<image v-if="skillType==1" class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HUWa4ibYRGeP9Kkz6Vd4icsiaYhw3c8VbuhCrUW0xLiaGRyeV7Dle0ZuLN9LW0hh47BQiaDr4icqf361Yg/0"
-				 mode="aspectFill"></image>
+					   mode="aspectFill"></image>
 				<!-- 离线收益 -->
 				<image v-if="skillType==3" class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F3NAxlopF2oyvfuiaEjgJIt5WfJDfUDFicqFqjs0GGoK5icRRflIj1oU27Ad4HrpQP3TutO28z1brGg/0"
-				 mode="aspectFill"></image>
-				<!-- 离线收益 -->
-				<image v-if="skillType==4" class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HpzCGqSicmQMtJico7gHXMsWX1mic8AEa8u3u4BnXDTuTYNxTZhc9Drckoo5uYASP0smy8CctSUY27A/0"
-				 mode="aspectFill"></image>
+					   mode="aspectFill"></image>
 				<!-- 房子 -->
 				<image v-if="skillType==5" class="bg" :src="farm.house_img" mode="widthFix"></image><!-- 房子 -->
 				<!-- 树1 -->
@@ -155,7 +143,7 @@
 				<block v-if="skillType == 2">
 					<view class="skill2-count flex-set">基础值:<text style="color:#fec300;">{{baseCoinCount}}</text>
 						<image class="img-s" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
-						 mode=""></image>
+							   mode=""></image>
 					</view>
 					<view class="btn-wrap">
 						<btnComponent type="fangde">
@@ -189,17 +177,8 @@
 						<view class="top">
 							<view class="left">下一等级 Lv.{{skillInfo.nextskill.level}}</view>
 							<btnComponent type="fangde">
-								<view class="right flex-set" @tap="upgrade()" v-if="skillInfo.nextskill.stone">
-									升级<image class="img-s" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
-																					   mode="aspectFill"></image>
-									{{skillInfo.nextskill.stone}}
-								</view>
-								
-								<view class="right flex-set" @tap="upgrade()" v-if="skillInfo.nextskill.point">
-									升级<image class="img-s" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXX6zqzjkSn01fIlGmzJw6u6spsa2iclibKUibzkneYdS4CE4FGmmysZiaW3V3rz08MFNsIY8hFsXoKgg/0"
-																					   mode="aspectFill"></image>
-									{{skillInfo.nextskill.point}}
-								</view>
+								<view class="right flex-set" @tap="upgrade()">升级<image class="img-s" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
+																					   mode="aspectFill"></image>{{skillInfo.nextskill.stone}}</view>
 							</btnComponent>
 						</view>
 						<view class="desc">{{skillInfo.nextskill.desc}}</view>
@@ -215,7 +194,7 @@
 				<view class="title">收益到账</view>
 				<view style="font-size: 24upx;color:#888;">({{(offlinePercent/0.2).toFixed(2)}}倍离线收益)</view>
 				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HUWa4ibYRGeP9Kkz6Vd4icsiaYpD3ibbGnqhb5tK3xEm7q35pVl5QibibGUtaGkmtvzA5zRlb0Re6VtNvg/0"
-				 mode="aspectFill"></image>
+					   mode="aspectFill"></image>
 				<view class="coin-count">+{{coinAddNum}}</view>
 				<view class="btn-wrap">
 					<btnComponent type="default">
@@ -287,7 +266,7 @@
 				userCurrency: {},
 				modal: '',
 
-				farm: {}, // 
+				farm: {}, //
 				skillInfo: {},
 				skillType: '',
 
@@ -299,7 +278,7 @@
 
 				skillOneRemainTime: '', // 挖钻石的倒计时显示
 
-				skillTwoRemainCount: 0, // 搞点金豆剩余使用次数 
+				skillTwoRemainCount: 0, // 搞点金豆剩余使用次数
 				baseCoinCount: 0, // 基础暴击金豆数额
 				rateList: [], // 暴击概率列表
 				skill2Current: false, // 切换
@@ -342,13 +321,6 @@
 		onShow() {
 			this.getSpriteInfo()
 			this.userCurrency = this.$app.getData('userCurrency')
-			let queryString = this.$app.getData('queryString');
-			if (queryString) {
-				this.skillType = queryString.skill;
-				this.getSkill(this.skillType);
-				this.modal = queryString.modal;
-				this.$app.setData('queryString', undefined)
-			}
 		},
 		methods: {
 			goPage(url) {
@@ -436,11 +408,6 @@
 				this.$app.request(this.$app.API.SPRITE_SKILL, {
 					type
 				}, res => {
-					if (type == 4) {
-						if (res.data.nextskill) {
-							res.data.nextskill.point = Math.round(res.data.nextskill.point / 10000);
-						}
-					}
 					this.skillInfo = res.data
 					this.modal = "skill"
 
@@ -614,13 +581,13 @@
 		left: 380upx;
 		top: 109upx;
 		text-shadow: 0 0 10upx #fff,
-			0 0 20upx #fff,
-			0 0 30upx #fff,
-			0 0 40upx #ff00de,
-			0 0 70upx #ff00de,
-			0 0 80upx #ff00de,
-			0 0 100upx #ff00de,
-			0 0 150upx #ff00de;
+		0 0 20upx #fff,
+		0 0 30upx #fff,
+		0 0 40upx #ff00de,
+		0 0 70upx #ff00de,
+		0 0 80upx #ff00de,
+		0 0 100upx #ff00de,
+		0 0 150upx #ff00de;
 	}
 
 	.speed>image {
@@ -913,7 +880,7 @@
 		top: 320upx;
 		height: 85upx;
 	}
-	
+
 	.help-btn.btn4 {
 		top: 441upx;
 		height: 85upx;
@@ -926,7 +893,7 @@
 		font-size: 24upx;
 		transform: translateX(-50%);
 	}
-	
+
 	.speed-content.btn4 {
 		top: 522upx;
 	}
