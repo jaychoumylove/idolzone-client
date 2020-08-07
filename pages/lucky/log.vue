@@ -35,16 +35,21 @@
 			<view class="left-content">
 				<view class="num">{{count - index}}.</view>
 				<view class="content ">
-					<view class="top">{{item.item.number > 0 ? '获得': '失去'}}{{item.item.name}}</view>
+					<view class="top" v-if="item.type == 'SINGLE'">{{item.item.number > 0 ? '获得': '失去'}}{{item.item.name}}</view>
+					<view class="top" v-if="item.type == 'MULTIPLE'">{{$app.getData('config').recharge_lucky.multiple_draw.log_title}}</view>
 					<view class="bottom">{{item.create_time}}</view>
 				</view>
 			</view>
 
 			<view class="right-content">
 				<view class="earn">
-					<view class="right-item">
+					<view class="right-item" v-if="item.type == 'SINGLE'">
 						<image v-if="item.item.image" :src="item.item.image" mode="widthFix"></image>
 						<view class="add-count add">{{item.item.number > 0 ? '+' : ''}}{{$app.formatNumber(item.item.number || 0)}}</view>
+					</view>
+					<view class="right-item" v-if="item.type == 'MULTIPLE'" v-for="(ite, ind) in item.item" :key="ind">
+						<image v-if="ite.image" :src="ite.image" mode="widthFix"></image>
+						<view class="add-count add">{{ite.number > 0 ? '+' : ''}}{{$app.formatNumber(ite.number || 0)}}</view>
 					</view>
 				</view>
 			</view>

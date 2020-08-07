@@ -10,13 +10,6 @@
 					</view>
 				</view>
 				<view class="btn">
-					<!-- <btnComponent type="unset" @tap="getPaidReward(dayPaid)">
-						<view class="btn-bg-m">
-							<view class="btn-bg flex-set">
-								{{lrtext.day_first_charge.btn_text || ''}}
-							</view>
-						</view>
-					</btnComponent> -->
 					<btnComponent v-if="my.dayPaid.count >= dayPaid.count" :type="my.dayPaid.is_settle == 0 ? 'success': 'disable'" @tap="getPaidReward(dayPaid)">
 						<view class="get-bg-bm flex-set">
 							<text v-if="my.dayPaid.is_settle > 0">今日已领取</text>
@@ -111,7 +104,14 @@
 					<view class="bg-bottom"  v-if="lucky_draw"></view>
 				</view>
 				
-				<view class="reamin flex-set">
+				<view class="reamin">
+					<view v-if="lrtext.multiple_draw ? lrtext.multiple_draw.able: false">
+						<btnComponent type="default" @tap="fiftyStart">
+							<view class="get-bg-bm flex-set settle-bg-bm">
+								<text>{{lrtext.multiple_draw ? lrtext.multiple_draw.btn_text: '五十连抽 送幸运碎片'}}</text>
+							</view>
+						</btnComponent>
+					</view>
 					<view class="bg-b">
 						<view class="bg">
 							 我的抽奖券：{{my_lucky_num || 0}}张
@@ -194,23 +194,65 @@
 			</view>
 		</view>
 		
-		
-		<!-- 离线收益 -->
+		<!-- 去充值 -->
 		<modalComponent v-if="modal == 'goRecharge'" type="center" title="提示" @closeModal="modal=''">
 			<view class="modal-container offline-modal-container">
-				<view class="title">未达到领取要求</view>
+				<view class="title">{{lrtext.go_recharge ? lrtext.go_recharge.title: '未达到领取要求'}}</view>
 				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HUKRibxkbQUYy5TEicA6o19g4NiaDHHf2Y2dyskS4nV0fskOXXCsxXY1D6cpFWia41f3DrwRqbNl2e8A/0"
 				 mode="aspectFill"></image>
 				<view class="btn-wrap">
 					<btnComponent type="unset">
 						<block v-if="$app.getData('config').version != $app.getData('VERSION') ||  $app.getData('platform')!='MP-WEIXIN'">
 							<view v-if="$app.chargeSwitch()==0" class="btn flex-set btn-unlock" @tap="$app.goPage('/pages/charge/charge')">
-								充值<text class="iconfont iconjiantou"></text>
+								{{lrtext.go_recharge ? lrtext.go_recharge.charge: '充值'}}<text class="iconfont iconjiantou"></text>
 							</view>
 							<button v-else-if="$app.chargeSwitch()==2" open-type="contact">
-								<view class="btn flex-set btn-unlock">回复“1”补充鲜花、钻石领取</view>
+								<view class="btn flex-set btn-unlock">{{lrtext.go_recharge ? lrtext.go_recharge.contact: '回复“1”补充鲜花、钻石领取'}}</view>
 							</button>
 						</block>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent>
+		
+		<!-- 50抽奖 结果 -->
+		<modalComponent v-if="modal == 'fiftyReward'" type="center" title="提示" @closeModal="modal=''">
+			<view class="fifty-container">
+				<view class="title">{{lrtext.multiple_draw ? lrtext.multiple_draw.reward.title: '恭喜你获得'}}</view>
+				<view class="rewards">
+					<view class="reward-item flex-set" v-for="(item, index) in fiftyReward.choose" :key="index">
+					<!-- <view class="reward-item flex-set" v-for="(item, index) in lucky_draw.reward" :key="index" v-if='index < 4'> -->
+						<view class="times">
+							<view>
+								X{{item.times}}
+								<!-- X{{item.weights}} -->
+							</view>
+						</view>
+						<image v-if="item.key == 'scrap'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vceee3ribmebyLp4YUkEa7my8VjaX641mQdlnTgrXCl0xWLSIicQMKicKb3Q/0"></image>
+						<image v-if="item.key == 'stone'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"></image>
+						<image v-if="item.key == 'coin'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"></image>
+						<image v-if="item.key == 'flower'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"></image>
+						<view class="name">{{item.name}}x{{$app.formatNumber(item.number || 0)}}</view>
+					</view>
+				</view>
+				<view class="special" v-if="fiftyReward.special">
+					<view class="desc">{{lrtext.multiple_draw ? lrtext.multiple_draw.reward.speical_text: '50抽额外奖励：'}}</view>
+					<view class="special-item">
+						<view class="position-set rotate-bg"></view>
+						<view class="reward-item position-set flex-set">
+							<image v-if="fiftyReward.special.key == 'scrap'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vceee3ribmebyLp4YUkEa7my8VjaX641mQdlnTgrXCl0xWLSIicQMKicKb3Q/0"></image>
+							<image v-if="fiftyReward.special.key == 'stone'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"></image>
+							<image v-if="fiftyReward.special.key == 'coin'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"></image>
+							<image v-if="fiftyReward.special.key == 'flower'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"></image>
+							<view class="name">{{fiftyReward.special ? fiftyReward.special.name: ''}}x{{$app.formatNumber(fiftyReward.special ? fiftyReward.special.number: 0)}}</view>
+						</view>
+					</view>
+				</view>
+				<view class="btn-wrap">
+					<btnComponent type="success">
+						<view class="btn flex-set" @tap="modal=''">
+							{{lrtext.multiple_draw ? lrtext.multiple_draw.reward.confirm_btn: '确认收到'}}
+						</view>
 					</btnComponent>
 				</view>
 			</view>
@@ -228,6 +270,7 @@
 		},
 		data() {
 			return {
+				// modal: 'fiftyReward',
 				modal: '',
 
 				lotteryRotate: 0, // 旋转度数
@@ -248,6 +291,11 @@
 				rewardList: [],
 				scrapList: [],
 				delay: 0,
+				// 记录连抽的奖品
+				fiftyReward: {
+					choose: [],
+					special: null
+				}
 			};
 		},
 		onLoad() {
@@ -263,14 +311,19 @@
 				this.getPaidInfo();
 				this.getLuckyDrawInfo();
 			},
-			getPageInfo() {
+			getPageInfo(delay) {
 				this.$app.request(this.$app.API.PAGE_LUCKY_CHARGE, {}, res => {
-					setTimeout(() => {
-						this.lrtext = res.data.recharge_lucky;
-						this.rewardList = res.data.lucky_log;
+					this.lrtext = res.data.recharge_lucky;
+					
+					if (delay) {
+						setTimeout(() => {
+							this.rewardList = res.data.lucky_log;
+							this.scrapList = res.data.scrap_list;
+						}, delay);
+					} else {
 						this.scrapList = res.data.scrap_list;
-						if (this.delay) this.deley = 0;
-					}, this.delay);
+						this.rewardList = res.data.lucky_log;
+					}
 				})
 			},
 			getPaidInfo () {
@@ -284,13 +337,16 @@
 					};
 				})
 			},
-			getLuckyDrawInfo () {
+			getLuckyDrawInfo (delay) {
 				this.$app.request(this.$app.API.LUCKY_DRAW_INFO, {}, res => {
-					setTimeout(() => {
+					if (delay) {
+						setTimeout(() => {
+							this.my_lucky_num = res.data.my_num;
+						}, delay);
+					} else {
 						this.my_lucky_num = res.data.my_num;
-						this.lucky_draw = res.data.lucky_draw;
-						if (this.delay) this.deley = 0;
-					}, this.delay);
+					}
+					this.lucky_draw = res.data.lucky_draw;
 				})
 			},
 			getPaidReward(item) {
@@ -346,6 +402,26 @@
 					}
 				})
 			},
+			fiftyStart() {
+				const max = this.lrtext.multiple_draw.hasOwnProperty('multiple') ? this.lrtext.multiple_draw.multiple: 50;
+				if (this.my_lucky_num < max) {
+					return this.$app.toast('幸运抽奖券不够哦');
+				}
+				uni.showLoading({
+					mask:true,
+					title:"抽奖中..."
+				})
+				this.$app.request(this.$app.API.LUCKY_DRAW_START_FIFTY, {}, res => {
+					const {choose, special} = res.data;
+					this.fiftyReward.choose = choose;
+					this.fiftyReward.special = special;
+					setTimeout(() => {
+						uni.hideLoading();
+						this.modal = 'fiftyReward';
+					}, 100)
+					this.refresh();
+				})
+			},
 			lotteryStart() {
 				// 奖品数
 				let totalAward = 6
@@ -353,7 +429,7 @@
 				let rotateTime = 6
 		
 				if (this.my_lucky_num < 1) {
-					this.$app.toast('没有抽奖券了')
+					this.$app.toast('没有幸运抽奖券了')
 					return
 				}
 		
@@ -366,8 +442,8 @@
 					const lottery = res.data
 					// 获取抽奖次数
 					this.lotteryLock = Math.round(new Date().getTime() / 1000)
-					this.delay = 6000;
-					this.refresh();
+					this.getLuckyDrawInfo(6000);
+					this.getPageInfo(6000);
 		
 					// 转盘转之前回到初始位置
 					this.lotteryTransition = 0
@@ -394,11 +470,14 @@
 
 <style scoped lang="scss">
 	$gray-bg: rgba(248,247,253,0.8);
-	
 	.lucky-container {
 		* {
 			font-family:Microsoft YaHei;
 			font-weight: bold;
+		}
+		
+		/deep/ .container .modal-container {
+			overflow: unset;
 		}
 		
 		.header {
@@ -661,6 +740,17 @@
 				}
 				.reamin {
 					margin: 30upx 20upx 0;
+					display: flex;
+					justify-content: space-around;
+					.get-bg-bm {
+						border-radius:30upx;
+						font-size:24upx;
+						color: white;
+						padding:10upx 30upx;
+					}
+					.settle-bg-bm {
+						background:url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vcexDOGKtQObydGP6JIsK8beArHv69icnhRG7tHeemibngmmvqEmO1FXNJQ/0") no-repeat center center / 100% 100%;
+					}
 					.bg-b {
 						background:rgba(244,171,127,1);
 						border-radius:32upx;
@@ -828,6 +918,7 @@
 									transform: translate(-50%,-50%);
 									line-height: 30upx;
 									height: 30upx;
+									white-space: nowrap;
 								}
 							}
 							.exchange-desc {
@@ -861,6 +952,7 @@
 			align-items: center;
 			margin-top: -80upx;
 			padding: 40upx;
+			overflow: hidden;
 		
 			.title {
 				font-size: 36upx;
@@ -968,6 +1060,112 @@
 			}
 			.btn-unlock {
 				padding: 10rpx 20rpx;
+			}
+		}
+	
+		.fifty-container {
+			$fontC: #b50023;
+			$fontS: 26rpx;
+			position: relative;
+			.title {
+				position: absolute;
+				background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9H3sH9NNZVwUQcM60TfnoLibOWALPClHthrHsDEOXWlibafbnq2tp4c4FC83PbEht3r7HibBJ3QDjjkg/0") no-repeat center center / cover;
+				left: 50%;
+				top: -13%;
+				transform: translate(-50%, -50%);
+				width: 400rpx;
+				height: 100rpx;
+				color: white;
+				text-align: center;
+				line-height: 65rpx;
+				font-size: 30rpx;
+				font-weight: 650;
+				z-index: 999;
+			}
+			.rewards {
+				margin: 20rpx;
+				display: flex;
+				justify-content: space-around;
+				flex-wrap: wrap;
+			}
+			.special {
+				display: flex;
+				justify-content: center;
+				.desc {
+					justify-self: center;
+					align-self: center;
+					color: $fontC;
+					font-size: 40rpx;
+					font-weight: 700;
+				}
+				.special-item {
+					width: 200rpx;
+					height: 200rpx;
+					position: relative;
+					
+					.rotate-bg {
+						background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9H3sH9NNZVwUQcM60TfnoLibfV9exKAZLQfEhia07jpfHDhQhTVoY1tyybfWaqnlVsKRnEjFiazZ8L2Q/0") no-repeat center center / 120% 120%;
+						animation-name: rotate;
+						animation-duration:2s;
+						animation-iteration-count:infinite;
+						animation-timing-function:linear;
+						animation-name: rotate;
+						animation-duration:2s;
+						animation-iteration-count:infinite;
+						animation-timing-function:linear;
+						width: 200rpx;
+						height: 200rpx;
+					}
+					.reward-item {
+						margin: 0;
+					}
+					
+					@keyframes rotate {
+					  from { transform:translate(-50%,-50%) rotate(0deg);}
+					  to { transform:translate(-50%,-50%) rotate(360deg);}
+					}
+				}
+			}
+			.reward-item {
+				margin: 10rpx 5rpx;
+				position: relative;
+				background: url("http://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9H3sH9NNZVwUQcM60TfnoLib3Hghw7t9kjNib9BGLeJdAThI5SibO2iaPuNk7icXt38o0Q2OibRYtHAJrpw/0") no-repeat center center / 100% 100%;
+				height: 160rpx;
+				width: 160rpx;
+				.icon {
+					width: 60rpx;
+					height: 60rpx;
+					margin-bottom: 40rpx;
+				}
+				.name {
+					position: absolute;
+					left: 50%;
+					bottom: 0%;
+					transform: translate(-50%, -50%);
+					text-align: center;
+					white-space: nowrap;
+					color: $fontC;
+					font-size: 26rpx;
+				}
+				.times {
+					position: absolute;
+					background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9H3sH9NNZVwUQcM60TfnoLibg2KeoI5qLCIkO7Jp6KoKsYZmBBfia5mmaMKXVpWcTuYHsHIw3aoYzAw/0") no-repeat center center / 100% 100%;
+					right: -25%;
+					top: 10%;
+					transform: translate(-50%, -50%);
+					view {
+						transform: rotate(25deg);
+						text-align: center;
+						white-space: nowrap;
+						min-height: 60rpx;
+						line-height: 50rpx;
+						min-width: 60rpx;
+						color: white;
+					}
+				}
+			}
+			.btn-wrap {
+				margin: 30rpx 0;
 			}
 		}
 	}
