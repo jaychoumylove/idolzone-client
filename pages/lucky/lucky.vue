@@ -169,7 +169,7 @@
 							<image v-if="item == 4" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoOxUXk3YG5KlOA4lYByS7xppcrEwOcJAQeUia6IxKBRicmwBtzgfELQYg/0"></image> -->
 							<image mode="aspectFit" :src="item.image_l"></image>
 							<view class="info">
-								<view class="title">{{item.name || ''}}</view>
+								<view class="title text-overflow">{{item.name || ''}}</view>
 								<view class="desc" v-if="item.key!='coin'">还剩：{{item.limit_exchange - item.exchange_number}}</view>
 							</view>
 							<view class="exchange flex-set" @tap="exchange(item)">
@@ -878,6 +878,7 @@
 								margin-left: 30upx;
 								.title {
 									color:rgba(88,87,87,1);
+									width: 350rpx;
 								}
 								.desc {
 									color:rgba(146,143,142,1);

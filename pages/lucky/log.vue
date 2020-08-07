@@ -37,7 +37,7 @@
 				<view class="content ">
 					<view class="top" v-if="item.type == 'SINGLE'">{{item.item.number > 0 ? '获得': '失去'}}{{item.item.name}}</view>
 					<view class="top" v-if="item.type == 'MULTIPLE'">{{$app.getData('config').recharge_lucky.draw_log.multiple}}</view>
-					<view class="top" v-if="item.type == 'EXCHANGE'">{{$app.getData('config').recharge_lucky.draw_log.exchange}}</view>
+					<view class="top" v-if="item.type == 'EXCHANGE'">{{item.title}}</view>
 					<view class="bottom">{{item.create_time}}</view>
 				</view>
 			</view>
