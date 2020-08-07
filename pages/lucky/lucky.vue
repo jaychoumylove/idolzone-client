@@ -137,8 +137,8 @@
 									<image class="notice-avatar" :src="item.user.avatarurl || AVATAR"></image>
 									<view class="notice-con">
 										<view class="user-name text-overflow">{{item.user.nickname || NICKNAME}}</view>
-										获得
-										<view class="reward-name text-overflow">{{item.item.name}} X {{$app.formatNumber(item.item.number || 0)}}</view>
+										{{item.item.number > 0 ? '获得': '失去'}}
+										<view class="reward-name text-overflow">{{item.item.name}} X {{$app.formatNumber(Math.abs(item.item.number) || 0)}}</view>
 									</view>
 								</view>
 							</swiper-item>
@@ -806,10 +806,11 @@
 								font-size:26upx;
 								line-height: 50upx;
 								.user-name {
-									color: #FFCC00
+									color: #FFCC00;
 								}
 								.reward-name {
-									color: #FF6600
+									color: #FF6600;
+									width: 200rpx;
 								}
 							}
 						}
