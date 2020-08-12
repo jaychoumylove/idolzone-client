@@ -705,7 +705,7 @@
 						<view class="row-item" @tap="signGiftSettle(index)" v-for="(item,index) in signGift_list" :key="index" v-if="item.over!=2">
 							<view class="row-wrap" :class="'over'+item.over">
 								<view class="left-wrap">
-									<view class="text">{{item.title}}</view>
+									<view class="text" v-if="!item.awards.achievement">{{item.title}}</view>
 									<view class="award">
 										<view class="item" v-if="item.awards.coin">
 											<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JX01hOqpeCia2icDIMMhsAyRnJ1XEVTJDGicZsIeBdM5x6sZMZY6tc71lbzRVFBp4ichpsgIamP8SaaeQ/0"
@@ -731,6 +731,18 @@
 										<view class="item" v-if="item.awards.badge">
 											<image class="img" :src="item.awards.badge.img" mode="aspectFill"></image>
 										</view>
+										<view class="item" v-if="item.awards.achievement">
+											<image class="img" :src="item.img" mode="aspectFill"></image>
+											<view class="num">x{{item.count}}</view>
+										</view>
+									</view>
+								</view>
+								<view class="middle-wrap" v-if="item.awards.achievement">
+									<view class="title">
+										{{item.awards.title || ''}}
+									</view>
+									<view class="desc">
+										{{item.awards.desc || ''}}
 									</view>
 								</view>
 								<view class="right-wrap">
@@ -742,11 +754,12 @@
 										<view :class="'btn'+item.over" v-else-if="item.over==1 && $app.chargeSwitch()==2">领取</view>
 									</block>
 
-
 									<view :class="'btn'+item.over" v-else>{{item.btn_text}}</view>
 
-
 									<view v-if="item.over==0" class="tips">{{item.name_addon}}</view>
+									<view v-if="item.awards.achievement" class="tips">
+										未领取：{{item.num}}
+									</view>
 								</view>
 							</view>
 							<!-- 已完成盖章 -->
@@ -863,7 +876,24 @@
 				</view>
 			</view>
 		</modalSpecialComponent>
-
+		
+		<!-- 领取成功 -->
+		<modalComponent v-if="modal == 'getHear'" type="center" title="提示" @closeModal="modal=''">
+			<view class="get-hear-container">
+				<view class="title">领取成功</view>
+				<image class="bg" :src="getHearItem.img"
+				 mode="aspectFill"></image>
+				 <view>【{{getHearItem.title}}】头饰</view>
+				 <view>过期时间：{{getHearItem.end_time}}</view>
+				<view class="btn-wrap">
+					<btnComponent type="unset">
+						<view class="btn flex-set btn-unlock" @tap="$app.goPage('/pages/user/headwear?type=1')">
+							去佩戴 >
+						</view>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent>
 
 		<shareModalComponent ref="shareModal"></shareModalComponent>
 	</view>
@@ -994,6 +1024,8 @@
 				phoneCode: '',
 				
 				extHot: {},
+				
+				getHearItem: null,
 			};
 		},
 		created() {
@@ -1326,6 +1358,7 @@
 			},
 			// 点击聊天室用户头像
 			tapUser(uid) {
+				return this.modal = 'getHear';
 				if (uid == this.$app.getData('userInfo').id) return
 				this.currentUser = {}
 				this.modal = 'userInfo'
@@ -1600,7 +1633,16 @@
 					if (cid == 2) this.modal = 'send' //2粉丝等级
 					if (cid == 3) this.$app.goPage(`/pages/charge/charge`) //3充值
 					if (cid == 4) this.$app.goPage(`/pages/user/push_index`) //4关注数据助手公众号
-					if (cid == 5) this.$app.goPage(`/pages/notice/notice?id=40`) //4下载APP
+					//item.awards.achievement
+					const item = this.signGift_list[index];
+					if (item.awards.achievement) {
+						if (item.awards.hasOwnProperty('gopage')) {
+							this.$app.goPage(item.awards.gopage);
+						}
+						if (item.awards.hasOwnProperty('modal')) {
+							this.modal = item.awards.modal;
+						}
+					}
 					return
 				}
 				//如果已完成 2
@@ -1610,8 +1652,15 @@
 					cid: cid,
 					task_id: this.signGift_list[index].id
 				}, res => {
-					this.$app.toast('领取成功', 'success')
 					this.getsignGift()
+					if (cid == 6) {
+						this.getHearItem = Object.assign(this.signGift_list[index], res.data);
+						setTimeout(() => {
+							this.modal = 'getHear';
+						}, 200);
+					} else {
+						this.$app.toast('领取成功', 'success')
+					}
 				}, 'POST', true)
 			},
 
@@ -3783,6 +3832,15 @@
 									}
 								}
 							}
+							.middle-wrap {
+								flex: 1;
+								display: flex;
+								flex-direction: column;
+								.desc {
+									font-size: 20rpx;
+									color: #818286;
+								}
+							}
 
 							.right-wrap {
 
@@ -3842,7 +3900,96 @@
 			}
 		}
 	}
+	
+	.get-hear-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-top: -80upx;
+		padding: 40upx;
+		overflow: hidden;
+				
+		.title {
+			font-size: 36upx;
+			font-weight: 700;
+		}
+				
+		.tips {
+			padding: 20upx;
+		}
+				
+		.coin-count {
+			font-size: 50upx;
+			padding-bottom: 20upx;
+			margin-top: -20upx;
+			font-weight: 700;
+			color: $bg-color-2;
+		}
+				
+		.bg {
+			width: 300upx;
+			height: 300upx;
+		}
+				
+		.btn {
+			padding: 10upx 30upx;
+			font-size: 30upx;
+			width: 220upx;
+			font-weight: 600;
+		}
 
+		.btn.s {
+			padding: 5upx 20upx;
+			font-size: 30upx;
+		}
+				
+		.btn-wrap {
+			margin: 10upx 0;
+			text-align: center;
+			display: flex;
+			width: 100%;
+			justify-content: space-around;
+			padding: 0 20upx;
+			.btn-unlock {
+				width: unset;
+				white-space: nowrap;
+				background:url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vcef7WGKxvBTuXAEwsWeAHbgk4oV9fHGxgxVaiclicLibHfFAOdTd6vO7pKg/0") no-repeat center center;
+				background-size: cover;
+				border-radius:30upx;
+				font-size:28upx;
+				color: white;
+				padding:15upx 40upx;
+			}
+		}
+				
+		.desc {
+			padding-top: 10upx;
+		}
+				
+		.row {
+			width: 100%;
+			padding: 10upx 20upx;
+				
+			.top {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				height: 60upx;
+				
+				.left {
+					font-weight: 600;
+					border-left: 8upx solid $bg-color-2;
+					padding: 0 20upx;
+					line-height: 1.2;
+				}
+				
+				.right {
+					padding: 5upx 20upx;
+				}
+			}
+		}
+	}
+	
 	.blessing-modal-container {
 		width: 100%;
 		padding: 0rpx 20rpx 20rpx 20rpx;

@@ -486,6 +486,14 @@
 				"navigationBarTitleText": "公益打卡"
 			}
         }
+        ,{
+            "path" : "pages/achievement_rank/achievement_rank",
+			"style" : {
+				"navigationBarBackgroundColor": "#F99510",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "成就挂饰"
+			}
+        }
     ],
 	"tabBar": {
 		"color": "#aaaaaa",

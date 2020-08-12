@@ -10,20 +10,26 @@
 		</view>
 
 		<view class="tips flex-set">点击可预览效果</view>
-
+		<view class="check">
+			<view class="item" v-for="(item, index) in checkArr" :class="{active: index == currentType}" :key="index" @tap="checkoutType(index)">{{item.label}}</view>
+		</view>
 		<view class="list-wrap">
-			<view class="item" v-for="(item, index) in list" :key="index">
+			<view class="item" v-for="(item, index) in list[currentType]" :key="index">
 				<view class="top-wrap flex-set" :class="{use:curHeadwear&&curHeadwear.id==item.id}" @tap="preHead(item)">
 					<image class="icon" :src="item.img"></image>
 				</view>
-				<view class="fee">{{item.diamond}}钻石</view>
-				<view v-if="item.days>0">(有效期:{{item.days}}天)</view>
-				<view v-else>(长期)</view>
-				<view v-if="item.status==-1" class="btn flex-set" @tap="buy" :data-hid="item.id">兑换</view>
+				<block v-if="item.type=='NORMAL'">
+					<view class="fee">{{item.diamond}}钻石</view>
+					<view v-if="item.days>0">(有效期:{{item.days}}天)</view>
+					<view v-else>(长期)</view>
+					<view v-if="item.status==-1" class="btn flex-set" @tap="buy" :data-hid="item.id">兑换</view>
+				</block>
+				<block v-if="item.type == 'ACHIEVEMENT'">
+					<view v-if="item.days>0">(有效期:{{item.days}}天)</view>
+				</block>
 				<view v-if="item.status==0" class="btn flex-set success" @tap="use" :data-hid="item.id">佩戴</view>
 				<view v-if="item.status==1" class="btn flex-set disable" @tap="cancel" :data-hid="item.id">摘下</view>
 			</view>
-
 		</view>
 	</view>
 </template>
@@ -40,11 +46,26 @@
 		},
 		data() {
 			return {
-				list: [],
-				curHeadwear: {} // 预览的头饰
+				list: [
+					[],
+					[]
+				],
+				curHeadwear: {} ,// 预览的头饰
+				checkArr: [
+					{
+						label: "往期头饰",
+						value: 0,
+					},
+					{
+						label: "成就头饰",
+						value: 1,
+					}
+				],
+				currentType: 0,
 			};
 		},
-		onLoad() {
+		onLoad(option) {
+			this.currentType = option.type
 			this.loadData()
 		},
 		onShow() {
@@ -58,6 +79,9 @@
 			// 预览头饰
 			preHead(item) {
 				this.curHeadwear = item
+			},
+			checkoutType(type) {
+				if (type != this.currentType) this.currentType = type;
 			},
 			// 购买头饰
 			buy(e) {
@@ -92,7 +116,7 @@
 			},
 			loadData() {
 				this.$app.request('headwear/select', {}, res => {
-
+					this.checkArr = res.data.config;
 					this.list = res.data.list
 					this.curHeadwear = res.data.cur || null
 				})
@@ -135,12 +159,33 @@
 
 		.tips {
 			height: 80upx;
+			flex-shrink: 0;
 			font-size: 24upx;
 			background-color: #fef8d4;
 		}
+		
+		.check {
+			height: 60rpx;
+			margin: 20rpx 30rpx;
+			display: flex;
+			justify-content: flex-start;
+			line-height: 60rpx;
+			.item {
+				padding: 0 20rpx;
+				border: black 2rpx solid;
+				border-radius: 30rpx;
+				&:not(:last-of-type) {
+					margin-right: 30rpx;
+				}
+			}
+			.active {
+				border-color: #fd523e;
+				color: #fd523e;
+			}
+		}
 
 		.list-wrap {
-			flex: 1;
+			// flex: 1;
 			overflow-y: scroll;
 			overflow-x: hidden;
 			display: flex;
