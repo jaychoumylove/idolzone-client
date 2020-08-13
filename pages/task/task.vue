@@ -94,7 +94,7 @@
 			</view>
 		</view>
 
-		<modalComponent v-if="modal == 'weibo'" type="center" title="提示" @closeModal="modal=''">
+		<modalComponent v-if="modal == 'weibo'" :type="weiboModalType" title="提示" @closeModal="modal=''">
 			<view class="weibo-modal-container flex-set">
 				<view class="row-line">
 					<view class="left">第一步</view>
@@ -123,7 +123,7 @@
 			</view>
 		</modalComponent>
 
-		<modalComponent v-if="modal == 'weibo_zhuanfa'" type="center" title="提示" @closeModal="modal=''">
+		<modalComponent v-if="modal == 'weibo_zhuanfa'" :type="weiboModalType" title="提示" @closeModal="modal=''">
 			<view class="weibo-modal-container flex-set">
 				<view class="row-line">
 					<view class="left">第一步</view>
@@ -172,6 +172,7 @@
 				weibo_zhuanfa: {},
 
 				current: 1, // 任务类别
+				weiboModalType: 'center',
 			};
 		},
 		onShow() {
@@ -179,12 +180,23 @@
 		},
 		onLoad() {
 			this.getShareText()
+			const res = uni.getSystemInfoSync();
+			console.info(res);
+			if (res.platform == 'ios') {
+				this.keyboardHeightChange();
+			}
 		},
 		onShareAppMessage(e) {
 			const shareType = e.target && e.target.dataset.shareid
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
+			keyboardHeightChange() {
+				uni.onKeyboardHeightChange(res => {
+					const weiboModalType = parseInt(res.height) > 0 ? 'center center-top': 'center';
+					this.weiboModalType = weiboModalType;
+				})
+			},
 			buttonHandler(e) {
 				const sharetype = e.target.dataset.sharetype
 				if (sharetype == 'share') {
@@ -320,7 +332,6 @@
 			}
 
 		}
-
 
 		.item {
 			margin: 20upx;

@@ -71,7 +71,7 @@
 			position: absolute;
 			bottom: var(--window-bottom);
 			transform: translateY(100%);
-			transition: .2s;
+			transition: all .2s ease;
 
 			.center-img {
 				position: absolute;
@@ -112,6 +112,11 @@
 			transform: translate(-50%, -50%);
 			border-bottom-left-radius: 30upx;
 			border-bottom-right-radius: 30upx;
+		}
+		
+		// 中心弹出
+		.modal-container.center-top {
+			top: 30%;
 		}
 		
 		// 中心弹出透明
