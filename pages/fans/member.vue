@@ -1,10 +1,19 @@
 <template>
 	<view class="container">
-		<view class='tab-container'>
-			<view class="tab-item" :class="{active:rankField == 'week_count'}" @tap="changeField('week_count')">打榜</view>
-			<view class="tab-item" :class="{active:rankField == 'week_hot'}" @tap="changeField('week_hot')">集结</view>
-			<view class="tab-item" :class="{active:rankField == 'weekmem_count'}" @tap="changeField('weekmem_count')">拉新</view>
-			<view class="tab-item" :class="{active:rankField == 'weekbox_count'}" @tap="changeField('weekbox_count')">宝箱</view>
+		<view>
+			<scroll-view scroll-x="true" class="scroll">
+				<view class='tab-container'>
+					<view class="tab-item" :class="{active:rankField == 'week_count'}" @tap="changeField('week_count')">打榜</view>
+					<view class="tab-item" :class="{active:rankField == 'week_hot'}" @tap="changeField('week_hot')">集结</view>
+					<view class="tab-item" :class="{active:rankField == 'weekmem_count'}" @tap="changeField('weekmem_count')">拉新</view>
+					<view class="tab-item" :class="{active:rankField == 'weekbox_count'}" @tap="changeField('weekbox_count')">宝箱</view>
+					<view class="tab-item" 
+						:class="{active:rankField == 'less_count'}" 
+						@tap="changeField('less_count')"
+						v-if="leader_uid==$app.getData('userInfo').id || admin == $app.getData('userInfo').id"
+					>不活跃</view>
+				</view>
+			</scroll-view>
 		</view>
 		
 		<view class="search-wrap">
@@ -13,39 +22,61 @@
 				<view class="flex-set" style="padding: 10upx 40upx;" @tap="loadData()">搜索</view>
 			</btnComponent>
 		</view>
+		
+		<view class="delete-wrap" v-if="multipleDelete">
+			<view class="left">
+				<view class="chooseAll flex-set" @tap="chooseAll">全选</view>
+				<view class="chooseNum flex-set">已选({{multipleIds.length}}/100)</view>
+			</view>
+			<view class="right">
+				<btnComponent type="default">
+					<view class="flex-set" style="padding: 10upx 40upx;" @tap="loadData()">移出</view>
+				</btnComponent>
+			</view>
+		</view>
+		
 		<!-- 列表 -->
 		<view class="list-container">
-			<view class="item" v-for="(item,index) in userRank" :key="index">
-				<view class="rank-num">
-					<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERPO5dPoLHgkajBHNM2z9fooSUMLxB0ogg1mYllIAOuoanico1icDFfYFA/0"
-					 mode=""></image>
-					<image class="icon" v-else-if="index==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERcWnBrw6yAIeVRx4ibIfShZ3tn26ubDUiakNcrwf2F43JI97MYEaYiaib9A/0"
-					 mode=""></image>
-					<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTER7oibKWZCN5ThjI799sONJZAtZmRRTIQmo1R9j26goVMBJ43giaJHLIlA/0"
-					 mode=""></image>
-					<view v-else>{{index+1}}</view>
-				</view>
-				<view class='avatar-wrap' @tap="tapUser(item.user_id)">
-					<image class="avatar" :src="item.avatarurl||$app.getData('AVATAR')" mode="aspectFill"></image>
-					<image class="headwear position-set" :src="item.headwear" mode=""></image>
-					<view class="badge-wrap">
-						<view class="leader" v-if="item.user_id==leader_uid">团长</view>
-						<view class="leader" v-if="item.admin">管理员</view>
+			<checkbox-group @change="chooseItem" v-if="multipleDelete">
+				<view class="item" v-for="(item,index) in userRank" :key="index">
+					<view class="rank-num">
+						<block v-if="!multipleDelete">
+							<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERPO5dPoLHgkajBHNM2z9fooSUMLxB0ogg1mYllIAOuoanico1icDFfYFA/0"
+							 mode=""></image>
+							<image class="icon" v-else-if="index==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERcWnBrw6yAIeVRx4ibIfShZ3tn26ubDUiakNcrwf2F43JI97MYEaYiaib9A/0"
+							 mode=""></image>
+							<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTER7oibKWZCN5ThjI799sONJZAtZmRRTIQmo1R9j26goVMBJ43giaJHLIlA/0"
+							 mode=""></image>
+							<view v-else>{{index+1}}</view>
+						</block>
+						
+						<!-- <radio-group >
+							<radio :value="item.user_id" :data-user-id="item.user_id" ></radio>
+						</radio-group> -->
+						<checkbox :value="item.user_id+index" :checked="multipleIds.indexOf(item.user_id+index) > -1" color="#FFCC33" style="transform:scale(0.7)," />
 					</view>
-				</view>
-				<view class="text-container">
-					<view class="star-name text-overflow">
-						{{item.nickname||$app.getData('NICKNAME')}}
-						<image class="img-s" :src="`/static/image/user_level/lv${item.level}.png`" mode=""></image><text v-if="item.admin==1" class="exit iconfont iconicon_signal" style="color: red;"></text>
+					<view class='avatar-wrap' @tap="tapUser(item.user_id)">
+						<image class="avatar" :src="item.avatarurl||$app.getData('AVATAR')" mode="aspectFill"></image>
+						<image class="headwear position-set" :src="item.headwear" mode=""></image>
+						<view class="badge-wrap">
+							<view class="leader" v-if="item.user_id==leader_uid">团长</view>
+							<view class="leader" v-if="item.admin">管理员</view>
+						</view>
 					</view>
-					<view class="count-box">
-						<view class="count">本周{{rankFieldDanwei}} {{item.hot}} 上周{{rankFieldDanwei}} {{item.lastweek_hot}}</view>
+					<view class="text-container">
+						<view class="star-name text-overflow">
+							{{item.nickname||$app.getData('NICKNAME')}}
+							<image class="img-s" :src="`/static/image/user_level/lv${item.level}.png`" mode=""></image><text v-if="item.admin==1" class="exit iconfont iconicon_signal" style="color: red;"></text>
+						</view>
+						<view class="count-box">
+							<view class="count">本周{{rankFieldDanwei}} {{item.hot}} 上周{{rankFieldDanwei}} {{item.lastweek_hot}}</view>
+						</view>
 					</view>
+					<view class="exit iconfont iconicon_signal" style="padding-right: 20rpx;" @tap="upAdmin(item.user_id,1)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==0&&leader_uid!=item.user_id"></view>
+					<view class="exit iconfont iconicon_signal" style="color: red; padding-right: 20rpx;" @tap="upAdmin(item.user_id,0)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==1&&leader_uid!=item.user_id"></view>
+					<view class="exit iconfont iconclose" @tap="exit(item.user_id)" v-if="(leader_uid==$app.getData('userInfo').id && leader_uid!=item.user_id)||($app.getData('userInfo').id==item.user_id)||(admin && leader_uid!=item.user_id)"></view>
 				</view>
-				<view class="exit iconfont iconicon_signal" style="padding-right: 20rpx;" @tap="upAdmin(item.user_id,1)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==0&&leader_uid!=item.user_id"></view>
-				<view class="exit iconfont iconicon_signal" style="color: red; padding-right: 20rpx;" @tap="upAdmin(item.user_id,0)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==1&&leader_uid!=item.user_id"></view>
-				<view class="exit iconfont iconclose" @tap="exit(item.user_id)" v-if="(leader_uid==$app.getData('userInfo').id && leader_uid!=item.user_id)||($app.getData('userInfo').id==item.user_id)||(admin && leader_uid!=item.user_id)"></view>
-			</view>
+			</checkbox-group>
 		</view>
 		<!-- 我的 -->
 		<view class="my-container">
@@ -148,6 +179,8 @@
 				currentUser: {},
 				sendOtherNum: 1,
 				sendOtherType: '', // 赠送他人是鲜花还是钻石‘’
+				multipleDelete: true, // 批量删除
+				multipleIds: [],
 			};
 		},
 		onLoad(option) {
@@ -160,6 +193,21 @@
 		},
 		methods: {
 			// 点击用户头像
+			chooseAll() {
+				if (this.multipleIds.length) {
+					this.multipleIds = [];
+				} else {
+					const ids = [];
+					this.userRank.map(item => {
+						ids.push(item.user_id)
+					})
+					
+					this.multipleIds = ids;
+				}
+			},
+			chooseItem(e){
+				this.multipleIds = e.detail.value;
+			},
 			tapUser(uid) {
 				if (uid == this.$app.getData('userInfo').id) return
 				this.currentUser = {}
@@ -250,6 +298,7 @@
 				else if(field=='week_hot') this.rankFieldDanwei = '热度'
 				else if(field=='weekmem_count') this.rankFieldDanwei = '净拉新'
 				else if(field=='weekbox_count') this.rankFieldDanwei = '派宝箱'
+				else if(field=='less_count') this.rankFieldDanwei = '人气'
 				this.rankField = field
 				this.keyword = ''
 				this.loadData()
@@ -264,11 +313,12 @@
 					this.myInfo = res.data.my
 					this.leader_uid = res.data.leader_uid
 					this.admin=res.data.admin
-					if (this.page == 1) {
-						this.userRank = res.data.list
-					} else {
-						this.userRank = this.userRank.concat(res.data.list)
-					}
+					// if (this.page == 1) {
+					// 	this.userRank = res.data.list
+					// } else {
+					// 	this.userRank = this.userRank.concat(res.data.list,res.data.list)
+					// }
+					this.userRank = this.userRank.concat(res.data.list)
 				})
 			},
 		}
@@ -277,30 +327,34 @@
 
 <style lang="scss" scoped>
 	.container {
-
-		.tab-container {
-			padding: 25upx;
-			display: flex;
-			align-items: center;
-			justify-content: space-around;
-			border-bottom: 1upx solid #eee;
-
-			.tab-item {
-				border-radius: 32upx;
-				padding: 10upx 30upx;
-				justify-content: center;
+		
+		.scroll {
+			white-space: nowrap;
+			width: 100%;
+			padding: 20rpx 15rpx;
+			border-bottom: 1rpx solid #eee;
+			.tab-container {
+				padding: 25upx;
 				display: flex;
-				font-size: 30upx;
-				margin: 0 20upx;
-				flex: 1;
-				color: #FF7E00;
-				border: 1upx solid #FFEAC9;
-			}
+				align-items: center;
 
-			.tab-item.active {
-				background-color: #FFEAC9;
-				text-align: center;
-				color: #FF9B2E;
+				.tab-item {
+					border-radius: 32upx;
+					padding: 10upx 30upx;
+					justify-content: center;
+					display: flex;
+					font-size: 30upx;
+					margin: 0 20upx;
+					flex: 1;
+					color: #FF7E00;
+					border: 1upx solid #FFEAC9;
+				}
+
+				.tab-item.active {
+					background-color: #FFEAC9;
+					text-align: center;
+					color: #FF9B2E;
+				}
 			}
 		}
 
@@ -320,6 +374,19 @@
 
 			.input-text {
 				color: #999;
+			}
+		}
+		.delete-wrap {
+			display: flex;
+			margin: 20rpx 40rpx;
+			.left {
+				display: flex;
+				.chooseNum {
+					margin-left: 20rpx;
+				}
+			}
+			.right {
+				margin-left: auto;
 			}
 		}
 
