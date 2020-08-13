@@ -486,6 +486,14 @@
 				"navigationBarTitleText": "公益打卡"
 			}
         }
+        ,{
+            "path" : "pages/invite_assist/invite_assist",
+			"style" : {
+				"navigationBarBackgroundColor": "#F99510",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "拉新助力"
+			}
+        }
     ],
 	"tabBar": {
 		"color": "#aaaaaa",

@@ -441,7 +441,7 @@
 							</button>
 						</btnComponent>
 					</view>
-					<view class="bottom">被邀请人任意加入一个粉丝圈即可领取奖励</view>
+					<view class="bottom">被邀请人任意加入一个粉丝团即可领取奖励</view>
 				</view>
 				<scroll-view scroll-y class="list-wrapper" @scrolltolower="invitFakePage++;getFakeInviteList();" v-if="fakeinvitList.length>0">
 					<view class="item" v-for="(item,index) in fakeinvitList" :key="index" v-if="hasEarnCount+index+1<=300">

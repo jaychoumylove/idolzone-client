@@ -1,25 +1,5 @@
 <template>
 	<view class="container">
-		<view class="swiper-container">
-			<image class='img' :src="banner||''" mode="aspectFill"></image>
-			<view class="small" v-if="left_time.full >= 0">
-				距离结束还剩：
-				<block v-if="left_time.d">
-					<text class="text">{{left_time.d}}</text>
-					天
-				</block>
-				<text class="text">{{left_time.h}}</text>
-				时
-				<text class="text">{{left_time.i}}</text>
-				分
-				<text class="text">{{left_time.s}}</text>
-				秒
-			</view>
-			<view class="small" v-else>
-				活动已截止
-			</view>
-		</view>
-		
 		<view class="recharge" style="box-shadow:0 3upx 7upx 0 rgba(0, 0, 0, 0.23);border-radius:30upx;">
 			<view class="content">
 				<view class="header">
@@ -50,9 +30,7 @@
 				<view class="buttom flex-set">
 					<btnComponent type='default'>
 						<view class="btn">
-							圈内当前已使用钻石:{{welfare_star ? $app.formatNumber(welfare_star.count || 0): 0}}
-							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
-							 mode="aspectFill"></image>
+							圈内当前已成功邀请人数:{{welfare_star ? $app.formatNumber(welfare_star.count || 0): 0}}
 						</view>
 					</btnComponent>
 				</view>
@@ -67,24 +45,83 @@
 			</view>
 		</view>
 		
-		<view class="recharge">
+		<view class="recharge" style="box-shadow:0 3upx 7upx 0 rgba(0, 0, 0, 0.23);border-radius:30upx;">
 			<view class="content">
 				<view class="header">
-					<view class="bg">
-						{{notice.title || ''}}
+					<view class="bg" style="font-size: 28upx;font-weight: 700;line-height: 28upx;">
+						个人拉新奖励
 					</view>
 				</view>
-				<view class="desc">
-					<view class="p" v-for="(cv, ck) in notice.content" :key="ck">
-						<text class="c-title">{{cv.title}}:</text>
-						<text class="c-desc">{{cv.desc}}</text>
+				<view class="right-tip" @tap="$app.goPage('/pages/lucky/paid_log')">
+					<view class="flex-set get-btn">
+						领取记录
 					</view>
 				</view>
+				
+				<!-- 里程碑进度条 -->
+				<view class="milestone-wrap my-milestone-wrap">
+					<view class="item-box" style="width: 30%;" v-for="(item,index) in (progress)" :key="index">
+						<view class="progress">
+							<view class="progress-finished" :style="{width: item.percent+'%'}"></view>
+						</view>
+						<view class="dot" :class="{finished: item.percent == 100}">
+							<view class="name">{{$app.formatNumber(item.step || 0)}}</view>
+						</view>
+						<view class="my-reward" :class="{finish: item.percent == 100}">
+							<view class="reward-item position-set flex-set">
+								<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXX6zqzjkSn01fIlGmzJw6ufzJPQqnQz9PQwhL9d2jCL8x6qlic5VDiaWU3XkPSZfZ4ZRVau9DQVtKg/0"></image>
+								<view class="name">金豆福袋</view>
+							</view>
+							<view>
+								<btnComponent type='default'>
+									<view class="btn">
+										领取
+									</view>
+								</btnComponent>
+							</view>
+						</view>
+					</view>
+				</view>
+				
+				<view class="buttom flex-set">
+					<btnComponent type='default'>
+						<view class="btn">
+							我的拉新:0
+						</view>
+					</btnComponent>
+				</view>
+			</view>
+		</view>
+		
+		<view class="notice" v-if="rewardList.length">
+			<image class="notice-icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPXtMTFLV2ydAKSiawiapkia2icuuW67SfcBKp3mbQWicrWJb4rJskIWFuhQ/0"></image>
+			<view class="notice-info">
+				<swiper 
+					:indicator-dots="false" 
+					:autoplay="true" 
+					:interval="3000" 
+					:duration="1000" 
+					vertical="true"
+					touchable="false"
+					circular='true'
+					disable-touch="true"
+				>
+					<swiper-item v-for="(item, index) in rewardList" :key="index">
+						<view class="notice-item">
+							<image class="notice-avatar" :src="item.user.avatarurl || AVATAR"></image>
+							<view class="notice-con">
+								<view class="user-name text-overflow">{{item.user.nickname || NICKNAME}}</view>
+								<view class="ucr">{{item.item.number > 0 ? '获得': '失去'}}</view>
+								<view class="reward-name text-overflow">{{item.item.name}} X {{$app.formatNumber(Math.abs(item.item.number) || 0)}}</view>
+							</view>
+						</view>
+					</swiper-item>
+				</swiper>
 			</view>
 		</view>
 
 		<view class="rank-list-container">
-			<view class="title">解锁公益福利贡献榜</view>
+			<view class="title">贡献榜</view>
 			<view class='scroll-view'>
 				<view class='item-wrap' v-for="(item,index) in rankList" :key="index">
 					<image v-if="item.user&&item.user.avatarurl" class='avatar' :src="item.user.avatarurl" mode="aspectFill"></image>
@@ -92,15 +129,13 @@
 					<view class="text-wrap">
 						<view class="name">{{item.user&& item.user.nickname?item.user.nickname:$app.getData('NICKNAME')}}</view>
 						<view class="card">
-							累计使用：{{item.count}}
-							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
-							 mode="aspectFill"></image>
+							邀请人数：100
 						</view>
 					</view>
 					<view class="rank flex-set">{{index+1}}</view>
 				</view>
 				<view class="item-wrap flex-set" v-if="!rankList.length">
-					还没有人来钻石打卡
+					虚位以待
 				</view>
 			</view>
 		</view>
@@ -137,11 +172,13 @@
 				progress: [],
 				welfare_star:{},
 				notice: {},
+				rewardList:[],
 			};
 		},
 		onShow() {
 			this.star = this.$app.getData('userStar')
 			this.getWelfare()
+			this.getPageInfo()
 			this.getRankList()
 		},
 		onReachBottom() {
@@ -181,6 +218,26 @@
 				clearInterval(this.left_timer);
 				this.left_timer = undefined;
 			},
+			getPageInfo(delay) {
+				this.$app.request(this.$app.API.PAGE_LUCKY_CHARGE, {}, res => {
+					this.lrtext = res.data.recharge_lucky;
+					
+					if (delay) {
+						setTimeout(() => {
+							this.rewardList = res.data.lucky_log;
+							this.scrapList = res.data.scrap_list;
+						}, delay);
+					} else {
+						this.scrapList = res.data.scrap_list;
+						this.rewardList = res.data.lucky_log;
+					}
+				})
+			},
+			getInfo() {
+				this.$app.request(this.$app.API.PAGE_INVITE_ASSIST,{}, res => {
+					console.info(res.data);
+				})
+			},
 			getWelfare() {
 				this.$app.request(this.$app.API.WELFARE_INFO, {type: this.type}, res => {
 					this.welfare = res.data;
@@ -213,6 +270,90 @@
 
 <style lang="scss" scoped>
 	.container {
+		
+		.header {
+			position: absolute;
+			top: 0;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			background:rgba(255,230,115,1);
+			border-radius:0px 0px 60px 60px;
+			padding: 5upx 10upx;
+			.bg {
+				background:rgba(236,121,52,1);
+				border-radius:0px 0px 60px 60px;
+				padding: 10rpx 40rpx;
+				font-size: 24upx;
+				color: white;
+				margin: 0 auto;
+				text-align: center;
+				white-space: nowrap;
+			}
+		}
+		.btn-bg {
+			height: 60upx; 
+			width: 180upx;
+			font-size: 24upx;
+			color: white;
+		}
+		
+		.notice {
+			margin: 30upx 20upx 0;
+			background:rgba(248,226,207,0.57);
+			border-radius:19upx;
+			display: flex;
+			justify-content: flex-start;
+			.notice-icon {
+				margin:0;
+				margin-left: 4%;
+				width: 35upx;
+				align-self: center;
+				height: 35upx;
+				border-radius:50%;
+			}
+			.notice-info {
+				margin: 10upx 5%;
+				flex: 1;
+				display: inline-block;
+				overflow: hidden;
+				height: 50upx;
+				swiper {
+					height: 50upx;
+				}
+				.notice-item {
+					display: flex;
+					justify-content: flex-start;
+					.notice-avatar {
+						width: 50upx;
+						height: 50upx;
+						border-radius:50%;
+						margin-right: 10upx;
+					}
+					.notice-con {
+						flex: 1;
+						height: 50upx;
+						margin-right: 10%;
+						display: inline-block;
+						display: flex;
+						flex-direction: row;
+						justify-content: space-around;
+						font-size:26upx;
+						line-height: 50upx;
+						.user-name {
+							color: #FFCC00;
+						}
+						.ucr {
+							white-space: nowrap;
+						}
+						.reward-name {
+							color: #FF6600;
+						}
+					}
+				}
+			}
+		}
+	
+		
 		.swiper-container {
 			margin: 5upx 30upx;
 			height: 250upx;
@@ -282,7 +423,6 @@
 				.header {
 					position: absolute;
 					top: 0;
-					width: 220upx;
 					left: 50%;
 					transform: translate(-50%,-50%);
 					background:rgba(255,230,115,1);
@@ -290,8 +430,6 @@
 					.bg {
 						background:rgba(236,121,52,1);
 						border-radius:0px 0px 60px 60px;
-						padding: 10upx 20upx;
-						width: 200upx;
 						font-size: 24upx;
 						color: white;
 						margin: 0 auto;
@@ -310,6 +448,17 @@
 						font-weight: 650;
 						color:rgba(120,67,16,1);
 						text-align: center;
+					}
+				}
+				.right-tip {
+					position: absolute;
+					transform: translate(-50%,-50%);
+					top: 10%;
+					right: -6%;
+					.get-btn {
+						font-size: 28rpx;
+						text-decoration: underline;
+						color: #FBCC3E;
 					}
 				}
 				.desc {
@@ -352,6 +501,13 @@
 						background-size: cover;
 						width: 56rpx;
 						height: 56rpx;
+					}
+				}
+				
+				.my-milestone-wrap {
+					padding: 230upx 30upx !important;
+					.item-box {
+						flex: unset;
 					}
 				}
 				
@@ -422,6 +578,34 @@
 							background-size: cover;
 							padding-top: 30rpx;
 							padding-left: 20rpx;
+						}
+						.my-reward {
+							position: absolute;
+							transform: translate(-50%, -50%);
+							left: 44%;
+							top: -100%;
+						}
+						
+						.reward-item {
+							margin: 10rpx 5rpx;
+							position: relative;
+							background: url("http://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9H3sH9NNZVwUQcM60TfnoLib3Hghw7t9kjNib9BGLeJdAThI5SibO2iaPuNk7icXt38o0Q2OibRYtHAJrpw/0") no-repeat center center / 100% 100%;
+							height: 160rpx;
+							width: 160rpx;
+							.icon {
+								width: 60rpx;
+								height: 60rpx;
+								margin-bottom: 40rpx;
+							}
+							.name {
+								position: absolute;
+								left: 50%;
+								bottom: 0%;
+								transform: translate(-50%, -50%);
+								text-align: center;
+								white-space: nowrap;
+								font-size: 26rpx;
+							}
 						}
 						.reward.finish {
 							background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FDIxqXSWnDQQ5LzdoiabR5H10I70fYXkZRKvkuBVuM0wGVkfibJzyzA4wzjhllpXJ8vYoMRNv1S9HQ/0") no-repeat center center;
