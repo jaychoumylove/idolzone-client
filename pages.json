@@ -493,7 +493,15 @@
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "拉新助力"
 			}
-        }
+        },
+		{
+            "path" : "pages/invite_assist/invite_rec",
+            "style" : {
+            	"navigationBarBackgroundColor": "#F99510",			
+            	"navigationBarTextStyle": "white",
+            	"navigationBarTitleText": "领取记录"
+            }
+		}
     ],
 	"tabBar": {
 		"color": "#aaaaaa",

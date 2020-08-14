@@ -7,22 +7,24 @@
 						{{star.name || ''}}
 					</view>
 				</view>
-				<view class="tip flex-set">
-					<view class="tip-desc">{{welfare.title || ''}}</view>
+				<view class="tip flex-set" @tap="goOther(info.go_notice)">
+					<view class="tip-desc">{{info.idol_tip||'邀请新用户助力拉新解锁'}}<text style="color:#FFC000;padding-left: 10rpx;" class="iconfont iconicon-test1"></text></view>
 				</view>
 				
 				<!-- 里程碑进度条 -->
 				<view class="milestone-wrap">
-					<view class="dot finished"></view>
-					<view class="item-box" v-for="(item,index) in (progress)" :key="index">
+					<view class="dot finished">
+						<view class="name">0</view>
+					</view>
+					<view class="item-box" v-for="(item,index) in info.idol_progress" :key="index">
 						<view class="progress">
 							<view class="progress-finished" :style="{width: item.percent+'%'}"></view>
 						</view>
 						<view class="dot" :class="{finished: item.percent == 100}">
-							<view class="name">{{$app.formatNumber(item.step || 0)}}</view>
+							<view class="name">{{$app.formatNumber(item.value+'人' || 0)}}</view>
 						</view>
 						<view class="reward" :class="{finish: item.percent == 100}">
-							<view class="p" v-for="(pv, pk) in item.reward_desc" :key="pk">{{pv}}</view>
+							<view class="p" v-for="(pv, pk) in item.reward" :key="pk">{{pv}}</view>
 						</view>
 					</view>
 				</view>
@@ -30,7 +32,7 @@
 				<view class="buttom flex-set">
 					<btnComponent type='default'>
 						<view class="btn">
-							圈内当前已成功邀请人数:{{welfare_star ? $app.formatNumber(welfare_star.count || 0): 0}}
+							圈内当前已成功邀请人数:{{info.idol_sum ? $app.formatNumber(info.idol_sum || 0): 0}}
 						</view>
 					</btnComponent>
 				</view>
@@ -48,52 +50,73 @@
 		<view class="recharge" style="box-shadow:0 3upx 7upx 0 rgba(0, 0, 0, 0.23);border-radius:30upx;">
 			<view class="content">
 				<view class="header">
-					<view class="bg" style="font-size: 28upx;font-weight: 700;line-height: 28upx;">
-						个人拉新奖励
+					<view class="bg" style="font-size: 28upx;font-weight: 700;line-height: 28upx;" @tap="goOther(info.go_notice)">
+						{{info.my_title || '个人拉新奖励'}}<text style="color:black;padding-left: 10rpx;" class="iconfont iconicon-test1"></text>
 					</view>
 				</view>
-				<view class="right-tip" @tap="$app.goPage('/pages/lucky/paid_log')">
+				<view class="right-tip" @tap="goOther('/pages/invite_assist/invite_rec')">
 					<view class="flex-set get-btn">
-						领取记录
+						{{info.settle_title || '领取记录'}}
 					</view>
 				</view>
 				
 				<!-- 里程碑进度条 -->
 				<view class="milestone-wrap my-milestone-wrap">
-					<view class="item-box" style="width: 30%;" v-for="(item,index) in (progress)" :key="index">
+					<view class="item-box" :style="{width: item.weights+'%'}" v-for="(item,index) in info.my_progress" :key="index">
 						<view class="progress">
 							<view class="progress-finished" :style="{width: item.percent+'%'}"></view>
 						</view>
 						<view class="dot" :class="{finished: item.percent == 100}">
-							<view class="name">{{$app.formatNumber(item.step || 0)}}</view>
+							<view class="name">{{item.value || 0}}</view>
 						</view>
 						<view class="my-reward" :class="{finish: item.percent == 100}">
-							<view class="reward-item position-set flex-set">
-								<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXX6zqzjkSn01fIlGmzJw6ufzJPQqnQz9PQwhL9d2jCL8x6qlic5VDiaWU3XkPSZfZ4ZRVau9DQVtKg/0"></image>
-								<view class="name">金豆福袋</view>
+							<view class="reward-item flex-set">
+								<image v-if="item.reward.img" class="icon" :src="item.reward.img"></image>
+								<image v-if="item.reward.key == 'coin'" class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERgEQSHS0566j091KHGzhdQNKZpBKHPuWicKkHxXxNdSneZX4JLGn7BqQ/0"
+								 mode="widthFix"></image>
+								<image v-if="item.reward.key == 'flower'" class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"
+								 mode="widthFix"></image>
+								<image v-if="item.reward.key == 'stone'" class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
+								 mode="widthFix"></image>
+								<image v-if="item.reward.key == 'trumpet'" class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk90Xa3b43zE46M8IkUvFyMR5GgfJN52icBqoicfKWfAJS8QXog0PZtgdEQ/0"
+								 mode="widthFix"></image>
+								<view class="name">{{item.reward.name}}</view>
 							</view>
-							<view>
-								<btnComponent type='default'>
-									<view class="btn">
-										领取
-									</view>
+							<view class="reward-btn">
+								<btnComponent :type='item.percent == 100 ? "default": "disable"'>
+									<block v-if="item.percent == 100">
+										<view class="btn flex-set" v-if="info.my_day_settle.indexOf(item.value) > -1">
+											已领取
+										</view>
+										<view @tap="inviteSettle(item.value)" v-else class="btn flex-set">
+											领取
+										</view>
+									</block>
+									<button v-else open-type="share" data-sharetype="share">
+										<view class="btn flex-set">去邀请</view>
+									</button>
 								</btnComponent>
 							</view>
 						</view>
 					</view>
 				</view>
 				
-				<view class="buttom flex-set">
+				<view class="buttom my-invite-num" style="">
 					<btnComponent type='default'>
 						<view class="btn">
-							我的拉新:0
+							我的今日拉新:{{info.my_day||0}}
+						</view>
+					</btnComponent>
+					<btnComponent type='default'>
+						<view class="btn right">
+							我的累计拉新:{{$app.formatNumber(info.my_sum||0)}}
 						</view>
 					</btnComponent>
 				</view>
 			</view>
 		</view>
 		
-		<view class="notice" v-if="rewardList.length">
+		<view class="notice" v-if="rec_list.length">
 			<image class="notice-icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPXtMTFLV2ydAKSiawiapkia2icuuW67SfcBKp3mbQWicrWJb4rJskIWFuhQ/0"></image>
 			<view class="notice-info">
 				<swiper 
@@ -106,13 +129,13 @@
 					circular='true'
 					disable-touch="true"
 				>
-					<swiper-item v-for="(item, index) in rewardList" :key="index">
+					<swiper-item v-for="(item, index) in rec_list" :key="index">
 						<view class="notice-item">
 							<image class="notice-avatar" :src="item.user.avatarurl || AVATAR"></image>
 							<view class="notice-con">
 								<view class="user-name text-overflow">{{item.user.nickname || NICKNAME}}</view>
-								<view class="ucr">{{item.item.number > 0 ? '获得': '失去'}}</view>
-								<view class="reward-name text-overflow">{{item.item.name}} X {{$app.formatNumber(Math.abs(item.item.number) || 0)}}</view>
+								<view class="ucr">获得</view>
+								<view class="reward-name text-overflow">{{item.reward.name}}</view>
 							</view>
 						</view>
 					</swiper-item>
@@ -121,7 +144,7 @@
 		</view>
 
 		<view class="rank-list-container">
-			<view class="title">贡献榜</view>
+			<view class="title">{{info.count_title || "贡献榜"}}</view>
 			<view class='scroll-view'>
 				<view class='item-wrap' v-for="(item,index) in rankList" :key="index">
 					<image v-if="item.user&&item.user.avatarurl" class='avatar' :src="item.user.avatarurl" mode="aspectFill"></image>
@@ -129,7 +152,7 @@
 					<view class="text-wrap">
 						<view class="name">{{item.user&& item.user.nickname?item.user.nickname:$app.getData('NICKNAME')}}</view>
 						<view class="card">
-							邀请人数：100
+							邀请人数：{{item.invite_sum}}
 						</view>
 					</view>
 					<view class="rank flex-set">{{index+1}}</view>
@@ -153,99 +176,41 @@
 		},
 		data() {
 			return {
-				type: 'STONE_WELFARE',
 				rankList: [],
 				page: 1,
 				size: 10,
 				end: false,
 				star: {},
-				left_time: {
-					full: 0,
-					d: 0,
-					h: 0,
-					i: 0,
-					s: 0,
-				},
-				left_timer: undefined,
-				welfare: {},
-				banner:"",
-				progress: [],
-				welfare_star:{},
-				notice: {},
-				rewardList:[],
+				rec_list:[],
+				info:{},
+				share_id: '',
 			};
 		},
 		onShow() {
 			this.star = this.$app.getData('userStar')
-			this.getWelfare()
-			this.getPageInfo()
-			this.getRankList()
+			this.getInfo();
+			this.refresh();
 		},
 		onReachBottom() {
+			if (this.end) return;
 			this.page++
 			this.getRankList()
 		},
-		onUnload() {
-			this.cleanTimer()
-		},
 		onShareAppMessage(e) {
 			const shareType = e.target && e.target.dataset.share;
-			
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
-			setTimer(endTime) {
-				this.left_timer = setInterval(() => {
-					const now = Math.round(Date.now() / 1000),
-						diff = endTime - now;
-					
-					if (diff <= 0) {
-						this.setCurrentBanner();
-					} else {
-						const time = this.$app.timeGethms(diff);
-						
-						this.left_time = {
-							full: endTime,
-							d: time.day,
-							h: time.hour,
-							i: time.min,
-							s: time.sec
-						}
-					}
-				}, 1000);
-			},
-			cleanTimer() {
-				clearInterval(this.left_timer);
-				this.left_timer = undefined;
-			},
-			getPageInfo(delay) {
-				this.$app.request(this.$app.API.PAGE_LUCKY_CHARGE, {}, res => {
-					this.lrtext = res.data.recharge_lucky;
-					
-					if (delay) {
-						setTimeout(() => {
-							this.rewardList = res.data.lucky_log;
-							this.scrapList = res.data.scrap_list;
-						}, delay);
-					} else {
-						this.scrapList = res.data.scrap_list;
-						this.rewardList = res.data.lucky_log;
-					}
-				})
+			goOther(url){
+				if (url) {
+					this.$app.goPage(url);
+				}
 			},
 			getInfo() {
 				this.$app.request(this.$app.API.PAGE_INVITE_ASSIST,{}, res => {
-					console.info(res.data);
-				})
-			},
-			getWelfare() {
-				this.$app.request(this.$app.API.WELFARE_INFO, {type: this.type}, res => {
-					this.welfare = res.data;
-					this.banner = res.data.welfare.extra.banner;
-					this.notice = res.data.welfare.notice;
-					this.welfare_star = res.data.star;
-					this.progress = res.data.welfare.extra.progress;
-					this.setTimer(res.data.welfare.end)
+					this.info = res.data;
+					this.rec_list = res.data.rec_list;
+					this.share_id = res.data.share_id;
 				})
 			},
 			refresh() {
@@ -255,15 +220,25 @@
 			},
 			getRankList() {
 				if (this.end) return;
-				this.$app.request(this.$app.API.WELFARE_RANK, {
+				this.$app.request(this.$app.API.INVITE_RANK, {
 					page: this.page,
 					size: this.size,
-					type: this.type,
 				}, res => {
 					this.rankList = this.page == 1 ? res.data: this.rankList.concat(res.data);
 					if (res.data.length < this.size) this.end = true;
 				})
 			},
+			inviteSettle(item) {
+				uni.showLoading({
+					mask:true,
+					title:"领取中..."
+				})
+				this.$app.request(this.$app.API.INVITE_SETTLE, {settle: item}, res => {
+					this.$app.toast("领取成功", " success");
+					this.getInfo();
+					this.refresh();
+				})
+			}
 		},
 	}
 </script>
@@ -453,7 +428,7 @@
 				.right-tip {
 					position: absolute;
 					transform: translate(-50%,-50%);
-					top: 10%;
+					top: 20rpx;
 					right: -6%;
 					.get-btn {
 						font-size: 28rpx;
@@ -491,6 +466,12 @@
 						}
 					}
 				}
+				.my-invite-num {
+					display: flex;
+					flex-direction: row;
+					justify-content: space-around;
+					padding-top: 10rpx;
+				}
 				.tr-affix {
 					position: absolute;
 					transform: translate(-50%,-50%);
@@ -505,9 +486,31 @@
 				}
 				
 				.my-milestone-wrap {
-					padding: 230upx 30upx !important;
+					padding: 270upx 30upx 10rpx!important;
 					.item-box {
 						flex: unset;
+					}
+					.dot {
+						.name {
+							color: white !important;
+							top: 50% !important;
+							left: 50% !important;
+							transform: translate(-50%,-50%)!important;
+						}
+					}
+					.progress {
+						border-radius: 10rpx;
+						.progress-finished {
+							border-radius: 10rpx;
+							// &:first-of-type {
+							// 	border-top-left-radius: 10rpx;
+							// 	border-bottom-left-radius: 10rpx;
+							// }
+							// &:last-of-type {
+							// 	border-top-right-radius: 10rpx;
+							// 	border-bottom-right-radius: 10rpx;
+							// }
+						}
 					}
 				}
 				
@@ -532,6 +535,8 @@
 							transform: translateX(-50%);
 							font-size: 22upx;
 							white-space: nowrap;
+							color: #FFC000;
+							font-weight: 500;
 						}
 				
 						.value {
@@ -582,16 +587,29 @@
 						.my-reward {
 							position: absolute;
 							transform: translate(-50%, -50%);
-							left: 44%;
-							top: -100%;
+							right: -50%;
+							top: -120rpx;
+							.reward-btn {
+								.btn {
+									padding: 5rpx;
+									font-size: 24rpx;
+								}
+							}
+							.reward-item {
+								.name {
+									color: #FF6600;
+									font-weight: 500;
+									font-size: 24rpx;
+								}
+							}
 						}
 						
 						.reward-item {
 							margin: 10rpx 5rpx;
 							position: relative;
 							background: url("http://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9H3sH9NNZVwUQcM60TfnoLib3Hghw7t9kjNib9BGLeJdAThI5SibO2iaPuNk7icXt38o0Q2OibRYtHAJrpw/0") no-repeat center center / 100% 100%;
-							height: 160rpx;
-							width: 160rpx;
+							height: 130rpx;
+							width: 130rpx;
 							.icon {
 								width: 60rpx;
 								height: 60rpx;
@@ -604,7 +622,7 @@
 								transform: translate(-50%, -50%);
 								text-align: center;
 								white-space: nowrap;
-								font-size: 26rpx;
+								font-size: 20rpx;
 							}
 						}
 						.reward.finish {
