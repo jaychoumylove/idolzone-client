@@ -878,7 +878,7 @@
 		</modalSpecialComponent>
 		
 		<!-- 领取成功 -->
-		<modalComponent v-if="modal == 'getHear'" type="center" title="提示" @closeModal="modal=''">
+		<modalComponent v-if="modal == 'getWeadHear'" type="center" title="提示" @closeModal="modal=''">
 			<view class="get-hear-container">
 				<view class="title">领取成功</view>
 				<image class="bg" :src="getHearItem.img"
@@ -1358,7 +1358,6 @@
 			},
 			// 点击聊天室用户头像
 			tapUser(uid) {
-				return this.modal = 'getHear';
 				if (uid == this.$app.getData('userInfo').id) return
 				this.currentUser = {}
 				this.modal = 'userInfo'
@@ -1656,7 +1655,7 @@
 					if (cid == 6) {
 						this.getHearItem = Object.assign(this.signGift_list[index], res.data);
 						setTimeout(() => {
-							this.modal = 'getHear';
+							this.modal = 'getWeadHear';
 						}, 200);
 					} else {
 						this.$app.toast('领取成功', 'success')

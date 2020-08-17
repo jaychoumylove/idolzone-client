@@ -13,7 +13,7 @@
 		<view class="check">
 			<view class="item" v-for="(item, index) in checkArr" :class="{active: index == currentType}" :key="index" @tap="checkoutType(index)">{{item.label}}</view>
 		</view>
-		<view class="list-wrap">
+		<view class="list-wrap" :class="listclass">
 			<view class="item" v-for="(item, index) in list[currentType]" :key="index">
 				<view class="top-wrap flex-set" :class="{use:curHeadwear&&curHeadwear.id==item.id}" @tap="preHead(item)">
 					<image class="icon" :src="item.img"></image>
@@ -62,6 +62,7 @@
 					}
 				],
 				currentType: 0,
+				listclass: ''
 			};
 		},
 		onLoad(option) {
@@ -69,7 +70,10 @@
 			this.loadData()
 		},
 		onShow() {
-
+			const info = uni.getSystemInfoSync();
+			if (info.platform == 'ios') {
+				this.listclass = 'ios-list-fix';
+			}
 		},
 		onShareAppMessage(e) {
 			const shareType = e.target && e.target.dataset.share
@@ -171,6 +175,7 @@
 			justify-content: flex-start;
 			line-height: 60rpx;
 			.item {
+				height: 60rpx;
 				padding: 0 20rpx;
 				border: black 2rpx solid;
 				border-radius: 30rpx;
@@ -185,12 +190,14 @@
 		}
 
 		.list-wrap {
-			// flex: 1;
 			overflow-y: scroll;
 			overflow-x: hidden;
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: space-between;
+		}
+		.ios-list-fix {
+			flex: 1;
 		}
 
 		.list-wrap .item {

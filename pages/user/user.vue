@@ -154,6 +154,14 @@
 				</view>
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</view>
+			<view class="item-wrap" @tap="$app.goPage('/pages/user/headwear')">
+				<view class="left-wrap">
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9ENOOBmxXTF9huYYxQSQ5K692icLDibHfqocDWbCfibbP9bgzcQCc8KBibB8uJVWdZdVliarpPHRRAmSfA/0"
+					 mode="aspectFill"></image>
+					<view class="text">头像挂饰</view>
+				</view>
+				<view class="right-wrap iconfont iconjiantou"></view>
+			</view>
 
 			<view class="item-wrap" @tap="$app.goPage('/pages/user/setting')">
 				<view class="left-wrap">

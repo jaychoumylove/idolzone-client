@@ -25,20 +25,25 @@
 		
 		<view class="delete-wrap" v-if="multipleDelete">
 			<view class="left">
-				<view class="chooseAll flex-set" @tap="chooseAll">全选</view>
+				<btnComponent type="default">
+					<view class="flex-set" style="padding: 10upx 20upx;" @tap="chooseAll">全选</view>
+				</btnComponent>
 				<view class="chooseNum flex-set">已选({{multipleIds.length}}/100)</view>
 			</view>
 			<view class="right">
+				<btnComponent type="default" style="margin-right: 20rpx;">
+					<view class="flex-set" style="padding: 10upx 20upx;" @tap="hideMultipleDelete">取消</view>
+				</btnComponent>
 				<btnComponent type="default">
-					<view class="flex-set" style="padding: 10upx 40upx;" @tap="loadData()">移出</view>
+					<view class="flex-set" style="padding: 10upx 20upx;" @tap="removeAll">全部移出</view>
 				</btnComponent>
 			</view>
 		</view>
 		
 		<!-- 列表 -->
 		<view class="list-container">
-			<checkbox-group @change="chooseItem" v-if="multipleDelete">
-				<view class="item" v-for="(item,index) in userRank" :key="index">
+			<checkbox-group @change="chooseItem">
+				<view class="item" v-for="(item,index) in userRank" :key="index" @longpress="showMultipleDelete">
 					<view class="rank-num">
 						<block v-if="!multipleDelete">
 							<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERPO5dPoLHgkajBHNM2z9fooSUMLxB0ogg1mYllIAOuoanico1icDFfYFA/0"
@@ -50,10 +55,11 @@
 							<view v-else>{{index+1}}</view>
 						</block>
 						
-						<!-- <radio-group >
-							<radio :value="item.user_id" :data-user-id="item.user_id" ></radio>
-						</radio-group> -->
-						<checkbox :value="item.user_id+index" :checked="multipleIds.indexOf(item.user_id+index) > -1" color="#FFCC33" style="transform:scale(0.7)," />
+						<checkbox 
+							v-if="multipleDelete&&!item.admin&&item.user_id!=leader_uid" 
+							:checked="multipleIds.length&&multipleIds.indexOf(parseInt(item.user_id)) >= 0" 
+							:value="parseInt(item.user_id)" 
+						/>
 					</view>
 					<view class='avatar-wrap' @tap="tapUser(item.user_id)">
 						<image class="avatar" :src="item.avatarurl||$app.getData('AVATAR')" mode="aspectFill"></image>
@@ -179,7 +185,7 @@
 				currentUser: {},
 				sendOtherNum: 1,
 				sendOtherType: '', // 赠送他人是鲜花还是钻石‘’
-				multipleDelete: true, // 批量删除
+				multipleDelete: false, // 批量删除
 				multipleIds: [],
 			};
 		},
@@ -192,6 +198,21 @@
 			this.loadData()
 		},
 		methods: {
+			showMultipleDelete () {
+				const selfId = this.$app.getData('userInfo').id;
+				if (this.leader_uid == selfId || this.admin == selfId) {
+					this.multipleDelete = true;
+					this.multipleIds = [];
+				}
+			},
+			hideMultipleDelete() {
+				this.multipleDelete = false;
+				this.multipleIds = [];
+			},
+			refresh(){
+				this.page = 1;
+				this.loadData();
+			},
 			// 点击用户头像
 			chooseAll() {
 				if (this.multipleIds.length) {
@@ -199,14 +220,21 @@
 				} else {
 					const ids = [];
 					this.userRank.map(item => {
-						ids.push(item.user_id)
+						const id = parseInt(item.user_id);
+						if (this.leader_uid != id && item.admin != 1) {
+							ids.push(id);
+						}
 					})
 					
 					this.multipleIds = ids;
 				}
 			},
 			chooseItem(e){
-				this.multipleIds = e.detail.value;
+				const ids = [];
+				e.detail.value.map(item => {
+					ids.push(parseInt(item))
+				})
+				this.multipleIds = ids;
 			},
 			tapUser(uid) {
 				if (uid == this.$app.getData('userInfo').id) return
@@ -252,20 +280,43 @@
 					}, 'POST', true)
 				})
 			},
+			removeAll() {
+				if (!this.multipleIds.length) {
+					return this.$app.toast('请选择移出成员');
+				}
+				if (this.multipleIds.length > 100) {
+					return this.$app.toast('最多选择100人');
+				}
+				const user_ids = this.multipleIds
+				this.$app.modal("请出粉丝团，TA们在粉丝团内贡献会清空", () => {
+					this.$app.request(this.$app.API.FANS_REMOVE_ALL, {
+						user_id: this.multipleIds,
+					}, res => {
+						this.$app.toast(`请出成功`)
+						this.refresh();
+					}, 'POST', true)
+				})
+			},
 			exit(uid) {
 				let msg = `退出粉丝团，你在粉丝团内的贡献会清空`
-				if(uid==this.$app.getData('userInfo').id && this.myInfo.hasExited) msg = `你已经退过一次，本次需要花费100钻石`
-				else if(uid!=this.$app.getData('userInfo').id) msg = `请出粉丝团，TA在粉丝团内贡献会清空`
+				const notSelf = uid!=this.$app.getData('userInfo').id;
+				if(notSelf==false && this.myInfo.hasExited) msg = `你已经退过一次，本次需要花费100钻石`
+				else if(notSelf) msg = `请出粉丝团，TA在粉丝团内贡献会清空`
 				this.$app.modal(msg, () => {
 					this.$app.request('fans/exit', {
 						user_id: uid,
 					}, res => {
-						this.$app.toast(`退出成功`)
-						setTimeout(() => {
-							uni.reLaunch({
-								url: '/pages/fans/fans_list'
-							})
-						}, 1000)
+						if (notSelf) {
+							this.$app.toast(`请出成功`)
+							this.refresh();
+						} else {
+							this.$app.toast(`退出成功`)
+							setTimeout(() => {
+								uni.reLaunch({
+									url: '/pages/fans/fans_list'
+								})
+							}, 1000)
+						}
 					}, 'POST', true)
 				})
 
@@ -273,18 +324,12 @@
 			upAdmin(uid,admin){
 				let msg = `确定提升TA为管理员吗？`
 				if(admin==0) msg='确定取消TA的管理员吗？'
-				console.log(uid);
 				this.$app.modal(msg,()=>{
 					this.$app.request('fans/upAdmin',{
 						user_id:uid,
 						admin:admin,
 					},res=>{
 						this.$app.toast(res.msg)
-						setTimeout(() => {
-							uni.reLaunch({
-								url: '/pages/fans/member?fid='+this.fid
-							})
-						}, 1000)
 					},'POST',true)
 				})
 			},
@@ -313,12 +358,12 @@
 					this.myInfo = res.data.my
 					this.leader_uid = res.data.leader_uid
 					this.admin=res.data.admin
-					// if (this.page == 1) {
-					// 	this.userRank = res.data.list
-					// } else {
-					// 	this.userRank = this.userRank.concat(res.data.list,res.data.list)
-					// }
-					this.userRank = this.userRank.concat(res.data.list)
+					if (this.page == 1) {
+						this.userRank = res.data.list
+					} else {
+						this.userRank = this.userRank.concat(res.data.list)
+					}
+					// this.userRank = this.userRank.concat(res.data.list)
 				})
 			},
 		}
@@ -327,10 +372,10 @@
 
 <style lang="scss" scoped>
 	.container {
-		
 		.scroll {
 			white-space: nowrap;
 			width: 100%;
+			height: 150rpx;
 			padding: 20rpx 15rpx;
 			border-bottom: 1rpx solid #eee;
 			.tab-container {
@@ -387,6 +432,7 @@
 			}
 			.right {
 				margin-left: auto;
+				display: flex;
 			}
 		}
 
