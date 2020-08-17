@@ -3,12 +3,12 @@
 		<view class="recharge" style="box-shadow:0 3upx 7upx 0 rgba(0, 0, 0, 0.23);border-radius:30upx;">
 			<view class="content">
 				<view class="header">
-					<view class="bg" style="font-size: 28upx;font-weight: 700;line-height: 28upx;">
+					<view class="bg" style="font-size: 32upx;font-weight: 700;line-height: 28upx;">
 						{{star.name || ''}}
 					</view>
 				</view>
 				<view class="tip flex-set" @tap="goOther(info.go_notice)">
-					<view class="tip-desc">{{info.idol_tip||'邀请新用户助力拉新解锁'}}<text style="color:#FFC000;padding-left: 10rpx;" class="iconfont iconicon-test1"></text></view>
+					<view class="tip-desc">{{info.idol_text.tip||'邀请新用户助力拉新解锁'}}<text style="color:#FFC000;padding-left: 10rpx;" class="iconfont iconicon-test1"></text></view>
 				</view>
 				
 				<!-- 里程碑进度条 -->
@@ -32,7 +32,7 @@
 				<view class="buttom flex-set">
 					<btnComponent type='default'>
 						<view class="btn">
-							圈内当前已成功邀请人数:{{info.idol_sum ? $app.formatNumber(info.idol_sum || 0): 0}}
+							圈内当前已成功邀请人数:<text style="padding-left: 20rpx;">{{info.idol_sum ? $app.formatNumber(info.idol_sum || 0): 0}}</text>
 						</view>
 					</btnComponent>
 				</view>
@@ -44,14 +44,20 @@
 						</button>
 					</btnComponent>
 				</view>
+				<view class="desc idol_desc">
+					<view class="p" v-for="(cv, ck) in info.idol_text.desc" :key="ck">
+						<!-- <text class="c-title">{{cv.title}}:</text> -->
+						<text class="c-desc">{{cv}}</text>
+					</view>
+				</view>
 			</view>
 		</view>
 		
 		<view class="recharge" style="box-shadow:0 3upx 7upx 0 rgba(0, 0, 0, 0.23);border-radius:30upx;">
 			<view class="content">
 				<view class="header">
-					<view class="bg" style="font-size: 28upx;font-weight: 700;line-height: 28upx;" @tap="goOther(info.go_notice)">
-						{{info.my_title || '个人拉新奖励'}}<text style="color:black;padding-left: 10rpx;" class="iconfont iconicon-test1"></text>
+					<view class="bg" style="font-size: 32upx;font-weight: 700;line-height: 28upx;" @tap="goOther(info.go_notice)">
+						{{info.my_text.title || '个人拉新奖励'}}<text style="color:black;padding-left: 10rpx;" class="iconfont iconicon-test1"></text>
 					</view>
 				</view>
 				<view class="right-tip" @tap="goOther('/pages/invite_assist/invite_rec')">
@@ -83,16 +89,18 @@
 								<view class="name">{{item.reward.name}}</view>
 							</view>
 							<view class="reward-btn">
-								<btnComponent :type='item.percent == 100 ? "default": "disable"'>
-									<block v-if="item.percent == 100">
+								<block v-if="item.percent == 100">
+									<btnComponent :type='info.my_day_settle.indexOf(item.value) > -1 ? "disable": "success"'>
 										<view class="btn flex-set" v-if="info.my_day_settle.indexOf(item.value) > -1">
 											已领取
 										</view>
 										<view @tap="inviteSettle(item.value)" v-else class="btn flex-set">
 											领取
 										</view>
-									</block>
-									<button v-else open-type="share" data-sharetype="share">
+									</btnComponent>
+								</block>
+								<btnComponent v-esle type="default">
+									<button open-type="share" :data-share="share_id">
 										<view class="btn flex-set">去邀请</view>
 									</button>
 								</btnComponent>
@@ -104,14 +112,20 @@
 				<view class="buttom my-invite-num" style="">
 					<btnComponent type='default'>
 						<view class="btn">
-							我的今日拉新:{{info.my_day||0}}
+							我的今日拉新:<text style="padding-left: 20rpx;">{{info.my_day||0}}</text>
 						</view>
 					</btnComponent>
 					<btnComponent type='default'>
 						<view class="btn right">
-							我的累计拉新:{{$app.formatNumber(info.my_sum||0)}}
+							我的累计拉新:<text style="padding-left: 20rpx;">{{$app.formatNumber(info.my_sum||0)}}</text>
 						</view>
 					</btnComponent>
+				</view>
+				<view class="desc">
+					<view class="p" v-for="(cv, ck) in info.my_text.desc" :key="ck">
+						<!-- <text class="c-title">{{cv.title}}:</text> -->
+						<text class="c-desc">{{cv}}</text>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -414,12 +428,12 @@
 				.tip {
 					width: 80%;
 					padding-top: 40rpx;
-					margin: 0 auto;
+					margin: 20rpx auto;
 					.tip-desc {
 						padding:0 20rpx;
 						border-radius:19upx;
 						line-height:45upx;
-						font-size:26upx;
+						font-size:30upx;
 						font-weight: 650;
 						color:rgba(120,67,16,1);
 						text-align: center;
@@ -428,17 +442,19 @@
 				.right-tip {
 					position: absolute;
 					transform: translate(-50%,-50%);
-					top: 20rpx;
-					right: -6%;
+					top: 40rpx;
+					right: -5%;
 					.get-btn {
-						font-size: 28rpx;
+						font-size: 30rpx;
 						text-decoration: underline;
 						color: #FBCC3E;
 					}
 				}
+				.idol_desc {
+					padding: 0 0 20rpx!important;
+				}
 				.desc {
-					padding: 40upx;
-					padding-bottom: 20upx;
+					padding:0 40rpx 20upx;
 					font-size: 24upx;
 					color: rgba(0,0,0,0.5);
 					.c-title {
@@ -450,6 +466,7 @@
 					}
 				}
 				.buttom {
+					padding-top: 20rpx;
 					padding-bottom: 30rpx;
 					.btn {
 						display: flex;
@@ -486,7 +503,7 @@
 				}
 				
 				.my-milestone-wrap {
-					padding: 270upx 30upx 10rpx!important;
+					padding: 300rpx 30upx 20rpx!important;
 					.item-box {
 						flex: unset;
 					}
@@ -502,14 +519,6 @@
 						border-radius: 10rpx;
 						.progress-finished {
 							border-radius: 10rpx;
-							// &:first-of-type {
-							// 	border-top-left-radius: 10rpx;
-							// 	border-bottom-left-radius: 10rpx;
-							// }
-							// &:last-of-type {
-							// 	border-top-right-radius: 10rpx;
-							// 	border-bottom-right-radius: 10rpx;
-							// }
 						}
 					}
 				}
@@ -523,17 +532,17 @@
 					.dot {
 						background-color: #d9d6c7;
 						border-radius: 50%;
-						width: 40upx;
-						height: 40upx;
+						width: 60upx;
+						height: 60upx;
 						z-index: 1;
 						position: relative;
 				
 						.name {
 							position: absolute;
-							top: -40upx;
+							top: -60upx;
 							left: 50%;
 							transform: translateX(-50%);
-							font-size: 22upx;
+							font-size: 30rpx;
 							white-space: nowrap;
 							color: #FFC000;
 							font-weight: 500;
@@ -591,8 +600,8 @@
 							top: -120rpx;
 							.reward-btn {
 								.btn {
-									padding: 5rpx;
-									font-size: 24rpx;
+									padding: 10rpx;
+									// font-size: 24rpx;
 								}
 							}
 							.reward-item {
