@@ -1,10 +1,19 @@
 <template>
 	<view class="container">
-		<view class='tab-container'>
-			<view class="tab-item" :class="{active:rankField == 'week_count'}" @tap="changeField('week_count')">打榜</view>
-			<view class="tab-item" :class="{active:rankField == 'week_hot'}" @tap="changeField('week_hot')">集结</view>
-			<view class="tab-item" :class="{active:rankField == 'weekmem_count'}" @tap="changeField('weekmem_count')">拉新</view>
-			<view class="tab-item" :class="{active:rankField == 'weekbox_count'}" @tap="changeField('weekbox_count')">宝箱</view>
+		<view>
+			<scroll-view scroll-x="true" class="scroll">
+				<view class='tab-container'>
+					<view class="tab-item" :class="{active:rankField == 'week_count'}" @tap="changeField('week_count')">打榜</view>
+					<view class="tab-item" :class="{active:rankField == 'week_hot'}" @tap="changeField('week_hot')">集结</view>
+					<view class="tab-item" :class="{active:rankField == 'weekmem_count'}" @tap="changeField('weekmem_count')">拉新</view>
+					<view class="tab-item" :class="{active:rankField == 'weekbox_count'}" @tap="changeField('weekbox_count')">宝箱</view>
+					<view class="tab-item" 
+						:class="{active:rankField == 'less_count'}" 
+						@tap="changeField('less_count')"
+						v-if="leader_uid==$app.getData('userInfo').id || admin == $app.getData('userInfo').id"
+					>不活跃</view>
+				</view>
+			</scroll-view>
 		</view>
 		
 		<view class="search-wrap">
@@ -13,39 +22,67 @@
 				<view class="flex-set" style="padding: 10upx 40upx;" @tap="loadData()">搜索</view>
 			</btnComponent>
 		</view>
+		
+		<view class="delete-wrap" v-if="multipleDelete">
+			<view class="left">
+				<btnComponent type="default">
+					<view class="flex-set" style="padding: 10upx 20upx;" @tap="chooseAll">全选</view>
+				</btnComponent>
+				<view class="chooseNum flex-set">已选({{multipleIds.length}}/100)</view>
+			</view>
+			<view class="right">
+				<btnComponent type="default" style="margin-right: 20rpx;">
+					<view class="flex-set" style="padding: 10upx 20upx;" @tap="hideMultipleDelete">取消</view>
+				</btnComponent>
+				<btnComponent type="default">
+					<view class="flex-set" style="padding: 10upx 20upx;" @tap="removeAll">全部移出</view>
+				</btnComponent>
+			</view>
+		</view>
+		
 		<!-- 列表 -->
 		<view class="list-container">
-			<view class="item" v-for="(item,index) in userRank" :key="index">
-				<view class="rank-num">
-					<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERPO5dPoLHgkajBHNM2z9fooSUMLxB0ogg1mYllIAOuoanico1icDFfYFA/0"
-					 mode=""></image>
-					<image class="icon" v-else-if="index==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERcWnBrw6yAIeVRx4ibIfShZ3tn26ubDUiakNcrwf2F43JI97MYEaYiaib9A/0"
-					 mode=""></image>
-					<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTER7oibKWZCN5ThjI799sONJZAtZmRRTIQmo1R9j26goVMBJ43giaJHLIlA/0"
-					 mode=""></image>
-					<view v-else>{{index+1}}</view>
-				</view>
-				<view class='avatar-wrap' @tap="tapUser(item.user_id)">
-					<image class="avatar" :src="item.avatarurl||$app.getData('AVATAR')" mode="aspectFill"></image>
-					<image class="headwear position-set" :src="item.headwear" mode=""></image>
-					<view class="badge-wrap">
-						<view class="leader" v-if="item.user_id==leader_uid">团长</view>
-						<view class="leader" v-if="item.admin">管理员</view>
+			<checkbox-group @change="chooseItem">
+				<view class="item" v-for="(item,index) in userRank" :key="index" @longpress="showMultipleDelete">
+					<view class="rank-num">
+						<block v-if="!multipleDelete">
+							<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERPO5dPoLHgkajBHNM2z9fooSUMLxB0ogg1mYllIAOuoanico1icDFfYFA/0"
+							 mode=""></image>
+							<image class="icon" v-else-if="index==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERcWnBrw6yAIeVRx4ibIfShZ3tn26ubDUiakNcrwf2F43JI97MYEaYiaib9A/0"
+							 mode=""></image>
+							<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTER7oibKWZCN5ThjI799sONJZAtZmRRTIQmo1R9j26goVMBJ43giaJHLIlA/0"
+							 mode=""></image>
+							<view v-else>{{index+1}}</view>
+						</block>
+						
+						<checkbox 
+							v-if="multipleDelete&&!item.admin&&item.user_id!=leader_uid" 
+							:checked="multipleIds.length&&multipleIds.indexOf(parseInt(item.user_id)) >= 0" 
+							:value="parseInt(item.user_id)" 
+						/>
 					</view>
-				</view>
-				<view class="text-container">
-					<view class="star-name text-overflow">
-						{{item.nickname||$app.getData('NICKNAME')}}
-						<image class="img-s" :src="`/static/image/user_level/lv${item.level}.png`" mode=""></image><text v-if="item.admin==1" class="exit iconfont iconicon_signal" style="color: red;"></text>
+					<view class='avatar-wrap' @tap="tapUser(item.user_id)">
+						<image class="avatar" :src="item.avatarurl||$app.getData('AVATAR')" mode="aspectFill"></image>
+						<image class="headwear position-set" :src="item.headwear" mode=""></image>
+						<view class="badge-wrap">
+							<view class="leader" v-if="item.user_id==leader_uid">团长</view>
+							<view class="leader" v-if="item.admin">管理员</view>
+						</view>
 					</view>
-					<view class="count-box">
-						<view class="count">本周{{rankFieldDanwei}} {{item.hot}} 上周{{rankFieldDanwei}} {{item.lastweek_hot}}</view>
+					<view class="text-container">
+						<view class="star-name text-overflow">
+							{{item.nickname||$app.getData('NICKNAME')}}
+							<image class="img-s" :src="`/static/image/user_level/lv${item.level}.png`" mode=""></image><text v-if="item.admin==1" class="exit iconfont iconicon_signal" style="color: red;"></text>
+						</view>
+						<view class="count-box">
+							<view class="count">本周{{rankFieldDanwei}} {{item.hot}} 上周{{rankFieldDanwei}} {{item.lastweek_hot}}</view>
+						</view>
 					</view>
+					<view class="exit iconfont iconicon_signal" style="padding-right: 20rpx;" @tap="upAdmin(item.user_id,1)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==0&&leader_uid!=item.user_id"></view>
+					<view class="exit iconfont iconicon_signal" style="color: red; padding-right: 20rpx;" @tap="upAdmin(item.user_id,0)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==1&&leader_uid!=item.user_id"></view>
+					<view class="exit iconfont iconclose" @tap="exit(item.user_id)" v-if="(leader_uid==$app.getData('userInfo').id && leader_uid!=item.user_id)||($app.getData('userInfo').id==item.user_id)||(admin && leader_uid!=item.user_id)"></view>
 				</view>
-				<view class="exit iconfont iconicon_signal" style="padding-right: 20rpx;" @tap="upAdmin(item.user_id,1)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==0&&leader_uid!=item.user_id"></view>
-				<view class="exit iconfont iconicon_signal" style="color: red; padding-right: 20rpx;" @tap="upAdmin(item.user_id,0)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==1&&leader_uid!=item.user_id"></view>
-				<view class="exit iconfont iconclose" @tap="exit(item.user_id)" v-if="(leader_uid==$app.getData('userInfo').id && leader_uid!=item.user_id)||($app.getData('userInfo').id==item.user_id)||(admin && leader_uid!=item.user_id)"></view>
-			</view>
+			</checkbox-group>
 		</view>
 		<!-- 我的 -->
 		<view class="my-container">
@@ -148,6 +185,8 @@
 				currentUser: {},
 				sendOtherNum: 1,
 				sendOtherType: '', // 赠送他人是鲜花还是钻石‘’
+				multipleDelete: false, // 批量删除
+				multipleIds: [],
 			};
 		},
 		onLoad(option) {
@@ -159,7 +198,44 @@
 			this.loadData()
 		},
 		methods: {
+			showMultipleDelete () {
+				const selfId = this.$app.getData('userInfo').id;
+				if (this.leader_uid == selfId || this.admin == selfId) {
+					this.multipleDelete = true;
+					this.multipleIds = [];
+				}
+			},
+			hideMultipleDelete() {
+				this.multipleDelete = false;
+				this.multipleIds = [];
+			},
+			refresh(){
+				this.page = 1;
+				this.loadData();
+			},
 			// 点击用户头像
+			chooseAll() {
+				if (this.multipleIds.length) {
+					this.multipleIds = [];
+				} else {
+					const ids = [];
+					this.userRank.map(item => {
+						const id = parseInt(item.user_id);
+						if (this.leader_uid != id && item.admin != 1) {
+							ids.push(id);
+						}
+					})
+					
+					this.multipleIds = ids;
+				}
+			},
+			chooseItem(e){
+				const ids = [];
+				e.detail.value.map(item => {
+					ids.push(parseInt(item))
+				})
+				this.multipleIds = ids;
+			},
 			tapUser(uid) {
 				if (uid == this.$app.getData('userInfo').id) return
 				this.currentUser = {}
@@ -204,20 +280,43 @@
 					}, 'POST', true)
 				})
 			},
+			removeAll() {
+				if (!this.multipleIds.length) {
+					return this.$app.toast('请选择移出成员');
+				}
+				if (this.multipleIds.length > 100) {
+					return this.$app.toast('最多选择100人');
+				}
+				const user_ids = this.multipleIds
+				this.$app.modal("请出粉丝团，TA们在粉丝团内贡献会清空", () => {
+					this.$app.request(this.$app.API.FANS_REMOVE_ALL, {
+						user_id: this.multipleIds,
+					}, res => {
+						this.$app.toast(`请出成功`)
+						this.refresh();
+					}, 'POST', true)
+				})
+			},
 			exit(uid) {
 				let msg = `退出粉丝团，你在粉丝团内的贡献会清空`
-				if(uid==this.$app.getData('userInfo').id && this.myInfo.hasExited) msg = `你已经退过一次，本次需要花费100钻石`
-				else if(uid!=this.$app.getData('userInfo').id) msg = `请出粉丝团，TA在粉丝团内贡献会清空`
+				const notSelf = uid!=this.$app.getData('userInfo').id;
+				if(notSelf==false && this.myInfo.hasExited) msg = `你已经退过一次，本次需要花费100钻石`
+				else if(notSelf) msg = `请出粉丝团，TA在粉丝团内贡献会清空`
 				this.$app.modal(msg, () => {
 					this.$app.request('fans/exit', {
 						user_id: uid,
 					}, res => {
-						this.$app.toast(`退出成功`)
-						setTimeout(() => {
-							uni.reLaunch({
-								url: '/pages/fans/fans_list'
-							})
-						}, 1000)
+						if (notSelf) {
+							this.$app.toast(`请出成功`)
+							this.refresh();
+						} else {
+							this.$app.toast(`退出成功`)
+							setTimeout(() => {
+								uni.reLaunch({
+									url: '/pages/fans/fans_list'
+								})
+							}, 1000)
+						}
 					}, 'POST', true)
 				})
 
@@ -225,18 +324,12 @@
 			upAdmin(uid,admin){
 				let msg = `确定提升TA为管理员吗？`
 				if(admin==0) msg='确定取消TA的管理员吗？'
-				console.log(uid);
 				this.$app.modal(msg,()=>{
 					this.$app.request('fans/upAdmin',{
 						user_id:uid,
 						admin:admin,
 					},res=>{
 						this.$app.toast(res.msg)
-						setTimeout(() => {
-							uni.reLaunch({
-								url: '/pages/fans/member?fid='+this.fid
-							})
-						}, 1000)
 					},'POST',true)
 				})
 			},
@@ -250,6 +343,7 @@
 				else if(field=='week_hot') this.rankFieldDanwei = '热度'
 				else if(field=='weekmem_count') this.rankFieldDanwei = '净拉新'
 				else if(field=='weekbox_count') this.rankFieldDanwei = '派宝箱'
+				else if(field=='less_count') this.rankFieldDanwei = '人气'
 				this.rankField = field
 				this.keyword = ''
 				this.loadData()
@@ -269,6 +363,7 @@
 					} else {
 						this.userRank = this.userRank.concat(res.data.list)
 					}
+					// this.userRank = this.userRank.concat(res.data.list)
 				})
 			},
 		}
@@ -277,30 +372,34 @@
 
 <style lang="scss" scoped>
 	.container {
-
-		.tab-container {
-			padding: 25upx;
-			display: flex;
-			align-items: center;
-			justify-content: space-around;
-			border-bottom: 1upx solid #eee;
-
-			.tab-item {
-				border-radius: 32upx;
-				padding: 10upx 30upx;
-				justify-content: center;
+		.scroll {
+			white-space: nowrap;
+			width: 100%;
+			height: 150rpx;
+			padding: 20rpx 15rpx;
+			border-bottom: 1rpx solid #eee;
+			.tab-container {
+				padding: 25upx;
 				display: flex;
-				font-size: 30upx;
-				margin: 0 20upx;
-				flex: 1;
-				color: #FF7E00;
-				border: 1upx solid #FFEAC9;
-			}
+				align-items: center;
 
-			.tab-item.active {
-				background-color: #FFEAC9;
-				text-align: center;
-				color: #FF9B2E;
+				.tab-item {
+					border-radius: 32upx;
+					padding: 10upx 30upx;
+					justify-content: center;
+					display: flex;
+					font-size: 30upx;
+					margin: 0 20upx;
+					flex: 1;
+					color: #FF7E00;
+					border: 1upx solid #FFEAC9;
+				}
+
+				.tab-item.active {
+					background-color: #FFEAC9;
+					text-align: center;
+					color: #FF9B2E;
+				}
 			}
 		}
 
@@ -320,6 +419,20 @@
 
 			.input-text {
 				color: #999;
+			}
+		}
+		.delete-wrap {
+			display: flex;
+			margin: 20rpx 40rpx;
+			.left {
+				display: flex;
+				.chooseNum {
+					margin-left: 20rpx;
+				}
+			}
+			.right {
+				margin-left: auto;
+				display: flex;
 			}
 		}
 
