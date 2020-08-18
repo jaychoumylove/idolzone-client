@@ -294,7 +294,19 @@
 				primary_tree1_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45ibdoeICBZgic5qIAmx5VTA9amISbmU2KIrFaaVd4EIgnmQ7h4HL8uXMg/0',
 				primary_tree2_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Gicuwj2icibianoEKQBGibZIic45NwbKYxUZT69EbL1ic7EU8JF6Y184rhuzuKLCibHKyzOouqa74DX834YA/0',
 
-				fake_img_list: [
+				fake_img_list: []
+			};
+		},
+		onShareAppMessage(e) {
+			const shareid = e.target && e.target.dataset.shareid
+			return this.$app.commonShareAppMessage(shareid)
+		},
+		// 优化加载速度
+		onLoad() {
+			if (this.$app.getData('config').version != this.$app.getData('VERSION')) {
+				this.initInterval()
+			} else {
+				this.fake_img_list = [
 					'https://mmbiz.qpic.cn/mmbiz_jpg/h9gCibVJa7JXQSQ5JNT2D5fkAQbsuHm3RgG4QgEIkrqPiaPtbjLBZbd140WcOhjV6DOWsvuVA5jvYvMo4stkTOpw/0',
 					'https://mmbiz.qpic.cn/mmbiz_png/aENwJia6J8bwOQTEOR3BKkMRZKLN02iaQGSajnKyQLIr1SFwtZQ26SDcYKypk3s29De7fO5eHE2d4xc4X9Jvc0rA/0',
 					'https://mmbiz.qpic.cn/mmbiz_jpg/h9gCibVJa7JWCXSz2fQSXB7L8eSZoDMBtq5g1bNkmsvOFuI7LhMjyIPO5vGdmWKputVhTVcsgYDXFvrcVPtoDpg/0',
@@ -308,19 +320,14 @@
 					'https://mmbiz.qpic.cn/mmbiz_jpg/aENwJia6J8bwOQTEOR3BKkMRZKLN02iaQGEp4NCYebjaUVicgR55n1xiacKyxNmhibO0m5OIiaG2OibHyW0G9J65GPjYg/0',
 					'https://mmbiz.qpic.cn/mmbiz_png/aENwJia6J8bwOQTEOR3BKkMRZKLN02iaQGgnQ6lMrIqznFiaPb4eM0mxXq6ib5BKKaW9y5dt81WC2QFxYutA4Zys5A/0',
 					'https://mmbiz.qpic.cn/mmbiz_png/aENwJia6J8bwOQTEOR3BKkMRZKLN02iaQGia3U28SXuiaucxZGiaq1MNYpJOdW8QtOSXauLic2ATrflqGfObXnhbCSSA/0',
-				]
-			};
-		},
-		onShareAppMessage(e) {
-			const shareid = e.target && e.target.dataset.shareid
-			return this.$app.commonShareAppMessage(shareid)
-		},
-		onLoad() {
-			this.initInterval()
+				];
+			}
 		},
 		onShow() {
-			this.getSpriteInfo()
-			this.userCurrency = this.$app.getData('userCurrency')
+			if (this.$app.getData('config').version != this.$app.getData('VERSION')) {
+				this.getSpriteInfo()
+				this.userCurrency = this.$app.getData('userCurrency')
+			}
 		},
 		methods: {
 			goPage(url) {
