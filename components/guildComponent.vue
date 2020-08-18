@@ -441,7 +441,7 @@
 							</button>
 						</btnComponent>
 					</view>
-					<view class="bottom">被邀请人任意加入一个粉丝圈即可领取奖励</view>
+					<view class="bottom">被邀请人任意加入一个粉丝团即可领取奖励</view>
 				</view>
 				<scroll-view scroll-y class="list-wrapper" @scrolltolower="invitFakePage++;getFakeInviteList();" v-if="fakeinvitList.length>0">
 					<view class="item" v-for="(item,index) in fakeinvitList" :key="index" v-if="hasEarnCount+index+1<=300">
@@ -878,7 +878,7 @@
 		</modalSpecialComponent>
 		
 		<!-- 领取成功 -->
-		<modalComponent v-if="modal == 'getHear'" type="center" title="提示" @closeModal="modal=''">
+		<modalComponent v-if="modal == 'getWeadHear'" type="center" title="提示" @closeModal="modal=''">
 			<view class="get-hear-container">
 				<view class="title">领取成功</view>
 				<image class="bg" :src="getHearItem.img"
@@ -1358,7 +1358,6 @@
 			},
 			// 点击聊天室用户头像
 			tapUser(uid) {
-				return this.modal = 'getHear';
 				if (uid == this.$app.getData('userInfo').id) return
 				this.currentUser = {}
 				this.modal = 'userInfo'
@@ -1656,7 +1655,7 @@
 					if (cid == 6) {
 						this.getHearItem = Object.assign(this.signGift_list[index], res.data);
 						setTimeout(() => {
-							this.modal = 'getHear';
+							this.modal = 'getWeadHear';
 						}, 200);
 					} else {
 						this.$app.toast('领取成功', 'success')

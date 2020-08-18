@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view class="swiper-container">
-			<image class='img' :src="welfare.welfare.extra.banner" mode="aspectFill"></image>
+			<image class='img' :src="banner||''" mode="aspectFill"></image>
 			<view class="small" v-if="left_time.full >= 0">
 				距离结束还剩：
 				<block v-if="left_time.d">
@@ -28,13 +28,13 @@
 					</view>
 				</view>
 				<view class="tip flex-set">
-					<view class="tip-desc">{{welfare.welfare.title || ''}}</view>
+					<view class="tip-desc">{{welfare.title || ''}}</view>
 				</view>
 				
 				<!-- 里程碑进度条 -->
 				<view class="milestone-wrap">
 					<view class="dot finished"></view>
-					<view class="item-box" v-for="(item,index) in welfare.welfare.extra.progress" :key="index">
+					<view class="item-box" v-for="(item,index) in (progress)" :key="index">
 						<view class="progress">
 							<view class="progress-finished" :style="{width: item.percent+'%'}"></view>
 						</view>
@@ -50,7 +50,7 @@
 				<view class="buttom flex-set">
 					<btnComponent type='default'>
 						<view class="btn">
-							圈内当前已使用钻石:{{welfare.star ? $app.formatNumber(welfare.star.count): 0}}
+							圈内当前已使用钻石:{{welfare_star ? $app.formatNumber(welfare_star.count || 0): 0}}
 							<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
 							 mode="aspectFill"></image>
 						</view>
@@ -59,7 +59,7 @@
 				
 				<view class="tr-affix">
 					<btnComponent type='unset'>
-						<button class="btn" open-type="share" :data-share="welfare.welfare.extra.share_id">
+						<button class="btn" open-type="share" :data-share="share_id">
 							<view class="share-bg"></view>
 						</button>
 					</btnComponent>
@@ -71,11 +71,11 @@
 			<view class="content">
 				<view class="header">
 					<view class="bg">
-						{{welfare.welfare.notice.title || ''}}
+						{{notice.title || ''}}
 					</view>
 				</view>
 				<view class="desc">
-					<view class="p" v-for="(cv, ck) in welfare.welfare.notice.content" :key="ck">
+					<view class="p" v-for="(cv, ck) in notice.content" :key="ck">
 						<text class="c-title">{{cv.title}}:</text>
 						<text class="c-desc">{{cv.desc}}</text>
 					</view>
@@ -132,7 +132,11 @@
 					s: 0,
 				},
 				left_timer: undefined,
-				welfare: {}
+				welfare: {},
+				banner:"",
+				progress: [],
+				welfare_star:{},
+				notice: {},
 			};
 		},
 		onShow() {
@@ -180,6 +184,10 @@
 			getWelfare() {
 				this.$app.request(this.$app.API.WELFARE_INFO, {type: this.type}, res => {
 					this.welfare = res.data;
+					this.banner = res.data.welfare.extra.banner;
+					this.notice = res.data.welfare.notice;
+					this.welfare_star = res.data.star;
+					this.progress = res.data.welfare.extra.progress;
 					this.setTimer(res.data.welfare.end)
 				})
 			},
