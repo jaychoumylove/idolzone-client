@@ -10,7 +10,7 @@
 					<view class="tab-item" 
 						:class="{active:rankField == 'less_count'}" 
 						@tap="changeField('less_count')"
-						v-if="leader_uid==$app.getData('userInfo').id || admin == $app.getData('userInfo').id"
+						v-if="leader_uid==$app.getData('userInfo').id || admin"
 					>不活跃</view>
 				</view>
 			</scroll-view>
@@ -175,7 +175,7 @@
 				userRank: [],
 				page: 1,
 				leader_uid: 0,
-				admin:'',
+				admin:false,
 				myInfo: {},
 				AVATAR:this.$app.getData('AVATAR'),
 				NICKNAME: this.$app.getData('NICKNAME'),
@@ -200,7 +200,7 @@
 		methods: {
 			showMultipleDelete () {
 				const selfId = this.$app.getData('userInfo').id;
-				if (this.leader_uid == selfId || this.admin == selfId) {
+				if (this.leader_uid == selfId || this.admin) {
 					this.multipleDelete = true;
 					this.multipleIds = [];
 				}
@@ -281,19 +281,24 @@
 				})
 			},
 			removeAll() {
+				const selfId = this.$app.getData('userInfo').id;
+				if (this.leader_uid != selfId && this.admin == false) {
+					return this.$app.toast('权限不够');
+				}
 				if (!this.multipleIds.length) {
 					return this.$app.toast('请选择移出成员');
 				}
 				if (this.multipleIds.length > 100) {
 					return this.$app.toast('最多选择100人');
 				}
-				const user_ids = this.multipleIds
+				const userIds = this.multipleIds.join(',');
 				this.$app.modal("请出粉丝团，TA们在粉丝团内贡献会清空", () => {
 					this.$app.request(this.$app.API.FANS_REMOVE_ALL, {
-						user_id: this.multipleIds,
+						user_id: userIds,
 					}, res => {
-						this.$app.toast(`请出成功`)
+						this.hideMultipleDelete();
 						this.refresh();
+						this.$app.toast(`请出成功`);
 					}, 'POST', true)
 				})
 			},
