@@ -154,6 +154,23 @@
 			</view>
 		</modalComponent>
 		
+		<modalComponent v-if="modal == 'removeAll'" type="center" title="提示" @closeModal="removeAllCancel">
+			<view class="confirm-modal-container flex-set">
+				<view class="title flex-set">请出粉丝团</view>
+				<view class="desc flex-set">请出粉丝团，TA们在粉丝团内贡献会清空</view>
+				<view class="input">
+					<input type="number" @input="setConfirmId" placeholder="请输入你的ID" />
+				</view>
+				<view class="btn">
+					<btnComponent type="" style="margin-right: 100upx;">
+						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="removeAllCancel">取消</view>
+					</btnComponent>
+					<btnComponent type="default">
+						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="removeAllConfirm">确认</view>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent>
 	</view>
 	
 </template>
@@ -187,6 +204,7 @@
 				sendOtherType: '', // 赠送他人是鲜花还是钻石‘’
 				multipleDelete: false, // 批量删除
 				multipleIds: [],
+				removeConfirmId: 0,
 			};
 		},
 		onLoad(option) {
@@ -281,26 +299,54 @@
 				})
 			},
 			removeAll() {
+				const status = this.checkRemoveAll();
+				if (true != status) {
+					return this.$app.toast(status);
+				}
+				this.modal = "removeAll";
+			},
+			setConfirmId(e) {
+				this.removeConfirmId = e.target.value;
+			},
+			checkRemoveAll () {
 				const selfId = this.$app.getData('userInfo').id;
 				if (this.leader_uid != selfId && this.admin == false) {
-					return this.$app.toast('权限不够');
+					return '权限不够';
 				}
 				if (!this.multipleIds.length) {
-					return this.$app.toast('请选择移出成员');
+					return '请选择移出成员';
 				}
 				if (this.multipleIds.length > 100) {
-					return this.$app.toast('最多选择100人');
+					return '最多选择100人';
+				}
+				return true;
+			},
+			removeAllConfirm() {
+				const status = this.checkRemoveAll();
+				if (true != status) {
+					return this.$app.toast(status);
+				}
+				const selfId = this.$app.getData('userInfo').id;
+				if (parseInt(selfId*1234) != parseInt(this.removeConfirmId)) {
+					return this.$app.toast('ID错误');
 				}
 				const userIds = this.multipleIds.join(',');
-				this.$app.modal("请出粉丝团，TA们在粉丝团内贡献会清空", () => {
-					this.$app.request(this.$app.API.FANS_REMOVE_ALL, {
-						user_id: userIds,
-					}, res => {
-						this.hideMultipleDelete();
-						this.refresh();
-						this.$app.toast(`请出成功`);
-					}, 'POST', true)
+				uni.showLoading({
+					mask:true,
+					title:"正在请出...",
 				})
+				this.$app.request(this.$app.API.FANS_REMOVE_ALL, {
+					user_id: userIds,
+				}, res => {
+					this.refresh();
+					this.hideMultipleDelete();
+					this.removeAllCancel();
+					this.$app.toast(`请出成功`);
+				}, 'POST', true)
+			},
+			removeAllCancel() {
+				this.modal = '';
+				this.removeConfirmId = 0;
 			},
 			exit(uid) {
 				let msg = `退出粉丝团，你在粉丝团内的贡献会清空`
@@ -710,6 +756,54 @@
 					top: 50%;
 					transform: translateY(-50%);
 				}
+			}
+		}
+	
+		.confirm-modal-container {
+			height: 100%;
+			padding: 30upx;
+			flex-direction: column;
+			justify-content: center;
+			color: #333;
+			margin-top: -40upx;
+			.title {
+				margin-bottom: 40upx;
+				font-size: 36rpx;
+				font-weight: 600;
+			}
+			
+			.input {
+				margin: 40upx 0;
+			}
+		
+			.buttom {
+				margin: 30upx;
+				width: 100%;
+				display: flex;
+				justify-content: flex-start;
+				.left {
+					// width: 200upx
+				}
+				.right {
+					margin-left: auto;
+					border-bottom:1px solid red
+				}
+			}
+			.btn {
+				margin: 0 auto;
+				display: flex;
+				justify-content: space-around;
+				flex-direction: row;
+			}
+		
+			input {
+				margin: 10upx 0;
+				background-color: #eee;
+				border-radius: 60upx;
+				height: 70upx;
+				padding: 0 20upx;
+				color: #333;
+				text-align: center;
 			}
 		}
 	}
