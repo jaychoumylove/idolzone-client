@@ -194,6 +194,7 @@
 					join_people: 0,
 					left_time: '0天0小时0分',
 					my_card_days: 0,
+					self: {},
 				},
 				userRank: [],
 				modal: '',

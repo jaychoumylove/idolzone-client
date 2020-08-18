@@ -113,7 +113,7 @@
 				remainTime: 0,
 				modal: '',
 				blockUserCount: 6, // 补位数
-				fanclub: null,
+				fanclub: {},
 				totalCount: 0,
 				noticeId: 0,
 				status: 0, // 0 加入了该粉丝团 2 没有加入圈子
