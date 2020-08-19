@@ -156,8 +156,8 @@
 		
 		<modalComponent v-if="modal == 'removeAll'" type="center center-top" title="提示" @closeModal="removeAllCancel">
 			<view class="confirm-modal-container flex-set">
-				<view class="title flex-set">请出粉丝团</view>
-				<view class="desc flex-set">请出粉丝团，TA们在粉丝团内贡献会清空</view>
+				<view class="title flex-set">踢出粉丝团</view>
+				<view class="desc flex-set">踢出粉丝团，TA们在粉丝团内贡献会清空</view>
 				<view class="input">
 					<input type="number" @input="setConfirmId" placeholder="请输入你的ID" />
 				</view>
