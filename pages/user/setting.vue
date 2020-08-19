@@ -24,9 +24,6 @@
 			<view class="right-wrap iconfont iconjiantou"></view>
 		</view>
 		<!-- #endif -->
-		<!-- <prompt v-if="modal=='exit'" title="退圈后等级、贡献、粉丝团、徽章(圈子相关数据)将清零。再次退圈需要90天之后才能操作" placeholder="输入你的ID确认退圈" @confirm="exitGroup"
-		 @closeModal="modal=''">
-		</prompt> -->
 		
 		<modalComponent v-if="modal == 'exit'" type="center center-top" title="提示" @closeModal="modal=''">
 			<view class="confirm-modal-container flex-set">
@@ -48,45 +45,22 @@
 		
 		<modalComponent v-if="modal == 'neverQuitOnce'" type="center center-top" title="提示" @closeModal="cancelNever">
 			<view class="confirm-modal-container flex-set">
-				<view class="title flex-set" v-if="!commitOnce">永不退圈</view>
-				<view class="title flex-set" v-if="commitOnce">确认永不退圈</view>
-				<view class="desc flex-set" v-if="!commitOnce">操作后,您再也无法退出当前圈子</view>
-				<view class="desc flex-set" v-if="commitOnce">确认操作后,您再也无法退出当前圈子</view>
+				<view class="title flex-set">{{commitOnce ? '确认': ''}}永不退圈</view>
+				<view class="desc flex-set">{{commitOnce ? '确认': ''}}操作后,您再也无法退出当前圈子</view>
 				<view class="input">
 					<input type="number" v-if="!commitOnce" @input="setNeverOnce" placeholder="请输入你的ID" />
-					<input type="number" v-if="commitOnce" @input="setNeverAgain" placeholder="再次请输入你的ID" />
-				</view>
-				<view class="btn">
-					<btnComponent type="" style="margin-right: 100upx;">
-						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="cancelNever">取消</view>
-					</btnComponent>
-					<btnComponent type="default"  v-if="!commitOnce">
-						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="nerverAgain">确认</view>
-					</btnComponent>
-					<btnComponent type="default"  v-if="commitOnce">
-						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="nerverQuit">确认</view>
-					</btnComponent>
-				</view>
-			</view>
-		</modalComponent>
-		
-		<!-- <modalComponent v-if="modal == 'neverQuitAgain'" type="center" title="提示" @closeModal="cancelNever">
-			<view class="confirm-modal-container flex-set">
-				<view class="title flex-set">永不退圈</view>
-				<view class="desc flex-set">确认操作后,您再也无法退出当前圈子</view>
-				<view class="input">
-					<input type="number" @input="setNeverAgain" placeholder="再次请输入你的ID" />
+					<input type="number" v-if="commitOnce" @input="setNeverAgain" placeholder="请再次输入你的ID" />
 				</view>
 				<view class="btn">
 					<btnComponent type="" style="margin-right: 100upx;">
 						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="cancelNever">取消</view>
 					</btnComponent>
 					<btnComponent type="default">
-						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="nerverQuit">确认</view>
+						<view class="flex-set btn-unlock" style="width: 140upx;height: 60upx;" @tap="commitOnce ? nerverQuit():nerverAgain()">确认</view>
 					</btnComponent>
 				</view>
 			</view>
-		</modalComponent> -->
+		</modalComponent>
 	</view>
 </template>
 
@@ -137,6 +111,13 @@
 				this.modal = '';
 				this.neverOnceVal = '';
 				this.neverAgainVal = '';
+			},
+			setNever (e) {
+				if (this.commitOnce) {
+					this.neverAgainVal = e.target.value;
+				} else {
+					this.neverOnceVal = e.target.value;
+				}
 			},
 			setNeverOnce(e) {
 				this.neverOnceVal = e.target.value;
