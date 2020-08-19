@@ -218,8 +218,8 @@
 			<view class="chart-item" v-for="(item,index) in chartList" :key="index">
 				<view class="left-wrap">
 					<view class="avatar-wrap" :class="{leader:item.user.isLeader}" @tap="tapUser(item.user.id)">
-						<image class="avatar" :src="item.user.avatarurl || $app.getData('AVATAR')" mode="aspectFill"></image>
-						<image v-if="item.user.headwear" class="headwear position-set" :src="item.user.headwear.img" mode="aspectFill"></image>
+						<image lazy-load="true" class="avatar" :src="item.user.avatarurl || $app.getData('AVATAR')" mode="aspectFill"></image>
+						<image lazy-load="true" v-if="item.user.headwear" class="headwear position-set" :src="item.user.headwear.img" mode="aspectFill"></image>
 					</view>
 
 					<view class="center-wrap">
@@ -235,11 +235,11 @@
 							<view v-else-if="item.user.userBadge.length==8" class="nickname_lenght8 text-overflow">{{item.user.nickname||$app.getData('NICKNAME')}}</view>
 							<view class="badge-wrap flex-set">
 								<view class="captain" v-if="item.user.user_star && item.user.user_star.captain">
-									<image class="img-s" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9ENOOBmxXTF9huYYxQSQ5K6BCW8AZyc2DE39VjH2j5KoEKjPiaPbFT2NesdMAmh7xuNfwOK8AOChtQ/0"
+									<image lazy-load="true" class="img-s" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9ENOOBmxXTF9huYYxQSQ5K6BCW8AZyc2DE39VjH2j5KoEKjPiaPbFT2NesdMAmh7xuNfwOK8AOChtQ/0"
 									 mode=""></image>
 								</view>
 								<view class="user-level-wrap">
-									<image class="img" :src="'/static/image/user_level/lv'+item.user.level+'.png'" mode="widthFix"></image>
+									<image lazy-load="true" class="img" :src="'/static/image/user_level/lv'+item.user.level+'.png'" mode="widthFix"></image>
 									<view class="user-level-text" v-if="item.user.level>=1&&item.user.level<=1" :class="['level'+item.user.level]">实习粉</view>
 									<view class="user-level-text" v-if="item.user.level>=2&&item.user.level<=2" :class="['level'+item.user.level]">助理粉</view>
 									<view class="user-level-text" v-if="item.user.level>=3&&item.user.level<=5" :class="['level'+item.user.level]">初级粉</view>
@@ -253,7 +253,7 @@
 								</view>
 								<view class="user-badge">
 									<block v-for="(badge, badgeIndex) in item.user.userBadge" :key="badgeIndex">
-										<image class="badge-item" v-if="badge.simg" :src="badge.simg"></image>
+										<image lazy-load="true" class="badge-item" v-if="badge.simg" :src="badge.simg"></image>
 									</block>
 								</view>
 							</view>
@@ -2724,7 +2724,7 @@
 							background-color: #f6f6f6;
 							padding: 10upx 20upx;
 							font-size: 30upx;
-
+							display: inline-block;
 							.angle {
 								position: absolute;
 								width: 16upx;
