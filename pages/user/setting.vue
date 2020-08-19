@@ -28,7 +28,7 @@
 		 @closeModal="modal=''">
 		</prompt> -->
 		
-		<modalComponent v-if="modal == 'exit'" type="center" title="提示" @closeModal="modal=''">
+		<modalComponent v-if="modal == 'exit'" type="center center-top" title="提示" @closeModal="modal=''">
 			<view class="confirm-modal-container flex-set">
 				<view class="title flex-set">退圈</view>
 				<view class="desc flex-set">退圈后等级、贡献、粉丝团、徽章(圈子相关数据)将清零。再次退圈需要90天之后才能操作</view>
@@ -46,7 +46,7 @@
 			</view>
 		</modalComponent>
 		
-		<modalComponent v-if="modal == 'neverQuitOnce'" type="center" title="提示" @closeModal="cancelNever">
+		<modalComponent v-if="modal == 'neverQuitOnce'" type="center center-top" title="提示" @closeModal="cancelNever">
 			<view class="confirm-modal-container flex-set">
 				<view class="title flex-set" v-if="!commitOnce">永不退圈</view>
 				<view class="title flex-set" v-if="commitOnce">确认永不退圈</view>

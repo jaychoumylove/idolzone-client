@@ -23,7 +23,7 @@
 						<view class="dot" :class="{finished: item.percent == 100}">
 							<view class="name">{{$app.formatNumber(item.value+'人' || 0)}}</view>
 						</view>
-						<view class="reward" :class="{finish: item.percent == 100}">
+						<view class="reward reward-fix" :class="{finish: item.percent == 100}">
 							<view class="p" v-for="(pv, pk) in item.reward" :key="pk">{{pv}}</view>
 						</view>
 					</view>
@@ -579,6 +579,14 @@
 								height: 100%;
 								background-color: #ffaa69;
 							}
+						}
+						.reward-fix {
+							height: unset!important;
+							width: unset!important;
+							background-size: 100% 100%!important;
+							white-space: nowrap!important;
+							text-align: center!important;
+							padding: 30rpx 20rpx 10rpx!important;
 						}
 						.reward {
 							position: absolute;
