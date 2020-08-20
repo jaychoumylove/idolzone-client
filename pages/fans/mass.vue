@@ -104,16 +104,10 @@
 <script>
 	import modalComponent from '@/components/modalComponent.vue';
 	import btnComponent from '@/components/btnComponent.vue';
-	// #ifdef APP-PLUS
-	import shareModalComponent from '@/components/shareModalComponent.vue';
-	// #endif
 	export default {
 		components: {
 			modalComponent,
 			btnComponent,
-			// #ifdef APP-PLUS
-			shareModalComponent,
-			// #endif
 		},
 		data() {
 			return {

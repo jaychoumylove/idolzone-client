@@ -146,7 +146,6 @@
 				})
 			},
 			lower() {
-				console.log(11)
 				this.page++;
 				if (this.page > 10) {
 					return
@@ -216,8 +215,6 @@
 						}
 					}, 1000)
 				})
-
-
 			}
 		}
 

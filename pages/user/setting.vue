@@ -68,13 +68,11 @@
 	import badgeComponent from "@/components/badgeComponent.vue"
 	import btnComponent from "@/components/btnComponent.vue"
 	import modalComponent from "@/components/modalComponent.vue"
-	import prompt from "@/components/zz-prompt/index.vue";
 	export default {
 		components: {
 			badgeComponent,
 			modalComponent,
 			btnComponent,
-			prompt
 		},
 		data() {
 			return {
