@@ -8,7 +8,6 @@
 				<view class="text">创建粉丝团</view>
 			</view>
 			<view class="top-wrap club-item" v-if="myClub&&myClub.id" @tap="$app.goPage('/pages/fans/fans_club?fid=' + myClub.id)">
-
 				<view class="avatar-wrap">
 					<image class="avatar" :src="myClub.avatar" mode="aspectFill"></image>
 				</view>
@@ -18,7 +17,6 @@
 						<view class="clubname">{{myClub.clubname}}</view>
 						<view class="starname">{{myClub.star.name}}</view>
 					</view>
-					<!-- <view class="bottom">所属爱豆<text class="highlight">{{myClub.star.name}}</text></view> -->
 					<view class="bottom">
 						成员<text class="highlight">{{myClub.mem_count}}</text>
 						本周热度<text class="highlight">{{myClub.week_hot}}</text>
@@ -30,14 +28,12 @@
 					<view class="flex-set" style="padding: 10upx 40upx;">进入</view>
 				</btnComponent>
 			</view>
-
-
 		</view>
 
 		<view class="scroll-wrap">
 			<view class="item" :class="{active:active=='fansclub_count'}" @tap="changeField('fansclub_count')">粉丝团人气</view>
 			<view class="item" :class="{active:active=='fansclub_hot'}" @tap="changeField('fansclub_hot')">粉丝团热度</view>
-			<view class="item" :class="{active:active=='star_hot'}" @tap="changeField('star_hot')">爱豆热度</view>
+			<!-- <view class="item" :class="{active:active=='star_hot'}" @tap="changeField('star_hot')">爱豆热度</view> -->
 		</view>
 
 		<view class="search-wrap">
@@ -48,6 +44,7 @@
 		</view>
 
 		<view class="list-wrap">
+			<view v-if="!list.length" class="empty flex-set">暂无数据～</view>
 			<view class="item" v-for="(item,index) in list" :key="index">
 
 				<view class="avatar-wrap">
@@ -139,6 +136,9 @@
 					this.$app.toast(`你不在同一个圈子`)
 					return
 				}
+				if (typeof item.id == 'undefined') {
+					return;
+				}
 			
 				this.$app.modal(`申请加入『${item.clubname}』`, () => {
 					this.$app.request('fans/apply', {
@@ -188,6 +188,7 @@
 				.clubname {
 					font-weight: 700;
 					font-size: 30upx;
+					max-width: 285rpx;
 				}
 
 				.starname {
@@ -305,7 +306,9 @@
 
 		.list-wrap {
 			margin: 20upx;
-
+			.empty {
+				padding-top: 20rpx;
+			}
 			.item {
 				display: flex;
 				align-items: center;
