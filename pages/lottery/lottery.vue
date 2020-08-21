@@ -22,7 +22,7 @@
 		</view>
 		<view class="remain">目前可抽：<text class="num">{{remainCount}}</text>次</view>
 		<view class="btn-wrap flex-set">
-			<view class="btn b-2 flex-set iconfont iconshipin" @tap="openVideo(0)">立即获得5次</view>
+			<view v-if="config.enable_video_add&&config.enable_video_add.status" class="btn b-2 flex-set iconfont iconshipin" @tap="openVideo(0)">{{config.enable_video_add ? config.enable_video_add.text: '立即获得5次'}}</view>
 			<view class="btn b-1" @tap="$app.goPage('/pages/lottery/log')">
 				查看抽奖明细<text class="iconfont iconjiantou"></text>
 			</view>
@@ -33,13 +33,16 @@
 			<image class="bg-img" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HpdKa9zTbvwsKmJ6hE0kNdRiaib4VBCv9v3aCwWFuicaYm24w6wyvr2QFBbZfLfGILEickoNzPhiatyHA/0"
 			 mode="aspectFill"></image>
 			<view class="content">
-				<view class="title">抽奖规则</view>
-				<view class="p">1、每人每天抽奖机会上限为 100次</view>
-				<view class="p">2、在线时，每分钟恢复一次抽奖机会，存储上限为30次</view>
-				<view class="p">3、离线时，每分钟恢复一次抽奖机会，存储上限为10次</view>
-				<view class="p">4、观看视频，可以立即恢复5次（存储上限为30次）</view>
-				<view class="p">5、周五、周六、周日奖励翻倍</view>
-				<view class="p">6、抽奖次数0点清零</view>
+				<view class="title">{{config.notice? config.notice.title: '抽奖规则'}}</view>
+				<view class="p" v-if="config.notice" v-for="(item, index) in config.notice.desc" :key="index">{{item}}</view>
+				<block v-else>
+					<view class="p">1、每人每天抽奖机会上限为 100次</view>
+					<view class="p">2、在线时，每分钟恢复一次抽奖机会，存储上限为30次</view>
+					<view class="p">3、离线时，每分钟恢复一次抽奖机会，存储上限为10次</view>
+					<view class="p">4、观看视频，可以立即恢复5次（存储上限为30次）</view>
+					<view class="p">5、周五、周六、周日奖励翻倍</view>
+					<view class="p">6、抽奖次数0点清零</view>
+				</block>
 			</view>
 		</view>
 
@@ -84,13 +87,19 @@
 				lotteryTransition: 0,
 
 				lottery: {},
+				config: {},
+				timeId: '',
 			};
 		},
 		onLoad() {
 			this.lotteryLock = 0
 		},
 		onShow() {
+			this.config = this.$app.getData('config').free_lottery;
 			this.addCount()
+		},
+		onUnload() {
+			clearInterval(this.timeId)
 		},
 		onShareAppMessage(e) {
 			const shareType = e.target && e.target.dataset.share
@@ -172,11 +181,11 @@
 				this.addCountRequest(0)
 
 				clearInterval(this.timeId)
+				const times = this.config.hasOwnProperty('auto_add_time') ? this.config.auto_add_time: 60;
+				const timer = times * 1000;
 				this.timeId = setInterval(() => {
-
 					this.addCountRequest(1)
-
-				}, 60 * 1000)
+				}, timer)
 			},
 		}
 	}

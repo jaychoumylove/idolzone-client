@@ -2724,7 +2724,7 @@
 							background-color: #f6f6f6;
 							padding: 10upx 20upx;
 							font-size: 30upx;
-							display: inline-block;
+							// display: inline-block;
 							.angle {
 								position: absolute;
 								width: 16upx;
