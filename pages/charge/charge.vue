@@ -1,23 +1,34 @@
 <template>
 	<view class="no-data" v-if="
-	$app.getData('config').version == $app.getData('VERSION') || $app.chargeSwitch()!=0
+	($app.getData('config').version == $app.getData('VERSION') || $app.chargeSwitch()!=0) && $app.getData('platform') != 'H5-OTHER'
 	">
 		由于政策原因，不支持在应用内购买
 	</view>
 	<view v-else class="charge-page-container">
+		<view v-if="go_browser_modal" class="tips-container" @tap="loadGoBrowser(false)">
+			<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EMGfE6hy6KPqPPAqcOK7rch5JSpAmq86caKtnXkRibO52P0Ce7NAWEL9plPwWQMSjJbNib2NNoLuBw/0"
+				 mode="widthFix"></image>
+		</view>
 		<view class="top-row flex-set">
 			<view class="left-wrap flex-set">
 				<image class="avatar" :src="userInfo.avatarurl" mode="aspectFill"></image>
-				<view class="nickname">{{userInfo.nickname}}</view>
+				<view class="info">
+					<view class="nickname">{{userInfo.nickname}}</view>
+					<view class="id">{{userInfo.id*1234}}</view>
+				</view>
 			</view>
-			<view class="right-wrap flex-set" @tap="modal='proxyRecharge'">为好友充值</view>
+			<view class="right-wrap">
+				<view class="ali-pay-btn flex-set" @tap="loadGoBrowser(true)" v-if="pay_switch">支付宝充值</view>
+				<view class="flex-set" v-if="pay_type=='wechat_pay'" @tap="modal='proxyRecharge'">为好友充值</view>
+				<view class="flex-set" v-if="pay_type=='ali_pay'" @tap="modal='proxyRecharge'">搜索ID充值</view>
+			</view>
 		</view>
 
 		<!-- 我的资产 -->
-		<view class="currency-wrap flex-set">
+		<view class="currency-wrap flex-set" v-if="userCurrency">
 			<view class="left-wrap flex-set">
-				<view class="item">我的鲜花<text class="color flower">{{userCurrency.flower}}</text></view>
-				<view class="item">我的钻石<text class="color stone">{{userCurrency.stone}}</text></view>
+				<view class="item">{{pay_type!='ali_pay' ? '我的':''}}鲜花<text class="color flower">{{userCurrency.flower}}</text></view>
+				<view class="item">{{pay_type!='ali_pay' ? '我的':''}}钻石<text class="color stone">{{userCurrency.stone}}</text></view>
 			</view>
 		</view>
 
@@ -101,7 +112,8 @@
 				</btnComponent>
 			</view>
 		</modalComponent>
-
+			
+		<view v-if="pay_type=='ali_pay'" id="alipay" style="display: none;"></view>
 	</view>
 </template>
 
@@ -146,7 +158,10 @@
 				userLevel: 0,
 				userGap: 0,
 				farm_coin: 0,
-				farm_distance: 0
+				farm_distance: 0,
+				pay_type: '', // 支付方式
+				pay_switch: false, // 是否可以切换支付方式 微信-支付宝
+				go_browser_modal: false, // 打开浏览器遮照层
 			};
 		},
 		onLoad() {
@@ -157,13 +172,44 @@
 					this.userInfo = this.$app.getData('userInfo')
 					this.userCurrency = this.$app.getData('userCurrency')
 				}
+				if (this.pay_type=='ali_pay') {
+					clearInterval(timeId);
+					this.getGoodsList(0);
+				}
 			}, 300)
+			
+			// #ifdef MP-WEIXIN
+			this.pay_type = "wechat_pay";
+			// #endif
+			
+			// #ifdef MP-QQ
+			this.pay_type = "qq_pay";
+			// #endif
+			
+			// #ifdef H5
+			const isWechat = this.isWechat();
+			if (isWechat) {
+				this.pay_type = "wechat_pay";
+				this.pay_switch = true;
+			} else {
+				this.pay_type = "ali_pay";
+			}
+			// #endif
 		},
-
 		onUnload() {
 			clearInterval(timeId)
 		},
 		methods: {
+			// #ifdef H5
+			isWechat () { 
+				//判断是否是微信
+			    var ua = navigator.userAgent.toLowerCase();
+			    return ua.match(/MicroMessenger/i) == "micromessenger";
+			},
+			// #endif
+			loadGoBrowser(open) {
+				this.go_browser_modal = open;
+			},
 			kickBack() {
 				// #ifdef H5
 				setTimeout(() => {
@@ -177,6 +223,7 @@
 				if (this.currentUser.nickname) {
 					this.userInfo = this.currentUser
 					this.modal = ''
+					this.getGoodsList(0)
 				} else {
 					this.$app.toast('请先查找用户')
 				}
@@ -203,33 +250,44 @@
 				this.$app.request(this.$app.API.PAY_ORDER, {
 					count,
 					type,
-					user_id: this.userInfo.id
+					user_id: this.userInfo.id,
+					pay_type: this.pay_type,
 				}, res => {
 					// #ifdef H5
-					WeixinJSBridge.invoke('getBrandWCPayRequest', {
-						"appId": res.data.appId, //公众号名称，由商户传入     
-						"timeStamp": res.data.timeStamp, //时间戳，自1970年以来的秒数     
-						"nonceStr": res.data.nonceStr, //随机串     
-						"package": res.data.package,
-						"signType": res.data.signType, //微信签名方式：     
-						"paySign": res.data.paySign ,//微信签名 
-						"profit_sharing": 'Y'
-					}, res => {
-						console.log(res);
-						if (res.err_msg == "get_brand_wcpay_request:ok") {
-							// 使用以上方式判断前端返回,微信团队郑重提示：
-							//res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-
-							this.$app.toast('支付成功', 'success')
-							this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {
-								this.$app.setData('userCurrency', res.data)
-								this.userCurrency = this.$app.getData('userCurrency')
-								this.modal = ''
-							})
-							this.discount_option_index = 0
-							this.getGoodsList(0)
-						}
-					});
+					if (this.pay_type == 'wechat_pay') {
+						WeixinJSBridge.invoke('getBrandWCPayRequest', {
+							"appId": res.data.appId, //公众号名称，由商户传入     
+							"timeStamp": res.data.timeStamp, //时间戳，自1970年以来的秒数     
+							"nonceStr": res.data.nonceStr, //随机串     
+							"package": res.data.package,
+							"signType": res.data.signType, //微信签名方式：     
+							"paySign": res.data.paySign ,//微信签名 
+							"profit_sharing": 'Y'
+						}, res => {
+							console.log(res);
+							if (res.err_msg == "get_brand_wcpay_request:ok") {
+								// 使用以上方式判断前端返回,微信团队郑重提示：
+								//res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+						
+								this.$app.toast('支付成功', 'success')
+								this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {
+									this.$app.setData('userCurrency', res.data)
+									this.userCurrency = this.$app.getData('userCurrency')
+									this.modal = ''
+								})
+								this.discount_option_index = 0
+								this.getGoodsList(0)
+							}
+						});
+					}
+					if (this.pay_type == 'ali_pay') {
+						// 支付包表单填充
+						document.getElementById('alipay').innerHTML = res.data;
+						setTimeout(() => {
+							// 支付宝表单提交
+							document.forms["alipaysubmit"].submit();
+						}, 50)
+					}
 					// #endif
 
 					// #ifdef APP-PLUS
@@ -284,14 +342,29 @@
 			},
 			// HTTP
 			getGoodsList(userprop_id) {
-				this.$app.request(this.$app.API.PAY_GOODS, {
-					userprop_id,
-				}, res => {
+				let data = {userprop_id};
+				if (this.pay_type == 'ali_pay') {
+					console.info(this.pay_type);
+					console.info(this.userInfo);
+					if (this.userInfo) {
+						data.user_id = this.userInfo.id
+					}
+				}
+				this.$app.request(this.$app.API.PAY_GOODS, data, res => {
 					// this.tehui_show = res.data.tehui_show
+					if (res.data.hasOwnProperty('discount')) {
+						this.discount = res.data.discount
+					}
+					if (res.data.hasOwnProperty('farm_coin')) {
+						this.farm_coin = res.data.farm_coin
+					}
+					if (res.data.hasOwnProperty('farm_distance')) {
+						this.farm_distance = res.data.farm_distance
+					}
+					if (res.data.hasOwnProperty('currency')) {
+						this.userCurrency = res.data.currency
+					}
 					this.rechargeList = res.data.list
-					this.discount = res.data.discount
-					this.farm_distance = res.data.farm_distance
-					this.farm_coin = res.data.farm_coin
 					// this.discount_option = res.data.discount_option
 					this.$app.setData('goodsList', this.rechargeList)
 
@@ -301,13 +374,15 @@
 						this.$app.modal(res.data.modal)
 					}
 				})
-				// 用户等级
-				this.$app.request('user/level', {
-					user_id: this.userInfo.id
-				}, res => {
-					this.userLevel = res.data.level
-					this.userGap = res.data.gap ? (res.data.gap / 10000).toFixed(1) + '万' : '0'
-				})
+				if (this.pay_type!='ali_pay') {
+					// 用户等级
+					this.$app.request('user/level', {
+						user_id: this.userInfo.id
+					}, res => {
+						this.userLevel = res.data.level
+						this.userGap = res.data.gap ? (res.data.gap / 10000).toFixed(1) + '万' : '0'
+					})
+				}
 			},
 			bindPickerChange: function(e) {
 				this.discount_option_index = e.target.value
@@ -326,8 +401,21 @@
 	}
 
 	.charge-page-container {
+		.tips-container {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: rgba(#000, 0.8);
+			z-index: 6;
+			image {
+				width: 100%;
+			}
+		}
+		
 		padding-bottom: 40upx;
-
+		
 		.top-row {
 			padding: 20upx;
 			justify-content: space-between;
@@ -337,17 +425,33 @@
 				height: 90upx;
 				border-radius: 50%;
 			}
-
-			.nickname {
-				font-size: 34upx;
+			
+			.info {
 				margin: 10upx;
+				display: flex;
+				flex-direction: column;
+				.nickname {
+					font-size: 34upx;
+				}
+				.id {
+					font-size: 24rpx;
+				}
 			}
 
 			.right-wrap {
-				padding: 10upx 20upx;
-				font-size: 38upx;
-				background-color: #fbcc3e;
-				border-radius: 40upx;
+				display: flex;
+				justify-content: space-between;
+				view {
+					padding: 10upx 20upx;
+					font-size: 30upx;
+					background-color: #fbcc3e;
+					border-radius: 40upx;
+					margin: 0 10rpx;
+				}
+			}
+			.ali-pay-btn {
+				background-color: #0088ff!important;
+				color: white;
 			}
 		}
 
