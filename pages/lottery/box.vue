@@ -11,7 +11,7 @@
 		<image class="box" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GcjvbhGA8hnWrkuicbhygVs1UicAzKxed2G1u0RicVHuicY6tWPp56D6MjQH6NNhHjNrDknJHOZqcia0A/0"
 		 mode="aspectFill"></image>
 
-		<view class="btn" @tap="$app.goPage('/pages/lottery/box_open?rec_lottery_id='+rec_lottery_id)">
+		<view class="btn" @tap="$app.goPage('/pages/lottery/box_open?id='+rec_lottery_id)">
 			<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERcoSY3iar6yxiasPCKImWia1ncaahUTOoMb3xjZCTGmS8H8HVhZt3MwKfQ/0"
 			 mode="widthFix"></image>
 		</view>
@@ -32,10 +32,11 @@
 			};
 		},
 		onLoad(option) {
-			this.rec_lottery_id = this.$app.getData('query').rec_lottery_id
+			this.rec_lottery_id = option.id
+		},
+		onShow() {
 			this.loadData()
 		},
-		onShow() {},
 		onShareAppMessage(e) {
 			const shareType = e.target && e.target.dataset.share
 			return this.$app.commonShareAppMessage(shareType)

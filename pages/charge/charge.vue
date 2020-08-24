@@ -19,8 +19,7 @@
 			</view>
 			<view class="right-wrap">
 				<view class="ali-pay-btn flex-set" @tap="loadGoBrowser(true)" v-if="pay_switch">支付宝充值</view>
-				<view class="flex-set" v-if="pay_type=='wechat_pay'" @tap="modal='proxyRecharge'">为好友充值</view>
-				<view class="flex-set" v-if="pay_type=='ali_pay'" @tap="modal='proxyRecharge'">搜索ID充值</view>
+				<view class="flex-set" @tap="modal='proxyRecharge'">{{pay_type=='ali_pay' ? '搜索ID充值': '为好友充值'}}</view>
 			</view>
 		</view>
 

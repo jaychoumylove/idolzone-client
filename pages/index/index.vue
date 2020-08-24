@@ -209,7 +209,7 @@
 
 			// 跳转到指定页
 			if (option.path) {
-				return this.$app.goPage(option.path)
+				return this.$app.goPage(unescape(option.path))
 			}
 			// 跳转到明星页
 			if (option.starid) {
