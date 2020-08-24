@@ -15,9 +15,9 @@ Vue.component('shareModalComponent', shareModalComponent)
 
 // #ifdef MP
 // 阿拉丁
-import '@/lib/utils/ald-stat'
+// import '@/lib/utils/ald-stat'
 // 小虎推
-import '@/lib/utils/xhtad_sdk.min.js'
+// import '@/lib/utils/xhtad_sdk.min.js'
 // #endif
 
 // #ifdef H5
