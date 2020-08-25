@@ -22,7 +22,21 @@
 		</view>
 		<view class="remain">目前可抽：<text class="num">{{remainCount}}</text>次</view>
 		<view class="btn-wrap flex-set">
-			<view v-if="config.enable_video_add&&config.enable_video_add.status" class="btn b-2 flex-set iconfont iconshipin" @tap="openVideo(0)">{{config.enable_video_add ? config.enable_video_add.text: '立即获得5次'}}</view>
+			<view 
+				v-if="config.enable_video_add&&config.enable_video_add.status" 
+				class="btn b-2 flex-set iconfont iconshipin" 
+				@tap="openVideo(0)"
+			>
+				{{config.enable_video_add ? config.enable_video_add.text: '立即获得5次'}}
+			</view>
+			<view 
+				class="btn b-2 flex-set"
+				v-for="(item, index) in config.multiple"
+				:key="index"
+				@tap="startMultiple(item.type)"
+			>
+				{{item.text}}
+			</view>
 			<view class="btn b-1" @tap="$app.goPage('/pages/lottery/log')">
 				查看抽奖明细<text class="iconfont iconjiantou"></text>
 			</view>
@@ -66,7 +80,28 @@
 
 			<ad v-if="$app.getData('platform')=='MP-QQ'" class="fixed" :unit-id="$app.getData('qq_bannerAdUnitId')" type="banner"></ad>
 		</block>
-
+		
+		<!-- 50抽奖 结果 -->
+		<modalComponent v-if="modal == 'multipleStart'" type="center" title="提示" @closeModal="modal=''">
+			<view class="multiple-container">
+				<view class="title">恭喜你获得</view>
+				<view class="rewards">
+					<view class="reward-item flex-set" v-for="(item, index) in multipleReward" :key="index">
+						<image v-if="item.type == 3" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"></image>
+						<image v-if="item.type == 1" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"></image>
+						<image v-if="item.type == 2" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"></image>
+						<view class="name">{{item.name}}x{{$app.formatNumber(item.num || 0)}}</view>
+					</view>
+				</view>
+				<view class="btn-wrap flex-set">
+					<btnComponent type="success">
+						<view class="btn flex-set" @tap="modal=''">
+							确认收到
+						</view>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent>
 	</view>
 </template>
 
@@ -89,6 +124,7 @@
 				lottery: {},
 				config: {},
 				timeId: '',
+				multipleReward: []
 			};
 		},
 		onLoad() {
@@ -187,6 +223,20 @@
 					this.addCountRequest(1)
 				}, timer)
 			},
+			startMultiple(type) {
+				uni.showLoading({
+					mask:true,
+					title:"正在抽奖中..."
+				});
+				this.$app.request('lottery/multiple_start', {type}, res => {
+					this.multipleReward = res.data;
+					setTimeout(() => {
+						uni.hideLoading();
+						this.modal = 'multipleStart';
+					}, 100)
+                    this.addCount()
+				})
+			}
 		}
 	}
 </script>
@@ -195,6 +245,10 @@
 	.lottery-page-container {
 		text-align: center;
 		overflow-x: hidden;
+		
+		/deep/ .container .modal-container {
+			overflow: unset;
+		}
 
 		.bg-img {
 			position: fixed;
@@ -328,6 +382,62 @@
 			position: fixed;
 			bottom: 0;
 			z-index: 100;
+		}
+		.multiple-container {
+			$fontC: #b50023;
+			$fontS: 26rpx;
+			position: relative;
+			.title {
+				position: absolute;
+				background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9H3sH9NNZVwUQcM60TfnoLibOWALPClHthrHsDEOXWlibafbnq2tp4c4FC83PbEht3r7HibBJ3QDjjkg/0") no-repeat center center / cover;
+				left: 50%;
+				top: -100rpx;
+				transform: translate(-50%, -50%);
+				width: 400rpx;
+				height: 100rpx;
+				color: white;
+				text-align: center;
+				line-height: 65rpx;
+				font-size: 30rpx;
+				font-weight: 650;
+				z-index: 999;
+			}
+			.rewards {
+				margin: 50rpx 40rpx;
+				display: flex;
+				justify-content: space-around;
+				flex-wrap: wrap;
+			}
+			.reward-item {
+				margin: 10rpx 5rpx;
+				position: relative;
+				background: url("http://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9H3sH9NNZVwUQcM60TfnoLib3Hghw7t9kjNib9BGLeJdAThI5SibO2iaPuNk7icXt38o0Q2OibRYtHAJrpw/0") no-repeat center center / 100% 100%;
+				height: 160rpx;
+				width: 160rpx;
+				.icon {
+					width: 60rpx;
+					height: 60rpx;
+					margin-bottom: 40rpx;
+				}
+				.name {
+					position: absolute;
+					left: 50%;
+					bottom: 0%;
+					transform: translate(-50%, -50%);
+					text-align: center;
+					white-space: nowrap;
+					color: $fontC;
+					font-size: 26rpx;
+				}
+			}
+			.btn-wrap {
+				margin: 30rpx 0;
+				.btn {
+					margin: 0;
+					font-size: 30rpx;
+					font-weight: 650;
+				}
+			}
 		}
 	}
 </style>
