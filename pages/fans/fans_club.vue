@@ -256,7 +256,15 @@
 				}, 'POST', true)
 			},
 			ad() {
+				const timeTask = {
+					url :'ext/fansclubMass', 
+					data:{
+						type:1
+					},
+				};
+				this.$app.setData('timeTask', timeTask);
 				this.$app.openVideoAd(() => {
+					this.$app.setData('timeTask', null);
 					this.mass(1)
 				},this.$app.getData('config').kindness_switch)
 			},

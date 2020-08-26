@@ -508,7 +508,13 @@
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "成就挂饰"
 			}
-        }
+        },
+		{
+			"path": "pages/ad/custom",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}
     ],
 	"tabBar": {
 		"color": "#aaaaaa",

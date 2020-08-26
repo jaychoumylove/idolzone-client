@@ -21,7 +21,7 @@
 			</view>
 		</view>
 		<view class="remain">目前可抽：<text class="num">{{remainCount}}</text>次</view>
-		<view class="btn-wrap flex-set">
+		<view class="btn-wrap flex-around">
 			<view 
 				v-if="config.enable_video_add&&config.enable_video_add.status" 
 				class="btn b-2 flex-set iconfont iconshipin" 
@@ -151,7 +151,22 @@
 		},
 		methods: {
 			openVideo(flag = 0) {
+				let timeTask = null;
+				if (flag == 0) {
+					timeTask = {
+						url :'lottery/addCount',
+						data:{type:2},
+					};
+				}
+				if (flag == 1) {
+					timeTask = {
+						url :'lottery/double', 
+						data:{},
+					};
+				}
+				if (typeof timeTask == 'object') this.$app.setData('timeTask', timeTask);
 				this.$app.openVideoAd(() => {
+					this.$app.setData('timeTask', null);
 					if (flag == 0) {
 						// 看视频抽奖次数增加
 						this.addCountRequest(2)
@@ -301,6 +316,13 @@
 			}
 		}
 
+		.flex-around {
+			display: flex;
+			justify-content: space-around;
+			.btn {
+				margin: unset!important;
+			}
+		}
 		.btn-wrap {
 			font-size: 24upx;
 

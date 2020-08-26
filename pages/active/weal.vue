@@ -191,7 +191,13 @@
 			},
 			/**显示视频广告*/
 			openAdver() {
+				const timeTask = {
+					url :this.$app.API.ACTIVE_WEAL_BAG_GET, 
+					data:{task_id:4},
+				};
+				this.$app.setData('timeTask', timeTask);
 				this.$app.openVideoAd(() => {
+					this.$app.setData('timeTask', null);
 					this.taskSettle(4)
 				}, this.$app.getData('config').kindness_switch)
 			},

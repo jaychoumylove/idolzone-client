@@ -362,7 +362,16 @@
 			card() {
 				if (this.$app.getData('userStar').id == this.starid) {
 					if (!this.activeInfo.self.is_card_today) {
+						const timeTask = {
+							url :this.$app.API.EXT_ACTIVECARD, 
+							data:{
+								starid: this.starid,
+								active_id: this.id,
+							},
+						};
+						this.$app.setData('timeTask', timeTask);
 						this.$app.openVideoAd(() => {
+							this.$app.setData('timeTask', null);
 							this.$app.request(this.$app.API.EXT_ACTIVECARD, {
 								starid: this.starid,
 								active_id: this.id,
