@@ -72,22 +72,13 @@
 		},
 		onUnload() {
 			if (this.timeTask) {
-				uni.showModal({
-					cancelText:"放弃",
-					confirmText:"继续",
-					content:"暂未获得奖励",
-					title:"提示",
-					success: (res) => {
-						if (res.confirm) {
-							uni.navigateTo({
-								url:"/pages/ad/custom"
-							})
-						}
-						if (res.cancel) {
-							this.$app.toast('15秒钟之后才有奖励哦');
-						}
-					}
-				})
+				this.$app.modal('暂未获得奖励', () => {
+					uni.navigateTo({
+						url:"/pages/ad/custom"
+					})
+				}, '继续', () => {
+					this.$app.toast('看完广告才有奖励哦');
+				}, '放弃')
 			}
 			this.cleanTimer();
 		},
@@ -122,14 +113,20 @@
 				this.timeLeft = time;
 				this.timerOuter = setTimeout(() => {
 					if (this.timeTask != null) {
-						const {url, data} = this.timeTask;
-						if (url) {
-							this.$app.request(url, data, this.cleanBack)
-						}
+						this.timeTask && this.timeTask();
 					}
+					clearTimeout(this.timerOuter);
+					this.timerOuter = '';
+					this.$app.setData('timeTask', null);
+					this.timeTask = null;
 				}, times);
 				this.timerInter = setInterval(() => {
-					if (this.timeLeft> 0) this.timeLeft--;
+					if (this.timeLeft > 0) {
+						this.timeLeft--;
+					} else {
+						clearInterval(this.timerInter);
+						this.timerInter = '';
+					}
 				}, 1000);
 			},
 			cleanBack(res) {

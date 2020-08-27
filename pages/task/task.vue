@@ -210,14 +210,8 @@
 			},
 			/**显示视频广告*/
 			openAdver() {
-				const timeTask = {
-					url :this.$app.API.TASK_SETTLE,
-					data:{task_id:19},
-				};
-				this.$app.setData('timeTask', timeTask);
 				this.$app.openVideoAd(() => {
 					this.taskSettle(19);
-					this.$app.setData('timeTask', null);
 				},this.$app.getData('config').kindness_switch)
 			},
 			clipboard() {

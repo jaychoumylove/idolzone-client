@@ -188,13 +188,7 @@
 			},
 			/**显示视频广告*/
 			openAdver() {
-				const timeTask = {
-					url :this.$app.API.ACTIVE_GET_BLESSING_BAG, 
-					data:{task_id:4},
-				};
-				this.$app.setData('timeTask', timeTask);
 				this.$app.openVideoAd(() => {
-					this.$app.setData('timeTask', null);
 					this.taskSettle(4)
 				}, this.$app.getData('config').kindness_switch)
 			},

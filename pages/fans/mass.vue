@@ -144,16 +144,7 @@
 			},
 			// 看视频广告
 			ad() {
-				const timeTask = {
-					url :'fans/joinMass', 
-					data:{
-						type:1,
-						fid: this.fanclub.id
-					},
-				};
-				this.$app.setData('timeTask', timeTask);
 				this.$app.openVideoAd(() => {
-					this.$app.setData('timeTask', null);
 					this.mass(1)
 				},this.$app.getData('config').kindness_switch)
 			},

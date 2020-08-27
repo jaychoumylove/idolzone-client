@@ -151,22 +151,7 @@
 		},
 		methods: {
 			openVideo(flag = 0) {
-				let timeTask = null;
-				if (flag == 0) {
-					timeTask = {
-						url :'lottery/addCount',
-						data:{type:2},
-					};
-				}
-				if (flag == 1) {
-					timeTask = {
-						url :'lottery/double', 
-						data:{},
-					};
-				}
-				if (typeof timeTask == 'object') this.$app.setData('timeTask', timeTask);
 				this.$app.openVideoAd(() => {
-					this.$app.setData('timeTask', null);
 					if (flag == 0) {
 						// 看视频抽奖次数增加
 						this.addCountRequest(2)
