@@ -134,9 +134,6 @@
 			this.config = this.$app.getData('config').free_lottery;
 			this.addCount()
 		},
-		onUnload() {
-			clearInterval(this.timeId)
-		},
 		onShareAppMessage(e) {
 			const shareType = e.target && e.target.dataset.share
 
@@ -216,12 +213,19 @@
 			addCount() {
 				this.addCountRequest(0)
 
-				clearInterval(this.timeId)
-				const times = this.config.hasOwnProperty('auto_add_time') ? this.config.auto_add_time: 60;
+				const timerCfg = this.$app.getData('timer');
+				if (timerCfg.hasOwnProperty('lottery')) {
+					clearInterval(timerCfg.lottery);
+				}
+				const cfg = this.$app.getData('config').free_lottery;
+				const times = cfg.hasOwnProperty('auto_add_time') ? cfg.auto_add_time: 60;
 				const timer = times * 1000;
-				this.timeId = setInterval(() => {
+				const timeId = setInterval(() => {
 					this.addCountRequest(1)
 				}, timer)
+				
+				const newTimer = Object.assign(timerCfg, {lottery: timeId});
+				this.$app.setData('timer', newTimer);
 			},
 			startMultiple(type) {
 				uni.showLoading({

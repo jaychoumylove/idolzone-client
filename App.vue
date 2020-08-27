@@ -78,6 +78,10 @@
 					this.$app.setData('userExt', res.data.userExt)
 
 					this.$app.setData('config', res.data.config)
+					
+					// 初始化全局定时器｜计时器
+					
+					this.$app.setData('timer', {});
 				})
 			},
 
