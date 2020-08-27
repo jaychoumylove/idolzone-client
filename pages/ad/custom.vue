@@ -4,8 +4,8 @@
 			<view class="header iconfont iconclose" @tap="cancel">关闭</view>
 			<view class="buttom">
 				<view>广告</view>
-				<view class="timer" v-if="timeLeft">浏览页面{{timeLeft}}秒后可获得奖励</view>
-				<view class="timer" v-if="!timeLeft">已完成浏览</view>
+				<view class="timer" v-if="timeLeft > 0">浏览页面{{timeLeft}}秒后可获得奖励</view>
+				<view class="timer" v-else>已完成浏览</view>
 			</view>
 		</view>
 		<view style="padding-top: 210rpx;">
@@ -71,8 +71,10 @@
 			this.getAd();
 		},
 		onUnload() {
-			if (this.timeTask) {
+			const task = this.$app.getData('timeTask');
+			if (task) {
 				this.$app.modal('暂未获得奖励', () => {
+					this.$app.setData('timeTask', task)
 					uni.navigateTo({
 						url:"/pages/ad/custom"
 					})
@@ -136,8 +138,8 @@
 				this.modal = 'freeRead';
 			},
 			cancel() {
-				if (this.timeLeft > 0) {
-					this.$app.modal(`${this.timeLeft}秒后可以领取奖励哦，确认离开么`, () => {
+				if (this.timeTask) {
+					this.$app.modal(`暂未获得奖励，确认离开么`, () => {
 						this.cleanTimer();
 						uni.navigateBack();
 					})
