@@ -514,6 +514,30 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/manor/manor",
+			"style": {
+				"navigationBarBackgroundColor": "#F99510",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "庄园"
+			}
+		},
+		{
+			"path": "pages/manor/animal_list",
+			"style": {
+				"navigationBarBackgroundColor": "#F99510",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "我的宠物"
+			}
+		},
+		{
+			"path": "pages/manor/steal",
+			"style": {
+				"navigationBarBackgroundColor": "#F99510",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "偷豆"
+			}
 		}
     ],
 	"tabBar": {
