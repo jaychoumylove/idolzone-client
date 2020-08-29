@@ -56,7 +56,7 @@
 						<image src="https://wx.qlogo.cn/mmopen/vi_32/QNxwK0GqTw7MsuqAQA8EaHhtor4EU261v2cTH19eP2YSxRQtmGdU8RvHqDfXTofjP6uu4ZV4HoiaCXkTOwCGsnQ/132"></image>
 					</view>
 					<view class="middle">
-						<view class="name">昵称昵称昵称昵称昵称</view>
+						<view class="name text-overflow">昵称昵称昵称昵称昵称</view>
 						<view class="log">偷走1000金豆</view>
 					</view>
 					<view class="right flex-set">
@@ -335,8 +335,6 @@
 						height: 30rpx;
 					}
 				}
-				.angle {
-				}
 			}
 			.outputing {
 				margin: 20rpx auto;
@@ -377,8 +375,7 @@
 			position: absolute;
 			top: 1100rpx;
 			left: 0;
-			border-top-left-radius: 40rpx;
-			border-top-right-radius: 40rpx;
+			border-radius: 40rpx;
 			background-color: rgba(245,245,245,1);
 			width: 100%;
 			padding: 20rpx;
@@ -418,6 +415,7 @@
 						.name {
 							margin-bottom: 10rpx;
 							color: #444444;
+							max-width: 300rpx;
 							font-size: 30rpx;
 							font-weight: 500;
 						}
