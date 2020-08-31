@@ -2,12 +2,12 @@
 	<view class="manor-list-container">
 		<view class="user-info flex-set">
 			<view class="avatar">
-				<image src="https://wx.qlogo.cn/mmopen/vi_32/QNxwK0GqTw7MsuqAQA8EaHhtor4EU261v2cTH19eP2YSxRQtmGdU8RvHqDfXTofjP6uu4ZV4HoiaCXkTOwCGsnQ/132" mode="aspectFill"></image>
+				<image :src="$app.getData('userInfo').avatarurl || AVATAR" mode="aspectFill"></image>
 			</view>
-			<view class="nickname text-overflow">姓名</view>
+			<view class="nickname text-overflow">{{$app.getData('userInfo').nickname || NICKNAME}}</view>
 			<view class="week-output">
-				<view class="output">产量：1金豆/10秒</view>
-				<view>每日可偷：3次</view>
+				<view class="output">产量：{{output}}金豆/10秒</view>
+				<view>每日可偷：{{stealLeft}}次</view>
 			</view>
 		</view>
 		
@@ -22,18 +22,41 @@
 			
 			<scroll-view scroll-y class="scroll-wrapper">
 				<block v-for="(item, index) in list" :key='index'>
-					<view class="animal-list scroll-item">
-						<view class="animal-item" v-for="(value, key) in item" :key='key'>
-							<view class="lv">Lv.{{value.lv}}</view>
-							<view class="name">{{value.name}}</view>
-							<image :src="value.image" mode="aspectFit"></image>
-							<view v-if="value.output" class="desc">每10秒/{{value.output}}金豆</view>
-							<view v-if="value.steal" class="desc">每日可偷{{value.steal}}次</view>
-							<view class="up" @tap="getAnimalInfo(value.id)">
-								升级宠物
+					<radio-group @change="changeMain">
+						<view class="animal-list scroll-item">
+							<view class="animal-item" v-for="(value, key) in item" :key='key'>
+								<block v-if="type=='all'">
+									<view class="lv">Lv.{{value.user_animal ? value.user_animal.level: 1}}</view>
+									<view class="name">{{value.name}}</view>
+									<radio :value="value.id" :checked="value.id == mainAnimalId" class="check" v-if="value.user_animal" /></radio>
+									<image :src="value.user_animal ? value.image: value.empty_img" mode="aspectFit"></image>
+									<view v-if="value.lv_info.output" class="desc">每10秒/{{value.lv_info.output}}金豆</view>
+									<view v-if="value.lv_info.steal" class="desc">每日可偷{{value.lv_info.steal}}次</view>
+									<view class="up" @tap="getAnimalInfo(value.id)" v-if="value.user_animal">
+										升级宠物
+									</view>
+								</block>
+								<block v-if="type=='yet'">
+									<view v-if="type=='yet'" class="lv">Lv.1</view>
+									<view class="name">{{value.name}}</view>
+									<image :src="value.empty_img" mode="aspectFit"></image>
+									<view v-if="value.lv_info.output" class="desc">每10秒/{{value.lv_info.output}}金豆</view>
+									<view v-if="value.lv_info.steal" class="desc">每日可偷{{value.lv_info.steal}}次</view>
+								</block>
+								<block v-if="type=='allready'">
+									<view class="lv">Lv.{{value.level}}</view>
+									<view class="name">{{value.animal.name}}</view>
+									<radio :checked="value.animal_id == mainAnimalId" :value="value.animal_id" class="check" /></radio>
+									<image :src="value.image" mode="aspectFit"></image>
+									<view v-if="value.lv_info.output" class="desc">每10秒/{{value.lv_info.output}}金豆</view>
+									<view v-if="value.lv_info.steal" class="desc">每日可偷{{value.lv_info.steal}}次</view>
+									<view class="up" @tap="getAnimalInfo(value.animal_id)">
+										升级宠物
+									</view>
+								</block>
 							</view>
 						</view>
-					</view>
+					</radio-group>
 				</block>
 			</scroll-view>
 		</view>
@@ -61,20 +84,26 @@
 						</view>
 					</view>
 					<view class="middle">
-						》》》
+						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GF0Ayowf19yN8oiaLKldV6QFz56VoiaPibRyzUqDA5icTvp4017Rk7AGlfMg0knnOicYGUiaAcIUC7ZldQ/0" mode="aspectFit"></image>
 					</view>
 					<view class="next-lv">
-						<view class="lv-number">下一等级：Lv.{{animalInfo.next_lv.level}}</view>
-						<view class="lv-desc">
-							<text v-if="animalInfo.lv.output">每10秒/{{animalInfo.next_lv.output}}金豆</text>
-							<text v-if="animalInfo.lv.steal">每日可偷{{animalInfo.next_lv.steal}}次</text>
-						</view>
+						<block v-if="animalInfo.next_lv">
+							<view class="lv-number">下一等级：Lv.{{animalInfo.next_lv.level}}</view>
+							<view class="lv-desc">
+								<text v-if="animalInfo.lv.output">每10秒/{{animalInfo.next_lv.output}}金豆</text>
+								<text v-if="animalInfo.lv.steal">每日可偷{{animalInfo.next_lv.steal}}次</text>
+							</view>
+						</block>
+						
+						<view v-if="!animalInfo.next_lv" class="lv-number">已是最高等级</view>
 					</view>
 				</view>
 				<view class="btn-wrap">
-					<btnComponent type="default">
-						<view class="btn" @tap="levelUp(animalInfo.animal.id)">{{animalInfo.scrap.name}}X{{animalInfo.next_lv.number}}升级</view>
-					</btnComponent>
+					<block v-if="animalInfo.next_lv">
+						<btnComponent type="default">
+							<view class="btn" @tap="levelUp(animalInfo.animal.id)">{{animalInfo.animal.scrap_name}}X{{animalInfo.next_lv.number}}升级</view>
+						</btnComponent>
+					</block>
 				</view>
 			</view>
 		</modalComponent>
@@ -91,9 +120,14 @@
 		},
 		data() {
 			return {
-				modal: 'lvUp',
+				modal: '',
 				type: 'all',
-				list: []
+				list: [],
+				animalInfo: {},
+				output: 0,
+				addCount: 0,
+				stealLeft: 0,
+				mainAnimalId: 1,
 			};
 		},
 		onShow() {
@@ -103,12 +137,17 @@
 			checkoutType(type) {
 				if (this.type == type) return;
 				this.type = type;
-				getAnimalList(type);
+				this.getAnimalList(type);
 			},
 			getAnimalList(type) {
 				this.list = [];
 				this.$app.request(this.$app.API.ANIMAL_LIST, {type}, res => {
-					this.list = this.supportNumebrGroup(res.data, 3);
+					const {output, add_count, list, steal_left, main_animal} = res.data;
+					this.list = this.supportNumebrGroup(list, 3);
+					this.output = output;
+					this.addCount = add_count;
+					this.stealLeft = steal_left;
+					this.mainAnimalId = main_animal;
 				})
 			},
 			getAnimalInfo (animal_id) {
@@ -131,10 +170,16 @@
 				
 				this.$app.request(this.$app.API.ANIMAL_UP, {animal_id}, res => {
 					this.$app.toast('升级成功');
+					this.getAnimalList(this.type);
 					this.$app.request(this.$app.API.ANIMAL_INFO, {animal_id}, res => {
 						this.animalInfo = res.data;
 					})
-					this.modal = 'lvUp';
+				})
+			},
+			changeMain(e) {
+				const animal_id = parseInt(e.detail.value);
+				this.$app.request(this.$app.API.ANIMAL_CHANGE, {animal_id}, res => {
+					this.mainAnimalId = animal_id;
 				})
 			},
 			supportNumebrGroup(list, number) {
@@ -247,6 +292,14 @@
 							top: 37%;
 							font-size: 20rpx;
 						}
+						.check {
+							position: absolute;
+							transform: translate(-50%, -50%);
+							right: 10%;
+							top: 5%;
+							width: 20rpx;
+							height: 20rpx;
+						}
 						.desc {
 							transform: translateX(-50%);
 							left: 50%;
@@ -326,6 +379,9 @@
 				justify-content: space-around;
 				width: 560rpx;
 				.current-lv,.next-lv {
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
 					.lv-number {
 						font-size: 30rpx;
 					}
@@ -335,6 +391,10 @@
 				}
 				.middle {
 					align-self: center;
+					image {
+						width: 100rpx;
+						height: 60rpx;
+					}
 				}
 			}
 		}

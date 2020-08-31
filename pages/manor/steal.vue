@@ -3,7 +3,7 @@
 		<view class="steal-list">
 			<view class="header">
 				<view class="left">
-					剩余偷取次数：<text class="number">10</text>
+					剩余偷取次数：<text class="number">{{stealLeftTimes}}</text>
 					<view class="add flex-set">+</view>
 				</view>
 				<view class="right">
@@ -14,7 +14,7 @@
 				<!-- <view class="time">今天 12:34:23</view> -->
 				<view class="info">
 					<view class="left flex-set">
-						<image src="https://wx.qlogo.cn/mmopen/vi_32/QNxwK0GqTw7MsuqAQA8EaHhtor4EU261v2cTH19eP2YSxRQtmGdU8RvHqDfXTofjP6uu4ZV4HoiaCXkTOwCGsnQ/132"></image>
+						<image :src="item.user.avatarurl || AVATAR"></image>
 					</view>
 					<view class="middle">
 						<view class="name text-overflow">{{item.user.nickname || NICKNAME}}</view>
@@ -49,6 +49,7 @@
 				modal: '',
 				list: [],
 				refresh: false,
+				stealLeftTimes: 0,
 			};
 		},
 		onShow() {
@@ -57,7 +58,9 @@
 		methods: {
 			getStealList () {
 				this.$app.request(this.$app.API.ANIMAL_STEAL_LIST, {}, res => {
-					this.list = res.data;
+					const { list, steal_left_times } =  res.data;
+					this.list = list;
+					this.stealLeftTimes = steal_left_times;
 				})
 			},
 			steal(user_id, index) {

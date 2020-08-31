@@ -526,7 +526,7 @@
 		{
 			"path": "pages/manor/animal_list",
 			"style": {
-				"navigationBarBackgroundColor": "#aee4e7",
+				"navigationBarBackgroundColor": "#AFE9F9",
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "我的宠物"
 			}
@@ -534,7 +534,7 @@
 		{
 			"path": "pages/manor/steal",
 			"style": {
-				"navigationBarBackgroundColor": "#aee4e7",
+				"navigationBarBackgroundColor": "#AFE9F9",
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "偷豆"
 			}
