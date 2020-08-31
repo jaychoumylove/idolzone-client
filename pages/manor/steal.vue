@@ -10,14 +10,14 @@
 					偷取规则
 				</view>
 			</view>
-			<view class="steal-item" v-for="(i, l) in [1,2,3,4]" :key="l">
+			<view class="steal-item" v-for="(item, index) in list" :key="index">
 				<!-- <view class="time">今天 12:34:23</view> -->
 				<view class="info">
 					<view class="left flex-set">
 						<image src="https://wx.qlogo.cn/mmopen/vi_32/QNxwK0GqTw7MsuqAQA8EaHhtor4EU261v2cTH19eP2YSxRQtmGdU8RvHqDfXTofjP6uu4ZV4HoiaCXkTOwCGsnQ/132"></image>
 					</view>
 					<view class="middle">
-						<view class="name text-overflow">昵称昵称昵称昵称昵称</view>
+						<view class="name text-overflow">{{item.user.nickname || NICKNAME}}</view>
 						<view class="log">带领取金豆数<text class="number">***</text></view>
 					</view>
 					<view class="right flex-set">
@@ -27,7 +27,7 @@
 							<view class="number">X1000</view>
 						</view>
 						<btnComponent type="default">
-							<view class="flex-set right-btn">回偷</view>
+							<view class="flex-set right-btn" @tap='steal(item.user.id,index)'>偷取</view>
 						</btnComponent>
 					</view>
 				</view>
@@ -47,13 +47,32 @@
 		data() {
 			return {
 				modal: '',
+				list: [],
+				refresh: false,
 			};
 		},
-		onLoad() {
-		},
 		onShow() {
+			this.getStealList();
 		},
 		methods: {
+			getStealList () {
+				this.$app.request(this.$app.API.ANIMAL_STEAL_LIST, {}, res => {
+					this.list = res.data;
+				})
+			},
+			steal(user_id, index) {
+				if (!user_id) {
+					return this.$app.toast('请选择偷取的人哦！')
+				}
+				
+				uni.showLoading({
+					mask:true,
+					title:'正在偷取...'
+				})
+				this.$app.request(this.$app.API.ANIMAL_STEAL, {user_id}, res => {
+					this.$app.toast('偷取成功');
+				})
+			}
 		}
 	}
 </script>

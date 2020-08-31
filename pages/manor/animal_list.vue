@@ -16,19 +16,20 @@
 				<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HnqQXz07SO8rM1uzBoVhDxvibxEPbs73zlP1tDYtQ14qDEBBfkuEibruNTC56gAdWsDv0tARfGqKiaA/0"></image>
 			</view>
 			<view class="check-btn">
-				<view class="active">全部</view>
-				<view>未拥有</view>
+				<view :class="{active: type == 'all'}" @tap="checkoutType('all')">全部</view>
+				<view :class="{active: type == 'yet'}" @tap="checkoutType('yet')">未拥有</view>
 			</view>
 			
 			<scroll-view scroll-y class="scroll-wrapper">
-				<block v-for="(j, l) in [1,2,3,4,5]" :key='l'>
+				<block v-for="(item, index) in list" :key='index'>
 					<view class="animal-list scroll-item">
-						<view class="animal-item" v-for="(ja, la) in [1,2,3]" :key='la'>
-							<view class="lv">Lv.1</view>
-							<view class="name">鼠</view>
-							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36ezEQLzJIVfTQ1DkqkIcfiakuyPWWEJNryp8sCR07BlfMETzXQBicVHvQ/0" mode="aspectFit"></image>
-							<view class="desc">每日可偷1次</view>
-							<view class="up">
+						<view class="animal-item" v-for="(value, key) in item" :key='key'>
+							<view class="lv">Lv.{{value.lv}}</view>
+							<view class="name">{{value.name}}</view>
+							<image :src="value.image" mode="aspectFit"></image>
+							<view v-if="value.output" class="desc">每10秒/{{value.output}}金豆</view>
+							<view v-if="value.steal" class="desc">每日可偷{{value.steal}}次</view>
+							<view class="up" @tap="getAnimalInfo(value.id)">
 								升级宠物
 							</view>
 						</view>
@@ -45,29 +46,34 @@
 			</view>
 		</view>
 		
-		
 		<!-- 升级 -->
 		<modalComponent v-if="modal == 'lvUp'" type="center" title="提示" @closeModal="modal=''">
 			<view class="modal-container lvup-modal-container">
-				<view class="title">鼠</view>
-				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36vX5Q2uDsarNMV61fJZc3IQf5dT5mfBrPykicibib0fiaDr6AzWZuxO8JIw/0"
+				<view class="title">{{animalInfo.animal.name}}</view>
+				<image class="bg" :src="animalInfo.animal.image"
 					   mode="aspectFit"></image>
 				<view class="lv-info">
 					<view class="current-lv">
-						<view class="lv-number">当前等级：Lv.1</view>
-						<view class="lv-desc">每10秒/1000金豆</view>
+						<view class="lv-number">当前等级：Lv.{{animalInfo.lv.level}}</view>
+						<view class="lv-desc">
+							<text v-if="animalInfo.lv.output">每10秒/{{animalInfo.lv.output}}金豆</text>
+							<text v-if="animalInfo.lv.steal">每日可偷{{animalInfo.lv.steal}}次</text>
+						</view>
 					</view>
 					<view class="middle">
 						》》》
 					</view>
 					<view class="next-lv">
-						<view class="lv-number">当前等级：Lv.1</view>
-						<view class="lv-desc">每日可偷10次</view>
+						<view class="lv-number">下一等级：Lv.{{animalInfo.next_lv.level}}</view>
+						<view class="lv-desc">
+							<text v-if="animalInfo.lv.output">每10秒/{{animalInfo.next_lv.output}}金豆</text>
+							<text v-if="animalInfo.lv.steal">每日可偷{{animalInfo.next_lv.steal}}次</text>
+						</view>
 					</view>
 				</view>
 				<view class="btn-wrap">
 					<btnComponent type="default">
-						<view class="btn" @tap="modal=''">鼠碎片X50升级</view>
+						<view class="btn" @tap="levelUp(animalInfo.animal.id)">{{animalInfo.scrap.name}}X{{animalInfo.next_lv.number}}升级</view>
 					</btnComponent>
 				</view>
 			</view>
@@ -85,27 +91,64 @@
 		},
 		data() {
 			return {
-				title_class: 'title-and',
 				modal: 'lvUp',
-				btn: [
-					
-				],
+				type: 'all',
+				list: []
 			};
 		},
-		onShareAppMessage(e) {
-			const shareid = e.target && e.target.dataset.shareid
-			return this.$app.commonShareAppMessage(shareid)
-		},
-		// 优化加载速度
-		onLoad() {
-		},
 		onShow() {
-			// const {platform} = uni.getSystemInfoSync();
-			// if (platform == 'ios') {
-			// 	this.title_class = 'title-ios';
-			// }
+			this.getAnimalList(this.type);
 		},
 		methods: {
+			checkoutType(type) {
+				if (this.type == type) return;
+				this.type = type;
+				getAnimalList(type);
+			},
+			getAnimalList(type) {
+				this.list = [];
+				this.$app.request(this.$app.API.ANIMAL_LIST, {type}, res => {
+					this.list = this.supportNumebrGroup(res.data, 3);
+				})
+			},
+			getAnimalInfo (animal_id) {
+				uni.showLoading({
+					mask:true,
+					title:'请稍后...'
+				})
+				
+				this.$app.request(this.$app.API.ANIMAL_INFO, {animal_id}, res => {
+					uni.hideLoading();
+					this.animalInfo = res.data;
+					this.modal = 'lvUp';
+				})
+			},
+			levelUp(animal_id) {
+				uni.showLoading({
+					mask:true,
+					title:'升级中...'
+				})
+				
+				this.$app.request(this.$app.API.ANIMAL_UP, {animal_id}, res => {
+					this.$app.toast('升级成功');
+					this.$app.request(this.$app.API.ANIMAL_INFO, {animal_id}, res => {
+						this.animalInfo = res.data;
+					})
+					this.modal = 'lvUp';
+				})
+			},
+			supportNumebrGroup(list, number) {
+				if (!list.length) return [];
+				let newList = [];
+				const length = list.length,
+					lineNum = length % number === 0 ? length / number: Math.floor((length / number) + 1);
+					
+				for (let i = 0; i < lineNum; i ++) {
+					let item = list.slice(i*number, i*number + number);
+					newList.push(item);
+				}
+				return newList;
+			}
 		}
 	}
 </script>
