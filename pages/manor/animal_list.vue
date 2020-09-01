@@ -7,7 +7,7 @@
 			<view class="nickname text-overflow">{{$app.getData('userInfo').nickname || NICKNAME}}</view>
 			<view class="week-output">
 				<view class="output">产量：{{output}}金豆/10秒</view>
-				<view>每日可偷：{{stealLeft}}次</view>
+				<!-- <view>每日可偷：{{stealLeft}}次</view> -->
 			</view>
 		</view>
 		
@@ -16,8 +16,7 @@
 				<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HnqQXz07SO8rM1uzBoVhDxvibxEPbs73zlP1tDYtQ14qDEBBfkuEibruNTC56gAdWsDv0tARfGqKiaA/0"></image>
 			</view>
 			<view class="check-btn">
-				<view :class="{active: type == 'all'}" @tap="checkoutType('all')">全部</view>
-				<view :class="{active: type == 'yet'}" @tap="checkoutType('yet')">未拥有</view>
+				<view :class="{active: type == item.type}" @tap="checkoutType(item.type)" v-for="(item, index) in checkBtn" :key="index">{{item.btn_text}}</view>
 			</view>
 			
 			<scroll-view scroll-y class="scroll-wrapper">
@@ -25,13 +24,15 @@
 					<radio-group @change="changeMain">
 						<view class="animal-list scroll-item">
 							<view class="animal-item" v-for="(value, key) in item" :key='key'>
-								<block v-if="type=='all'">
-									<view class="lv">Lv.{{value.user_animal ? value.user_animal.level: 1}}</view>
-									<view class="name">{{value.name}}</view>
-									<radio :value="value.id" :checked="value.id == mainAnimalId" class="check" v-if="value.user_animal" /></radio>
-									<image :src="value.user_animal ? value.image: value.empty_img" mode="aspectFit"></image>
-									<view v-if="value.lv_info.output" class="desc">每10秒/{{value.lv_info.output}}金豆</view>
-									<view v-if="value.lv_info.steal" class="desc">每日可偷{{value.lv_info.steal}}次</view>
+								<block v-if="['all', 'twelve'].indexOf(type) > -1">
+									<label>
+										<view class="lv">Lv.{{value.user_animal ? value.user_animal.level: 1}}</view>
+										<view class="name">{{value.name}}</view>
+										<radio :value="value.id" :checked="value.id == mainAnimalId" class="check" v-if="value.user_animal" /></radio>
+										<image :src="value.user_animal ? value.image: value.empty_img" mode="aspectFit"></image>
+										<view v-if="value.lv_info.output" class="desc">每10秒/{{value.lv_info.output}}金豆</view>
+										<view v-if="value.lv_info.steal" class="desc">每日可偷{{value.lv_info.steal}}次</view>
+									</label>
 									<view class="up" @tap="getAnimalInfo(value.id)" v-if="value.user_animal">
 										升级宠物
 									</view>
@@ -44,12 +45,14 @@
 									<view v-if="value.lv_info.steal" class="desc">每日可偷{{value.lv_info.steal}}次</view>
 								</block>
 								<block v-if="type=='allready'">
-									<view class="lv">Lv.{{value.level}}</view>
-									<view class="name">{{value.animal.name}}</view>
-									<radio :checked="value.animal_id == mainAnimalId" :value="value.animal_id" class="check" /></radio>
-									<image :src="value.image" mode="aspectFit"></image>
-									<view v-if="value.lv_info.output" class="desc">每10秒/{{value.lv_info.output}}金豆</view>
-									<view v-if="value.lv_info.steal" class="desc">每日可偷{{value.lv_info.steal}}次</view>
+									<label>
+										<view class="lv">Lv.{{value.level}}</view>
+										<view class="name">{{value.animal.name}}</view>
+										<radio :checked="value.animal_id == mainAnimalId" :value="value.animal_id" class="check" /></radio>
+										<image :src="value.image" mode="aspectFit"></image>
+										<view v-if="value.lv_info.output" class="desc">每10秒/{{value.lv_info.output}}金豆</view>
+										<view v-if="value.lv_info.steal" class="desc">每日可偷{{value.lv_info.steal}}次</view>
+									</label>
 									<view class="up" @tap="getAnimalInfo(value.animal_id)">
 										升级宠物
 									</view>
@@ -105,6 +108,9 @@
 						</btnComponent>
 					</block>
 				</view>
+				<view class="bottom">
+					拥有{{animalInfo.animal.scrap_name}}X{{animalInfo.scrap_num}}
+				</view>
 			</view>
 		</modalComponent>
 	</view>
@@ -128,9 +134,12 @@
 				addCount: 0,
 				stealLeft: 0,
 				mainAnimalId: 1,
+				checkBtn: [],
 			};
 		},
 		onShow() {
+			this.checkBtn = this.$app.getData('config').manor_animal.check_btn;
+			this.type = this.checkBtn[0].type;
 			this.getAnimalList(this.type);
 		},
 		methods: {
@@ -294,9 +303,9 @@
 						}
 						.check {
 							position: absolute;
-							transform: translate(-50%, -50%);
-							right: 10%;
-							top: 5%;
+							transform: translate(-50%, -50%) scale(0.7);
+							right: 8%;
+							top: 8%;
 							width: 20rpx;
 							height: 20rpx;
 						}

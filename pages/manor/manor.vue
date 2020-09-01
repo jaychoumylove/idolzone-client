@@ -1,7 +1,7 @@
 <template>
 	<view class="manor-container">
 		<!-- <view class="background"></view> -->
-		<image mode='widthFix' class='bg' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36WkoItYoGoC20F1N49sXdnmrLwodF6x2icITRfQ4GN999WzPyMmDib7fw/0'></image>
+		<image class='bg' :style="{height: dheight +'px'}" src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36WkoItYoGoC20F1N49sXdnmrLwodF6x2icITRfQ4GN999WzPyMmDib7fw/0'></image>
 		<!-- <view class="header">
 			<view class="left iconfont iconclose"></view>
 			<view class="right title" :class="title_class">庄园</view>
@@ -11,10 +11,17 @@
 			<view class="info">
 				<view class="nickname text-overflow">{{$app.getData('userInfo').nickname || NICKNAME}}</view>
 				<view class="week-output">
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
-					 mode="aspectFill"></image>
-					 <view class="number-lable">本周收益：</view>
-					 <view class="number">{{manor.week_count}}</view>
+					<view class="number-lable">今日收益：</view>
+					<view class="number">{{manor.day_count}}</view>
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtADUxFWdscNvHzOXBP3uwg1Eibibe0hkrCbGXqt6ichmqiauBlPic8pptrtA/0"
+					mode="aspectFill"></image>
+					<view class="goContact">
+						<button open-type="contact">
+							<view class="add flex-set">+</view>
+							<!-- https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtLVejGdtb4PKTC5U7sYIsm670AARV24Rg8Abam1NjMoemVcPnSTiaPQA/0 -->
+							<!-- https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtqibsjoz4q50r0xxB6XBXYdcsFzFDw78QynvK8AiagO92tUyrhhCgFk3Q/0 -->
+						</button>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -38,11 +45,14 @@
 			<image class="animal" :src="mainAnimal.image"></image>
 		</view>
 		
-		<view class="left-buttom">
+		<view class="left-buttom" :class="fixBottom">
 			<view class="word">
 				<view class="output">
 					<view class="info">产量：10秒/{{output}}颗</view>
-					<view class="add flex-set">+</view>
+					<button open-type="contact">
+						<view class="add flex-set">+</view>
+					</button>
+					<!-- <view class="add flex-set">+</view> -->
 				</view>
 				<view class="angle"></view>
 			</view>
@@ -55,7 +65,7 @@
 				<image class="buttom"></image>
 			</view>
 		</view>
-		<view class="steal-list">
+		<!-- <view class="steal-list">
 			<view class="title">最新动态</view>
 			<view v-if="!stealLog.length" class="flex-set" style="margin-top: 20rpx;">暂无数据～</view>
 			<view class="steal-item" v-for="(item, index) in stealLog" :key="index">
@@ -75,24 +85,22 @@
 					</view>
 				</view>
 			</view>
-		</view>
-		
+		</view> -->
 		
 		<!-- 召唤宠物 -->
 		<modalComponent v-if="modal == 'goCall'" type="center" title="提示" @closeModal="modal=''">
 			<view class="modal-container gocall-modal-container">
 				<view class="title">召唤宠物</view>
 				<view class="title-lable" @tap="getRewardPool">奖池详情</view>
-				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr365PtRS8G9udQu0QHYZN2vLm0PiaKaaiaiafvCKzZibtCw5rFATmiaZBXXOXQ/0"
-					   mode="aspectFit"></image>
+				<image class="bg" :src="callImage|| ''" mode="aspectFit"></image>
 				<view class="btn-wrap">
 					<btnComponent type="default" v-for="(item, index) in callBtn" :key="index">
-						<view class="btn" @tap="callReward(item.type)">{{item.number}}次：{{item.panacea}}灵丹</view>
+						<view class="btn" @tap="callReward(item)">{{item.number}}次：{{item.panacea}}灵丹</view>
 					</btnComponent>
 				</view>
 				
 				<view class="buttom">
-					今日剩余次数：{{$app.getData('userExt').animal_lottery || 0}}
+					今日剩余次数：{{lotteryLeft || 0}}
 				</view>
 			</view>
 		</modalComponent>
@@ -108,7 +116,8 @@
 							<view class="call-item" v-for="(value, key) in item" :key='key'>
 								<view class="name">{{value.animal.name}}</view>
 								<image :src="value.animal.image" mode="aspectFit"></image>
-								<view class="percent">{{value.chance}}%</view>
+								<view class="percent">概率：{{value.chance}}%</view>
+								<view class="has-scrap">拥有：{{value.scrap_num}}碎片</view>
 							</view>
 						</view>
 					</block>
@@ -147,6 +156,22 @@
 				</view>
 			</view>
 		</modalComponent>
+		
+		<!-- 往期鲜花结算 -->
+		<modalComponent v-if="modal == 'flowerReward'" type="center" title="提示" @closeModal="modal=''">
+			<view class="modal-container flowerreward-modal-container">
+				<view class="title">往期鲜花收益</view>
+				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtADUxFWdscNvHzOXBP3uwg1Eibibe0hkrCbGXqt6ichmqiauBlPic8pptrtA/0"
+					   mode="aspectFill"></image>
+				<view class="coin-count">恭喜你获得<text style="color: #FC6257;padding: 0 10rpx;">{{panaceaReward}}</text>灵丹</view>
+				<view class="flex-set">你可以使用这些灵丹召唤宠物</view>
+				<view class="btn-wrap">
+					<btnComponent type="default">
+						<view class="btn" @tap="modal=''">收下了</view>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent>
 	</view>
 </template>
 
@@ -175,23 +200,35 @@
 				stealLog: [],
 				addCount: 0,// 累计收集数
 				output: 0,// 每10秒产量
+				stealLeft: 0,
+				lotteryLeft: 0,
 				addCountTimer: '',
 				addCountProgress: 0,
 				addCountTimeNumber: 0,
 				addCountAuto: false,
 				mainAnimal: {},
+				callImage: '',
+				maxAddCount: 0,
+				dheight: 0,
+				fixBottom: '',
+				panaceaReward: 0,
 			};
 		},
 		onShow() {
-			const {manor_animal: {manor_rbtn,lottery: {types}}} = this.$app.getData('config');
+			this.dheight = uni.getSystemInfoSync().windowHeight;
+			if (this.dheight < 500) {
+				this.fixBottom = 'fix-bottom'
+			}
+			const {manor_animal: {manor_rbtn,lottery: {types,image}}} = this.$app.getData('config');
 			this.btn = manor_rbtn;
+			this.callImage = image;
 			this.callBtn = types;
 			this.getManorInfo();
-			this.getStealLogList();
+			// this.getStealLogList();
 		},
 		onReachBottom() {
-			this.stealLogPage.page ++;
-			this.getStealLogList();
+			// this.stealLogPage.page ++;
+			// this.getStealLogList();
 		},
 		onUnload() {
 			// this.cleanTimer();
@@ -202,13 +239,24 @@
 				this.addCountTimer = '';
 			},
 			setTimer() {
+				if (this.addCount >= this.maxAddCount) {
+					this.addCount = this.maxAddCount;
+					this.addCountTimeNumber = 10;
+					this.addCountProgress = 100;
+					return;
+				}
 				this.addCountTimeNumber = 1;
 				this.addCountProgress = 10;
 				this.addCountTimer = setInterval(() => {
 					if (this.addCountTimeNumber == 10) {
-						this.addCountTimeNumber = 1;
-						this.addCountProgress = 10;
-						this.addCount += this.output;
+						if (this.addCount >= this.maxAddCount) {
+							this.addCount = this.maxAddCount;
+							this.cleanTimer();
+						} else {
+							this.addCountTimeNumber = 1;
+							this.addCountProgress = 10;
+							this.addCount += this.output;
+						}
 						if (this.addCountAuto) {
 							this.$app.request(this.$app.API.ANIMAL_OUTPUT, {}, res => {
 								this.getManorInfo();
@@ -230,12 +278,29 @@
 			},
 			getManorInfo() {
 				this.$app.request(this.$app.API.MANOR_PAGE, {}, res => {
-					const {manor, output, add_count, auto_count, main_animal} = res.data;
+					const {
+						manor, 
+						output, 
+						add_count, 
+						auto_count, 
+						main_animal, 
+						steal_left, 
+						lottery_left, 
+						limit_time,
+						panacea_reward,
+					} = res.data;
 					this.manor = manor;
 					this.output = parseInt(output);
+					this.stealLeft = parseInt(steal_left);
 					this.addCount = parseInt(add_count);
 					this.addCountAuto = auto_count;
 					this.mainAnimal = main_animal;
+					this.lotteryLeft = lottery_left;
+					this.maxAddCount = parseInt(output) * parseInt(limit_time);
+					if (parseInt(panacea_reward) > 0) {
+						this.panaceaReward = parseInt(panacea_reward);
+						this.modal = 'flowerReward';
+					}
 					if (!this.addCountTimer) this.setTimer();
 				})
 			},
@@ -247,19 +312,23 @@
 				
 				this.$app.request(this.$app.API.ANIMAL_LOTTERY_INFO, {}, res => {
 					uni.hideLoading();
-					this.rewardPool = this.supportNumebrGroup(res.data, 3);
+					this.rewardPool = this.supportNumberGroup(res.data, 3);
 					this.modal = 'callPool';
 				})
 			},
-			callReward(type) {
+			callReward(item) {
 				uni.showLoading({
 					mask:true,
 					title:'召唤中...'
 				})
 				
+				const {type, number} = item;
+				
 				this.$app.request(this.$app.API.ANIMAL_LOTTERY, {type}, res => {
 					this.reward = res.data.list;
 					this.rewardHasNew = res.data.has_new;
+					this.lotteryLeft = parseInt(this.lotteryLeft) - parseInt(number)
+					this.getManorInfo();
 					setTimeout(() => {
 						uni.hideLoading();
 						this.modal = 'callResult';
@@ -296,7 +365,7 @@
 					})
 				}
 			},
-			supportNumebrGroup(list, number) {
+			supportNumberGroup(list, number) {
 				if (!list.length) return [];
 				let newList = [];
 				const length = list.length,
@@ -325,6 +394,14 @@
 		}
 		.bg {
 			width: 100%;
+			overflow: hidden;
+		}
+		.add {
+			background-color: #FC6257;
+			border-radius: 30rpx;
+			color: white;
+			width: 30rpx;
+			height: 30rpx;
 		}
 		.header {
 			position: absolute;
@@ -378,7 +455,7 @@
 					.icon {
 						width: 32upx;
 						height: 32upx;
-						margin-right: 10rpx;
+						margin:0 10rpx;
 					}
 					.number {
 						color:#643208;
@@ -441,6 +518,10 @@
 			}
 		}
 		
+		.fix-bottom {
+			top: unset!important;
+			bottom: 0;
+		}
 		.left-buttom {
 			position: absolute;
 			right: 20rpx;
@@ -461,13 +542,7 @@
 					.info {
 						font-size: 22rpx;
 					}
-					.add {
-						background-color: red;
-						border-radius: 30rpx;
-						color: white;
-						width: 30rpx;
-						height: 30rpx;
-					}
+					
 				}
 			}
 			.outputing {
@@ -626,6 +701,13 @@
 				padding: 0 20upx;
 			}
 		}
+		
+		.flowerreward-modal-container {
+			color: #643107;
+			.btn-wrap {
+				justify-content: space-around;
+			}
+		}
 	
 		.callpoll-modal-container {
 			.scroll-wrapper {
@@ -639,8 +721,8 @@
 				justify-content: space-around;
 				.call-item {
 					width: 170rpx;
-					height: 205rpx;
-					background-image: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36vYmAhrGZwCkKyPcSxVbO2JW3d21RwhASW5BYIyzArvlCHwpDcEsrQA/0");
+					height: 223rpx;
+					background-image: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HnqQXz07SO8rM1uzBoVhDxTF2BC1ibhWdNOMZnQpmYpdjibWvic8Ahiaibib3Eko3ODu6ObWaB2pNUGicPg/0");
 					background-position: center center;
 					background-repeat: no-repeat;
 					background-size: 100% 100%;
@@ -662,19 +744,36 @@
 						font-size: 22rpx;
 					}
 					.percent {
-						width: 100rpx;
+						white-space: nowrap;
 						height: 50rpx;
-						background-image: url('https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36Yu6KcWXLNIq5PXPICp52ibWGtAoDqLY6PJ6rX6ARgK1Yso9vc3fndNg/0');
-						background-position: center center;
-						background-repeat: no-repeat;
-						background-size: 100% 100%;
+						// background-image: url('https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36Yu6KcWXLNIq5PXPICp52ibWGtAoDqLY6PJ6rX6ARgK1Yso9vc3fndNg/0');
+						// background-position: center center;
+						// background-repeat: no-repeat;
+						// background-size: 100% 100%;
 						transform: translateX(-50%);
 						left: 50%;
-						bottom: 5%;
+						bottom: 15%;
 						position: absolute;
 						text-align: center;
 						line-height: 50rpx;
 						font-size: 24rpx;
+						color: #643107;
+					}
+					.has-scrap {
+						white-space: nowrap;
+						height: 50rpx;
+						// background-image: url('https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36Yu6KcWXLNIq5PXPICp52ibWGtAoDqLY6PJ6rX6ARgK1Yso9vc3fndNg/0');
+						// background-position: center center;
+						// background-repeat: no-repeat;
+						// background-size: 100% 100%;
+						transform: translateX(-50%);
+						left: 50%;
+						bottom: 0%;
+						color: #643107;
+						position: absolute;
+						text-align: center;
+						line-height: 50rpx;
+						font-size: 20rpx;
 					}
 				}
 			}

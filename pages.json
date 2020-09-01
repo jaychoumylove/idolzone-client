@@ -552,10 +552,10 @@
 				"text": "榜单"
 			},
 			{
-				"pagePath": "pages/farm/farm",
+				"pagePath": "pages/manor/manor",
 				"iconPath": "/static/image/tab/farm.png",
 				"selectedIconPath": "/static/image/tab/farm-tap.png",
-				"text": "农场"
+				"text": "庄园"
 			}, {
 				"pagePath": "pages/group/group",
 				"iconPath": "/static/image/tab/group.png",
