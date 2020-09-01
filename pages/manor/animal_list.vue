@@ -36,13 +36,22 @@
 									<view class="up" @tap="getAnimalInfo(value.id)" v-if="value.user_animal">
 										升级宠物
 									</view>
+									<view class="up" @tap="$app.goPage('/pages/manor/manor?modal=goCall')" v-else>
+										去召唤
+									</view>
 								</block>
-								<block v-if="type=='yet'">
+								<block v-if="['yet', 'secret'].indexOf(type) > -1">
 									<view v-if="type=='yet'" class="lv">Lv.1</view>
 									<view class="name">{{value.name}}</view>
 									<image :src="value.empty_img" mode="aspectFit"></image>
 									<view v-if="value.lv_info.output" class="desc">每10秒/{{value.lv_info.output}}金豆</view>
 									<view v-if="value.lv_info.steal" class="desc">每日可偷{{value.lv_info.steal}}次</view>
+									<view class="up" @tap="unlock(value)" v-if="value.exchanged">
+										解锁
+									</view>
+									<view class="up" @tap="$app.goPage('/pages/lucky/lucky')" v-else>
+										去收集
+									</view>
 								</block>
 								<block v-if="type=='allready'">
 									<label>
@@ -68,7 +77,7 @@
 			<view class="desc-label">宠物说明:</view>
 			<view class="desc-content">
 				<view class="p">所有产豆宝宝产量相加为每10秒总产量</view>
-				<view class="p">所有偷豆宝宝总次数相加为每日可偷次数</view>
+				<!-- <view class="p">所有偷豆宝宝总次数相加为每日可偷次数</view> -->
 			</view>
 		</view>
 		
@@ -127,7 +136,7 @@
 		data() {
 			return {
 				modal: '',
-				type: 'all',
+				type: '',
 				list: [],
 				animalInfo: {},
 				output: 0,
@@ -139,7 +148,7 @@
 		},
 		onShow() {
 			this.checkBtn = this.$app.getData('config').manor_animal.check_btn;
-			this.type = this.checkBtn[0].type;
+			if (!this.type) this.type = this.checkBtn[0].type;
 			this.getAnimalList(this.type);
 		},
 		methods: {
@@ -157,6 +166,17 @@
 					this.addCount = add_count;
 					this.stealLeft = steal_left;
 					this.mainAnimalId = main_animal;
+				})
+			},
+			unlock (item) {
+				uni.showLoading({
+					mask:true,
+					title:'解锁中...'
+				})
+				
+				this.$app.request(this.$app.API.ANIMAL_UNLOCK, {animal_id: item.id}, res => {
+					this.$app.toast('解锁成功', 'success');
+					this.getAnimalList(this.type);
 				})
 			},
 			getAnimalInfo (animal_id) {

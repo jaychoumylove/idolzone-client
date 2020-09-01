@@ -42,9 +42,7 @@
 		</view>
 		
 		<view class="main-animal">
-			<view class="word">
-				记得常来看我
-			</view>
+			<view class="word">{{word||"记得常来看我"}}</view>
 			<image class="animal" :src="mainAnimal.image"></image>
 		</view>
 		
@@ -94,6 +92,10 @@
 				<view class="title">召唤宠物</view>
 				<view class="title-lable" @tap="getRewardPool">奖池详情</view>
 				<image class="bg" :src="callImage|| ''" mode="aspectFit"></image>
+				
+				<view class="desc flex-set">
+					说明：使用灵丹召唤宠物，如果你已经获得过这个宠物，将获得这个宠物的宠物碎片，宠物碎片可用来升级宠物。
+				</view>
 				<view class="btn-wrap">
 					<btnComponent type="default" v-for="(item, index) in callBtn" :key="index">
 						<view class="btn" @tap="callReward(item)">{{item.text}}</view>
@@ -101,7 +103,7 @@
 				</view>
 				
 				<view class="buttom">
-					今日剩余次数：{{lotteryLeft || 0}}
+					今日剩余次数：{{lotteryLeft || 0}}/{{lottery_max}}
 				</view>
 			</view>
 		</modalComponent>
@@ -214,7 +216,14 @@
 				fixBottom: '',
 				panaceaReward: 0,
 				userCurrency: {},
+				word: "",
+				lottery_max: 0,
 			};
+		},
+		onLoad(option) {
+			if (option.modal) {
+				this.modal = option.modal;
+			}
 		},
 		onShow() {
 			this.dheight = uni.getSystemInfoSync().windowHeight;
@@ -291,6 +300,8 @@
 						lottery_left, 
 						limit_time,
 						panacea_reward,
+						word,
+						max_lottery
 					} = res.data;
 					this.manor = manor;
 					this.output = parseInt(output);
@@ -299,6 +310,8 @@
 					this.addCountAuto = auto_count;
 					this.mainAnimal = main_animal;
 					this.lotteryLeft = lottery_left;
+					this.word = word;
+					this.lottery_max = max_lottery;
 					this.maxAddCount = parseInt(output) * parseInt(limit_time);
 					if (parseInt(panacea_reward) > 0) {
 						this.panaceaReward = parseInt(panacea_reward);
@@ -678,6 +691,13 @@
 			}
 			.btn-wrap {
 				margin: 25rpx 0!important;
+			}
+			.desc {
+				margin: 20rpx;
+				padding: 20rpx;
+				font-size: 24rpx;
+				border: 1rpx #ccc dashed;
+				border-radius: 40rpx;
 			}
 		}
 		

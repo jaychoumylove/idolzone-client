@@ -103,15 +103,6 @@
 			<block v-if="btn_cfg.farm">
 				<image class='charge-btn help-btn btn4' @tap="$app.goPage(btn_cfg.farm[0].path)" :src="btn_cfg.farm[0].icon"></image>
 				<view class="speed-content btn4">{{btn_cfg.farm[0].name}}</view>
-				
-				<image class='charge-btn help-btn btn5' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HwicF1tVq5W0eW4Ow73MEzIwbLFt1AHBiawQgPt2ficIOq9bic15hMylyQDAsczJicArnyxyfaec1wMtQ/0'
-					   @tap="$app.goPage('/pages/manor/manor')"></image>
-				<view class="speed-content btn5">去庄园</view>
-			</block>
-			<block v-else>
-				<image class='charge-btn help-btn btn4' src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HwicF1tVq5W0eW4Ow73MEzIwbLFt1AHBiawQgPt2ficIOq9bic15hMylyQDAsczJicArnyxyfaec1wMtQ/0'
-					   @tap="$app.goPage('/pages/manor/manor')"></image>
-				<view class="speed-content btn4">去庄园</view>
 			</block>
 		</view>
 

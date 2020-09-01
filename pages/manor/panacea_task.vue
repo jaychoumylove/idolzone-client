@@ -243,7 +243,7 @@
 				border-radius: 60upx;
 				// border: 2upx solid #FC6257;
 				background-color: white;
-				height: 100rpx;
+				height: 150rpx;
 
 				.left-content {
 					display: flex;
