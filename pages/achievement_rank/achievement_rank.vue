@@ -108,6 +108,11 @@
 				rankloading: [],
 			}
 		},
+		onLoad(option) {
+			if (option.type) {
+				this.currentType = option.type;
+			}
+		},
 		onShow() {
 			this.showing = true;
 			this.getRankList(1);

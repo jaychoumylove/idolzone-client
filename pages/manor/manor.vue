@@ -11,16 +11,19 @@
 			<view class="info">
 				<view class="nickname text-overflow">{{$app.getData('userInfo').nickname || NICKNAME}}</view>
 				<view class="week-output">
-					<view class="number-lable">今日收益：</view>
-					<view class="number">{{manor.day_count}}</view>
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0"
-					mode="aspectFill"></image>
-					<view class="goContact">
-						<button open-type="contact">
-							<view class="add flex-set">+</view>
-							<!-- https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtLVejGdtb4PKTC5U7sYIsm670AARV24Rg8Abam1NjMoemVcPnSTiaPQA/0 -->
-							<!-- https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtqibsjoz4q50r0xxB6XBXYdcsFzFDw78QynvK8AiagO92tUyrhhCgFk3Q/0 -->
-						</button>
+					<!-- https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtLVejGdtb4PKTC5U7sYIsm670AARV24Rg8Abam1NjMoemVcPnSTiaPQA/0 -->
+					<!-- https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtqibsjoz4q50r0xxB6XBXYdcsFzFDw78QynvK8AiagO92tUyrhhCgFk3Q/0 -->
+					<view class="left">
+						<view class="number">{{userCurrency.coin || 0}}</view>
+						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERgEQSHS0566j091KHGzhdQNKZpBKHPuWicKkHxXxNdSneZX4JLGn7BqQ/0"
+						mode="aspectFill"></image>
+					</view>
+					<view class="right" @tap="$app.goPage('/pages/manor/panacea_task')">
+						<view class="number">{{userCurrency.panacea || 0}}</view>
+						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0"
+						mode="aspectFill"></image>
+						<!-- <view class="add flex-set">+</view> -->
+						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtqibsjoz4q50r0xxB6XBXYdcsFzFDw78QynvK8AiagO92tUyrhhCgFk3Q/0"></image>
 					</view>
 				</view>
 			</view>
@@ -46,15 +49,13 @@
 		</view>
 		
 		<view class="left-buttom" :class="fixBottom">
-			<view class="word">
+			<view class="word" @tap="$app.goPage('/pages/manor/animal_list')">
 				<view class="output">
 					<view class="info">产量：10秒/{{output}}颗</view>
-					<button open-type="contact">
-						<view class="add flex-set">+</view>
-					</button>
+					<!-- <view class="add flex-set">+</view> -->
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtLVejGdtb4PKTC5U7sYIsm670AARV24Rg8Abam1NjMoemVcPnSTiaPQA/0"></image>
 					<!-- <view class="add flex-set">+</view> -->
 				</view>
-				<view class="angle"></view>
 			</view>
 			<view class="outputing">
 				<progress :percent="addCountProgress" stroke-width="10" activeColor="#ff9f08" border-radius="5" />
@@ -95,7 +96,7 @@
 				<image class="bg" :src="callImage|| ''" mode="aspectFit"></image>
 				<view class="btn-wrap">
 					<btnComponent type="default" v-for="(item, index) in callBtn" :key="index">
-						<view class="btn" @tap="callReward(item)">{{item.number}}次：{{item.panacea}}灵丹</view>
+						<view class="btn" @tap="callReward(item)">{{item.text}}</view>
 					</btnComponent>
 				</view>
 				
@@ -161,7 +162,7 @@
 		<modalComponent v-if="modal == 'flowerReward'" type="center" title="提示" @closeModal="modal=''">
 			<view class="modal-container flowerreward-modal-container">
 				<view class="title">往期鲜花收益</view>
-				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtADUxFWdscNvHzOXBP3uwg1Eibibe0hkrCbGXqt6ichmqiauBlPic8pptrtA/0"
+				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0"
 					   mode="aspectFill"></image>
 				<view class="coin-count">恭喜你获得<text style="color: #FC6257;padding: 0 10rpx;">{{panaceaReward}}</text>灵丹</view>
 				<view class="flex-set">你可以使用这些灵丹召唤宠物</view>
@@ -212,6 +213,7 @@
 				dheight: 0,
 				fixBottom: '',
 				panaceaReward: 0,
+				userCurrency: {},
 			};
 		},
 		onShow() {
@@ -224,6 +226,7 @@
 			this.callImage = image;
 			this.callBtn = types;
 			this.getManorInfo();
+			this.getCurrency();
 			// this.getStealLogList();
 		},
 		onReachBottom() {
@@ -304,6 +307,12 @@
 					if (!this.addCountTimer) this.setTimer();
 				})
 			},
+			getCurrency () {
+				this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {
+					this.userCurrency = res.data;
+					this.$app.setData('userCurrency', res.data)
+				})
+			},
 			getRewardPool() {
 				uni.showLoading({
 					mask:true,
@@ -361,6 +370,7 @@
 					})
 					this.$app.request(this.$app.API.ANIMAL_OUTPUT, {}, res => {
 						this.$app.toast('收取成功');
+						this.getCurrency();
 						this.getManorInfo();
 					})
 				}
@@ -446,22 +456,32 @@
 				.nickname {
 					max-width: 300rpx;
 					margin-bottom: 5rpx;
-					border-bottom: white 1rpx solid;
 					color: #653208;
 				}
 				.week-output {
+					border-top: white 1rpx solid;
 					white-space: nowrap;
 					display: flex;
-					.icon {
-						width: 32upx;
-						height: 32upx;
-						margin:0 10rpx;
+					justify-content: space-around;
+					.right {
+						margin-left: 40rpx;
 					}
-					.number {
-						color:#643208;
-					}
-					.number-label {
-						color: #643208;
+					.left,.right {
+						display: flex;
+						justify-content: space-around;
+						align-items: center;
+						// font-size: 22rpx;
+						.icon {
+							width: 32upx;
+							height: 32upx;
+							margin:0 10rpx;
+						}
+						.number {
+							color:#643208;
+						}
+						.number-label {
+							color: #643208;
+						}
 					}
 				}
 			}
@@ -496,9 +516,9 @@
 		
 		.main-animal {
 			position: absolute;
-			transform: translateX(-50%);
+			transform: translate(-50%, -50%);
 			left: 45%;
-			top: 450rpx;
+			top: 60%;
 			.word {
 				width: 260rpx;
 				color: #653208;
@@ -518,14 +538,10 @@
 			}
 		}
 		
-		.fix-bottom {
-			top: unset!important;
-			bottom: 0;
-		}
 		.left-buttom {
 			position: absolute;
 			right: 20rpx;
-			top: 820rpx;
+			bottom: 80rpx;
 			.word {
 				width: 260rpx;
 				height: 80rpx;
@@ -542,7 +558,11 @@
 					.info {
 						font-size: 22rpx;
 					}
-					
+					.icon {
+						width: 32upx;
+						height: 32upx;
+						margin:0 10rpx;
+					}
 				}
 			}
 			.outputing {
@@ -706,6 +726,10 @@
 			color: #643107;
 			.btn-wrap {
 				justify-content: space-around;
+			}
+			.bg {
+				width: 150rpx;
+				height: 150rpx;
 			}
 		}
 	

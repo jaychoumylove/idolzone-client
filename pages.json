@@ -538,6 +538,14 @@
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "偷豆"
 			}
+		},
+		{
+			"path": "pages/manor/panacea_task",
+			"style": {
+				"navigationBarBackgroundColor": "#AFE9F9",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "获取灵丹"
+			}
 		}
     ],
 	"tabBar": {
@@ -552,10 +560,10 @@
 				"text": "榜单"
 			},
 			{
-				"pagePath": "pages/manor/manor",
+				"pagePath": "pages/farm/farm",
 				"iconPath": "/static/image/tab/farm.png",
 				"selectedIconPath": "/static/image/tab/farm-tap.png",
-				"text": "庄园"
+				"text": "农场"
 			}, {
 				"pagePath": "pages/group/group",
 				"iconPath": "/static/image/tab/group.png",

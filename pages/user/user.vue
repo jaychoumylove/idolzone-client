@@ -51,6 +51,14 @@
 					</view>
 					<view class="text">钻石</view>
 				</view>
+				<!-- <view class="item-wrap">
+					<view class="count">
+						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0"
+						 mode="aspectFill"></image>
+						<text class="num">{{userCurrency.panacea||0}}</text>
+					</view>
+					<view class="text">灵丹</view>
+				</view> -->
 
 			</view>
 			<view class="row row-2">
@@ -72,7 +80,6 @@
 						<view class="text">补充鲜花</view>
 					</button>
 				</view>
-
 				<view class="item-wrap" @tap="$app.goPage('/pages/user/badge')">
 					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9G95njnZp6t7hkcfsoraFhyFkjhRwv6OG00pSKo7DLXZAUibrL8SldBmf7kdCFB1icsWHxc0n34AGrA/0"
 					 mode="aspectFill"></image>
