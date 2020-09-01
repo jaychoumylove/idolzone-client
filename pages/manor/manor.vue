@@ -13,7 +13,7 @@
 				<view class="week-output">
 					<view class="number-lable">今日收益：</view>
 					<view class="number">{{manor.day_count}}</view>
-					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtADUxFWdscNvHzOXBP3uwg1Eibibe0hkrCbGXqt6ichmqiauBlPic8pptrtA/0"
+					<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0"
 					mode="aspectFill"></image>
 					<view class="goContact">
 						<button open-type="contact">

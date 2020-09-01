@@ -23,6 +23,12 @@
 						<view class="add-count add" v-if="item.flower > 0">+{{item.flower}}</view>
 						<view class="add-count" v-else>{{item.flower}}</view>
 					</view>
+					<view class="right-item" v-if="item.panacea">
+						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0"
+						 mode="widthFix"></image>
+						<view class="add-count add" v-if="item.panacea > 0">+{{item.panacea}}</view>
+						<view class="add-count" v-else>{{item.panacea}}</view>
+					</view>
 					<view class="right-item" v-if="item.stone">
 						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
 						 mode="widthFix"></image>

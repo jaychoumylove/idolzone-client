@@ -32,6 +32,12 @@
 								<view class="add-count add" v-if="item.stone > 0">+{{item.stone}}</view>
 								<view class="add-count" v-else>{{item.stone}}</view>
 							</block>
+							<block v-if="item.panacea">
+								<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0"
+								 mode="widthFix"></image>
+								<view class="add-count add" v-if="item.panacea > 0">+{{item.panacea}}</view>
+								<view class="add-count" v-else>{{item.panacea}}</view>
+							</block>
 							<block v-if="item.trumpet">
 								<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk90Xa3b43zE46M8IkUvFyMR5GgfJN52icBqoicfKWfAJS8QXog0PZtgdEQ/0"
 								 mode="widthFix"></image>
