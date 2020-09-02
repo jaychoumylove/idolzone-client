@@ -24,7 +24,36 @@
 					<radio-group @change="changeMain">
 						<view class="animal-list scroll-item">
 							<view class="animal-item" v-for="(value, key) in item" :key='key'>
-								<block v-if="['all', 'twelve'].indexOf(type) > -1">
+								<block v-if="['secret', 'twelve'].indexOf(type) > -1">
+									<label>
+										<view class="lv">Lv.{{value.user_animal ? value.user_animal.level: 1}}</view>
+										<view class="name">{{value.name}}</view>
+										<radio :value="value.id" :checked="value.id == mainAnimalId" class="check" v-if="value.user_animal" /></radio>
+										<image :src="value.user_animal ? value.image: value.empty_img" mode="aspectFit"></image>
+										<view v-if="value.lv_info.output" class="desc">每10秒/{{value.lv_info.output}}金豆</view>
+										<view v-if="value.lv_info.steal" class="desc">每日可偷{{value.lv_info.steal}}次</view>
+									</label>
+									<view class="up" @tap="getAnimalInfo(value.id)" v-if="value.user_animal">
+										升级宠物
+									</view>
+									<block v-else>
+										<view v-if="type== 'twelve'">
+											<view class="up" @tap="$app.goPage('/pages/manor/manor?modal=goCall')">
+												去召唤
+											</view>
+										</view>
+										<block v-else>
+											<view class="up" @tap="unlock(value)" v-if="value.exchanged">
+												解锁
+											</view>
+											<view class="up" @tap="$app.goPage('/pages/lucky/lucky')" v-else>
+												去收集
+											</view>
+										</block>
+									</block>
+								</block>
+								
+								<block v-if="type=='all'">
 									<label>
 										<view class="lv">Lv.{{value.user_animal ? value.user_animal.level: 1}}</view>
 										<view class="name">{{value.name}}</view>
@@ -40,8 +69,8 @@
 										去召唤
 									</view>
 								</block>
-								<block v-if="['yet', 'secret'].indexOf(type) > -1">
-									<view v-if="type=='yet'" class="lv">Lv.1</view>
+								<block v-if="type=='yet'">
+									<view class="lv">Lv.1</view>
 									<view class="name">{{value.name}}</view>
 									<image :src="value.empty_img" mode="aspectFit"></image>
 									<view v-if="value.lv_info.output" class="desc">每10秒/{{value.lv_info.output}}金豆</view>
@@ -169,14 +198,16 @@
 				})
 			},
 			unlock (item) {
-				uni.showLoading({
-					mask:true,
-					title:'解锁中...'
-				})
-				
-				this.$app.request(this.$app.API.ANIMAL_UNLOCK, {animal_id: item.id}, res => {
-					this.$app.toast('解锁成功', 'success');
-					this.getAnimalList(this.type);
+				this.$app.modal(`确认解锁${item.name}？`, () => {
+					uni.showLoading({
+						mask:true,
+						title:'解锁中...'
+					})
+					
+					this.$app.request(this.$app.API.ANIMAL_UNLOCK, {animal_id: item.id}, res => {
+						this.$app.toast('解锁成功', 'success');
+						this.getAnimalList(this.type);
+					})
 				})
 			},
 			getAnimalInfo (animal_id) {
@@ -320,6 +351,7 @@
 							left: 10%;
 							top: 37%;
 							font-size: 20rpx;
+							width: 20rpx;
 						}
 						.check {
 							position: absolute;

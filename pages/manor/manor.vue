@@ -43,7 +43,7 @@
 		
 		<view class="main-animal">
 			<view class="word">{{word||"记得常来看我"}}</view>
-			<image class="animal" :src="mainAnimal.image"></image>
+			<image class="animal" mode="aspectFit" :src="mainAnimal.image"></image>
 		</view>
 		
 		<view class="left-buttom" :class="fixBottom">
@@ -531,7 +531,7 @@
 			position: absolute;
 			transform: translate(-50%, -50%);
 			left: 45%;
-			top: 60%;
+			top: 50%;
 			.word {
 				width: 260rpx;
 				color: #653208;
