@@ -22,11 +22,19 @@
 				</view>
 				<view class="item-wrap">
 					<view class="count flex-set">
-						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"
+						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0"
 						 mode="aspectFill"></image>
-						<text class="num">{{$app.formatNumber(earn.stone || 0)}}</text>
+						<text class="num">{{$app.formatNumber(earn.panacea || 0)}}</text>
 					</view>
-					<view class="text">钻石</view>
+					<view class="text">灵丹</view>
+				</view>
+				<view class="item-wrap">
+					<view class="count flex-set">
+						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vceee3ribmebyLp4YUkEa7my8VjaX641mQdlnTgrXCl0xWLSIicQMKicKb3Q/0"
+						 mode="aspectFill"></image>
+						<text class="num">{{$app.formatNumber(earn.scrap || 0)}}</text>
+					</view>
+					<view class="text">幸运碎片</view>
 				</view>
 			</view>
 		</view>
@@ -125,7 +133,7 @@
 
 				.item-wrap {
 					flex: 1;
-					padding: 20upx 40upx;
+					padding: 20upx 0;
 					text-align: center;
 
 					.count {

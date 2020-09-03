@@ -2,6 +2,8 @@
 	<view class="manor-container">
 		<!-- <view class="background"></view> -->
 		<image class='bg' :style="{height: dheight +'px'}" src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36WkoItYoGoC20F1N49sXdnmrLwodF6x2icITRfQ4GN999WzPyMmDib7fw/0'></image>
+		<!-- <image class='bg' :style="{height: dheight +'px'}" src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GORNqMVibKH3lQqEq8pJ6wOFnhvGIhu9pRxxRicDI5ExhicTJMPSeyhcroKiaYdzicwgSKbsjLcV2Cfqg/0'></image> -->
+		<!-- <image class='bg' mode="widthFix" src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GORNqMVibKH3lQqEq8pJ6wOFnhvGIhu9pRxxRicDI5ExhicTJMPSeyhcroKiaYdzicwgSKbsjLcV2Cfqg/0'></image> -->
 		<!-- <view class="header">
 			<view class="left iconfont iconclose"></view>
 			<view class="right title" :class="title_class">庄园</view>
@@ -41,12 +43,13 @@
 			</view>
 		</view>
 		
-		<view class="main-animal">
+		<view class="main-animal" :class='{"normal-main": mainAnimal.type == "NORMAL", "secret-main": mainAnimal.type == "SECRET"}'>
 			<view class="word">{{word||"记得常来看我"}}</view>
-			<image class="animal" mode="aspectFit" :src="mainAnimal.image"></image>
+			<image class="animal secret" :class="fixAnimalScreen" v-if="mainAnimal.type == 'SECRET'" mode="widthFix" :src="mainAnimal.image"></image>
+			<image class="animal normal" v-if="mainAnimal.type == 'NORMAL'" mode="aspectFit" :src="mainAnimal.image"></image>
 		</view>
 		
-		<view class="left-buttom" :class="fixBottom">
+		<view class="right-bottom" :class="fixBottom">
 			<view class="word" @tap="$app.goPage('/pages/manor/animal_list')">
 				<view class="output">
 					<view class="info">产量：10秒/{{output}}颗</view>
@@ -218,6 +221,7 @@
 				userCurrency: {},
 				word: "",
 				lottery_max: 0,
+				fixAnimalScreen: ''
 			};
 		},
 		onLoad(option) {
@@ -229,6 +233,10 @@
 			this.dheight = uni.getSystemInfoSync().windowHeight;
 			if (this.dheight < 500) {
 				this.fixBottom = 'fix-bottom'
+				this.fixAnimalScreen = 'small-screen'
+			}
+			if (this.dheight > 500 && this.dheight <= 750) {
+				this.fixAnimalScreen = 'normal-screen'
 			}
 			const {manor_animal: {manor_rbtn,lottery: {types,image}}} = this.$app.getData('config');
 			this.btn = manor_rbtn;
@@ -351,6 +359,7 @@
 					this.rewardHasNew = res.data.has_new;
 					this.lotteryLeft = parseInt(this.lotteryLeft) - parseInt(number)
 					this.getManorInfo();
+					this.getCurrency();
 					setTimeout(() => {
 						uni.hideLoading();
 						this.modal = 'callResult';
@@ -410,7 +419,8 @@
 		.background {
 			width: 100%;
 			height: 1284rpx;
-			background-image: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36xVGzlKdeqOnW4G5JmiavsgjHzgx1jTomDoUxx4KgCickAapmaNt2DerQ/0");
+			background-image: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GORNqMVibKH3lQqEq8pJ6wOg2JicOAwYjdt5sjQrbqydPvXRHq98kE39iczYbAtibHPutF1X14FzFLhw/0");
+			// background-image: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36xVGzlKdeqOnW4G5JmiavsgjHzgx1jTomDoUxx4KgCickAapmaNt2DerQ/0");
 			background-repeat: no-repeat;
 			background-position: center center;
 			background-size: 100% 100%;
@@ -504,7 +514,7 @@
 			position: absolute;
 			right: 30rpx;
 			top: 90rpx;
-			
+			z-index: 1; // 防止被图片挡住
 			.item {
 				width: 110rpx;
 				height: 110rpx;
@@ -521,17 +531,25 @@
 				align-items: center;
 				text-shadow: -4rpx 0 black, 0 4rpx black, 4rpx 0 black, 0 -4rpx black;
 				color: white;
-				&:not(:last-of-type) {
-					margin-bottom: 20rpx;
-				}
+				// &:not(:last-of-type) {
+				// 	margin-bottom: 20rpx;
+				// }
 			}
 		}
 		
+		.normal-main {
+			transform: translate(-50%, -50%);
+			left: 44%;
+			top: 60%;
+		}
+		.secret-main {
+			transform: translate(-50%);
+			bottom: 170rpx;
+			left: 50%;
+		}
 		.main-animal {
 			position: absolute;
-			transform: translate(-50%, -50%);
-			left: 45%;
-			top: 50%;
+
 			.word {
 				width: 260rpx;
 				color: #653208;
@@ -542,19 +560,35 @@
 				background-repeat: no-repeat;
 				background-size: 100% 100%;
 				padding-top: 15rpx;
-				margin-left: 80rpx;
+				margin: 0 auto;
 			}
 			
 			.animal {
+				// width: 400rpx;
+				// height: 400rpx;
+			}
+			.secret {
+				width: 850rpx;
+			}
+			.normal {
 				width: 400rpx;
 				height: 400rpx;
 			}
+			
+			.normal-screen {
+				width: 750rpx!important;
+			}
+			
+			.small-screen {
+				width: 650rpx!important;
+			}
 		}
 		
-		.left-buttom {
+		.right-bottom {
 			position: absolute;
 			right: 20rpx;
 			bottom: 80rpx;
+			z-index: 1; // 防止被图片挡住
 			.word {
 				width: 260rpx;
 				height: 80rpx;
@@ -583,6 +617,7 @@
 				width: 100rpx;
 				position: relative;
 				border: 1rpx solid #653208;
+				border-radius: 5px;
 				.times {
 					color: black;
 					position: absolute;
@@ -854,8 +889,9 @@
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: space-around;
-				margin: 20rpx 0;
+				// margin: 20rpx 0;
 				.new-item {
+					margin: 10rpx 0;
 					width: 150rpx;
 					height: 180rpx;
 					background-image: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HnqQXz07SO8rM1uzBoVhDxTF2BC1ibhWdNOMZnQpmYpdjibWvic8Ahiaibib3Eko3ODu6ObWaB2pNUGicPg/0");
