@@ -8,7 +8,7 @@
 			<view class="week-output">
 				<view class="output">产量：{{output}}金豆/10秒</view>
 				<!-- <view>每日可偷：{{stealLeft}}次</view> -->
-				<view class="output">幸运碎片：{{scrapNum}}</view>
+				<view class="scrap-num">幸运碎片：{{scrapNum}}</view>
 			</view>
 			<!-- <view class="week-output">
 				<view class="output">幸运碎片：{{scrapNum}}</view>
@@ -316,6 +316,9 @@
 				padding: 10rpx 20rpx;
 				margin-bottom: 20rpx;
 				width: 500rpx;
+				.scrap-num {
+					margin-left: 20rpx;
+				}
 			}
 		}
 		
@@ -397,6 +400,7 @@
 							height: 24rpx;
 							line-height: 24rpx;
 							.number {
+								padding-top: 10rpx;
 								writing-mode: vertical-rl;
 								color: #F23A4C;
 							}

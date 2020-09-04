@@ -41,7 +41,8 @@
 			</view>
 			<view class="user-list flex-set">
 				<view class="item-wrap" v-for="(item,index) in list" :key="index">
-					<image class="avatar" :src="list[index].user.avatarurl" mode="aspectFill"></image>
+					<image class="avatar" :src="item.user.avatarurl" mode="aspectFill"></image>
+					<view class="nickname">{{item.user.nickname}}</view>
 					<view class="extra">{{item.mass_count}}</view>
 				</view>
 				<view class="item-wrap" v-for="index in blockUserCount" :key="index">
@@ -355,6 +356,18 @@
 						width: 120upx;
 						height: 120upx;
 						border-radius: 50%;
+					}
+					.nickname {
+						bottom: -50rpx;
+						background-color: unset;
+						color: #ffaf2c;
+						left: 50%;
+						transform: translateX(-50%);
+						white-space: nowrap;
+						font-size: 24upx;
+						position: absolute;
+						width: 90upx;
+						text-align: center;
 					}
 
 					.extra {

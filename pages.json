@@ -546,6 +546,14 @@
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "获取灵丹"
 			}
+		},
+		{
+			"path": "pages/manor/background",
+			"style": {
+				"navigationBarBackgroundColor": "#F99510",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "庄园背景"
+			}
 		}
     ],
 	"tabBar": {

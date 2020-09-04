@@ -1,7 +1,7 @@
 <template>
 	<view class="manor-container">
 		<!-- <view class="background"></view> -->
-		<image class='bg' :style="{height: dheight +'px'}" src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36WkoItYoGoC20F1N49sXdnmrLwodF6x2icITRfQ4GN999WzPyMmDib7fw/0'></image>
+		<image class='bg' :style="{height: dheight +'px'}" :src='mainBackground'></image>
 		<!-- <image class='bg' :style="{height: dheight +'px'}" src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GORNqMVibKH3lQqEq8pJ6wOFnhvGIhu9pRxxRicDI5ExhicTJMPSeyhcroKiaYdzicwgSKbsjLcV2Cfqg/0'></image> -->
 		<!-- <image class='bg' mode="widthFix" src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GORNqMVibKH3lQqEq8pJ6wOFnhvGIhu9pRxxRicDI5ExhicTJMPSeyhcroKiaYdzicwgSKbsjLcV2Cfqg/0'></image> -->
 		<!-- <view class="header">
@@ -221,7 +221,8 @@
 				userCurrency: {},
 				word: "",
 				lottery_max: 0,
-				fixAnimalScreen: ''
+				fixAnimalScreen: '',
+				mainBackground: "https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36WkoItYoGoC20F1N49sXdnmrLwodF6x2icITRfQ4GN999WzPyMmDib7fw/0",
 			};
 		},
 		onLoad(option) {
@@ -309,7 +310,8 @@
 						limit_time,
 						panacea_reward,
 						word,
-						max_lottery
+						max_lottery,
+						main_background,
 					} = res.data;
 					this.manor = manor;
 					this.output = parseInt(output);
@@ -320,6 +322,7 @@
 					this.lotteryLeft = lottery_left;
 					this.word = word;
 					this.lottery_max = max_lottery;
+					this.mainBackground = main_background;
 					this.maxAddCount = parseInt(output) * parseInt(limit_time);
 					if (parseInt(panacea_reward) > 0) {
 						this.panaceaReward = parseInt(panacea_reward);
@@ -345,6 +348,11 @@
 					this.rewardPool = this.supportNumberGroup(res.data, 3);
 					this.modal = 'callPool';
 				})
+			},
+			randNumber(min, max) {
+				let minInt = Math.ceil(min);
+				let maxInt = Math.floor(max);
+				return Math.floor(Math.random() * (maxInt - minInt + 1)) + minInt;
 			},
 			callReward(item) {
 				uni.showLoading({

@@ -183,7 +183,11 @@
 			};
 		},
 		onShow() {
-			this.notice = this.$app.getData('config').occupy_notice;
+			const config = this.$app.getData('config');
+			if (config.hasOwnProperty('send_hot')) {
+				this.send_num_list = config.send_hot.send_num;
+			}
+			this.notice = config.occupy_notice;
 			this.getBannerTop()
 			this.getMyRank()
 			this.getRankList()
@@ -233,20 +237,30 @@
 						return this.$app.toast(`${typeMsgMap[this.current]}不足`);
 					}
 				}
-				uni.showLoading({
-					title:"打榜中...",
-					mask: true
-				});
+				
 				const sendData = {
 					starid: this.star.id,
 					hot: parseInt(this.sendCount),
 					type: this.current + 1,
 					danmaku: Number(!this.danmakuClosed),
 				};
-				this.$app.request(this.$app.API.STAR_SENDHOT, sendData, res => {
+				if (typeMap[this.current] == 'flower' && this.sendCount == this.userCurrency[typeMap[this.current]]) {
+					this.$app.modal(`确认送出${this.sendCount}鲜花？`, () => {
+						this.sendHotAction(sendData);
+					})
+				} else {
+					this.sendHotAction(sendData);
+				}
+			},
+			sendHotAction(data) {
+				uni.showLoading({
+					title:"打榜中...",
+					mask: true
+				});
+				this.$app.request(this.$app.API.STAR_SENDHOT, data, res => {
 					this.cleanSend()
 					this.$app.toast("打榜成功", 'success')
-
+				
 					this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {
 						this.$app.setData('userCurrency', res.data)
 						this.userCurrency = res.data

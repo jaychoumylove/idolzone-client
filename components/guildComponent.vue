@@ -982,6 +982,7 @@
 				inputing: false, // 输入中
 
 				send_num_list: [99, 520, 1314, 9999, 66666, '全送'],
+				// send_num_list: [1000, 10000, 50000, 100000, 1000000, '全送'],
 
 				myRank: {},
 
@@ -1029,6 +1030,10 @@
 			};
 		},
 		created() {
+			const config = this.$app.getData('config');
+			if (config.hasOwnProperty('send_hot')) {
+				this.send_num_list = config.send_hot.send_num;
+			}
 			this.$app.request('user/biddenTime', {}, res => {
 				this.cfgBidden = res.data
 			})
@@ -1804,13 +1809,26 @@
 					return
 				}
 
-				this.modal = ''
-				this.$app.request(this.$app.API.STAR_SENDHOT, {
+				const sendData = {
 					starid: this.star.id,
 					hot: parseInt(this.sendCount),
 					type: this.current + 1,
 					danmaku: Number(!this.danmakuClosed),
-				}, res => {
+				};
+				if (this.current == 1 && this.sendCount == this.userCurrency.flower) {
+					this.$app.modal(`确认送出${this.sendCount}鲜花？`, () => {
+						this.sendHotAction(sendData);
+					})
+				} else {
+					this.sendHotAction(sendData);
+				}
+			},
+			sendHotAction(data) {
+				uni.showLoading({
+					title:"打榜中...",
+					mask: true
+				});
+				this.$app.request(this.$app.API.STAR_SENDHOT, data, res => {
 					this.getStarInfo()
 					this.userRankPage = 1
 					this.getUserRank()
@@ -1819,6 +1837,7 @@
 						this.userCurrency = res.data
 					})
 					if (this.star.id == this.$app.getData('userStar').id) {
+						uni.hideLoading();
 						// 弹窗
 						if (this.is_open_blessing == 1) {
 							this.modal = 'blessing'
@@ -1828,7 +1847,6 @@
 						return
 					}
 					this.$app.toast('打榜成功', 'success')
-
 				}, 'POST', true)
 			},
 			/**

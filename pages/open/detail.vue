@@ -258,6 +258,10 @@
 			}
 		},
 		onShow() {
+			const config = this.$app.getData('config');
+			if (config.hasOwnProperty('send_hot')) {
+				this.send_num_list = config.send_hot.send_num;
+			}
 			this.danmakuClosed = this.$app.getData('danmakuClosed')
 			this.type = this.$app.getData('config').open.current;
 			this.refresh()
@@ -342,6 +346,16 @@
 					current:this.current,
 					danmaku: Number(!this.danmakuClosed),
 				};
+				
+				if (typeMap[this.current] == 'flower' && this.sendCount == this.userCurrency[typeMap[this.current]]) {
+					this.$app.modal(`确认送出${this.sendCount}鲜花？`, () => {
+						this.sendHotAction(sendData);
+					})
+				} else {
+					this.sendHotAction(sendData);
+				}
+			},
+			sendHotAction(sendData) {
 				uni.showLoading({
 					title:"助力中...",
 					mask: true
