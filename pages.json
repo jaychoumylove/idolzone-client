@@ -518,9 +518,7 @@
 		{
 			"path": "pages/manor/manor",
 			"style": {
-				"navigationBarBackgroundColor": "#aee4e7",
-				"navigationBarTextStyle": "white",
-				"navigationBarTitleText": "庄园"
+				"navigationStyle": "custom"
 			}
 		},
 		{

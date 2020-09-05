@@ -35,15 +35,23 @@
 					{{item.desc}}
 				</view>
 				<view class="content">
-					<btnComponent type="default" v-if='!item.locked'>
-						<view class="flex-set" style="width: 160upx;height: 60upx;" @tap="unlockBackground(item, index)">解锁</view>
-					</btnComponent>
+					<block v-if="!item.locked">
+						<btnComponent type="default">
+							<view class="flex-set" style="width: 140upx;height: 60upx;" @tap="unlockBackground(item, index)">解锁</view>
+						</btnComponent>
+						<btnComponent type="default" v-if="item.try == 0">
+							<view class="flex-set" style="width: 140upx;height: 60upx;" @tap="tryBackground(item, index)">试用</view>
+						</btnComponent>
+						<btnComponent type="disable" v-if="item.try == 1">
+							<view class="flex-set" style="width: 140upx;height: 60upx;">试用中</view>		
+						</btnComponent>
+					</block>
 					<block v-if="item.locked">
 						<btnComponent type="default" v-if='!item.used'>
-							<view class="flex-set" style="width: 160upx;height: 60upx;" @tap="useBackground(item, index)">使用</view>
+							<view class="flex-set" style="width: 140upx;height: 60upx;" @tap="useBackground(item, index)">使用</view>
 						</btnComponent>
 						<btnComponent type='disable' v-if='item.used'>
-							<view class="flex-set" style="width: 160upx;height: 60upx;">使用中</view>							
+							<view class="flex-set" style="width: 140upx;height: 60upx;">使用中</view>							
 						</btnComponent>
 					</block>
 				</view>
@@ -101,6 +109,27 @@
 						this.$app.toast('解锁成功', 'success');
 						const oldList = this.list;
 						oldList[index].locked = true;
+						this.list = oldList;
+					}, 'POST', true)
+				})
+			},
+			tryBackground(item, index) {
+				const minute = this.$app.getData('config').manor_animal.background_try_minute;
+				this.$app.modal(`只能试用一次\n一次试用${minute}分钟\n确认试用么？`, () => {
+					const background = item.id;
+					uni.showLoading({
+						mask:true,
+						title:'请稍后...'
+					});
+					this.$app.request(this.$app.API.MANOR_BACKGROUND_TRY, {background}, res => {
+						this.$app.toast('试用成功', 'success');
+						const oldList = this.list.map(i => {
+							if (i.try == 1) {
+								i.try = -1;
+							}
+							return i;
+						});
+						oldList[index].try = 1;
 						this.list = oldList;
 					}, 'POST', true)
 				})
@@ -214,7 +243,10 @@
 				}
 
 				.content {
-					padding: 10upx;
+					display: flex;
+					justify-content: space-around;
+					width: 100%;
+					margin: 10rpx 0;
 				}
 			}
 		}

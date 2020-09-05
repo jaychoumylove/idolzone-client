@@ -1,6 +1,6 @@
 <template>
 	<view class="ad-container" v-if="!loading">
-		<view class="top">
+		<view class="top" :class="fix.top">
 			<view class="header iconfont iconclose" @tap="cancel">关闭</view>
 			<view class="buttom">
 				<view>广告</view>
@@ -8,8 +8,8 @@
 				<view class="timer" v-else>已完成浏览</view>
 			</view>
 		</view>
-		<view style="padding-top: 210rpx;">
-			<view class="banner" v-if="banner" :style="{'background': 'url('+banner+') no-repeat center center/100% 100%'}"></view>
+		<view class="banner" :class="fix.banner">
+			<view class="img" v-if="banner" :style="{'background': 'url('+banner+') no-repeat center center/100% 100%'}"></view>
 		</view>
 		<view class="go-min" @tap="goRead">
 			<view class="btn">免费阅读</view>
@@ -64,9 +64,29 @@
 				timeLeft: 0,
 				loading: true,
 				timeTask: null,
+				fix: {
+					top: "",
+					banner: "",
+					// middleRead: "",
+					// content: "",
+					// bottomRead: "",
+				}
 			};
 		},
 		onShow() {
+			const { windowHeight } = uni.getSystemInfoSync();
+			if (windowHeight < 600) {
+				this.fix.top = 'top-small';
+				this.fix.banner = 'banner-small';
+			}
+			if (windowHeight >= 600 && windowHeight <= 640) {
+			}
+			if (windowHeight > 640 && windowHeight <= 750) {
+			}
+			if (windowHeight > 750) {
+				this.fix.top = 'top-large';
+				this.fix.banner = 'banner-large';
+			}
 			this.timeTask = this.$app.getData('timeTask');
 			this.getAd();
 		},
@@ -158,6 +178,21 @@
 			overflow: unset!important;
 		}
 		
+		// 屏幕兼容 start
+		.top-large {
+			padding-top: 90rpx!important;
+		}
+		.banner-large {
+			padding-top: 250rpx!important;
+		}
+		.top-small {
+			padding-top: 60rpx!important;
+		}
+		.banner-small {
+			padding-top: 220rpx!important;
+		}
+		// end
+		
 		background-color: black;
 		.top {
 			position: fixed;
@@ -187,7 +222,10 @@
 			}
 		}
 		.banner {
-			height: 1000rpx;
+			padding-top: 210rpx;
+			.img {
+				height: 1000rpx;
+			}
 		}
 		.content {
 			padding: 0 40rpx;

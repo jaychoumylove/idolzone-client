@@ -1,14 +1,15 @@
 <template>
 	<view class="manor-container">
 		<!-- <view class="background"></view> -->
-		<image class='bg' :style="{height: dheight +'px'}" :src='mainBackground'></image>
+		<image class='bg' :style="{height: dheight +'px'}" v-if="tryBackground.url" :src='tryBackground.url'></image>
+		<image class='bg' :style="{height: dheight +'px'}" v-else :src='mainBackground.url'></image>
 		<!-- <image class='bg' :style="{height: dheight +'px'}" src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GORNqMVibKH3lQqEq8pJ6wOFnhvGIhu9pRxxRicDI5ExhicTJMPSeyhcroKiaYdzicwgSKbsjLcV2Cfqg/0'></image> -->
 		<!-- <image class='bg' mode="widthFix" src='https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GORNqMVibKH3lQqEq8pJ6wOFnhvGIhu9pRxxRicDI5ExhicTJMPSeyhcroKiaYdzicwgSKbsjLcV2Cfqg/0'></image> -->
-		<!-- <view class="header">
-			<view class="left iconfont iconclose"></view>
+		<view class="header" :class="fix.header">
+			<view class="left iconfont iconjiantou flex-set" @tap='goBack'></view>
 			<view class="right title" :class="title_class">庄园</view>
-		</view> -->
-		<view class="user-info">
+		</view>
+		<view class="user-info" :class="fix.userInfo">
 			<image class="avatar" :src="$app.getData('userInfo').avatarurl || AVATAR" mode="aspectFill"></image>
 			<view class="info">
 				<view class="nickname text-overflow">{{$app.getData('userInfo').nickname || NICKNAME}}</view>
@@ -30,8 +31,17 @@
 				</view>
 			</view>
 		</view>
+		<view class="try-timer" :class="fix.tryTimer" v-if="tryBackground.url">
+			<view>试用：</view>
+			<view>
+				<text class="text">{{tryTimeDetail.i}}</text>
+				分
+				<text class="text">{{tryTimeDetail.s}}</text>
+				秒
+			</view>
+		</view>
 		
-		<view class="right-btn-list">
+		<view class="right-btn-list" :class="fix.rightList">
 			<view 
 				class="item" 
 				v-for="(item, index) in btn" 
@@ -45,7 +55,7 @@
 		
 		<view class="main-animal" :class='{"normal-main": mainAnimal.type == "NORMAL", "secret-main": mainAnimal.type == "SECRET"}'>
 			<view class="word">{{word||"记得常来看我"}}</view>
-			<image class="animal secret" :class="fixAnimalScreen" v-if="mainAnimal.type == 'SECRET'" mode="widthFix" :src="mainAnimal.image"></image>
+			<image class="animal secret" :class="fix.mainAnimal" v-if="mainAnimal.type == 'SECRET'" mode="widthFix" :src="mainAnimal.image"></image>
 			<image class="animal normal" v-if="mainAnimal.type == 'NORMAL'" mode="aspectFit" :src="mainAnimal.image"></image>
 		</view>
 		
@@ -191,7 +201,7 @@
 		},
 		data() {
 			return {
-				title_class: 'title-and',
+				title_class: 'title-ios',
 				modal: '',
 				btn: [],
 				callBtn: [],
@@ -221,8 +231,21 @@
 				userCurrency: {},
 				word: "",
 				lottery_max: 0,
+				fix: {
+					header: '',
+					mainAnimal: '',
+					userInfo: '',
+					tryTimer: '',
+					rightList: '',
+					rightBottom: ''
+				},
 				fixAnimalScreen: '',
-				mainBackground: "https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36WkoItYoGoC20F1N49sXdnmrLwodF6x2icITRfQ4GN999WzPyMmDib7fw/0",
+				tryBackground: {},
+				tryTimer: '',
+				tryTimeDetail: {
+					
+				},
+				mainBackground: {url:"https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36WkoItYoGoC20F1N49sXdnmrLwodF6x2icITRfQ4GN999WzPyMmDib7fw/0"},
 			};
 		},
 		onLoad(option) {
@@ -231,13 +254,38 @@
 			}
 		},
 		onShow() {
-			this.dheight = uni.getSystemInfoSync().windowHeight;
-			if (this.dheight < 500) {
-				this.fixBottom = 'fix-bottom'
-				this.fixAnimalScreen = 'small-screen'
+			const system = uni.getSystemInfoSync();
+			this.dheight = system.windowHeight;
+			if (system.platform == 'ios') {
+				this.title_class = 'title-ios';
 			}
-			if (this.dheight > 500 && this.dheight <= 750) {
-				this.fixAnimalScreen = 'normal-screen'
+			if (system.platform == 'android') {
+				this.title_class = 'title-and';
+			}
+			if (this.dheight > 750) {
+				this.fix.header = 'fix-header-large';
+				this.fix.userInfo = 'fix-user-info-large';
+				this.fix.tryTimer = 'fix-try-timer-large';
+				this.fix.rightList = 'fix-right-btn-list-large';
+			}
+			if (this.dheight < 600) {
+				this.fix.header = 'fix-header-small';
+				this.fix.userInfo = 'fix-user-info-small';
+				this.fix.tryTimer = 'fix-try-timer-small';
+				this.fix.rightList = 'fix-right-btn-list-small';
+				this.fix.rightBottom = 'fix-bottom'
+				this.fix.mainAnimal = 'small-screen'
+			}
+			if (this.dheight >= 600 && this.dheight <= 640) {
+				this.fix.header = 'fix-header-640';
+				this.fix.userInfo = 'fix-user-info-640';
+				this.fix.tryTimer = 'fix-try-timer-640';
+				this.fix.rightList = 'fix-right-btn-list-640';
+				this.fix.rightBottom = 'fix-bottom'
+				this.fix.mainAnimal = 'small-screen'
+			}
+			if (this.dheight > 640 && this.dheight <= 750) {
+				this.fix.mainAnimal = 'normal-screen'
 			}
 			const {manor_animal: {manor_rbtn,lottery: {types,image}}} = this.$app.getData('config');
 			this.btn = manor_rbtn;
@@ -255,6 +303,36 @@
 			// this.cleanTimer();
 		},
 		methods: {
+			setTryTimer(endTime) {
+				clearInterval(this.tryTimer);
+				this.tryTimer = setInterval(() => {
+					const now = Math.round(Date.now() / 1000),
+						diff = endTime - now;
+					
+					if (diff <= 0) {
+						this.cleanTryTimer();
+					} else {
+						const time = this.$app.timeGethms(diff);
+						
+						this.tryTimeDetail = {
+							full: endTime,
+							d: time.day,
+							h: time.hour,
+							i: time.min,
+							s: time.sec
+						}
+					}
+				}, 1000);
+			},
+			cleanTryTimer() {
+				clearInterval(this.tryTimer);
+				this.tryTimer = '';
+				this.tryBackground = '';
+				this.tryTimeDetail = {};
+			},
+			goBack() {
+				uni.navigateBack();
+			},
 			cleanTimer () {
 				clearInterval(this.addCountTimer);
 				this.addCountTimer = '';
@@ -312,6 +390,7 @@
 						word,
 						max_lottery,
 						main_background,
+						try_background,
 					} = res.data;
 					this.manor = manor;
 					this.output = parseInt(output);
@@ -323,6 +402,10 @@
 					this.word = word;
 					this.lottery_max = max_lottery;
 					this.mainBackground = main_background;
+					this.tryBackground = try_background;
+					if (try_background) {
+						this.setTryTimer(try_background.time);
+					}
 					this.maxAddCount = parseInt(output) * parseInt(limit_time);
 					if (parseInt(panacea_reward) > 0) {
 						this.panaceaReward = parseInt(panacea_reward);
@@ -424,6 +507,52 @@
 <style lang="scss" scoped>
 	.manor-container {
 		position: relative;
+		
+		// 屏幕兼容 start
+		.secret.normal-screen {
+			width: 750rpx!important;
+		}
+		.secret.small-screen {
+			width: 650rpx!important;
+		}
+		.fix-header-small {
+			top: 70rpx!important;
+		}
+		.fix-user-info-small {
+			top: 170rpx!important;
+		}
+		.fix-try-timer-small {
+			top: 280rpx!important;
+		}
+		.fix-right-btn-list-small {
+			top: 170rpx!important;
+		}
+		.fix-header-640 {
+			top: 60rpx!important;
+		}
+		.fix-user-info-640 {
+			top: 160rpx!important;
+		}
+		.fix-try-timer-640 {
+			top: 270rpx!important;
+		}
+		.fix-right-btn-list-640 {
+			top: 160rpx!important;
+		}
+		.fix-header-large {
+			top: 90rpx!important;
+		}
+		.fix-user-info-large {
+			top: 190rpx!important;
+		}
+		.fix-try-timer-large {
+			top: 300rpx!important;
+		}
+		.fix-right-btn-list-large {
+			top: 190rpx!important;
+		}
+		// end
+		
 		.background {
 			width: 100%;
 			height: 1284rpx;
@@ -449,25 +578,31 @@
 			width: 100%;
 			height: 60rpx;
 			top: 50rpx;
-			padding-left: 50rpx;
+			padding-left: 30rpx;
 			line-height: 60rpx;
 			display: flex;
-			width: 85%;
+			width: 90%;
+			font-size: 32rpx;
 			.title {
 				display: inline-block;
 			}
 			.title-and {
-				padding-left: 30rpx;
+				padding-left: 10rpx;
 			}
 			.title-ios {
 				flex: 1;
 				text-align: center;
 			}
+			.left {
+				width: 60rpx;
+				height: 60rpx;
+				transform: rotateY(180deg);
+			}
 		}
 		
 		.user-info {
 			position: absolute;
-			top: 30rpx;
+			top: 140rpx;
 			left: 40rpx;
 			display: flex;
 			flex-direction: row;
@@ -517,11 +652,27 @@
 				}
 			}
 		}
+		
+		.try-timer {
+			position: absolute;
+			top: 250rpx;
+			left: 40rpx;
+			color: #fff;
+			background-color: rgba(#000, .8);
+			border-radius: 30upx;
+			padding: 5upx 20upx;
+			font-size: 24upx;
+			display: flex;
+			.text {
+				padding: 0 10upx;
+				color: yellow;
+			}
+		}
 	
 		.right-btn-list {
 			position: absolute;
 			right: 30rpx;
-			top: 90rpx;
+			top: 140rpx;
 			z-index: 1; // 防止被图片挡住
 			.item {
 				width: 110rpx;
@@ -583,13 +734,6 @@
 				height: 400rpx;
 			}
 			
-			.normal-screen {
-				width: 750rpx!important;
-			}
-			
-			.small-screen {
-				width: 650rpx!important;
-			}
 		}
 		
 		.right-bottom {

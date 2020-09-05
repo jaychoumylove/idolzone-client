@@ -20,7 +20,7 @@
 				<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HnqQXz07SO8rM1uzBoVhDxvibxEPbs73zlP1tDYtQ14qDEBBfkuEibruNTC56gAdWsDv0tARfGqKiaA/0"></image>
 			</view>
 			<view class="check-btn">
-				<view :class="{active: type == item.type}" @tap="checkoutType(item.type)" v-for="(item, index) in checkBtn" :key="index">{{item.btn_text}}</view>
+				<view :class="{active: type == item.type}" @tap="checkoutType(index)" v-for="(item, index) in checkBtn" :key="index">{{item.btn_text}}</view>
 			</view>
 			
 			<scroll-view scroll-y class="scroll-wrapper">
@@ -196,10 +196,14 @@
 			this.getAnimalList(this.type);
 		},
 		methods: {
-			checkoutType(type) {
-				if (this.type == type) return;
-				this.type = type;
-				this.getAnimalList(type);
+			checkoutType(index) {
+				const item = this.checkBtn[index];
+				if (item.hasOwnProperty('path')) {
+					return this.$app.goPage(item.path);
+				}
+				if (this.type == item.type) return;
+				this.type = item.type;
+				this.getAnimalList(item.type);
 			},
 			getAnimalList(type) {
 				this.list = [];
@@ -315,7 +319,6 @@
 				border-radius: 50rpx;
 				padding: 10rpx 20rpx;
 				margin-bottom: 20rpx;
-				width: 500rpx;
 				.scrap-num {
 					margin-left: 20rpx;
 				}
@@ -534,7 +537,7 @@
 				display: flex;
 				margin: 20rpx 0;
 				justify-content: space-around;
-				width: 560rpx;
+				// width: 560rpx;
 				.current-lv,.next-lv {
 					display: flex;
 					flex-direction: column;
