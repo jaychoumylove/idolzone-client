@@ -42,15 +42,22 @@
 		</view>
 		
 		<view class="right-btn-list" :class="fix.rightList">
-			<view 
-				class="item" 
-				v-for="(item, index) in btn" 
-				:key="index" 
-				v-if="item.path||item.modal"
-				:style="{'background-image': 'url('+item.image+')'}"
-				@tap="goModelOrPage(item)"
-			>
-			</view>
+			<block v-for="(item, index) in btn" :key="index" v-if="item.path||item.modal">
+				<view
+					v-if="item.change"
+					class="item" 
+					:style="{'background-image': 'url('+(callType == 'goSupple' ? item.image_s: item.image)+')'}"
+					@tap="goModelOrPage(item)"
+				>
+				</view>
+				<view
+					v-else
+					class="item"
+					:style="{'background-image': 'url('+item.image+')'}"
+					@tap="goModelOrPage(item)"
+				>
+				</view>
+			</block>
 		</view>
 		
 		<view class="main-animal" :class='{"normal-main": mainAnimal.type == "NORMAL", "secret-main": mainAnimal.type == "SECRET"}'>
@@ -102,12 +109,16 @@
 		<!-- 召唤宠物 -->
 		<modalComponent v-if="modal == 'goCall'" type="center" title="提示" @closeModal="modal=''">
 			<view class="modal-container gocall-modal-container">
-				<view class="title">召唤宠物</view>
+				<view class="title" v-if="callType=='goCall'">{{goCall.title}}</view>
+				<view class="title" v-if="callType=='goSupple'">{{goSupple.title}}</view>
 				<view class="title-lable" @tap="getRewardPool">奖池详情</view>
-				<image class="bg" :src="callImage|| ''" mode="aspectFit"></image>
-				
-				<view class="desc flex-set">
-					说明：使用灵丹召唤宠物，如果你已经获得过这个宠物，将获得这个宠物的宠物碎片，宠物碎片可用来升级宠物。
+				<image class="bg" v-if="callType=='goCall'" :src="goCall.image" mode="aspectFit"></image>
+				<image class="bg" v-if="callType=='goSupple'" :src="goSupple.image" mode="aspectFit"></image>
+				<view class="desc flex-set" v-if="callType=='goCall'">
+					{{goCall.desc}}
+				</view>
+				<view class="desc" v-if="callType=='goSupple'">
+					<view class="p" v-for="(ite,ind) in goSupple.desc" :key="ind">{{ite}}</view>
 				</view>
 				<view class="btn-wrap">
 					<btnComponent type="default" v-for="(item, index) in callBtn" :key="index">
@@ -223,7 +234,6 @@
 				addCountTimeNumber: 0,
 				addCountAuto: false,
 				mainAnimal: {},
-				callImage: '',
 				maxAddCount: 0,
 				dheight: 0,
 				fixBottom: '',
@@ -231,6 +241,9 @@
 				userCurrency: {},
 				word: "",
 				lottery_max: 0,
+				goSupple: {},
+				goCall: {},
+				callType: 'goCall',
 				fix: {
 					header: '',
 					mainAnimal: '',
@@ -287,10 +300,11 @@
 			if (this.dheight > 640 && this.dheight <= 750) {
 				this.fix.mainAnimal = 'normal-screen'
 			}
-			const {manor_animal: {manor_rbtn,lottery: {types,image}}} = this.$app.getData('config');
+			const {manor_animal: {manor_rbtn,lottery: {types,go_call,go_supple}}} = this.$app.getData('config');
 			this.btn = manor_rbtn;
-			this.callImage = image;
 			this.callBtn = types;
+			this.goSupple = go_supple;
+			this.goCall = go_call;
 			this.getManorInfo();
 			this.getCurrency();
 			// this.getStealLogList();
@@ -331,7 +345,14 @@
 				this.tryTimeDetail = {};
 			},
 			goBack() {
-				uni.navigateBack();
+				const pages = getCurrentPages();
+				if (pages.length == 1) {
+					uni.reLaunch({
+						url:"/pages/index/index"
+					})
+				} else {
+					uni.navigateBack();
+				}
 			},
 			cleanTimer () {
 				clearInterval(this.addCountTimer);
@@ -391,6 +412,7 @@
 						max_lottery,
 						main_background,
 						try_background,
+						call_type,
 					} = res.data;
 					this.manor = manor;
 					this.output = parseInt(output);
@@ -403,6 +425,7 @@
 					this.lottery_max = max_lottery;
 					this.mainBackground = main_background;
 					this.tryBackground = try_background;
+					this.callType = call_type;
 					if (try_background) {
 						this.setTryTimer(try_background.time);
 					}

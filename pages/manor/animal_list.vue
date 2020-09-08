@@ -7,12 +7,8 @@
 			<view class="nickname text-overflow">{{$app.getData('userInfo').nickname || NICKNAME}}</view>
 			<view class="week-output">
 				<view class="output">产量：{{output}}金豆/10秒</view>
-				<!-- <view>每日可偷：{{stealLeft}}次</view> -->
 				<view class="scrap-num">幸运碎片：{{scrapNum}}</view>
 			</view>
-			<!-- <view class="week-output">
-				<view class="output">幸运碎片：{{scrapNum}}</view>
-			</view> -->
 		</view>
 		
 		<view class="list">
@@ -120,48 +116,49 @@
 			<view class="desc-label">宠物说明:</view>
 			<view class="desc-content">
 				<view class="p">所有产豆宝宝产量相加为每10秒总产量</view>
-				<!-- <view class="p">所有偷豆宝宝总次数相加为每日可偷次数</view> -->
 			</view>
 		</view>
 		
 		<!-- 升级 -->
 		<modalComponent v-if="modal == 'lvUp'" type="center" title="提示" @closeModal="modal=''">
-			<view class="modal-container lvup-modal-container">
+			<view class="modal-container">
 				<view class="title">{{animalInfo.animal.name}}</view>
-				<image class="bg" :src="animalInfo.animal.image"
-					   mode="aspectFit"></image>
-				<view class="lv-info">
-					<view class="current-lv">
-						<view class="lv-number">当前等级：Lv.{{animalInfo.lv.level}}</view>
-						<view class="lv-desc">
-							<text v-if="animalInfo.lv.output">每10秒/{{animalInfo.lv.output}}金豆</text>
-							<text v-if="animalInfo.lv.steal">每日可偷{{animalInfo.lv.steal}}次</text>
-						</view>
+				<view class="label flex-set">拥有{{animalInfo.animal.scrap_name}}：{{animalInfo.scrap_num}}个</view>
+				<image class="bg" :src="animalInfo.animal.image" mode="widthFix"></image>
+				<view class="row">
+					<view class="top">
+						<view class="left">当前等级 Lv.{{animalInfo.lv.level}}</view>
 					</view>
-					<view class="middle">
-						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GF0Ayowf19yN8oiaLKldV6QFz56VoiaPibRyzUqDA5icTvp4017Rk7AGlfMg0knnOicYGUiaAcIUC7ZldQ/0" mode="aspectFit"></image>
+					<view class="desc">
+						<text v-if="animalInfo.lv.output">每10秒/{{animalInfo.lv.output}}金豆</text>
+						<text v-if="animalInfo.lv.steal">每日可偷{{animalInfo.lv.steal}}次</text>
 					</view>
-					<view class="next-lv">
-						<block v-if="animalInfo.next_lv">
-							<view class="lv-number">下一等级：Lv.{{animalInfo.next_lv.level}}</view>
-							<view class="lv-desc">
-								<text v-if="animalInfo.lv.output">每10秒/{{animalInfo.next_lv.output}}金豆</text>
-								<text v-if="animalInfo.lv.steal">每日可偷{{animalInfo.next_lv.steal}}次</text>
-							</view>
-						</block>
+				</view>
+				<view class="row" v-if="animalInfo.next_lv">
+					<view class="top">
+						<view class="left">下一等级 Lv.{{animalInfo.next_lv.level}}</view>
 						
-						<view v-if="!animalInfo.next_lv" class="lv-number">已是最高等级</view>
+						<btnComponent type="fangde">
+							<view class="right flex-set" @tap="levelUp(animalInfo.animal.id)">
+								{{animalInfo.next_lv.number}}
+								<image 
+									class="img-s" 
+									:src="animalInfo.animal.scrap_img"
+								    mode="aspectFill">
+								</image>
+								升级
+							</view>
+						</btnComponent>
+					</view>
+					<view class="desc">
+						<text v-if="animalInfo.next_lv.output">每10秒/{{animalInfo.next_lv.output}}金豆</text>
+						<text v-if="animalInfo.next_lv.steal">每日可偷{{animalInfo.next_lv.steal}}次</text>
 					</view>
 				</view>
-				<view class="btn-wrap">
-					<block v-if="animalInfo.next_lv">
-						<btnComponent :type="animalInfo.scrap_num >= animalInfo.next_lv.number ? 'success': 'default'">
-							<view class="btn" @tap="levelUp(animalInfo.animal.id)">{{animalInfo.animal.scrap_name}}X{{animalInfo.next_lv.number}}升级</view>
-						</btnComponent>
-					</block>
-				</view>
-				<view class="bottom">
-					拥有{{animalInfo.animal.scrap_name}}X{{animalInfo.scrap_num}}
+				<view class="row" v-if="!animalInfo.next_lv">
+					<view class="top">
+						<view class="left">已是最高等级</view>
+					</view>
 				</view>
 			</view>
 		</modalComponent>
@@ -189,6 +186,11 @@
 				checkBtn: [],
 				scrapNum: 0
 			};
+		},
+		onLoad(option) {
+			if (option.hasOwnProperty('type')) {
+				this.type = option.type;
+			}
 		},
 		onShow() {
 			this.checkBtn = this.$app.getData('config').manor_animal.check_btn;
@@ -559,18 +561,13 @@
 			}
 		}
 		
+		
 		.modal-container {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			margin-top: -80upx;
 			padding: 40upx;
-		
-			.title {
-				font-size: 36upx;
-				font-weight: 700;
-			}
-			
 			.title-lable {
 				margin-left: auto;
 				color: red;
@@ -589,14 +586,108 @@
 				font-size: 30upx;
 				font-weight: 600;
 			}
+			
+			.title {
+				font-size: 36upx;
+				font-weight: 700;
+			}
+		
+			.tips {
+				padding: 20upx;
+			}
+			.label{
+				font-size: 24rpx;
+				color: #888;
+				margin: 10rpx 0;
+			}
+		
+			.coin-count {
+				font-size: 50upx;
+				padding-bottom: 20upx;
+				margin-top: -20upx;
+				font-weight: 700;
+				color: $bg-color-2;
+			}
+		
+		
+			.btn.s {
+				padding: 5upx 20upx;
+				font-size: 30upx;
+			}
 		
 			.btn-wrap {
 				margin: 10upx 0;
 				text-align: center;
 				display: flex;
 				width: 100%;
-				justify-content: space-between;
+				justify-content: space-around;
 				padding: 0 20upx;
+			}
+		
+			.desc {
+				padding-top: 10upx;
+			}
+		
+			.row {
+				width: 100%;
+				padding: 10upx 20upx;
+		
+				.top {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					height: 60upx;
+		
+					.left {
+						font-weight: 600;
+						border-left: 8upx solid $bg-color-2;
+						padding: 0 20upx;
+						line-height: 1.2;
+					}
+		
+					.right {
+						padding: 5upx 20upx;
+					}
+				}
+			}
+		
+			.btn-row-wrap {
+				position: relative;
+		
+				.tips-btn {
+					position: absolute;
+					top: 50%;
+					transform: translateY(-50%);
+					right: -100upx;
+				}
+			}
+		
+			.rate-list-wrap {
+				width: 100%;
+		
+				.item {
+					margin: 10upx 0;
+					padding: 5upx 10upx;
+					padding-left: 20upx;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					background-color: #816acd;
+					border-radius: 30upx;
+					color: #fff;
+		
+					.right-wrap {
+						margin: 5upx 0;
+						border-radius: 30upx;
+						padding: 5upx 20upx;
+						background-color: #e2def2;
+						color: #816acd;
+					}
+		
+					.rate-num.in {
+						color: orange;
+					}
+				}
 			}
 		}
 	}

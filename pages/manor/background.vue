@@ -3,7 +3,7 @@
 		<view class='tab-container'>
 			<view class="tab-item" :class="{active:type == 'normal'}" @tap="checkType('normal')">通用背景</view>
 			<view class="tab-item" :class="{active:type == 'star'}" @tap="checkType('star')">专属背景</view>
-			<view class="tab-item" :class="{active:type == 'active'}" @tap="checkType('active')">限定背景</view>
+			<!-- <view class="tab-item" :class="{active:type == 'active'}" @tap="checkType('active')">限定背景</view> -->
 		</view>
 		
 		<view class="list-container">
@@ -36,7 +36,7 @@
 				</view>
 				<view class="content">
 					<block v-if="!item.locked">
-						<btnComponent type="default">
+						<btnComponent :type="item.able_lock ? 'success': 'default'">
 							<view class="flex-set" style="width: 140upx;height: 60upx;" @tap="unlockBackground(item, index)">解锁</view>
 						</btnComponent>
 						<btnComponent type="default" v-if="item.try == 0">

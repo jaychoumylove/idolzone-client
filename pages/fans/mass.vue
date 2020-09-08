@@ -42,12 +42,13 @@
 			<view class="user-list flex-set">
 				<view class="item-wrap" v-for="(item,index) in list" :key="index">
 					<image class="avatar" :src="item.user.avatarurl" mode="aspectFill"></image>
-					<view class="nickname">{{item.user.nickname}}</view>
-					<view class="extra">{{item.mass_count}}</view>
+					<view class="nickname text-position">{{item.user.nickname}}</view>
+					<view class="day-mass text-position">今日集结{{item.day_mass_times}}次</view>
+					<view class="extra text-position">{{item.mass_count}}</view>
 				</view>
 				<view class="item-wrap" v-for="index in blockUserCount" :key="index">
 					<image class="avatar" :src="$app.getData('AVATAR')" mode="aspectFill"></image>
-					<view class="extra">+1000</view>
+					<view class="extra text-position">+1000</view>
 				</view>
 			</view>
 		</view>
@@ -349,7 +350,8 @@
 
 
 				.item-wrap {
-					margin: 40upx;
+					margin: 40rpx;
+					margin-bottom: 80rpx;
 					position: relative;
 
 					.avatar {
@@ -357,31 +359,37 @@
 						height: 120upx;
 						border-radius: 50%;
 					}
-					.nickname {
-						bottom: -50rpx;
-						background-color: unset;
-						color: #ffaf2c;
+					
+					.text-position {
+						text-align: center;
+						position: absolute;
+						white-space: nowrap;
 						left: 50%;
 						transform: translateX(-50%);
-						white-space: nowrap;
+					}
+					
+					.day-mass {
+						bottom: -100rpx;
+						background-color: rgba(#ff5770, 0.15);
+						color: #ff5770;
+						padding: 5rpx 10rpx;
 						font-size: 24upx;
-						position: absolute;
-						width: 90upx;
-						text-align: center;
+						border-radius: 20rpx;
+					}
+					.nickname {
+						bottom: -55rpx;
+						background-color: unset;
+						color: #ffaf2c;
+						font-size: 28upx;
 					}
 
 					.extra {
 						font-size: 24upx;
-						position: absolute;
 						background-color: #ffaf2c;
 						color: #FFF;
 						width: 90upx;
-						text-align: center;
 						border-radius: 30upx;
 						bottom: -10upx;
-						left: 50%;
-						transform: translateX(-50%);
-						white-space: nowrap;
 					}
 
 					.extra.yellow {

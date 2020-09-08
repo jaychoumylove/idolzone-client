@@ -2325,7 +2325,6 @@
 				align-items: center;
 
 				.avatar-wrap {
-
 					.avatar {
 						width: 130upx;
 						height: 130upx;
@@ -2378,7 +2377,7 @@
 						justify-content: space-between;
 
 						.avatar-wrap {
-							margin-left: -10upx;
+							margin: 0 5rpx;
 							position: relative;
 
 							.avatar {

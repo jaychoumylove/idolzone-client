@@ -161,35 +161,68 @@
 					</view>
 				</view>
 				<view class="charge-prize">
-					<view class="item" v-for="(item, index) in scrapList" :key="index" :class="{'auto-flex': scrapList.length == 1}">
-						<view class="up">
-							<!-- <image v-if="item == 1" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoibe7bdHGH2icR6cs7PCILZKIooG44pGchYZKGb4YicdQ8ichs3q6dEu1bQ/0"></image>
-							<image v-if="item == 2" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPVpqtoXHtz6OhLfRMCg4wK1dNZ2C4PTcJVwrqWTblRlWSE2fs6UB3Q/0"></image>
-							<image v-if="item == 3" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoyZkhpAiawiaTWqs72ynSnAl3Yf8A1Cp8oMianQtru2xtmYiamwwLXrQnEQ/0"></image>
-							<image v-if="item == 4" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoOxUXk3YG5KlOA4lYByS7xppcrEwOcJAQeUia6IxKBRicmwBtzgfELQYg/0"></image> -->
-							<image mode="aspectFit" :src="item.image_l"></image>
-							<view class="info">
-								<view class="title text-overflow">{{item.name || ''}}</view>
-								<view class="desc" v-if="item.key!='coin'">还剩：{{item.limit_exchange - item.exchange_number}}</view>
+					<block v-for="(item, index) in scrapList" :key="index">
+						<block v-if="item.type == 'REDIRECT'">
+							<block v-if="$app.getData('userStar').id == item.extra.star">
+								<view class="item"  :class="{'auto-flex': scrapList.length == 1}">
+									<view class="up">
+										<!-- <image v-if="item == 1" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoibe7bdHGH2icR6cs7PCILZKIooG44pGchYZKGb4YicdQ8ichs3q6dEu1bQ/0"></image>
+										<image v-if="item == 2" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPVpqtoXHtz6OhLfRMCg4wK1dNZ2C4PTcJVwrqWTblRlWSE2fs6UB3Q/0"></image>
+										<image v-if="item == 3" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoyZkhpAiawiaTWqs72ynSnAl3Yf8A1Cp8oMianQtru2xtmYiamwwLXrQnEQ/0"></image>
+										<image v-if="item == 4" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoOxUXk3YG5KlOA4lYByS7xppcrEwOcJAQeUia6IxKBRicmwBtzgfELQYg/0"></image> -->
+										<image mode="aspectFit" :src="item.image_l"></image>
+										<view class="info">
+											<view class="title text-overflow">{{item.name || ''}}</view>
+										</view>
+										<view class="exchange flex-set" @tap="exchange(item)">
+											<btnComponent :type="item.has_number >= item.count ? 'success': 'yellow'">
+												<view class="flex-set">{{item.has_number >= item.count ? item.extra.able_lock: item.extra.unlock_text}}</view>
+											</btnComponent>
+										</view>
+									</view>
+									<view class="down">
+										<image style="width: 25rpx;height: 25rpx; margin-right: 10rpx;" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vceee3ribmebyLp4YUkEa7my8VjaX641mQdlnTgrXCl0xWLSIicQMKicKb3Q/0"></image>
+										<view class="progress-label flex-set">碎片兑换奖品进度</view>
+										<view class="progress">
+											<progress :percent="item.percent || 0" stroke-width="10" activeColor="#ff9f08" border-radius="5" />
+											<view class="percent-cover">{{item.has_number}} / {{item.count}}</view>
+										</view>
+									</view>
+								</view>
+							</block>
+						</block>
+						<block v-else>
+							<view class="item"  :class="{'auto-flex': scrapList.length == 1}">
+								<view class="up">
+									<!-- <image v-if="item == 1" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoibe7bdHGH2icR6cs7PCILZKIooG44pGchYZKGb4YicdQ8ichs3q6dEu1bQ/0"></image>
+									<image v-if="item == 2" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPVpqtoXHtz6OhLfRMCg4wK1dNZ2C4PTcJVwrqWTblRlWSE2fs6UB3Q/0"></image>
+									<image v-if="item == 3" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoyZkhpAiawiaTWqs72ynSnAl3Yf8A1Cp8oMianQtru2xtmYiamwwLXrQnEQ/0"></image>
+									<image v-if="item == 4" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoOxUXk3YG5KlOA4lYByS7xppcrEwOcJAQeUia6IxKBRicmwBtzgfELQYg/0"></image> -->
+									<image mode="aspectFit" :src="item.image_l"></image>
+									<view class="info">
+										<view class="title text-overflow">{{item.name || ''}}</view>
+										<view class="desc" v-if="item.key!='coin'">还剩：{{item.limit_exchange - item.exchange_number}}</view>
+									</view>
+									<view class="exchange flex-set" @tap="exchange(item)">
+										<btnComponent :type="item.has_number >= item.count ? 'success': 'yellow'">
+											<view class="flex-set">兑换</view>
+										</btnComponent>
+									</view>
+								</view>
+								<view class="down">
+									<image style="width: 25rpx;height: 25rpx; margin-right: 10rpx;" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vceee3ribmebyLp4YUkEa7my8VjaX641mQdlnTgrXCl0xWLSIicQMKicKb3Q/0"></image>
+									<view class="progress-label flex-set">碎片兑换奖品进度</view>
+									<view class="progress">
+										<progress :percent="item.percent || 0" stroke-width="10" activeColor="#ff9f08" border-radius="5" />
+										<view class="percent-cover">{{item.has_number}} / {{item.count}}</view>
+									</view>
+									<view class="exchange-desc flex-set">
+										已兑换 <view class="exchange-number">{{item.has_exchange}}</view>
+									</view>
+								</view>
 							</view>
-							<view class="exchange flex-set" @tap="exchange(item)">
-								<btnComponent :type="item.has_number >= item.count ? 'success': 'yellow'">
-									<view class="flex-set">兑换</view>
-								</btnComponent>
-							</view>
-						</view>
-						<view class="down">
-							<image style="width: 25rpx;height: 25rpx; margin-right: 10rpx;" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vceee3ribmebyLp4YUkEa7my8VjaX641mQdlnTgrXCl0xWLSIicQMKicKb3Q/0"></image>
-							<view class="progress-label flex-set">碎片兑换奖品进度</view>
-							<view class="progress">
-								<progress :percent="item.percent || 0" stroke-width="10" activeColor="#ff9f08" border-radius="5" />
-								<view class="percent-cover">{{item.has_number}} / {{item.count}}</view>
-							</view>
-							<view class="exchange-desc flex-set">
-								已兑换 <view class="exchange-number">{{item.has_exchange}}</view>
-							</view>
-						</view>
-					</view>
+						</block>
+					</block>
 				</view>
 			</view>
 		</view>
@@ -228,11 +261,14 @@
 								<!-- X{{item.weights}} -->
 							</view>
 						</view>	
-						<image v-if="item.key == 'panacea'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0"></image>
-						<image v-if="item.key == 'scrap'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vceee3ribmebyLp4YUkEa7my8VjaX641mQdlnTgrXCl0xWLSIicQMKicKb3Q/0"></image>
-						<image v-if="item.key == 'stone'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"></image>
-						<image v-if="item.key == 'coin'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"></image>
-						<image v-if="item.key == 'flower'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"></image>
+						<image class="icon" mode="aspectFit" v-if="item.image" :src="item.image"></image>
+						<block v-else>
+							<image v-if="item.key == 'panacea'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0"></image>
+							<image v-if="item.key == 'scrap'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vceee3ribmebyLp4YUkEa7my8VjaX641mQdlnTgrXCl0xWLSIicQMKicKb3Q/0"></image>
+							<image v-if="item.key == 'stone'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"></image>
+							<image v-if="item.key == 'coin'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"></image>
+							<image v-if="item.key == 'flower'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"></image>
+						</block>
 						<view class="name">{{item.name}}x{{$app.formatNumber(item.number || 0)}}</view>
 					</view>
 				</view>
@@ -381,6 +417,9 @@
 				}
 				if (scrap.has_number < scrap.count) {
 					return this.$app.toast('碎片不够哦');
+				}
+				if (scrap.type=='REDIRECT') {
+					return this.$app.goPage(scrap.extra.path);
 				}
 				uni.showModal({
 					title:`兑换${scrap.name}`,
@@ -891,6 +930,7 @@
 								view {
 									height: 50upx;
 									width: 120upx;
+									white-space: nowrap;
 									padding: 10upx 20upx;
 								}
 							}
