@@ -5,6 +5,7 @@
 				<image :src="$app.getData('userInfo').avatarurl || AVATAR" mode="aspectFill"></image>
 			</view>
 			<view class="nickname text-overflow">{{$app.getData('userInfo').nickname || NICKNAME}}</view>
+			<view class="nickname text-overflow" style="font-size: 28rpx;" @tap="$app.goPage('/pages/manor/log')">庄园日志</view>
 			<view class="week-output">
 				<view class="output">产量：{{output}}金豆/10秒</view>
 				<view class="scrap-num">幸运碎片：{{scrapNum}}</view>
@@ -16,7 +17,14 @@
 				<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HnqQXz07SO8rM1uzBoVhDxvibxEPbs73zlP1tDYtQ14qDEBBfkuEibruNTC56gAdWsDv0tARfGqKiaA/0"></image>
 			</view>
 			<view class="check-btn">
-				<view :class="{active: type == item.type}" @tap="checkoutType(index)" v-for="(item, index) in checkBtn" :key="index">{{item.btn_text}}</view>
+				<view 
+					:class="{active: type == item.type}" 
+					@tap="checkoutType(index)" 
+					v-for="(item, index) in checkBtn" 
+					:key="index"
+				>
+					{{item.btn_text}}
+				</view>
 			</view>
 			
 			<scroll-view scroll-y class="scroll-wrapper">

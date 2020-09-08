@@ -552,6 +552,14 @@
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "庄园背景"
 			}
+		},
+		{
+			"path": "pages/manor/log",
+			"style": {
+				"navigationBarBackgroundColor": "#F99510",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "庄园日志"
+			}
 		}
     ],
 	"tabBar": {

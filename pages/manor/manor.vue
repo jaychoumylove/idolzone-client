@@ -175,7 +175,7 @@
 				
 				<view class="btn-wrap">
 					<btnComponent type="default">
-						<view class="btn" @tap="modal=''">知道了</view>
+						<view class="btn" @tap="$app.goPage('/pages/manor/animal_list')">去升级</view>
 					</btnComponent>
 					<btnComponent type="success">
 						<view class="btn" @tap="modal='goCall'">继续召唤</view>

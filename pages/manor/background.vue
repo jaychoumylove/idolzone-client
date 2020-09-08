@@ -1,27 +1,36 @@
 <template>
 	<view class="manor-background-container">
 		<view class='tab-container'>
-			<view class="tab-item" :class="{active:type == 'normal'}" @tap="checkType('normal')">通用背景</view>
-			<view class="tab-item" :class="{active:type == 'star'}" @tap="checkType('star')">专属背景</view>
+			<view 
+				class="tab-item" 
+				:class="{active: type == item.value}" 
+				@tap="checkType(item.value)" 
+				v-for="(item, index) in checkBtn" 
+				:key="index"
+			>
+				{{item.label}}
+			</view>
+			<!-- <view class="tab-item" :class="{active:type == 'normal'}" @tap="checkType('normal')">通用背景</view> -->
+			<!-- <view class="tab-item" :class="{active:type == 'star'}" @tap="checkType('<star></star>')">专属背景</view> -->
 			<!-- <view class="tab-item" :class="{active:type == 'active'}" @tap="checkType('active')">限定背景</view> -->
 		</view>
 		
 		<view class="list-container">
 			<view class="item" v-for="(item,index) in list" :key="index">
 				<view class="background-img">
-					<block v-if="false">
-						<view class="small" v-if="left_time.full >= 0">
+					<block v-if="left_time[index]">
+						<view class="small" v-if="left_time[index].full > 0">
 							<view>距离结束还剩：</view>
 							<view>
-								<block v-if="left_time.d">
-									<text class="text">{{left_time.d}}</text>
+								<block v-if="left_time[index].d">
+									<text class="text">{{left_time[index].d}}</text>
 									天
 								</block>
-								<text class="text">{{left_time.h}}</text>
+								<text class="text">{{left_time[index].h}}</text>
 								时
-								<text class="text">{{left_time.i}}</text>
+								<text class="text">{{left_time[index].i}}</text>
 								分
-								<text class="text">{{left_time.s}}</text>
+								<text class="text">{{left_time[index].s}}</text>
 								秒
 							</view>
 						</view>
@@ -71,20 +80,20 @@
 		data() {
 			return {
 				modal: '',
-				type: 'normal',
-				left_time: {
-					full: 0,
-					d: 0,
-					h: 0,
-					i: 0,
-					s: 0,
-				},
-				left_timer: undefined,
-				list:[]
+				type: '',
+				left_time: [],
+				left_timer: [],
+				list:[],
+				checkBtn: [],
 			};
 		},
 		onShow() {
+			this.checkBtn = this.$app.getData('config').manor_animal.background_check_btn;
+			if (!this.type) this.type = this.checkBtn[0].value;
 			this.getBackgroundList(this.type);
+		},
+		onUnload() {
+			this.cleanTimer();
 		},
 		methods: {
 			checkType(type) {
@@ -96,6 +105,11 @@
 				this.list = [];
 				this.$app.request(this.$app.API.MANOR_BACKGROUND, {type}, res => {
 					this.list = res.data;
+					this.list.map((item, index) => {
+						if (item.end_time) {
+							this.setTimer(item.end_time, index);
+						}
+					});
 				})
 			},
 			unlockBackground(item, index) {
@@ -154,25 +168,41 @@
 					}, 'POST', true)
 				})
 			},
-			setTimer(endTime) {
-				this.left_timer = setInterval(() => {
+			setTimer(endTime, index) {
+				this.left_timer[index] = setInterval(() => {
 					const now = Math.round(Date.now() / 1000),
 						diff = endTime - now;
-					
 					if (diff <= 0) {
-						console.info(11);
+						this.cleanTimer(index);
 					} else {
 						const time = this.$app.timeGethms(diff);
 						
-						this.left_time = {
+						this.left_time[index] = {
 							full: endTime,
 							d: time.day,
 							h: time.hour,
 							i: time.min,
 							s: time.sec
 						}
+						
+						this.$set(this.left_time,index,this.left_time[index])
 					}
 				}, 1000);
+				
+				this.$set(this.left_timer,index,this.left_timer[index])
+			},
+			cleanTimer(index) {
+				if (!index) {
+					this.left_timer.map(item => {
+						clearInterval(item);
+					})
+					this.left_timer = [];
+					this.left_time = [];
+				} else {
+					clearInterval(item);
+					delete this.left_timer[index];
+					delete this.left_time[index];
+				}
 			},
 		}
 	}
