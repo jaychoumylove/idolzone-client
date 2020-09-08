@@ -173,6 +173,7 @@
 										<image mode="aspectFit" :src="item.image_l"></image>
 										<view class="info">
 											<view class="title text-overflow">{{item.name || ''}}</view>
+											<view class="desc">{{item.desc || ''}}</view>
 										</view>
 										<view class="exchange flex-set" @tap="exchange(item)">
 											<btnComponent :type="item.has_number >= item.count ? 'success': 'yellow'">
