@@ -94,13 +94,13 @@
 						<view class="avatar-wrap" :style="{zIndex:6-index}" :class="['s-'+(index+1)]" v-for="(item,index) in userRankList['thisday_count']"
 						 :key="index" v-if="index<6">
 							<image class="avatar" :src="item.user.avatarurl || $app.getData('AVATAR')" mode="aspectFill"></image>
-							<image class="rank" v-if="index<=2" :src="'/static/image/rank/rank-'+(index+1)+'.png'" mode=""></image>
+							<image class="rank" :src="'/static/image/rank/rank-'+(index+1)+'.png'" mode=""></image>
 						</view>
 					</view>
 				</view>
 
 				<view class="center-wrap flex-set" v-if="$app.getData('userInfo').type == 1 && $app.getData('userStar').id != star.id">
-					<button class="join flex-set" @tap="sendOrFollow">+切换</button>
+					<button class="join flex-set" @tap="adminCheckoutStar">+切换</button>
 				</view>
 
 				<view class="right-wrap flex-set">
@@ -1875,6 +1875,40 @@
 					content: chartMsg,
 				})
 			},
+			adminCheckoutStar() {
+				this.$app.modal(`每个人只能加入一个圈子\n是否加入${this.star.name}的圈子？`, () => {
+					this.$app.request(this.$app.API.STAR_FOLLOW, {
+						starid: this.star.id,
+						rer_user_id: this.$app.getData('referrer'), // 推荐人
+					}, res => {
+						if (this.$app.getData('userInfo').type == 1) {
+							this.$app.token = ''
+							this.$app.request(this.$app.API.USER_INFO, {}, res => {
+								this.$app.setData('userInfo', res.data, true)
+								this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {
+									this.$app.setData('userCurrency', res.data)
+								})
+								this.$app.request(this.$app.API.USER_STAR, {}, res => {
+									this.$app.setData('userStar', res.data, true)
+									this.$app.goPage('/pages/group/group?tips=1')
+								})
+							})
+						} else {
+							this.$app.request(this.$app.API.USER_STAR, {}, res => {
+								this.$app.setData('userStar', res.data)
+								this.$app.setData('noob', true)
+								this.chartMsg = `大家好，我是${this.$app.getData('userInfo').nickname}，请多关照~`
+								this.sendMsg()
+								this.$app.toast('加入成功')
+								setTimeout(() => {
+									this.$app.goPage('/pages/group/group?tips=1')
+								}, 200)
+							})
+						}
+				
+					}, 'POST', true)
+				})
+			},
 			/**
 			 * 加入明星圈子或弹出打榜
 			 */
@@ -2399,19 +2433,19 @@
 							margin: 0;
 
 							.avatar {
-								border: 4upx solid #f9de48;
+								// border: 4upx solid #f9de48;
 							}
 						}
 
 						.avatar-wrap.s-2 {
 							.avatar {
-								border: 4upx solid #dae0e9;
+								// border: 4upx solid #dae0e9;
 							}
 						}
 
 						.avatar-wrap.s-3 {
 							.avatar {
-								border: 4upx solid #f6c382;
+								// border: 4upx solid #f6c382;
 							}
 						}
 

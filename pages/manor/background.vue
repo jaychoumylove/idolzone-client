@@ -20,8 +20,8 @@
 				<view class="background-img">
 					<block v-if="left_time[index]">
 						<view class="small" v-if="left_time[index].full > 0">
-							<view>距离结束还剩：</view>
-							<view>
+							<view class="p">距离结束还剩：</view>
+							<view class="p">
 								<block v-if="left_time[index].d">
 									<text class="text">{{left_time[index].d}}</text>
 									天
@@ -268,6 +268,9 @@
 						.text {
 							padding: 0 10upx;
 							color: yellow;
+						}
+						.p {
+							white-space: nowrap;
 						}
 					}
 				}

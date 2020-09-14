@@ -34,7 +34,7 @@
 								</button>
 							</block>
 							<block v-else-if="item.open_type">
-								<button class="btn" :open-type="item.open_type" :data-shareid="item.shareid" @tap="buttonHandler">
+								<button class="btn" :open-type="item.open_type" :data-shareid="item.shareid">
 									<view class="flex-set" style="width: 130upx;height: 65upx;">{{item.btn_text||'去完成'}}</view>
 								</button>
 							</block>

@@ -5,7 +5,27 @@
 				<image :src="$app.getData('userInfo').avatarurl || AVATAR" mode="aspectFill"></image>
 			</view>
 			<view class="nickname text-overflow">{{$app.getData('userInfo').nickname || NICKNAME}}</view>
-			<view class="nickname text-overflow" style="font-size: 28rpx;" @tap="$app.goPage('/pages/manor/log')">庄园日志</view>
+			<view class="nickname text-overflow" style="font-size: 28rpx;" @tap="$app.goPage('/pages/manor/log')">
+				我的庄园日志
+				<!-- <text class="iconfont iconinfo"></text>
+				<text class="iconfont iconxin"></text>
+				<text class="iconfont iconfangdajing"></text>
+				<text class="iconfont iconjiantou"></text>
+				<text class="iconfont icondui"></text>
+				<text class="iconfont icondianzan"></text>
+				<text class="iconfont iconclose"></text>
+				<text class="iconfont iconshipin"></text> -->
+				<text class="iconfont iconjiludanzilishijilu"></text>
+				<!-- <text class="iconfont iconeditor"></text>
+				<text class="iconfont iconempty"></text>
+				<text class="iconfont iconicon_signal"></text>
+				<text class="iconfont iconicon_star"></text>
+				<text class="iconfont iconicon_workmore"></text>
+				<text class="iconfont .iconicon-test"></text>
+				<text class="iconfont iconicon-test1"></text>
+				<text class="iconfont iconshare"></text>
+				<text class="iconfont iconjinzhi"></text> -->
+			</view>
 			<view class="week-output">
 				<view class="output">产量：{{output}}金豆/10秒</view>
 				<view class="scrap-num">幸运碎片：{{scrapNum}}</view>

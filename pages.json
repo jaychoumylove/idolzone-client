@@ -560,6 +560,20 @@
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "庄园日志"
 			}
+		},
+		{
+			"path": "pages/manor/invite_friend",
+			"style": {
+				"navigationBarBackgroundColor": "#F99510",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "庄园好友"
+			}
+		},
+		{
+			"path": "pages/manor/other_manor",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
     ],
 	"tabBar": {

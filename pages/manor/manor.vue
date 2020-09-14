@@ -1,5 +1,5 @@
 <template>
-	<view class="manor-container">
+	<view class="manor-container" :class="{'manor-container-modal-content': modal=='box'}">
 		<!-- <view class="background"></view> -->
 		<image class='bg' :style="{height: dheight +'px'}" v-if="tryBackground.url" :src='tryBackground.url'></image>
 		<image class='bg' :style="{height: dheight +'px'}" v-else :src='mainBackground.url'></image>
@@ -12,7 +12,10 @@
 		<view class="user-info" :class="fix.userInfo">
 			<image class="avatar" :src="$app.getData('userInfo').avatarurl || AVATAR" mode="aspectFill"></image>
 			<view class="info">
-				<view class="nickname text-overflow">{{$app.getData('userInfo').nickname || NICKNAME}}</view>
+				<view class="nickname text-overflow" @tap="$app.goPage('/pages/notice/notice?id=65')">
+					{{$app.getData('userInfo').nickname || NICKNAME}}
+					<text style="padding-left: 20rpx;" class="iconfont iconicon-test1"></text>
+				</view>
 				<view class="week-output">
 					<!-- https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtLVejGdtb4PKTC5U7sYIsm670AARV24Rg8Abam1NjMoemVcPnSTiaPQA/0 -->
 					<!-- https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtqibsjoz4q50r0xxB6XBXYdcsFzFDw78QynvK8AiagO92tUyrhhCgFk3Q/0 -->
@@ -84,27 +87,6 @@
 				<image class="buttom"></image>
 			</view>
 		</view>
-		<!-- <view class="steal-list">
-			<view class="title">最新动态</view>
-			<view v-if="!stealLog.length" class="flex-set" style="margin-top: 20rpx;">暂无数据～</view>
-			<view class="steal-item" v-for="(item, index) in stealLog" :key="index">
-				<view class="time">{{item.create_time}}</view>
-				<view class="info">
-					<view class="left flex-set">
-						<image :src="item.user.avatarurl"></image>
-					</view>
-					<view class="middle">
-						<view class="name text-overflow">{{item.user.nickname || NICKNAME}}</view>
-						<view class="log">偷走1000金豆</view>
-					</view>
-					<view class="right flex-set">
-						<btnComponent type="default">
-							<view class="flex-set right-btn" @tap='steal(item.user.id)'>回偷</view>
-						</btnComponent>
-					</view>
-				</view>
-			</view>
-		</view> -->
 		
 		<!-- 召唤宠物 -->
 		<modalComponent v-if="modal == 'goCall'" type="center" title="提示" @closeModal="modal=''">
@@ -199,7 +181,136 @@
 				</view>
 			</view>
 		</modalComponent>
-	</view>
+	
+		<!-- 拉新 -->
+		<modalComponent v-if="modal == 'friendList'" headimg="/static/image/icon/lx.png" title="好友" @closeModal="modal=''">
+			<view class="invit-modal-container">
+				<view class="explain-wrapper">
+					<view class="top flex-set">
+						<view class="">我的好友</view>
+						<btnComponent type="default">
+							<button class="btn" open-type="share" :data-share="friendShareId">
+								<view class="flex-set" style="width: 140upx; height: 60upx;">添加好友</view>
+							</button>
+						</btnComponent>
+					</view>
+					<!-- <view class="bottom">被邀请人任意加入一个粉丝团即可领取奖励</view> -->
+				</view>
+				<view class="notice">
+					<image class="notice-icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPXtMTFLV2ydAKSiawiapkia2icuuW67SfcBKp3mbQWicrWJb4rJskIWFuhQ/0"></image>
+					<view class="notice-info">
+						<swiper 
+							:indicator-dots="false" 
+							:autoplay="true" 
+							:interval="3000" 
+							:duration="1000" 
+							vertical="true"
+							touchable="false"
+							circular='true'
+							disable-touch="true"
+						>
+							<swiper-item v-for="(item, index) in boxLogList" :key="index">
+								<view class="notice-item">
+									<image class="notice-avatar" :src="item.user.avatarurl"></image>
+									<view class="notice-con">
+										{{item.content}}
+									</view>
+								</view>
+							</swiper-item>
+							<swiper-item v-if="!boxLogList.length">
+								<view class="notice-item">
+									<view class="notice-con">
+										暂无数据~
+									</view>
+								</view>
+							</swiper-item>
+						</swiper>
+					</view>
+				</view>
+				<scroll-view scroll-y class="list-wrapper" @scrolltolower="reachBottomFriends" v-if="friendList.length">
+					<view class="item" v-for="(item,index) in friendList" :key="index">
+						<view class='avatar'>
+							<image :src="item.friend.avatarurl" mode="aspectFill"></image>
+						</view>
+						<view class="text-container">
+							<view class="nickname text-overflow">{{item.friend.nickname}}</view>
+							<view class="bottom-text">
+								<view class="hot-count">产量：每10秒/{{item.manor_output}}金豆</view>
+							</view>
+						</view>
+						<view class="box">
+							<view class="scrap" v-if="item.box.scrap_img&&item.box.scrap_name">
+								<image mode="widthFix" class="scrap-img" :src="item.box.scrap_img"></image>
+								<view>{{item.box.scrap_name}}</view>
+							</view>
+							<view class="num flex-set" v-if="item.box.number">
+								{{item.box.number}}个
+							</view>
+						</view>
+						<view class="btn">
+							<btnComponent type="default">
+								<view class="flex-set" @tap="goOtherManor(item.friend.id)" style="width: 130upx;height: 65upx;">去拜访</view>
+							</btnComponent>
+						</view>
+					</view>
+				</scroll-view>
+				<view v-else class="flex-set list-wrapper">
+					您还没有好友哦
+				</view>
+			</view>
+		</modalComponent>
+		<modalComponent v-if="modal == 'box'" headimg="/static/image/icon/lx.png" title="宝箱" @closeModal="modal=''">
+			<view class="box-container">
+				<view class="title">宠物碎片</view>
+				<view class="notice">
+					<image class="notice-icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPXtMTFLV2ydAKSiawiapkia2icuuW67SfcBKp3mbQWicrWJb4rJskIWFuhQ/0"></image>
+					<view class="notice-info">
+						<swiper 
+							:indicator-dots="false" 
+							:autoplay="true" 
+							:interval="3000" 
+							:duration="1000" 
+							vertical="true"
+							touchable="false"
+							circular='true'
+							disable-touch="true"
+						>
+							<swiper-item v-for="(item, index) in boxLogList" :key="index">
+								<view class="notice-item">
+									<image class="notice-avatar" :src="item.user.avatarurl"></image>
+									<view class="notice-con">
+										{{item.content}}
+									</view>
+								</view>
+							</swiper-item>
+							<swiper-item v-if="!boxLogList.length">
+								<view class="notice-item">
+									<view class="notice-con">
+										暂无数据~
+									</view>
+								</view>
+							</swiper-item>
+						</swiper>
+					</view>
+				</view>
+				<view class="main">
+					<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FkdUhHPgXyfkQlic4PyAIfcQkbDhgXTicIJrMdPXZfU1icAAVibDjicBw81PCb6iapIREdsgYUwIr0emHg/0" class="main-image position-set"></image>
+					<view class="box-position" :class="'position-'+ite.position" v-for="(ite, ind) in boxScrapList" :key="ind">
+						<view class="box-scrap">
+							<image class="scrap-bg position-set" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FkdUhHPgXyfkQlic4PyAIfce5tqyprFJXAXiaaalhH02TW0SjricBxWWr3KGHQBwpq2NW7GDEd7Arrg/0"></image>
+							<image class="scrap-item position-set" :src="ite.scrap_img"></image>
+							<view v-if="ite.number > 1" class="scrap-num">X{{ite.number}}</view>
+						</view>
+					</view>
+				</view>
+				<view class="bottom">
+					<view class="desc">
+						召唤灵宠可增加自己宝箱内的宠物碎片。每用灵丹召唤获得10宠物碎片，星愿池额外入账1张同等宠物碎片。额外赠送的宠物碎片24小时后过期消失。
+					</view>
+				</view>
+			</view>
+		</modalComponent>
+		</view>
 </template>
 
 <script>
@@ -238,7 +349,6 @@
 				dheight: 0,
 				fixBottom: '',
 				panaceaReward: 0,
-				userCurrency: {},
 				word: "",
 				lottery_max: 0,
 				goSupple: {},
@@ -255,16 +365,32 @@
 				fixAnimalScreen: '',
 				tryBackground: {},
 				tryTimer: '',
-				tryTimeDetail: {
-					
+				tryTimeDetail: {},
+				mainBackground: {
+					url:"https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36WkoItYoGoC20F1N49sXdnmrLwodF6x2icITRfQ4GN999WzPyMmDib7fw/0",
 				},
-				mainBackground: {url:"https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36WkoItYoGoC20F1N49sXdnmrLwodF6x2icITRfQ4GN999WzPyMmDib7fw/0"},
+				boxLogList: [],
+				friendList: [],
+				friendPager: {
+					page: 1,
+					size: 10,
+				},
+				friendShareId: '',
+				boxScrapList: [],
+				userCurrency: this.$app.getData('userCurrency') || {
+					coin: 0,
+					panacea: 0
+				},
 			};
 		},
 		onLoad(option) {
 			if (option.modal) {
 				this.modal = option.modal;
 			}
+		},
+		onShareAppMessage(e) {
+			const shareType = e.target && e.target.dataset.share;
+			return this.$app.commonShareAppMessage(shareType)
 		},
 		onShow() {
 			const system = uni.getSystemInfoSync();
@@ -300,13 +426,26 @@
 			if (this.dheight > 640 && this.dheight <= 750) {
 				this.fix.mainAnimal = 'normal-screen'
 			}
-			const {manor_animal: {manor_rbtn,lottery: {types,go_call,go_supple}}} = this.$app.getData('config');
+			const {
+				manor_animal: {
+					manor_rbtn,
+					lottery: {
+						types,
+						go_call,
+						go_supple
+					},
+					friend_share_id
+				},
+			} = this.$app.getData('config');
 			this.btn = manor_rbtn;
 			this.callBtn = types;
 			this.goSupple = go_supple;
 			this.goCall = go_call;
+			this.friendShareId = friend_share_id;
 			this.getManorInfo();
 			this.getCurrency();
+			this.getFriends(this.friendPager);
+			this.getBoxScrap();
 			// this.getStealLogList();
 		},
 		onReachBottom() {
@@ -413,6 +552,7 @@
 						main_background,
 						try_background,
 						call_type,
+						box_log
 					} = res.data;
 					this.manor = manor;
 					this.output = parseInt(output);
@@ -426,6 +566,7 @@
 					this.mainBackground = main_background;
 					this.tryBackground = try_background;
 					this.callType = call_type;
+					this.boxLogList = box_log;
 					if (try_background) {
 						this.setTryTimer(try_background.time);
 					}
@@ -436,6 +577,34 @@
 					}
 					if (!this.addCountTimer) this.setTimer();
 				})
+			},
+			getFriends (pager) {
+				this.$app.request("manor/friend_list", pager, res => {
+					if (pager.page == 1) {
+						this.friendList = res.data;
+					} else {
+						this.friendList = this.friendList.concat(res.data);
+					}
+				})
+			},
+			getBoxScrap() {
+				let data = {};
+				if (!this.isSelf) {
+					data = {user_id: this.user_id};
+				}
+				this.$app.request("animal_box/list", data, res => {
+					this.boxScrapList = res.data;
+				})
+			},
+			goOtherManor(user_id) {
+				if (!user_id) return false;
+				uni.navigateTo({
+					url:`/pages/manor/other_manor?user=${user_id}`
+				})
+			},
+			reachBottomFriends () {
+				this.friendPager.page ++;
+				this.getFriends(this.friendPager);
 			},
 			getCurrency () {
 				this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {
@@ -474,6 +643,7 @@
 					this.lotteryLeft = parseInt(this.lotteryLeft) - parseInt(number)
 					this.getManorInfo();
 					this.getCurrency();
+					this.getBoxScrap();
 					setTimeout(() => {
 						uni.hideLoading();
 						this.modal = 'callResult';
@@ -528,6 +698,11 @@
 </script>
 
 <style lang="scss" scoped>
+	.manor-container-modal-content {
+		/deep/ .container .content {
+			padding-top: unset!important;
+		}
+	}
 	.manor-container {
 		position: relative;
 		
@@ -645,6 +820,7 @@
 				.nickname {
 					max-width: 300rpx;
 					margin-bottom: 5rpx;
+					font-weight: 600;
 					color: #653208;
 				}
 				.week-output {
@@ -823,70 +999,6 @@
 			}
 		}
 	
-		.steal-list {
-			position: absolute;
-			top: 1100rpx;
-			left: 0;
-			border-radius: 40rpx;
-			background-color: rgba(245,245,245,1);
-			width: 100%;
-			padding: 20rpx;
-
-			.title {
-				font-size: 34rpx;
-				font-weight: 650;
-				margin-bottom: 20rpx;
-				padding-left: 30rpx;
-			}
-			.steal-item {
-				margin-bottom: 20rpx;
-
-				.time {
-					font-size: 24rpx;
-					padding-left: 20rpx;
-					margin-bottom: 20rpx;
-				}
-				.info {
-					background-color: white;
-					border-radius: 65rpx;
-					height: 130rpx;
-					display: flex;
-					.left {
-						margin: 0 15rpx;
-						image {
-							width: 100rpx;
-							height: 100rpx;
-							border-radius: 50rpx;
-						}
-					}
-					.middle {
-						display: flex;
-						flex-direction: column;
-						justify-content: center;
-
-						.name {
-							margin-bottom: 10rpx;
-							color: #444444;
-							max-width: 300rpx;
-							font-size: 30rpx;
-							font-weight: 500;
-						}
-						.log {
-							color: #7D7D7D;
-							font-size: 22rpx;
-						}
-					}
-					.right {
-						margin-left: auto;
-						margin-right: 20rpx;
-						.right-btn {
-							padding: 10rpx 30rpx;
-						}
-					}
-				}
-			}
-		}
-	
 		.gocall-modal-container {
 			.btn {
 				font-size: 30upx;
@@ -1032,6 +1144,210 @@
 				}
 			}
 		}
+		
+		.invit-modal-container {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			color: #000;
+		
+			.explain-wrapper {
+				padding: 20upx 40upx;
+				padding-top: 0;
+		
+				.top {
+					justify-content: space-between;
+		
+					font-size: 34upx;
+					font-weight: 700;
+		
+					text {
+						color: orange;
+					}
+				}
+		
+				.title {
+					font-size: 30upx;
+					font-weight: 600;
+					padding: 10upx;
+				}
+		
+				.bottom {
+					font-size: 22upx;
+				}
+		
+				.row.between {
+					display: flex;
+					justify-content: space-between;
+				}
+			}
+		
+			.notice {
+				margin: 30upx 20upx 0;
+				background:rgba(248,226,207,0.57);
+				border-radius:19upx;
+				display: flex;
+				justify-content: flex-start;
+				.notice-icon {
+					margin:0;
+					margin-left: 4%;
+					width: 35upx;
+					align-self: center;
+					height: 35upx;
+					border-radius:50%;
+				}
+				.notice-info {
+					margin: 10upx 5%;
+					flex: 1;
+					display: inline-block;
+					overflow: hidden;
+					height: 50upx;
+					swiper {
+						height: 50upx;
+					}
+					.notice-item {
+						display: flex;
+						justify-content: flex-start;
+						.notice-avatar {
+							width: 50upx;
+							height: 50upx;
+							border-radius:50%;
+							margin-right: 10upx;
+						}
+						.notice-con {
+							flex: 1;
+							height: 50upx;
+							margin-right: 10%;
+							display: inline-block;
+							font-size:26upx;
+							line-height: 50upx;
+						}
+					}
+				}
+			}
+			.info {
+				width: 100%;
+				background-color: #f7f7f7;
+				display: flex;
+				justify-content: space-around;
+				padding: 10upx;
+				font-size: 26upx;
+			}
+		
+			.list-wrapper {
+				overflow-y: auto;
+				height: 536upx;
+		
+				.item {
+					display: flex;
+					justify-content: flex-start;
+					align-items: center;
+					padding: 20upx 30upx;
+					border-bottom: 1px solid #EEE;
+		
+					.rank-num {
+						width: 90upx;
+						text-align: center;
+					}
+		
+					.avatar image {
+						width: 90upx;
+						height: 90upx;
+						border-radius: 50%;
+					}
+					
+					.box {
+						width: 140rpx;
+						display: flex;
+						justify-content: space-between;
+						.scrap {
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							.scrap-img {
+								width: 40rpx;
+							}
+							view {
+								white-space: nowrap;
+								font-size: 20rpx;
+							}
+						}
+						.num {
+							white-space: nowrap;
+							font-size: 20rpx;
+						}
+					}
+		
+					.text-container {
+						flex: 1;
+						padding: 0 30upx;
+						line-height: 44upx;
+						
+						.nickname {
+							max-width: 285rpx;
+						}
+						.bottom-text {
+							display: flex;
+							align-items: center;
+		
+							.hot-count {
+								color: $text-color-1;
+								margin-right: 4upx;
+								font-size: 20rpx;
+							}
+		
+							.icon-heart {
+								width: 30upx;
+								height: 30upx;
+							}
+						}
+					}
+				}
+		
+			}
+		
+			.user-list {
+				width: 100%;
+		
+				.user-list-avatar {
+					width: 80upx;
+					height: 80upx;
+					border-radius: 50%;
+					margin: 20upx;
+				}
+			}
+		
+			.btn-wrap {
+				margin-top: 40upx;
+				margin-bottom: 40upx;
+				display: flex;
+				justify-content: space-around;
+				width: 100%;
+				padding: 0 60upx;
+		
+				.fsend-btn {
+					// background-color: #0EC52F;
+					// font-size: 32upx;
+					color: #333;
+					padding: 0 20upx;
+					flex-direction: column;
+		
+					image {
+						width: 80upx;
+						height: 80upx;
+					}
+				}
+		
+				.save-btn {
+					background-color: #FF7E00;
+					border-radius: 10upx;
+					font-size: 32upx;
+					color: #FFF;
+					padding: 0 20upx;
+				}
+			}
+		}
 	
 		.callresult-modal-container {
 			.result {
@@ -1089,6 +1405,152 @@
 			}
 			.btn-wrap {
 				justify-content: space-around;
+			}
+		}
+	
+		.box-container {
+			background: linear-gradient(0deg, #EFFFEC, #7ACFFF);
+			.title {
+				text-align: center;
+				width: 100%;
+				padding-top: 40rpx;
+			}
+			.notice {
+				margin: 20upx;
+				background:#fff;
+				border-radius:19upx;
+				display: flex;
+				justify-content: flex-start;
+				.notice-icon {
+					margin:0;
+					margin-left: 4%;
+					width: 35upx;
+					align-self: center;
+					height: 35upx;
+					border-radius:50%;
+				}
+				.notice-info {
+					margin: 10upx 5%;
+					flex: 1;
+					display: inline-block;
+					overflow: hidden;
+					height: 50upx;
+					swiper {
+						height: 50upx;
+					}
+					.notice-item {
+						display: flex;
+						justify-content: flex-start;
+						.notice-avatar {
+							width: 50upx;
+							height: 50upx;
+							border-radius:50%;
+							margin-right: 10upx;
+						}
+						.notice-con {
+							flex: 1;
+							height: 50upx;
+							margin-right: 10%;
+							display: inline-block;
+							font-size:26upx;
+							line-height: 50upx;
+						}
+					}
+				}
+			}
+			.main {
+				width: 100%;
+				height: 500rpx;
+				position: relative;
+				.main-image{
+					height: 360rpx;
+					width: 460rpx;
+				}
+				.position-1 {
+					left: 150rpx;
+					top: 40rpx
+				}
+				.position-2 {
+					left: 120rpx;
+					top: 140rpx;
+				}
+				.position-3 {
+					left: 150rpx;
+					top: 240rpx;
+				}
+				.position-4 {
+					left: 220rpx;
+					top: 340rpx;
+				}
+				.position-5 {
+					left: 320rpx;
+					top: 320rpx;
+				}
+				.position-6 {
+					left: 270rpx;
+					top: 40rpx;
+				}
+				.position-7 {
+					left: 440rpx;
+					top: 340rpx;
+				}
+				.position-8 {
+					left: 460rpx;
+					top: 210rpx;
+				}
+				.position-9 {
+					right: 180rpx;
+					top: 60rpx;
+				}
+				.position-10 {
+					left: 550rpx;
+					top: 270rpx;
+				}
+				.position-11 {
+					left: 550rpx;
+					top: 140rpx;
+				}
+				.position-12 {
+					left: 380rpx;
+					top: 0rpx;
+				}
+				.box-position {
+					position: absolute;
+					.box-scrap {
+						position: relative;
+						width: 100rpx;
+						height: 100rpx;
+						.scrap-bg {
+							width: 100rpx;
+							height: 100rpx;
+							z-index: 2;
+						}
+						.scrap-item {
+							z-index: 1;
+							width: 80rpx; 
+							height: 80rpx;
+						}
+						.scrap-num {
+							position: absolute;
+							right: 0;
+							bottom: 0;
+							z-index: 2;
+						}
+					}
+				}
+			}
+		
+			.bottom {
+				padding: 0 40rpx 40rpx;
+				.desc {
+					background-color: #fff;
+					border-radius: 50rpx;
+					color: #B5B5B4;
+					padding: 20rpx 30rpx;
+				}
+				.btn {
+					padding: unset;
+				}
 			}
 		}
 	}

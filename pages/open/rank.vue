@@ -384,15 +384,14 @@
 				this.sendCount = '';
 			},
 			sendHot(count) {
+				const typeMap = ['coin', 'flower', 'old_coin'];
 				if (count == '全送') {
-					const typeMap = ['coin', 'flower', 'old_coin'];
 					this.sendCount = this.userCurrency[typeMap[this.current]];
 				} else {
 					if (count) this.sendCount = parseInt(count)
 					if (!this.sendCount) {
 						return this.$app.toast('数额不正确')
 					}
-					const typeMap = ['coin', 'flower', 'old_coin'];
 					const numbers = this.userCurrency[typeMap[this.current]];
 					if (this.sendCount > numbers) {
 						const typeMsgMap = ['金豆', '鲜花', '旧豆'];

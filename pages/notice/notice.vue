@@ -19,6 +19,11 @@
 				aid:'',
 			};
 		},
+		onShareAppMessage(e) {
+			const shareType = e.target && e.target.dataset.share;
+			
+			return this.$app.commonShareAppMessage(shareType)
+		},
 		onLoad(option) {
 			console.log(option)
 			if (option.url) {
