@@ -41,7 +41,7 @@
 													</view>
 												</button>
 											</block>
-											<view v-else @tap="goActive(ite)" class="flex-set" :class="ite.btn_class">
+											<view v-else class="flex-set" :class="ite.btn_class">
 												{{ite.btn_text||'去参与'}}
 											</view>
 										</btnComponent>
@@ -80,7 +80,7 @@
 											</view>
 										</button>
 									</block>
-									<view v-else @tap="goActive(item.list[0])" class="flex-set" :class="item.list[0].btn_class">
+									<view v-else class="flex-set" :class="item.list[0].btn_class">
 										{{item.list[0].btn_text||'去参与'}}
 									</view>
 								</btnComponent>
@@ -96,7 +96,7 @@
 									</view>
 								</button>
 							</block>
-							<view v-else @tap="goActive(ite)" class="flex-set" :class="ite.btn_class">
+							<view v-else class="flex-set" :class="ite.btn_class">
 								{{ite.btn_text||'去参与'}}
 							</view>
 						</btnComponent>

@@ -1,9 +1,9 @@
 <template>
 	<view class="container">
 		<view class="top">
-			<view class="top-desc flex-set">统计活动期间每位爱豆领取庄园金豆数最多的前100名粉丝的总和</view>
+			<view class="top-desc flex-set">{{banner.title}}</view>
 		</view>
-		<view class="banner" @tap="goOther(banner.gopage)" :style="{'background': 'url('+banner.img_url+') no-repeat center center/ 100% 100%'}"></view>
+		<view class="banner" @tap="goOther(banner.gopage)" :style="{'background': 'url('+banner.image+') no-repeat center center/ 100% 100%'}"></view>
 		<view>
 			<scroll-view scroll-x="true" class="scroll">
 				<view class='tab-container'>
@@ -43,15 +43,15 @@
 							<image class="avatar" :src="ite.user.avatarurl||AVATAR" mode="aspectFill"></image>
 						</block>
 					</view>
-					<view class="go-assist-rank">>>></view>
+					<view class="go-assist-rank" @tap="goZone(item.star_id)">>>></view>
 				</view>
 			</view>
 			
 			<block v-for="(item,index) in userRank" :key="index" v-if="rankField == 'allfans'">
-				<view class="top" v-if="index==3" style="background-color: #F3F3F3;">
-					<view class="top-desc flex-set">统计活动期间每位爱豆领取庄园金豆数最多的前100名粉丝的总和</view>
+				<view class="top" v-if="index==limitIndex" style="background-color: #F3F3F3;">
+					<view class="top-desc flex-set">{{banner.title}}</view>
 				</view>
-				<view class="item" :class="{'dispoint-item': index>=3}">
+				<view class="item" :class="{'dispoint-item': index>=limitIndex}">
 					<view class="rank-num">
 						<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERPO5dPoLHgkajBHNM2z9fooSUMLxB0ogg1mYllIAOuoanico1icDFfYFA/0"
 						 mode=""></image>
@@ -75,7 +75,7 @@
 							<view class="count">{{item.active_sum}}庄园豆</view>
 						</view>
 					</view>
-					<view class="go-visit">
+					<view class="go-visit" v-if="item.user_id!=myInfo.user_id">
 						<btnComponent type='default'>
 							<view class="flex-set" @tap="goOtherManor(item.user_id)" style="width: 130upx;height: 65upx;">去拜访</view>
 						</btnComponent>
@@ -123,9 +123,11 @@
 				AVATAR:this.$app.getData('AVATAR'),
 				NICKNAME: this.$app.getData('NICKNAME'),
 				banner: {
+					title: '统计活动期间每位爱豆领取庄园金豆数最多的前100名粉丝的总和',
 					gopage: "/pages/notice/notice",
-					img_url: "https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9G4romDKHbhtCKiaEbiaXwpqHsXKiaYkRBGzZp6aayTQM2r2ibE96Ho2oMQGxHVGO2icUBuFiaXOhPO7VXQ/0",
+					image: "https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9G4romDKHbhtCKiaEbiaXwpqHsXKiaYkRBGzZp6aayTQM2r2ibE96Ho2oMQGxHVGO2icUBuFiaXOhPO7VXQ/0",
 				},
+				limitIndex: -1,
 				mapRequest: {
 					// fans: 'manor/fansrank',
 					allfans: 'manor/allfansrank',
@@ -149,6 +151,7 @@
 				if (this.rankField == field) return;
 				this.page = 1
 				this.rankField = field
+				this.userRank = []
 				this.loadData()
 			},
 			loadData() {
@@ -156,6 +159,8 @@
 					page: this.page,
 				}, res => {
 					this.myInfo = res.data.my
+					this.banner = res.data.banner
+					this.limitIndex = res.data.limit_index
 					if (this.page == 1) {
 						this.userRank = res.data.list
 					} else {
@@ -163,6 +168,19 @@
 					}
 				})
 			},
+			goOtherManor(user_id) {
+				if (!user_id) return false;
+				uni.navigateTo({
+					url:`/pages/manor/other_manor?user=${user_id}`
+				})
+			},
+			goZone(star_id) {
+				if (star_id) {
+					uni.navigateTo({
+						url:`/pages/manor/zone_rank?star_id=${star_id}`
+					})
+				}
+			}
 		}
 	}
 </script>

@@ -425,8 +425,8 @@
 			this.lotteryLock = 0
 		},
 		onShow() {
-			this.refresh()
 			this.lrtext = this.$app.getData('config').recharge_lucky;
+			this.refresh()
 		},
 		methods: {
 			refresh() {

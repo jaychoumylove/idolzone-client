@@ -1,17 +1,17 @@
 <template>
 	<view class="container">
 		<view class="top">
-			<view class="top-desc flex-set">统计活动期间每位爱豆领取庄园金豆数最多的前100名粉丝的总和</view>
+			<view class="top-desc flex-set">{{banner.title}}</view>
 		</view>
-		<view class="banner" @tap="goOther(banner.gopage)" :style="{'background': 'url('+banner.img_url+') no-repeat center center/ 100% 100%'}"></view>
+		<view class="banner" @tap="goOther(banner.gopage)" :style="{'background': 'url('+banner.image+') no-repeat center center/ 100% 100%'}"></view>
 		
 		<!-- 列表 -->
 		<view class="list-container">
 			<block v-for="(item,index) in userRank" :key="index">
-				<view class="top" v-if="index==3" style="background-color: #F3F3F3;">
-					<view class="top-desc flex-set">统计活动期间每位爱豆领取庄园金豆数最多的前100名粉丝的总和</view>
+				<view class="top" v-if="index==limitIndex" style="background-color: #F3F3F3;">
+					<view class="top-desc flex-set">{{banner.title}}</view>
 				</view>
-				<view class="item" :class="{'dispoint-item': index>=3}">
+				<view class="item" :class="{'dispoint-item': index>=limitIndex}">
 					<view class="rank-num">
 						<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERPO5dPoLHgkajBHNM2z9fooSUMLxB0ogg1mYllIAOuoanico1icDFfYFA/0"
 						 mode=""></image>
@@ -36,8 +36,8 @@
 						</view>
 					</view>
 					<view class="go-visit">
-						<btnComponent type='default'>
-							<view class="flex-set" @tap="goOtherManor(item.friend.id)" style="width: 130upx;height: 65upx;">去拜访</view>
+						<btnComponent type='default' v-if="item.user_id!=myInfo.user_id">
+							<view class="flex-set" @tap="goOtherManor(item.user_id)" style="width: 130upx;height: 65upx;">去拜访</view>
 						</btnComponent>
 					</view>
 				</view>
@@ -83,9 +83,11 @@
 				AVATAR:this.$app.getData('AVATAR'),
 				NICKNAME: this.$app.getData('NICKNAME'),
 				banner: {
+					title: '统计活动期间每位爱豆领取庄园金豆数最多的前100名粉丝的总和',
 					gopage: "/pages/notice/notice",
-					img_url: "https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9G4romDKHbhtCKiaEbiaXwpqHsXKiaYkRBGzZp6aayTQM2r2ibE96Ho2oMQGxHVGO2icUBuFiaXOhPO7VXQ/0",
+					image: "https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9G4romDKHbhtCKiaEbiaXwpqHsXKiaYkRBGzZp6aayTQM2r2ibE96Ho2oMQGxHVGO2icUBuFiaXOhPO7VXQ/0",
 				},
+				limitIndex: -1,
 				mapRequest: {
 					fans: 'manor/fansrank',
 				},
@@ -117,11 +119,19 @@
 					star_id: this.star
 				}, res => {
 					this.myInfo = res.data.my
+					this.banner = res.data.banner
+					this.limitIndex = res.data.limit_index
 					if (this.page == 1) {
 						this.userRank = res.data.list
 					} else {
 						this.userRank = this.userRank.concat(res.data.list)
 					}
+				})
+			},
+			goOtherManor(user_id) {
+				if (!user_id) return false;
+				uni.navigateTo({
+					url:`/pages/manor/other_manor?user=${user_id}`
 				})
 			},
 		}
