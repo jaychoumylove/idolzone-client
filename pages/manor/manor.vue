@@ -181,8 +181,26 @@
 				</view>
 			</view>
 		</modalComponent>
+		
+		<!-- 国庆中秋回馈 -->
+		<modalComponent v-if="modal == 'nationalReward'" type="center" title="提示" @closeModal="modal=''">
+			<view class="modal-container flowerreward-modal-container">
+				<view class="title" style="margin-bottom: 40rpx;">国庆中秋回馈</view>
+				<!-- <image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0"
+					   mode="aspectFill"></image> -->
+				<view class="flex-set">庄园上线后，你使用了{{nationalReward.spend_panacea}}灵丹</view>
+				<view class="coin-count">你获得<text style="color: #FC6257;padding: 0 10rpx;">{{nationalReward.panacea}}</text>灵丹回馈礼</view>
+				<view class="flex-set">庄园上线后，你使用了{{nationalReward.spend_lucky}}幸运碎片</view>
+				<view class="coin-count">你获得<text style="color: #FC6257;padding: 0 10rpx;">{{nationalReward.lucky}}</text>幸运碎片回馈礼</view>
+				<view class="btn-wrap">
+					<btnComponent type="default">
+						<view class="btn" @tap="modal=''">确认收到</view>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent>
 	
-		<!-- 拉新 -->
+		<!-- 好友列表 -->
 		<modalComponent v-if="modal == 'friendList'" headimg="/static/image/icon/lx.png" title="好友" @closeModal="modal=''">
 			<view class="invit-modal-container">
 				<view class="explain-wrapper">
@@ -194,7 +212,6 @@
 							</button>
 						</btnComponent>
 					</view>
-					<!-- <view class="bottom">被邀请人任意加入一个粉丝团即可领取奖励</view> -->
 				</view>
 				<view class="notice">
 					<image class="notice-icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPXtMTFLV2ydAKSiawiapkia2icuuW67SfcBKp3mbQWicrWJb4rJskIWFuhQ/0"></image>
@@ -381,6 +398,7 @@
 					coin: 0,
 					panacea: 0
 				},
+				nationalReward: null
 			};
 		},
 		onLoad(option) {
@@ -547,6 +565,7 @@
 						lottery_left, 
 						limit_time,
 						panacea_reward,
+						national_reward,
 						word,
 						max_lottery,
 						main_background,
@@ -573,7 +592,11 @@
 					this.maxAddCount = parseInt(output) * parseInt(limit_time);
 					if (parseInt(panacea_reward) > 0) {
 						this.panaceaReward = parseInt(panacea_reward);
-						this.modal = 'flowerReward';
+						// this.modal = 'flowerReward'; // 庄园上线活动已结束
+					}
+					if (national_reward) {
+						this.nationalReward = national_reward;
+						this.modal = 'nationalReward';
 					}
 					if (!this.addCountTimer) this.setTimer();
 				})

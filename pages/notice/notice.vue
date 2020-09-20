@@ -19,10 +19,13 @@
 				aid:'',
 			};
 		},
-		onShareAppMessage(e) {
-			const shareType = e.target && e.target.dataset.share;
-			
-			return this.$app.commonShareAppMessage(shareType)
+		onShareAppMessage() {
+			return this.$app.commonShareAppMessage(null, null, {
+				title: this.title,
+				image: null,
+				path: "path=/pages/notice/notice",
+				otherparam: "id="+this.aid
+			})
 		},
 		onLoad(option) {
 			console.log(option)

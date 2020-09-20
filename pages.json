@@ -574,6 +574,22 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/manor/rank",
+			"style": {
+				"navigationBarBackgroundColor": "#F99510",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "庄园排行"
+			}
+		},
+		{
+			"path": "pages/manor/zone_rank",
+			"style": {
+				"navigationBarBackgroundColor": "#F99510",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "庄园助力排行"
+			}
 		}
     ],
 	"tabBar": {

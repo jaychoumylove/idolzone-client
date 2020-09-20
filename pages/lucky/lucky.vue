@@ -148,6 +148,44 @@
 			</view>
 		</view>
 		
+		<view class="recharge animal-r" v-if="exchangeAnimalList">
+			<view class="content">
+				<view class="header">
+					<view class="bg">
+						{{animal_national_lucky_draw.title || ''}}
+					</view>
+				</view>
+				<view class="tip flex-set">
+					<view class="tip-desc">{{animal_national_lucky_draw.desc || ''}}</view>
+				</view>
+				<view class="charge-prize">
+					<block v-for="(item, index) in exchangeAnimalList" :key="index">
+						<view class="animal-item">
+							<image class="animal" :src="item.scrap_img"></image>
+							<view class="exchange-btn flex-set">
+								<btnComponent type='default'>
+									<view class="flex-set" @tap="openExchangeAnimalModal(item)" style="width: 80upx;height: 40upx;font-size: 24rpx;">兑换</view>
+								</btnComponent>
+							</view>
+						</view>
+					</block>
+				</view>
+				
+				<!-- <view class="charge-prize">
+					<block v-for="(item, index) in exchangeAnimal" :key="index">
+						<view class="animalitem">
+							<image class="animal" :src="item.image"></image>
+							<view class="exchange-btn flex-set">
+								<btnComponent type='default'>
+									<view class="flex-set" @tap="openExchangeAnimalModal(item)" style="width: 130upx;height: 50upx;">兑换</view>
+								</btnComponent>
+							</view>
+						</view>
+					</block>
+				</view> -->
+			</view>
+		</view>
+		
 		<view class="lucky">
 			<view class="content">
 				<view class="header">
@@ -295,6 +333,48 @@
 				</view>
 			</view>
 		</modalComponent>
+		<!-- 幸运抽奖券兑换12生肖 -->
+		<modalComponent v-if="modal == 'exchangeAnimal'" type="center" title="提示" @closeModal="modal=''">
+			<view class="modal-container exchange-modal-container">
+				<view class="title">兑换{{exchangeCurrentAnimal.scrap_name}}</view>
+				<view class="label flex-set">拥有{{exchangeCurrentAnimal.has_scrap_num}}个{{exchangeCurrentAnimal.scrap_name}} </view>
+				<!-- <view class="title" v-if="callType=='goSupple'">{{goSupple.title}}</view>
+				<view class="title-lable" @tap="getRewardPool">奖池详情</view> -->
+				<image class="bg" :src="exchangeCurrentAnimal.scrap_img" mode="aspectFit"></image>
+				<!-- <view class="desc flex-set">
+					拥有 {{exchangeCurrentAnimal.scrap_name}} 10
+				</view> -->
+				<view class="desc left-desc">
+					<block v-if="exchangeCurrentAnimal.need_lv_up_scrap == 'OVER'">
+						已到最高等级
+					</block>
+					<block v-if="exchangeCurrentAnimal.need_lv_up_scrap < 1">
+						<view @tap="$app.goPage('/pages/manor/animal_list')">
+							已经可以<text style="color: #962de0;padding: 0 10rpx;font-weight: 650;">去升级</text>了
+						</view>
+					</block>
+					<block v-if="exchangeCurrentAnimal.need_lv_up_scrap > 0">
+						距离下一级还差 {{exchangeCurrentAnimal.need_lv_up_scrap}} {{exchangeCurrentAnimal.scrap_name}}
+					</block>
+				</view>
+				<!-- <view class="desc flex-set" v-if="callType=='goCall'">
+					{{goCall.desc}}
+				</view>
+				<view class="desc" v-if="callType=='goSupple'">
+					<view class="p" v-for="(ite,ind) in goSupple.desc" :key="ind">{{ite}}</view>
+				</view> -->
+				<view class="btn-wrap">
+					<btnComponent type="default" v-for="(item, index) in exchangeAnimalRate" :key="index">
+						<view class="btn" @tap="exchangeAnimalAction(item)">{{item.text}}</view>
+					</btnComponent>
+				</view>
+				
+				<!-- <view class="buttom">
+					今日剩余次数：{{lotteryLeft || 0}}/{{lottery_max}}
+				</view> -->
+			</view>
+		</modalComponent>
+		
 	</view>
 </template>
 
@@ -333,7 +413,12 @@
 				fiftyReward: {
 					choose: [],
 					special: null
-				}
+				},
+				// 国庆节抽奖券兑换12生肖
+				exchangeAnimalList: null,
+				exchangeAnimalRate: [],
+				exchangeCurrentAnimal: null,
+				animal_national_lucky_draw: null,
 			};
 		},
 		onLoad() {
@@ -352,7 +437,11 @@
 			getPageInfo(delay) {
 				this.$app.request(this.$app.API.PAGE_LUCKY_CHARGE, {}, res => {
 					this.lrtext = res.data.recharge_lucky;
-					
+					this.exchangeAnimalList = res.data.animal_exchange;
+					if (res.data.animal_exchange) {
+						this.exchangeAnimalRate = res.data.animal_national.animal_exchange_rate;
+						this.animal_national_lucky_draw = res.data.animal_national.lucky_draw;
+					}
 					if (delay) {
 						setTimeout(() => {
 							this.rewardList = res.data.lucky_log;
@@ -408,6 +497,30 @@
 				this.$app.request(this.$app.API.USER_PAID_SETTLE, {paid: item.id}, res => {
 					this.$app.toast('已领取', 'success');
 					this.refresh()
+				})
+			},
+			openExchangeAnimalModal(animal) {
+				this.exchangeCurrentAnimal = animal;
+				this.modal = 'exchangeAnimal';
+			},
+			exchangeAnimalAction(item) {
+				// 国庆中秋兑换12生肖
+				this.$app.modal(`确认兑换么？`, () => {
+					uni.showLoading({
+						mask:true,
+						title:'兑换中...'
+					})
+					
+					this.$app.request(this.$app.API.LUCKY_DRAW_EXCHANGE_ANIMAL, {
+						type: item.type,
+						animal_id: this.exchangeCurrentAnimal.id
+					}, res => {
+						this.exchangeCurrentAnimal.has_scrap_num = parseInt(this.exchangeCurrentAnimal.has_scrap_num) + parseInt(item.number);
+						this.exchangeCurrentAnimal.need_lv_up_scrap = parseInt(this.exchangeCurrentAnimal.need_lv_up_scrap) - parseInt(item.number);
+						this.$app.toast('兑换成功');
+						this.getPageInfo();
+						this.getLuckyDrawInfo();
+					})
 				})
 			},
 			exchange(scrap) {
@@ -616,6 +729,14 @@
 				}
 			}
 		}
+		
+		.animal-r {
+			.charge-prize {
+				border: 1rpx #ccc solid;
+				border-radius: 50rpx;
+				margin: 20rpx;
+			}
+		}
 	
 		.recharge {
 			margin: 30upx 20upx 0;
@@ -661,7 +782,6 @@
 					flex-direction: row;
 					flex-wrap: wrap;
 					justify-content: center;
-					width: 710upx;
 					.item {
 						margin: 10upx;
 						margin-top: 25upx;
@@ -719,6 +839,36 @@
 								background:url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vcexDOGKtQObydGP6JIsK8beArHv69icnhRG7tHeemibngmmvqEmO1FXNJQ/0") no-repeat center center;
 								background-size: cover;
 							}
+						}
+					}
+					
+					.animalitem {
+						margin: 25rpx 5rpx;
+						width: 150rpx;
+						height: 210rpx;
+						.exchange-btn {
+							margin-top: 10rpx;
+							height: 50rpx;
+							line-height: 50rpx;
+						}
+						.animal {
+							width: 150rpx;
+							height: 150rpx;
+						}
+					}
+					
+					.animal-item {
+						margin: 15rpx 5rpx;
+						width: 100rpx;
+						height: 150rpx;
+						.exchange-btn {
+							margin-top: 10rpx;
+							height: 40rpx;
+							line-height: 40rpx;
+						}
+						.animal {
+							width: 100rpx;
+							height: 100rpx;
 						}
 					}
 				}
@@ -1213,6 +1363,20 @@
 			}
 			.btn-wrap {
 				margin: 30rpx 0;
+			}
+		}
+		
+		.exchange-modal-container {
+			.label{
+				font-size: 24rpx;
+				color: #888;
+				margin: 10rpx 0;
+			}
+			.left-desc {
+				border: dashed 1rpx #ccc; 
+				padding: 10rpx 30rpx; 
+				border-radius: 20rpx;
+				margin: 20rpx 0;
 			}
 		}
 	}
