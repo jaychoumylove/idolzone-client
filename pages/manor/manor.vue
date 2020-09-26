@@ -188,10 +188,10 @@
 				<view class="title" style="margin-bottom: 40rpx;">国庆中秋回馈</view>
 				<!-- <image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0"
 					   mode="aspectFill"></image> -->
-				<view class="flex-set">庄园上线后，你使用了{{nationalReward.spend_panacea}}灵丹</view>
-				<view class="coin-count">你获得<text style="color: #FC6257;padding: 0 10rpx;">{{nationalReward.panacea}}</text>灵丹回馈礼</view>
-				<view class="flex-set">庄园上线后，你使用了{{nationalReward.spend_lucky}}幸运碎片</view>
-				<view class="coin-count">你获得<text style="color: #FC6257;padding: 0 10rpx;">{{nationalReward.lucky}}</text>幸运碎片回馈礼</view>
+				<view class="flex-set" v-if="nationalReward.spend_panacea">庄园上线后，你使用了{{nationalReward.spend_panacea}}灵丹</view>
+				<view class="coin-count" v-if="nationalReward.panacea">你获得<text style="color: #FC6257;padding: 0 10rpx;">{{nationalReward.panacea}}</text>灵丹回馈礼</view>
+				<view class="flex-set" v-if="nationalReward.spend_lucky">庄园上线后，你使用了{{nationalReward.spend_lucky}}幸运碎片</view>
+				<view class="coin-count" v-if="nationalReward.lucky">你获得<text style="color: #FC6257;padding: 0 10rpx;">{{nationalReward.lucky}}</text>幸运碎片回馈礼</view>
 				<view class="btn-wrap">
 					<btnComponent type="default">
 						<view class="btn" @tap="modal=''">确认收到</view>
@@ -212,6 +212,9 @@
 							</button>
 						</btnComponent>
 					</view>
+				</view>
+				<view class="desc flex-set">
+					说明：以下列表中的好友可以抽取你宝箱中的宠物碎片
 				</view>
 				<view class="notice">
 					<image class="notice-icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPXtMTFLV2ydAKSiawiapkia2icuuW67SfcBKp3mbQWicrWJb4rJskIWFuhQ/0"></image>
@@ -245,7 +248,7 @@
 					</view>
 				</view>
 				<scroll-view scroll-y class="list-wrapper" @scrolltolower="reachBottomFriends" v-if="friendList.length">
-					<view class="item" v-for="(item,index) in friendList" :key="index">
+					<view class="item" v-for="(item,index) in friendList" :key="index" @longpress="removeFriend(index)">
 						<view class='avatar'>
 							<image :src="item.friend.avatarurl" mode="aspectFill"></image>
 						</view>
@@ -266,7 +269,9 @@
 						</view>
 						<view class="btn">
 							<btnComponent type="default">
-								<view class="flex-set" @tap="goOtherManor(item.friend.id)" style="width: 130upx;height: 65upx;">去拜访</view>
+								<view class="flex-set" @tap="goOtherManor(item.friend.id)" style="width: 130upx;height: 65upx;">
+									{{manor.day_lottery_box.indexOf(item.friend.id) > -1 ? '已领取': '去拜访'}}
+								</view>
 							</btnComponent>
 						</view>
 					</view>
@@ -278,7 +283,12 @@
 		</modalComponent>
 		<modalComponent v-if="modal == 'box'" headimg="/static/image/icon/lx.png" title="宝箱" @closeModal="modal=''">
 			<view class="box-container">
-				<view class="title">宠物碎片</view>
+				<view class="title">我宝箱内的宠物碎片</view>
+				<view class="desc">
+					<view class="flex-set">
+						说明：仅限好友抽取，24小时后过期消失。
+					</view>
+				</view>
 				<view class="notice">
 					<image class="notice-icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPXtMTFLV2ydAKSiawiapkia2icuuW67SfcBKp3mbQWicrWJb4rJskIWFuhQ/0"></image>
 					<view class="notice-info">
@@ -322,7 +332,7 @@
 				</view>
 				<view class="bottom">
 					<view class="desc">
-						召唤灵宠可增加自己宝箱内的宠物碎片。每用灵丹召唤获得10宠物碎片，星愿池额外入账1张同等宠物碎片。额外赠送的宠物碎片24小时后过期消失。
+						召唤灵宠可增加自己宝箱内的宠物碎片。每用灵丹召唤获得10宠物碎片，宝箱额外入账1张同等宠物碎片。额外赠送的宠物碎片24小时后过期消失。
 					</view>
 				</view>
 			</view>
@@ -609,6 +619,14 @@
 						this.friendList = this.friendList.concat(res.data);
 					}
 				})
+			},
+			removeFriend(index) {
+				const friend = this.friendList[index].friend;
+				this.$app.modal(`确认移除${friend.nickname}么？`, () => {
+					this.$delete(this.friendList, index)
+					this.$app.toast('已移除');
+					this.$app.request('manor/remove_friend', {friend: friend.id}, res => {})
+				}, '狠心移除', () => {}, '我再想想');
 			},
 			getBoxScrap() {
 				let data = {};
@@ -1205,6 +1223,14 @@
 					justify-content: space-between;
 				}
 			}
+			.desc {
+				background:rgba(248,226,207,0.42);
+				color:rgba(120,67,16,1);
+				font-size: 24rpx;
+				padding: 10rpx 20rpx;
+				margin: 0 auto;
+				border-radius: 20rpx;
+			}
 		
 			.notice {
 				margin: 30upx 20upx 0;
@@ -1437,6 +1463,15 @@
 				text-align: center;
 				width: 100%;
 				padding-top: 40rpx;
+			}
+			.desc {
+				background:rgba(248,226,207,0.42);
+				color:rgba(120,67,16,1);
+				font-size: 24rpx;
+				padding: 10rpx 20rpx;
+				border-radius: 20rpx;
+				margin: 20rpx auto;
+				width: 90%;
 			}
 			.notice {
 				margin: 20upx;

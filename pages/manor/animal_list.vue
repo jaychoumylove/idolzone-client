@@ -5,26 +5,36 @@
 				<image :src="$app.getData('userInfo').avatarurl || AVATAR" mode="aspectFill"></image>
 			</view>
 			<view class="nickname text-overflow">{{$app.getData('userInfo').nickname || NICKNAME}}</view>
-			<view class="nickname text-overflow" style="font-size: 28rpx;" @tap="$app.goPage('/pages/manor/log')">
+			<!-- <text class="iconfont iconinfo"></text>
+			<text class="iconfont iconxin"></text>
+			<text class="iconfont iconfangdajing"></text>
+			<text class="iconfont iconjiantou"></text>
+			<text class="iconfont icondui"></text>
+			<text class="iconfont icondianzan"></text>
+			<text class="iconfont iconclose"></text>
+			<text class="iconfont iconshipin"></text>
+			<text class="iconfont iconeditor"></text>
+			<text class="iconfont iconempty"></text>
+			<text class="iconfont iconicon_signal"></text>
+			<text class="iconfont iconicon_star"></text>
+			<text class="iconfont iconicon_workmore"></text>
+			<text class="iconfont .iconicon-test"></text>
+			<text class="iconfont iconicon-test1"></text>
+			<text class="iconfont iconshare"></text>
+			<text class="iconfont iconjinzhi"></text> -->
+			<!-- <view class="nickname text-overflow" style="font-size: 28rpx;" @tap="$app.goPage('/pages/manor/log')">
 				我的庄园日志
-				<!-- <text class="iconfont iconinfo"></text>
-				<text class="iconfont iconxin"></text>
-				<text class="iconfont iconfangdajing"></text>
-				<text class="iconfont iconjiantou"></text>
-				<text class="iconfont icondui"></text>
-				<text class="iconfont icondianzan"></text>
-				<text class="iconfont iconclose"></text>
-				<text class="iconfont iconshipin"></text> -->
 				<text class="iconfont iconjiludanzilishijilu"></text>
-				<!-- <text class="iconfont iconeditor"></text>
-				<text class="iconfont iconempty"></text>
-				<text class="iconfont iconicon_signal"></text>
-				<text class="iconfont iconicon_star"></text>
-				<text class="iconfont iconicon_workmore"></text>
-				<text class="iconfont .iconicon-test"></text>
-				<text class="iconfont iconicon-test1"></text>
-				<text class="iconfont iconshare"></text>
-				<text class="iconfont iconjinzhi"></text> -->
+			</view> -->
+			
+			<view class="tab">
+				<scroll-view scroll-x="true" class="scroll">
+					<view class='tab-container'>
+						<view class="tab-item" @tap="$app.goPage('/pages/manor/panacea_task')">获取灵丹</view>
+						<view class="tab-item" @tap="modal='goCall'">召唤宠物</view>
+						<view class="tab-item" @tap="$app.goPage('/pages/manor/log')">庄园日志</view>
+					</view>
+				</scroll-view>
 			</view>
 			<view class="week-output">
 				<view class="output">产量：{{output}}金豆/10秒</view>
@@ -146,16 +156,97 @@
 				<view class="p">所有产豆宝宝产量相加为每10秒总产量</view>
 			</view>
 		</view>
+		<!-- 召唤宠物 -->
+		<modalComponent v-if="modal == 'goCall'" type="center" title="提示" @closeModal="modal=''">
+			<view class="modal-container gocall-modal-container">
+				<view class="title" v-if="callType=='goCall'">{{goCall.title}}</view>
+				<view class="title" v-if="callType=='goSupple'">{{goSupple.title}}</view>
+				<view class="title-lable" @tap="getRewardPool">奖池详情</view>
+				<image class="bg" v-if="callType=='goCall'" :src="goCall.image" mode="aspectFit"></image>
+				<image class="bg" v-if="callType=='goSupple'" :src="goSupple.image" mode="aspectFit"></image>
+				<view class="desc flex-set" v-if="callType=='goCall'">
+					{{goCall.desc}}
+				</view>
+				<view class="desc" v-if="callType=='goSupple'">
+					<view class="p" v-for="(ite,ind) in goSupple.desc" :key="ind">{{ite}}</view>
+				</view>
+				<view class="btn-wrap">
+					<btnComponent type="default" v-for="(item, index) in callBtn" :key="index">
+						<view class="btn" @tap="callReward(item)">{{item.text}}</view>
+					</btnComponent>
+				</view>
+				
+				<view class="buttom">
+					今日剩余次数：{{lotteryLeft || 0}}/{{lottery_max}}
+				</view>
+			</view>
+		</modalComponent>
+		<!-- 奖池详情 -->
+		<modalComponent v-if="modal == 'callPool'" type="center" title="提示" @closeModal="modal='goCall'">
+			<view class="modal-container callpoll-modal-container">
+				<view class="title">奖池详情</view>
+				
+				<scroll-view scroll-y class="scroll-wrapper">
+					<block v-for="(item, index) in rewardPool" :key='index'>
+						<view class="call-list scroll-item">
+							<view class="call-item" v-for="(value, key) in item" :key='key'>
+								<view class="name">{{value.animal.name}}</view>
+								<image :src="value.animal.image" mode="aspectFit"></image>
+								<view class="percent">概率：{{value.chance}}%</view>
+								<view class="has-scrap">拥有：{{value.scrap_num}}碎片</view>
+							</view>
+						</view>
+					</block>
+				</scroll-view>
+			</view>
+		</modalComponent>
+		
+		<!-- 召唤结果 -->
+		<modalComponent v-if="modal == 'callResult'" type="center" title="提示" @closeModal="modal=''">
+			<view class="modal-container callresult-modal-container">
+				<view class="title">召唤结果</view>
+				
+				<view class="result">
+					<view class="call-list">
+						<view class="call-item" v-for="(item, index) in reward" :key='index'>
+							<image :src="item.animal_info.scrap_img" mode="aspectFit"></image>
+							<view class="number">X{{item.number}}</view>
+						</view>
+					</view>
+					
+					<view class="new-list" v-if="rewardHasNew">
+						<view class="new-item" v-for="(item, index) in reward" v-if="item.new" :key='index'>
+							<view class="name">{{item.animal_info.name}}</view>
+							<image class="position-set" :src="item.animal_info.image" mode="aspectFit"></image>
+						</view>
+					</view>
+				</view>
+				
+				<view class="btn-wrap">
+					<btnComponent type="default">
+						<view class="btn" @tap="modal=''">确认</view>
+					</btnComponent>
+					<btnComponent type="success">
+						<view class="btn" @tap="modal='goCall'">继续召唤</view>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent>
 		
 		<!-- 升级 -->
 		<modalComponent v-if="modal == 'lvUp'" type="center" title="提示" @closeModal="modal=''">
 			<view class="modal-container">
-				<view class="title">{{animalInfo.animal.name}}</view>
+				<view class="title">{{animalInfo.animal.type == 'STAR_SECRET' ? animalInfo.animal.use_name: animalInfo.animal.name}}</view>
 				<view class="label flex-set">拥有{{animalInfo.animal.scrap_name}}：{{animalInfo.scrap_num}}个</view>
-				<image class="bg" :src="animalInfo.animal.image" mode="widthFix"></image>
+				<image class="bg" :src="animalInfo.animal.type == 'STAR_SECRET' ? animalInfo.animal.use_image: animalInfo.animal.image" mode="widthFix"></image>
 				<view class="row">
 					<view class="top">
 						<view class="left">当前等级 Lv.{{animalInfo.lv.level}}</view>
+						<btnComponent type="fangde" v-if="animalInfo.animal.type == 'STAR_SECRET'">
+							<view class="right flex-set" @tap="changeImage">
+								切换形象
+							</view>
+						</btnComponent>
 					</view>
 					<view class="desc">
 						<text v-if="animalInfo.lv.output">每10秒/{{animalInfo.lv.output}}金豆</text>
@@ -212,7 +303,16 @@
 				stealLeft: 0,
 				mainAnimalId: 1,
 				checkBtn: [],
-				scrapNum: 0
+				scrapNum: 0,
+				callBtn: [],
+				goSupple: {},
+				goCall: {},
+				callType: 'goCall',
+				lottery_max: 0,
+				lotteryLeft: 0,
+				rewardHasNew: false,
+				reward: [],
+				rewardPool: [],
 			};
 		},
 		onLoad(option) {
@@ -221,7 +321,20 @@
 			}
 		},
 		onShow() {
-			this.checkBtn = this.$app.getData('config').manor_animal.check_btn;
+			const {
+				manor_animal: {
+					lottery: {
+						types,
+						go_call,
+						go_supple
+					},
+					check_btn
+				},
+			} = this.$app.getData('config');
+			this.callBtn = types;
+			this.goSupple = go_supple;
+			this.goCall = go_call;
+			this.checkBtn = check_btn;
 			if (!this.type) this.type = this.checkBtn[0].type;
 			this.getAnimalList(this.type);
 		},
@@ -238,13 +351,16 @@
 			getAnimalList(type) {
 				this.list = [];
 				this.$app.request(this.$app.API.ANIMAL_LIST, {type}, res => {
-					const {output, add_count, list, steal_left, main_animal, list_support, scrap_num} = res.data;
-					this.list = this.supportNumebrGroup(list, list_support);
+					const {output, add_count, list, steal_left, main_animal,lottery_left, list_support, scrap_num,max_lottery,call_type} = res.data;
+					this.list = this.supportNumberGroup(list, list_support);
 					this.output = output;
 					this.addCount = add_count;
 					this.stealLeft = steal_left;
 					this.scrapNum = scrap_num;
+					this.lotteryLeft = lottery_left;
 					this.mainAnimalId = main_animal;
+					this.lottery_max = max_lottery;
+					this.callType = call_type;
 				})
 			},
 			unlock (item) {
@@ -294,7 +410,23 @@
 					this.mainAnimalId = animal_id;
 				})
 			},
-			supportNumebrGroup(list, number) {
+			changeImage() {
+				this.$app.modal(`确认更换萌宠形象么？`, () => {
+					uni.showLoading({
+						mask:true,
+						title:'更换中...'
+					})
+					
+					this.$app.request(this.$app.API.ANIMAL_CHANGE_IMAGE, {}, res => {
+						this.$app.toast('更换成功');
+						this.getAnimalList(this.type);
+						this.$app.request(this.$app.API.ANIMAL_INFO, {animal_id: this.animalInfo.animal.id}, res => {
+							this.animalInfo = res.data;
+						})
+					})
+				})
+			},
+			supportNumberGroup(list, number) {
 				if (!list.length) return [];
 				let newList = [];
 				const length = list.length,
@@ -305,7 +437,37 @@
 					newList.push(item);
 				}
 				return newList;
-			}
+			},
+			getRewardPool() {
+				uni.showLoading({
+					mask:true,
+					title:'请稍后...'
+				})
+				
+				this.$app.request(this.$app.API.ANIMAL_LOTTERY_INFO, {}, res => {
+					uni.hideLoading();
+					this.rewardPool = this.supportNumberGroup(res.data, 3);
+					this.modal = 'callPool';
+				})
+			},
+			callReward(item) {
+				uni.showLoading({
+					mask:true,
+					title:'召唤中...'
+				})
+				
+				const {type, times} = item;
+				
+				this.$app.request(this.$app.API.ANIMAL_LOTTERY, {type}, res => {
+					this.reward = res.data.list;
+					this.rewardHasNew = res.data.has_new;
+					this.lotteryLeft = parseInt(this.lotteryLeft) - parseInt(times)
+					setTimeout(() => {
+						uni.hideLoading();
+						this.modal = 'callResult';
+					}, 200)
+				})
+			},
 		}
 	}
 </script>
@@ -318,6 +480,40 @@
 		background-size: 100% 100%;
 		height: 100%;
 		width: 100%;
+		
+		.scroll {
+			white-space: nowrap;
+			width: 100%;
+			height: 110rpx;
+			padding: 20rpx 15rpx;
+			// border-bottom: 1rpx solid #eee;
+			.tab-container {
+				display: flex;
+				align-items: center;
+		
+				.tab-item {
+					border-radius: 32upx;
+					padding: 10upx 30upx;
+					justify-content: center;
+					display: flex;
+					font-size: 30upx;
+					margin: 0 20upx;
+					flex: 1;
+					background-color: #FDEB40;
+					color: black;
+					box-shadow: 0 2upx 4upx rgba(102, 102, 102, 0.3);
+					
+					// color: #F2394B;
+					// border: 1upx solid white;
+				}
+		
+				// .tab-item.active {
+				// 	background-color: #FFEAC9;
+				// 	text-align: center;
+				// 	color: white;
+				// }
+			}
+		}
 		
 		.user-info {
 			border-radius: 50rpx;
@@ -547,6 +743,156 @@
 				.p {
 					margin-bottom: 10rpx;
 				}
+			}
+		}
+		.gocall-modal-container {
+			.btn {
+				font-size: 30upx;
+				width: 220upx;
+				white-space: nowrap;
+				color: #643107;
+				padding: 10rpx 20rpx !important;
+			}
+			.buttom {
+				color: #643107;
+				font-size: 24rpx;
+			}
+			.btn-wrap {
+				margin: 25rpx 0!important;
+			}
+			.desc {
+				margin: 20rpx;
+				padding: 20rpx;
+				font-size: 24rpx;
+				border: 1rpx #ccc dashed;
+				border-radius: 40rpx;
+			}
+		}
+		.callpoll-modal-container {
+			.scroll-wrapper {
+				margin-top: 40rpx;
+				overflow-y: auto;
+				height: 500rpx;
+			}
+			.call-list {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-around;
+				.call-item {
+					width: 170rpx;
+					height: 223rpx;
+					background-image: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HnqQXz07SO8rM1uzBoVhDxTF2BC1ibhWdNOMZnQpmYpdjibWvic8Ahiaibib3Eko3ODu6ObWaB2pNUGicPg/0");
+					background-position: center center;
+					background-repeat: no-repeat;
+					background-size: 100% 100%;
+					position: relative;
+					margin-bottom: 20rpx;
+					image {
+						position: absolute;
+						width: 100rpx;
+						height: 100rpx;
+						transform: translate(-50%,-50%);
+						top: 40%;
+						left: 50%;
+					}
+					.name {
+						position: absolute;
+						transform: translate(-50%, -50%);
+						left: 10%;
+						top: 20%;
+						font-size: 22rpx;
+					}
+					.percent {
+						white-space: nowrap;
+						height: 50rpx;
+						// background-image: url('https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36Yu6KcWXLNIq5PXPICp52ibWGtAoDqLY6PJ6rX6ARgK1Yso9vc3fndNg/0');
+						// background-position: center center;
+						// background-repeat: no-repeat;
+						// background-size: 100% 100%;
+						transform: translateX(-50%);
+						left: 50%;
+						bottom: 15%;
+						position: absolute;
+						text-align: center;
+						line-height: 50rpx;
+						font-size: 24rpx;
+						color: #643107;
+					}
+					.has-scrap {
+						white-space: nowrap;
+						height: 50rpx;
+						// background-image: url('https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36Yu6KcWXLNIq5PXPICp52ibWGtAoDqLY6PJ6rX6ARgK1Yso9vc3fndNg/0');
+						// background-position: center center;
+						// background-repeat: no-repeat;
+						// background-size: 100% 100%;
+						transform: translateX(-50%);
+						left: 50%;
+						bottom: 0%;
+						color: #643107;
+						position: absolute;
+						text-align: center;
+						line-height: 50rpx;
+						font-size: 20rpx;
+					}
+				}
+			}
+		}
+		.callresult-modal-container {
+			.result {
+				background: #F5F5F5;
+				border-radius: 30px;
+				width: 100%;
+				padding: 20rpx;
+				margin: 30rpx 0;
+			}
+			.call-list {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-around;
+				.call-item {
+					position: relative;
+					image {
+						width: 100rpx;
+						height: 100rpx;
+					}
+					margin-bottom: 20rpx;
+					.number {
+						text-align: right;
+						font-size: 22rpx;
+						color: #FC6258;
+					}
+				}
+				
+			}
+			.new-list {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-around;
+				// margin: 20rpx 0;
+				.new-item {
+					margin: 10rpx 0;
+					width: 150rpx;
+					height: 180rpx;
+					background-image: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HnqQXz07SO8rM1uzBoVhDxTF2BC1ibhWdNOMZnQpmYpdjibWvic8Ahiaibib3Eko3ODu6ObWaB2pNUGicPg/0");
+					background-position: center center;
+					background-repeat: no-repeat;
+					background-size: 100% 100%;
+					position: relative;
+					.name {
+						position: absolute;
+						transform: translate(-50%, -50%);
+						left: 10%;
+						top: 20%;
+						font-size: 20rpx;
+					}
+					image {
+						width: 130rpx;
+						height: 130rpx;
+					}
+				}
+			}
+			.btn-wrap {
+				justify-content: space-around;
 			}
 		}
 		

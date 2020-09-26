@@ -25,6 +25,10 @@
 							<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0" mode="widthFix"></image>
 							<view class="add-count">{{item.reward}}</view>
 						</view>
+						<view class="right-item" v-if="item.extra.with_reward">
+							<image v-if="item.extra.with_reward.type == 'trumpet'" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Equ3ngUPQiaWPxrVxZhgzk90Xa3b43zE46M8IkUvFyMR5GgfJN52icBqoicfKWfAJS8QXog0PZtgdEQ/0" mode="widthFix"></image>
+							<view class="add-count">+{{item.extra.with_reward.data}}</view>
+						</view>
 					</view>
 					<view class="btn" @tap="doTask(item,index)">
 						<btnComponent type="default" v-if="item.status == 0">

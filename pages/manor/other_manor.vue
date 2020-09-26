@@ -105,6 +105,11 @@
 						</btnComponent>
 					</view>
 				</view>
+				<view class="bottom">
+					<view class="desc flex-set">
+						今日还可在宝箱内抽取 <text style="color: #000; font-weight: 650; padding: 0 10rpx;">{{lotteryTimes}}</text>张宠物碎片
+					</view>
+				</view>
 			</view>
 		</modalComponent>
 		</view>
@@ -152,6 +157,7 @@
 					id: 0,
 				},
 				lotteryStatus: 0,
+				lotteryTimes: 0,
 			};
 		},
 		onLoad(option) {
@@ -279,6 +285,7 @@
 						try_background,
 						box_log,
 						lottery_status,
+						left_lottery,
 					} = res.data;
 					this.manor = manor;
 					this.mainAnimal = main_animal;
@@ -287,6 +294,7 @@
 					this.tryBackground = try_background;
 					this.boxLogList = box_log;
 					this.lotteryStatus = lottery_status;
+					this.lotteryTimes = left_lottery;
 					if (try_background) {
 						this.setTryTimer(try_background.time);
 					}

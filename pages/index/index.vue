@@ -39,6 +39,7 @@
 						 mode="aspectFill" style="width: 34upx; height: 28upx;"></image>
 					</view>
 				</block>
+				<view class="tab-item" @tap="goManorRank">庄园排行</view>
 			</view>
 			<view class="right-wrap" @tap="$app.goPage('/pages/index/rank')">往期榜单<text class="iconfont iconicon_workmore"></text></view>
 		</view>
@@ -200,6 +201,7 @@
 				// bannerList: [],
 
 				cutOffDate: '', // 截止日期
+				nationalTab: false,
 				// muti: false,
 			};
 		},
@@ -222,6 +224,7 @@
 			this.keywords = ''
 			this.getRankList()
 			this.getBannerList()
+			this.checkNational()
 		},
 		onShareAppMessage() {
 			return this.$app.commonShareAppMessage()
@@ -242,6 +245,25 @@
 			}
 		},
 		methods: {
+			checkNational() {
+				// 检查国庆中秋回馈
+				const config = this.$app.getData('config').manor_national_day;
+				if (config) {
+					const time = config.time,
+						start = this.$app.strToTime(time.start),
+						end = this.$app.strToTime(time.end),
+						now = this.$app.getTime();
+					if (now > start && now < end) {
+						this.nationalTab = true;
+					}
+				}
+			},
+			goManorRank() {
+				if(this.nationalTab) {
+					this.$app.goPage('/pages/manor/rank')
+				}
+			},
+			
 			goTofengyun() {
 				if (this.$app.getData('config').version == this.$app.getData('VERSION')) return
 				this.$app.goPage('/pages/index/fengyun')

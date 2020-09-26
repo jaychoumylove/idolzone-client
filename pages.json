@@ -485,6 +485,20 @@
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "公益打卡"
 			}
+        },{
+            "path" : "pages/welfare/active_one_section",
+			"style" : {
+				"navigationBarBackgroundColor": "#F99510",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "应援打卡"
+			}
+        },{
+            "path" : "pages/welfare/active_one_section_log",
+			"style" : {
+				"navigationBarBackgroundColor": "#F99510",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "领取记录"
+			}
         }
         ,{
             "path" : "pages/invite_assist/invite_assist",
@@ -580,7 +594,7 @@
 			"style": {
 				"navigationBarBackgroundColor": "#F99510",
 				"navigationBarTextStyle": "white",
-				"navigationBarTitleText": "庄园排行"
+				"navigationBarTitleText": "领取庄园金豆排行榜"
 			}
 		},
 		{

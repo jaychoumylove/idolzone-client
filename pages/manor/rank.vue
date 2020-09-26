@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view class="top">
-			<view class="top-desc flex-set">{{banner.title}}</view>
+			<view class="top-desc flex-set" v-for="(ite, ind) in banner.title" :key="ind">{{ite}}</view>
 		</view>
 		<view class="banner" @tap="goOther(banner.gopage)" :style="{'background': 'url('+banner.image+') no-repeat center center/ 100% 100%'}"></view>
 		<view>
@@ -15,6 +15,9 @@
 		
 		<!-- 列表 -->
 		<view class="list-container">
+			<view class="top" v-if="rank_start.length" style="background-color: #F3F3F3;">
+				<view class="top-desc flex-set" v-for="(ite, ind) in rank_start" :key="ind">{{ite}}</view>
+			</view>
 			<view class="item" v-for="(item,index) in userRank" :key="index" v-if="rankField == 'idol'">
 				<view class="rank-num">
 					<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERPO5dPoLHgkajBHNM2z9fooSUMLxB0ogg1mYllIAOuoanico1icDFfYFA/0"
@@ -33,23 +36,30 @@
 						{{item.star.name || ''}}
 					</view>
 					<view class="count-box">
-						<view class="count">{{item.active_count}}庄园豆</view>
+						<view class="count">粉丝领取了<text class="number">{{item.active_count}}</text>庄园豆</view>
 					</view>
 				</view>
 				<view class="assist">
-					<view class="assist-desc">最佳助攻</view>
-					<view class="assist-top">
-						<block v-for="(ite,ind) in item.top" :key="ind">
-							<image class="avatar" :src="ite.user.avatarurl||AVATAR" mode="aspectFill"></image>
-						</block>
+					<view class="up">
+						<view class="assist-desc">最佳助攻</view>
+						<view class="go-assist-rank" @tap="goZone(item.star_id)">>>></view>
 					</view>
-					<view class="go-assist-rank" @tap="goZone(item.star_id)">>>></view>
+					<view class="down">
+						<view class="assist-top">
+							<block v-for="(ite,ind) in item.top" :key="ind">
+								<view class="avatar-wrap">
+									<image class="avatar" :src="ite.user.avatarurl||AVATAR" mode="aspectFill"></image>
+									<image class="rank" :src="'/static/image/rank/rank-'+(ind+1)+'.png'" mode=""></image>
+								</view>
+							</block>
+						</view>
+					</view>
 				</view>
 			</view>
 			
 			<block v-for="(item,index) in userRank" :key="index" v-if="rankField == 'allfans'">
 				<view class="top" v-if="index==limitIndex" style="background-color: #F3F3F3;">
-					<view class="top-desc flex-set">{{banner.title}}</view>
+					<view class="top-desc flex-set" v-for="(ite, ind) in banner.title" :key="ind">{{ite}}</view>
 				</view>
 				<view class="item" :class="{'dispoint-item': index>=limitIndex}">
 					<view class="rank-num">
@@ -72,7 +82,7 @@
 							</view>
 						</view>
 						<view class="count-box">
-							<view class="count">{{item.active_sum}}庄园豆</view>
+							<view class="count">领取了<text class="number">{{item.active_sum}}</text>庄园豆</view>
 						</view>
 					</view>
 					<view class="go-visit" v-if="item.user_id!=myInfo.user_id">
@@ -98,7 +108,7 @@
 					{{$app.getData('userInfo').nickname||NICKNAME}}
 				</view>
 				<view class="count-box">
-					<view class="count">{{myInfo.active_sum||0}}庄园豆</view>
+					<view class="count">领取了<text class="number">{{myInfo.active_sum||0}}</text>庄园豆</view>
 				</view>
 			</view>
 		</view>
@@ -116,14 +126,14 @@
 		},
 		data() {
 			return {
-				rankField: 'allfans',
+				rankField: 'idol',
 				userRank: [],
 				page: 1,
 				myInfo: {},
 				AVATAR:this.$app.getData('AVATAR'),
 				NICKNAME: this.$app.getData('NICKNAME'),
 				banner: {
-					title: '统计活动期间每位爱豆领取庄园金豆数最多的前100名粉丝的总和',
+					title: [],
 					gopage: "/pages/notice/notice",
 					image: "https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9G4romDKHbhtCKiaEbiaXwpqHsXKiaYkRBGzZp6aayTQM2r2ibE96Ho2oMQGxHVGO2icUBuFiaXOhPO7VXQ/0",
 				},
@@ -132,7 +142,8 @@
 					// fans: 'manor/fansrank',
 					allfans: 'manor/allfansrank',
 					idol: 'manor/idolrank',
-				}
+				},
+				rank_start: []
 			};
 		},
 		onShow() {
@@ -152,6 +163,7 @@
 				this.page = 1
 				this.rankField = field
 				this.userRank = []
+				this.myInfo = null
 				this.loadData()
 			},
 			loadData() {
@@ -161,6 +173,7 @@
 					this.myInfo = res.data.my
 					this.banner = res.data.banner
 					this.limitIndex = res.data.limit_index
+					this.rank_start = res.data.rank_start
 					if (this.page == 1) {
 						this.userRank = res.data.list
 					} else {
@@ -173,6 +186,11 @@
 				uni.navigateTo({
 					url:`/pages/manor/other_manor?user=${user_id}`
 				})
+			},
+			goOther(url) {
+				if (url) {
+					this.$app.goPage(url);
+				}
 			},
 			goZone(star_id) {
 				if (star_id) {
@@ -264,7 +282,7 @@
 				background: #f9f7fa;
 			}
 			.item {
-				height: 130upx;
+				height: 150upx;
 				display: flex;
 				align-items: center;
 				border-bottom: 1rpx solid #eee;
@@ -281,11 +299,18 @@
 
 				.avatar-wrap {
 					position: relative;
-
 					.avatar {
-						width: 90upx;
-						height: 90upx;
+						width: 100upx;
+						height: 100upx;
 						border-radius: 50%;
+					}
+					
+					.rank {
+						position: absolute;
+						right: -15upx;
+						bottom: -15upx;
+						width: 50upx;
+						height: 50upx;
 					}
 
 					.headwear {
@@ -309,17 +334,20 @@
 				}
 				.star-name {
 					display: flex;
+					margin-bottom: 10rpx;
 				}
 				.starname {
-					background: linear-gradient(#ff7e00, #fccd9f);
-					color: #fff;
-					padding: 0 12rpx;
-					border-radius: 12rpx;
-					font-size: 20rpx;
+					// background: linear-gradient(#ff7e00, #fccd9f);
 					box-shadow: 0 0 1px rgba(0, 0, 0, .3);
 					line-height: 34rpx;
 					margin: 0 5rpx;
 					white-space: nowrap;
+					
+					border-radius: 20upx;
+					background-color: #82c7d4;
+					color: #FFF;
+					padding: 0 10upx;
+					font-size: 22upx;
 				}
 
 				.text-container {
@@ -336,6 +364,10 @@
 				.count {
 					font-size: 22upx;
 					color: #ADADAD;
+					.number {
+						color: #ff7e00;
+						padding: 0 10rpx;
+					}
 				}
 
 				.exit {
@@ -343,6 +375,11 @@
 				}
 				.assist {
 					display: flex;
+					flex-direction: column;
+					.up {
+						display: flex;
+						justify-content: space-around;
+					}
 					.assist-desc {
 						white-space: nowrap;
 						color: #A5A5A5;
@@ -416,6 +453,10 @@
 			.count {
 				font-size: 22upx;
 				color: #ADADAD;
+				.number {
+					color: #ff7e00;
+					padding: 0 10rpx;
+				}
 			}
 			
 			.exit {

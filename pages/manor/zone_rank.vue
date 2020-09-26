@@ -1,15 +1,19 @@
 <template>
 	<view class="container">
 		<view class="top">
-			<view class="top-desc flex-set">{{banner.title}}</view>
+			<view class="top-desc flex-set" v-for="(ite, ind) in banner.title" :key="ind">{{ite}}</view>
+			<!-- <view class="top-desc flex-set">{{banner.title}}</view> -->
 		</view>
 		<view class="banner" @tap="goOther(banner.gopage)" :style="{'background': 'url('+banner.image+') no-repeat center center/ 100% 100%'}"></view>
 		
 		<!-- 列表 -->
 		<view class="list-container">
+			<view class="top" v-if="rank_start.length" style="background-color: #F3F3F3;">
+				<view class="top-desc flex-set" v-for="(ite, ind) in rank_start" :key="ind">{{ite}}</view>
+			</view>
 			<block v-for="(item,index) in userRank" :key="index">
 				<view class="top" v-if="index==limitIndex" style="background-color: #F3F3F3;">
-					<view class="top-desc flex-set">{{banner.title}}</view>
+					<view class="top-desc flex-set" v-for="(ite, ind) in banner.title" :key="ind">{{ite}}</view>
 				</view>
 				<view class="item" :class="{'dispoint-item': index>=limitIndex}">
 					<view class="rank-num">
@@ -32,7 +36,7 @@
 							</view>
 						</view>
 						<view class="count-box">
-							<view class="count">{{item.active_sum}}庄园豆</view>
+							<view class="count">领取了<text class="number">{{item.active_sum||0}}</text>庄园豆</view>
 						</view>
 					</view>
 					<view class="go-visit">
@@ -45,7 +49,7 @@
 		</view>
 	
 		<!-- 我的 -->
-		<view class="my-container">
+		<view class="my-container" v-if='selfIdol'>
 			<view class="rank-num">
 				<view>{{myInfo.rank}}</view>
 			</view>
@@ -58,7 +62,7 @@
 					{{$app.getData('userInfo').nickname}}
 				</view>
 				<view class="count-box">
-					<view class="count">{{myInfo.active_sum}}庄园豆</view>
+					<view class="count">领取了<text class="number">{{myInfo.active_sum||0}}</text>庄园豆</view>
 				</view>
 			</view>
 		</view>
@@ -83,7 +87,7 @@
 				AVATAR:this.$app.getData('AVATAR'),
 				NICKNAME: this.$app.getData('NICKNAME'),
 				banner: {
-					title: '统计活动期间每位爱豆领取庄园金豆数最多的前100名粉丝的总和',
+					title: [],
 					gopage: "/pages/notice/notice",
 					image: "https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9G4romDKHbhtCKiaEbiaXwpqHsXKiaYkRBGzZp6aayTQM2r2ibE96Ho2oMQGxHVGO2icUBuFiaXOhPO7VXQ/0",
 				},
@@ -91,6 +95,7 @@
 				mapRequest: {
 					fans: 'manor/fansrank',
 				},
+				rank_start: [],
 				star: 0,
 				selfIdol: false,
 			};
@@ -121,12 +126,18 @@
 					this.myInfo = res.data.my
 					this.banner = res.data.banner
 					this.limitIndex = res.data.limit_index
+					this.rank_start = res.data.rank_start
 					if (this.page == 1) {
 						this.userRank = res.data.list
 					} else {
 						this.userRank = this.userRank.concat(res.data.list)
 					}
 				})
+			},
+			goOther(url) {
+				if (url) {
+					this.$app.goPage(url);
+				}
 			},
 			goOtherManor(user_id) {
 				if (!user_id) return false;
@@ -289,6 +300,10 @@
 				.count {
 					font-size: 22upx;
 					color: #ADADAD;
+					.number {
+						color: #ff7e00;
+						padding: 0 10rpx;
+					}
 				}
 
 				.exit {
@@ -369,6 +384,10 @@
 			.count {
 				font-size: 22upx;
 				color: #ADADAD;
+				.number {
+					color: #ff7e00;
+					padding: 0 10rpx;
+				}
 			}
 			
 			.exit {

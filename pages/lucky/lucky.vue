@@ -163,7 +163,10 @@
 						<view class="animal-item">
 							<image class="animal" :src="item.scrap_img"></image>
 							<view class="exchange-btn flex-set">
-								<btnComponent type='default'>
+								<btnComponent type='success' v-if="item.need_lv_up_scrap < 0">
+									<view class="flex-set" @tap="$app.goPage('/pages/manor/animal_list')" style="width: 80upx;height: 40upx;font-size: 24rpx;">去升级</view>
+								</btnComponent>
+								<btnComponent type='default' v-else>
 									<view class="flex-set" @tap="openExchangeAnimalModal(item)" style="width: 80upx;height: 40upx;font-size: 24rpx;">兑换</view>
 								</btnComponent>
 							</view>
@@ -201,7 +204,7 @@
 				<view class="charge-prize">
 					<block v-for="(item, index) in scrapList" :key="index">
 						<block v-if="item.type == 'REDIRECT'">
-							<block v-if="$app.getData('userStar').id == item.extra.star">
+							<block v-if="$app.getData('userStar').id == item.extra.star||item.extra.star==0">
 								<view class="item"  :class="{'auto-flex': scrapList.length == 1}">
 									<view class="up">
 										<!-- <image v-if="item == 1" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoibe7bdHGH2icR6cs7PCILZKIooG44pGchYZKGb4YicdQ8ichs3q6dEu1bQ/0"></image>
@@ -337,7 +340,7 @@
 		<modalComponent v-if="modal == 'exchangeAnimal'" type="center" title="提示" @closeModal="modal=''">
 			<view class="modal-container exchange-modal-container">
 				<view class="title">兑换{{exchangeCurrentAnimal.scrap_name}}</view>
-				<view class="label flex-set">拥有{{exchangeCurrentAnimal.has_scrap_num}}个{{exchangeCurrentAnimal.scrap_name}} </view>
+				<view class="label flex-set">拥有{{exchangeCurrentAnimal.scrap_name}}：{{exchangeCurrentAnimal.has_scrap_num}}个 </view>
 				<!-- <view class="title" v-if="callType=='goSupple'">{{goSupple.title}}</view>
 				<view class="title-lable" @tap="getRewardPool">奖池详情</view> -->
 				<image class="bg" :src="exchangeCurrentAnimal.scrap_img" mode="aspectFit"></image>
@@ -369,9 +372,9 @@
 					</btnComponent>
 				</view>
 				
-				<!-- <view class="buttom">
-					今日剩余次数：{{lotteryLeft || 0}}/{{lottery_max}}
-				</view> -->
+				<view class="buttom">
+					我的幸运抽奖券：{{my_lucky_num || 0}}张
+				</view>
 			</view>
 		</modalComponent>
 		

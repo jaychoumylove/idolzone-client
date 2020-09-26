@@ -163,7 +163,7 @@
 						diff = endTime - now;
 					
 					if (diff <= 0) {
-						this.setCurrentBanner();
+						// this.setCurrentBanner();
 					} else {
 						const time = this.$app.timeGethms(diff);
 						
