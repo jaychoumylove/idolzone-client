@@ -1,18 +1,20 @@
 <template>
 	<view class="manor-background-container">
-		<view class='tab-container'>
-			<view 
-				class="tab-item" 
-				:class="{active: type == item.value}" 
-				@tap="checkType(item.value)" 
-				v-for="(item, index) in checkBtn" 
-				:key="index"
-			>
-				{{item.label}}
-			</view>
-			<!-- <view class="tab-item" :class="{active:type == 'normal'}" @tap="checkType('normal')">通用背景</view> -->
-			<!-- <view class="tab-item" :class="{active:type == 'star'}" @tap="checkType('<star></star>')">专属背景</view> -->
-			<!-- <view class="tab-item" :class="{active:type == 'active'}" @tap="checkType('active')">限定背景</view> -->
+	
+		<view>
+			<scroll-view scroll-x="true" class="scroll">
+				<view class='tab-container'>
+					<view 
+						class="tab-item" 
+						:class="{active: type == item.value}" 
+						@tap="checkType(item.value)" 
+						v-for="(item, index) in checkBtn" 
+						:key="index"
+					>
+						{{item.label}}
+					</view>
+				</view>
+			</scroll-view>
 		</view>
 		
 		<view class="list-container">
@@ -66,6 +68,46 @@
 				</view>
 			</view>
 		</view>
+	
+		<!-- 抽奖券解锁	 -->
+		<modalComponent v-if="modal == 'unlockLucky'" type="center" title="提示" @closeModal="modal=''">
+			<view class="modal-container unlock-modal-container">
+				<view class="title">
+					提示
+				</view>
+				<!-- <view class="buttom">
+					当前存豆时间
+					<text class="desc-red">{{$app.getData('temp').manor_max_output_hours || 8}}小时</text>
+				</view> -->
+				<view class="middle">
+					<image mode="widthFix" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKo5M09v5iajLMIlAb5MR4ib0kA9OnkhXodC6M6SmjAjmjj7VcwgUYklmfA/0"></image>
+					<view>
+						<text class="desc-red">X10</text>
+						解锁
+					</view>
+				</view>
+				<!-- <view class="desc flex-set">	
+					解锁后存豆时间加：
+					<text class="desc-red">{{list[preUnlockIndex].add_hours || 0}}小时</text>
+				</view> -->
+				<view class="btn-wrap">
+					<btnComponent type="default">
+						<view class="btn" @tap="cancelUnlock">取消</view>
+					</btnComponent>
+					<btnComponent type="success">
+						<view class="btn" style="color: white;" @tap="unlockBackgroundAction(preUnlockIndex)">确认</view>
+					</btnComponent>
+				</view>
+				
+				<!-- <view class="buttom">
+					我的幸运抽奖券：{{list[preUnlockIndex].prop_num || 0}}张
+				</view> -->
+				<view class="buttom">
+					解锁后庄园存豆时间为：
+					<text class="desc-red">{{($app.getData('temp').manor_max_output_hours || 8)+(list[preUnlockIndex].add_hours || 0)}}小时</text>
+				</view>
+			</view>
+		</modalComponent>
 	</view>
 </template>
 
@@ -85,6 +127,7 @@
 				left_timer: [],
 				list:[],
 				checkBtn: [],
+				preUnlockIndex: null,
 			};
 		},
 		onShow() {
@@ -103,6 +146,7 @@
 			},
 			getBackgroundList(type) {
 				this.list = [];
+				this.cleanTimer();
 				this.$app.request(this.$app.API.MANOR_BACKGROUND, {type}, res => {
 					this.list = res.data;
 					this.list.map((item, index) => {
@@ -112,20 +156,55 @@
 					});
 				})
 			},
-			unlockBackground(item, index) {
-				this.$app.modal(`确认解锁？`, () => {
-					const background = item.id;
-					uni.showLoading({
-						mask:true,
-						title:'解锁中...'
-					});
-					this.$app.request(this.$app.API.MANOR_BACKGROUND_UNLOCK, {background}, res => {
-						this.$app.toast('解锁成功', 'success');
-						const oldList = this.list;
-						oldList[index].locked = true;
-						this.list = oldList;
-					}, 'POST', true)
+			unlockBackgroundAction(index) {
+				const item = this.list[index];
+				const background = item.id;
+				uni.showLoading({
+					mask:true,
+					title:'解锁中...'
+				});
+				this.$app.request(this.$app.API.MANOR_BACKGROUND_UNLOCK, {background}, res => {
+					this.cancelUnlock();
+					this.$app.toast('解锁成功', 'success');
+					let oldList = this.list;
+					oldList[index].locked = true;
+					this.list = oldList;
+					if (item.lock_data.type == 'locky') {
+						let userExt = this.$app.getData('userExt');
+						const newLuckyNum = parseInt(userExt.lucky_num) - parseInt(item.lock_data.number);
+						userExt.lucky_num = newLuckyNum;
+						this.$app.setData('userExt', userExt);
+					}
+					if (item.add_hours > 0) {
+						let temp = this.$app.getData('temp');
+						temp.manor_max_output_hours += parseInt(item.add_hours);
+						this.$app.setData('temp', temp);
+					}
+				}, 'POST', true, (res) => {
+					uni.hideLoading();
+					if (res.msg == '抽奖券不足') {
+						this.modal = '';
+						this.$app.modal(res.msg, () => {
+							this.$app.goPage('/pages/lucky/lucky')
+						}, '去获得');
+					} else {
+						this.$app.toast(res.msg, 'none');
+					}
 				})
+			},
+			unlockBackground(item, index) {
+				if (item.lock_data.type == 'lucky') {
+					this.preUnlockIndex = index;
+					return this.modal = 'unlockLucky';
+				} else {
+					this.$app.modal(`确认解锁？`, () => {
+						this.unlockBackgroundAction(index);
+					})
+				}
+			},
+			cancelUnlock() {
+				this.modal = '';
+				this.preUnlockIndex = null;
 			},
 			tryBackground(item, index) {
 				const minute = this.$app.getData('config').manor_animal.background_try_minute;
@@ -199,7 +278,7 @@
 					this.left_timer = [];
 					this.left_time = [];
 				} else {
-					clearInterval(item);
+					clearInterval(index);
 					delete this.left_timer[index];
 					delete this.left_time[index];
 				}
@@ -210,27 +289,34 @@
 
 <style lang="scss" scoped>
 	.manor-background-container {
-		.tab-container {
-			padding: 25upx;
-			display: flex;
-			align-items: center;
-		
-			.tab-item {
-				border-radius: 32upx;
-				padding: 10upx 30upx;
-				justify-content: center;
+		.scroll {
+			white-space: nowrap;
+			width: 100%;
+			height: 150rpx;
+			padding: 20rpx 15rpx;
+			border-bottom: 1rpx solid #eee;
+			.tab-container {
+				padding: 25upx;
 				display: flex;
-				font-size: 30upx;
-				margin: 0 20upx;
-				flex: 1;
-				color: #FF7E00;
-				border: 1upx solid #FFEAC9;
-			}
-		
-			.tab-item.active {
-				background-color: #FFEAC9;
-				text-align: center;
-				color: #FF9B2E;
+				align-items: center;
+			
+				.tab-item {
+					border-radius: 32upx;
+					padding: 10upx 30upx;
+					justify-content: center;
+					display: flex;
+					font-size: 30upx;
+					margin: 0 8upx;
+					flex: 1;
+					color: #FF7E00;
+					border: 1upx solid #FFEAC9;
+				}
+			
+				.tab-item.active {
+					background-color: #FFEAC9;
+					text-align: center;
+					color: #FF9B2E;
+				}
 			}
 		}
 
@@ -281,6 +367,88 @@
 					width: 100%;
 					margin: 10rpx 0;
 				}
+			}
+		}
+		
+		.modal-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: -80upx;
+			padding: 40upx;
+		
+			.title {
+				font-size: 36upx;
+				font-weight: 700;
+			}
+			
+			.title-lable {
+				margin-left: auto;
+				color: red;
+				font-size: 30rpx;
+				font-weight: 500;
+				border-bottom: red 1rpx solid;
+			}
+		
+			.bg {
+				width: 250upx;
+				height: 250upx;
+			}
+		
+			.btn {
+				padding: 10upx 30upx;
+				font-size: 30upx;
+				font-weight: 600;
+			}
+		
+			.btn-wrap {
+				margin: 10upx 0;
+				text-align: center;
+				display: flex;
+				width: 100%;
+				justify-content: space-between;
+				padding: 0 20upx;
+			}
+		}
+		
+		.unlock-modal-container {
+			.btn {
+				font-size: 30upx;
+				width: 220upx;
+				white-space: nowrap;
+				color: #643107;
+				padding: 10rpx 20rpx !important;
+			}
+			.buttom {
+				color: #643107;
+				font-size: 24rpx;
+			}
+			.middle {
+				display: flex;
+				font-size: 40rpx;
+				font-weight: 650;
+				margin: 40rpx;
+				view {
+					margin-left: 20rpx;
+					align-self: center;
+				}
+				image {
+					width: 100rpx;
+					height: 100rpx;
+				}
+			}
+			.desc-red {
+				color: red;
+			}
+			.btn-wrap {
+				margin: 25rpx 0!important;
+			}
+			.desc {
+				margin: 20rpx;
+				padding: 20rpx;
+				font-size: 24rpx;
+				border: 1rpx #ccc dashed;
+				border-radius: 40rpx;
 			}
 		}
 	}

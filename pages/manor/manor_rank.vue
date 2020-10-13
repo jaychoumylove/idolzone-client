@@ -1,149 +1,237 @@
 <template>
 	<view class="container">
-		<view class="top">
-			<view class="top-desc flex-set" v-for="(ite, ind) in banner.title" :key="ind">{{ite}}</view>
-			<!-- <view class="top-desc flex-set">{{banner.title}}</view> -->
+		<view class="fixed-btn-desc">
+			<btnComponent type="yellow" class="right-btn">
+				<view class="desc" @tap="openDesc">
+					<text class="iconfont iconinfo"></text>
+					<view>{{conf.notice.desc}}</view>
+				</view>
+			</btnComponent>
 		</view>
-		<view class="banner" @tap="goOther(banner.gopage)" :style="{'background': 'url('+banner.image+') no-repeat center center/ 100% 100%'}"></view>
+		<view :style="{'background': 'url('+conf.banner.image_url+') no-repeat center center', 'background-size': 'cover'}" 
+		class="banner" @tap="openDesc">
+			<view class="small" style="font-size: 24upx;" v-if="left_time.full > 0">
+				距离结束还剩：
+				<block v-if="left_time.d">
+					<text class="text">{{left_time.d}}</text>
+					天
+				</block>
+				<text class="text">{{left_time.h}}</text>
+				时
+				<text class="text">{{left_time.i}}</text>
+				分
+				<text class="text">{{left_time.s}}</text>
+				秒
+			</view>
+			<view class="small" style="font-size: 24upx;" v-else>
+				活动已截止
+			</view>
+		</view>
+		<view>
+			<scroll-view scroll-x="true" class="scroll">
+				<view class='tab-container'>
+					<view class="tab-item" :class="{active:rankField == 'rank'}" @tap="checkoutField('rank')">庄园产量排名</view>
+					<view class="tab-item" :class="{active:rankField == 'open'}" @tap="checkoutField('open')">可解锁开屏日期</view>
+				</view>
+			</scroll-view>
+		</view>
 		
 		<!-- 列表 -->
 		<view class="list-container">
-			<view class="top" v-if="rank_start.length" style="background-color: #F3F3F3;">
-				<view class="top-desc flex-set" v-for="(ite, ind) in rank_start" :key="ind">{{ite}}</view>
-			</view>
-			<block v-for="(item,index) in userRank" :key="index">
-				<view class="top" v-if="index==limitIndex" style="background-color: #F3F3F3;">
-					<view class="top-desc flex-set" v-for="(ite, ind) in banner.title" :key="ind">{{ite}}</view>
+			<block v-if="rankField == 'rank'">
+				<view class="top" style="background-color: #F3F3F3;">
+					<view class="top-desc flex-set" v-for="(ite, ind) in conf.rank.top_desc" :key="ind">{{ite}}</view>
 				</view>
-				<view class="item" :class="{'dispoint-item': index>=limitIndex}">
-					<view class="rank-num">
-						<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERPO5dPoLHgkajBHNM2z9fooSUMLxB0ogg1mYllIAOuoanico1icDFfYFA/0"
-						 mode=""></image>
-						<image class="icon" v-else-if="index==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERcWnBrw6yAIeVRx4ibIfShZ3tn26ubDUiakNcrwf2F43JI97MYEaYiaib9A/0"
-						 mode=""></image>
-						<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTER7oibKWZCN5ThjI799sONJZAtZmRRTIQmo1R9j26goVMBJ43giaJHLIlA/0"
-						 mode=""></image>
-						<view v-else>{{index+1}}</view>
+				<block v-for="(item,index) in userRank" :key="index">
+					<view class="top" v-if="index==middle_index" style="background-color: #F3F3F3;">
+						<view class="top-desc flex-set" v-for="(ite, ind) in conf.rank.middle_desc" :key="ind">{{ite}}</view>
 					</view>
-					<view class='avatar-wrap'>
-						<image class="avatar" :src="item.user.avatarurl || AVATAR"></image>
-					</view>
-					<view class="text-container">
-						<view class="star-name text-overflow">
-							{{item.user.nickname || NICKNAME}}
-							<view class="starname flex-set">
-								{{item.star.name}}
+					<view class="item" :class="{'dispoint-item': index>=middle_index}">
+						<view class="rank-num">
+							<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERPO5dPoLHgkajBHNM2z9fooSUMLxB0ogg1mYllIAOuoanico1icDFfYFA/0"
+							 mode=""></image>
+							<image class="icon" v-else-if="index==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERcWnBrw6yAIeVRx4ibIfShZ3tn26ubDUiakNcrwf2F43JI97MYEaYiaib9A/0"
+							 mode=""></image>
+							<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTER7oibKWZCN5ThjI799sONJZAtZmRRTIQmo1R9j26goVMBJ43giaJHLIlA/0"
+							 mode=""></image>
+							<view v-else>{{index+1}}</view>
+						</view>
+						<view class='avatar-wrap'>
+							<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
+						</view>
+						<view class="text-container">
+							<view class="star-name text-overflow">
+								{{item.user.nickname||NICKNAME}}
+								<view class="starname flex-set" v-if="item.star">
+									{{item.star.name}}
+								</view>
+							</view>
+							<view class="count-box">
+								<view class="count">庄园产量：10秒/<text class="number">{{item.active_output}}</text>金豆</view>
 							</view>
 						</view>
-						<view class="count-box">
-							<view class="count">领取了<text class="number">{{item.active_sum||0}}</text>庄园豆</view>
+						<view class="go-visit" v-if="item.user_id!=$app.getData('userInfo').id">
+							<btnComponent type='default'>
+								<view class="flex-set" @tap="goOtherManor(item.user_id)" style="width: 130upx;height: 65upx;">去拜访</view>
+							</btnComponent>
 						</view>
 					</view>
-					<view class="go-visit">
-						<btnComponent type='default' v-if="item.user_id!=myInfo.user_id">
-							<view class="flex-set" @tap="goOtherManor(item.user_id)" style="width: 130upx;height: 65upx;">去拜访</view>
-						</btnComponent>
-					</view>
+				</block>
+			</block>
+			
+			<block v-if="rankField == 'open'">
+				<view class="top" style="background-color: #F3F3F3;">
+					<view class="top-desc flex-set" v-for="(ite, ind) in conf.open.desc" :key="ind">{{ite}}</view>
 				</view>
+				
+				<block v-for="(item,index) in userRank" :key="index">
+					<view class="item open-item">
+						<view class="text-container">
+							<view class="count-box">
+								<view class="count">{{item}}</view>
+							</view>
+						</view>
+					</view>
+				</block>
 			</block>
 		</view>
-	
+		
 		<!-- 我的 -->
-		<view class="my-container" v-if='selfIdol'>
+		<view class="my-container" v-if="rankField == 'rank'&&myInfo">
 			<view class="rank-num">
-				<view>{{myInfo.rank}}</view>
+				<view>{{myInfo.rank || 'no'}}</view>
 			</view>
 			<view class='avatar-wrap'>
-				<image class="avatar" :src="$app.getData('userInfo').avatarurl" mode="aspectFill"></image>
+				<image class="avatar" :src="$app.getData('userInfo').avatarurl || AVATAR" mode="aspectFill"></image>
 				<image v-if="myInfo.headwear&&myInfo.headwear.img" class="headwear position-set" :src="myInfo.headwear&&myInfo.headwear.img" mode=""></image>
 			</view>
 			<view class="text-container">
 				<view>
-					{{$app.getData('userInfo').nickname}}
+					{{$app.getData('userInfo').nickname||NICKNAME}}
 				</view>
 				<view class="count-box">
-					<view class="count">领取了<text class="number">{{myInfo.active_sum||0}}</text>庄园豆</view>
+					<view class="count">庄园产量：10秒/<text class="number">{{myInfo.active_output}}</text>金豆</view>
 				</view>
 			</view>
 		</view>
+	
 	</view>
 	
 </template>
 
 <script>
 	import btnComponent from '@/components/btnComponent.vue';
-	import modalComponent from '@/components/modalComponent.vue';
 	export default {
 		components: {
 			btnComponent,
-			modalComponent,
 		},
 		data() {
 			return {
-				rankField: 'fans',
+				rankField: 'rank',
 				userRank: [],
 				page: 1,
-				myInfo: {},
 				AVATAR:this.$app.getData('AVATAR'),
 				NICKNAME: this.$app.getData('NICKNAME'),
-				banner: {
-					title: [],
-					gopage: "/pages/notice/notice",
-					image: "https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9G4romDKHbhtCKiaEbiaXwpqHsXKiaYkRBGzZp6aayTQM2r2ibE96Ho2oMQGxHVGO2icUBuFiaXOhPO7VXQ/0",
+				conf: this.$app.getData('config').manor_open,
+				left_time: {
+					full: 0,
+					d: 0,
+					h: 0,
+					i: 0,
+					s: 0,
 				},
-				limitIndex: -1,
-				mapRequest: {
-					fans: 'manor/fansrank',
-				},
-				rank_start: [],
-				star: 0,
-				selfIdol: false,
+				left_timer: undefined,
+				myInfo: {},
+				middle_index: 30
 			};
 		},
-		onLoad(option) {
-			if (option.star_id) {
-				this.star = option.star_id;
-				this.selfIdol = option.star_id == this.$app.getData('userStar').id;
-			}
-		},
 		onShow() {
+			this.setTimer(this.$app.strToTime(this.conf.time.end));
 			this.refresh();
 		},
 		onReachBottom() {
-			this.page++
-			this.loadData()
+			if (this.rankField == 'rank') {
+				this.page++
+				this.loadData()
+			}
+		},
+		onUnload() {
+			this.cleanTimer()
 		},
 		methods: {
+			setTimer(endTime) {
+				this.left_timer = setInterval(() => {
+					const now = Math.round(Date.now() / 1000),
+						diff = endTime - now;
+					
+					if (diff <= 0) {
+						this.left_time = {
+							full: -1,
+							d: time.day,
+							h: time.hour,
+							i: time.min,
+							s: time.sec
+						}
+					} else {
+						const time = this.$app.timeGethms(diff);
+						
+						this.left_time = {
+							full: diff,
+							d: time.day,
+							h: time.hour,
+							i: time.min,
+							s: time.sec
+						}
+					}
+				}, 1000);
+			},
+			cleanTimer() {
+				clearInterval(this.left_timer);
+				this.left_timer = undefined;
+			},
+			checkoutField(field) {
+				if (this.rankField != field) {
+					this.rankField = field;
+					this.userRank = [];
+					this.myInfo = {};
+					this.refresh();
+				}
+			},
+			openDesc() {
+				this.$app.goPage(this.conf.notice.go_page);
+			},
 			refresh(){
 				this.page = 1;
 				this.loadData();
 			},
 			loadData() {
-				this.$app.request(this.mapRequest[this.rankField], {
+				this.$app.request('manor/active_output_rank', {
 					page: this.page,
-					star_id: this.star
+					field: this.rankField
 				}, res => {
-					this.myInfo = res.data.my
-					this.banner = res.data.banner
-					this.limitIndex = res.data.limit_index
-					this.rank_start = res.data.rank_start
-					if (this.page == 1) {
-						this.userRank = res.data.list
+					if(this.rankField == 'rank') {
+						this.myInfo = res.data.my;
+						this.middle_index = res.data.middle_index;
+						if (this.page == 1) {
+							this.userRank = res.data.list;
+						} else {
+							this.userRank = this.userRank.concat(res.data.list);
+						}
 					} else {
-						this.userRank = this.userRank.concat(res.data.list)
+						this.userRank = res.data
 					}
 				})
-			},
-			goOther(url) {
-				if (url) {
-					this.$app.goPage(url);
-				}
 			},
 			goOtherManor(user_id) {
 				if (!user_id) return false;
 				uni.navigateTo({
 					url:`/pages/manor/other_manor?user=${user_id}`
 				})
+			},
+			goOther(url) {
+				if (url) {
+					this.$app.goPage(url);
+				}
 			},
 		}
 	}
@@ -158,8 +246,42 @@
 				font-size: 24rpx;
 			}
 		}
+		.fixed-btn-desc {
+			position: fixed;
+			top: 40upx;
+			right: 10upx;
+			z-index: 2;
+			width: 40upx;
+			height: auto;
+			line-height: 28upx;
+			text-align: center;
+			font-size: $font-s;
+			.desc {
+				height: 150upx;
+				padding: 10upx;
+				width: 40upx;
+			}
+		}
 		.banner {
-			height: 200rpx;
+			width: 690upx;
+			height: 250upx;
+			margin: 10rpx auto;
+			border-radius: 20upx;
+			position: relative;
+			.small {
+				position: absolute;
+				bottom: 20upx;
+				left: 20upx;
+				color: #fff;
+				background-color: rgba(#000, .8);
+				border-radius: 30upx;
+				padding: 5upx 20upx;
+			
+				.text {
+					padding: 0 10upx;
+					color: yellow;
+				}
+			}
 		}
 		.scroll {
 			white-space: nowrap;
@@ -224,12 +346,23 @@
 		}
 
 		.list-container {
-			margin-bottom: 130rpx;
+			margin-bottom: 150rpx;
 			.dispoint-item {
 				background: #f9f7fa;
 			}
+			.open-item {
+				height: 100upx!important;
+				.text-container {
+					margin: 0 auto !important;
+					width: 420upx;
+					.count {
+						font-size: 30rpx!important;
+						color: black!important;
+					}
+				}
+			}
 			.item {
-				height: 130upx;
+				height: 150upx;
 				display: flex;
 				align-items: center;
 				border-bottom: 1rpx solid #eee;
@@ -246,11 +379,18 @@
 
 				.avatar-wrap {
 					position: relative;
-
 					.avatar {
-						width: 90upx;
-						height: 90upx;
+						width: 100upx;
+						height: 100upx;
 						border-radius: 50%;
+					}
+					
+					.rank {
+						position: absolute;
+						right: -15upx;
+						bottom: -15upx;
+						width: 50upx;
+						height: 50upx;
 					}
 
 					.headwear {
@@ -274,17 +414,20 @@
 				}
 				.star-name {
 					display: flex;
+					margin-bottom: 10rpx;
 				}
 				.starname {
-					background: linear-gradient(#ff7e00, #fccd9f);
-					color: #fff;
-					padding: 0 12rpx;
-					border-radius: 12rpx;
-					font-size: 20rpx;
+					// background: linear-gradient(#ff7e00, #fccd9f);
 					box-shadow: 0 0 1px rgba(0, 0, 0, .3);
 					line-height: 34rpx;
 					margin: 0 5rpx;
 					white-space: nowrap;
+					
+					border-radius: 20upx;
+					background-color: #82c7d4;
+					color: #FFF;
+					padding: 0 10upx;
+					font-size: 22upx;
 				}
 
 				.text-container {
@@ -312,6 +455,11 @@
 				}
 				.assist {
 					display: flex;
+					flex-direction: column;
+					.up {
+						display: flex;
+						justify-content: space-around;
+					}
 					.assist-desc {
 						white-space: nowrap;
 						color: #A5A5A5;

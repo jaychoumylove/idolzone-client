@@ -59,6 +59,7 @@
 				console.log('option', option);
 				// 入口参数
 				this.$app.setData('query', option.query)
+				this.$app.setData('temp', {})
 				this.$app.setData('enterScene', option.scene)
 				if (option.query && option.query.referrer) {
 					// 推荐人

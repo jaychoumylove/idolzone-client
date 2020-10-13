@@ -278,6 +278,7 @@
 		}
 
 		.list-container {
+			margin-bottom: 150rpx;
 			.dispoint-item {
 				background: #f9f7fa;
 			}

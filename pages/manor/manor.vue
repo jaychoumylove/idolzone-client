@@ -269,8 +269,11 @@
 						</view>
 						<view class="btn">
 							<btnComponent type="default">
-								<view class="flex-set" @tap="goOtherManor(item.friend.id)" style="width: 130upx;height: 65upx;">
+								<view class="flex-set" @tap="goOtherManor(item.friend.id)" style="width: 130upx;height: 65upx;" v-if="manor.day_lottery_box">
 									{{manor.day_lottery_box.indexOf(item.friend.id) > -1 ? '已领取': '去拜访'}}
+								</view>
+								<view class="flex-set" @tap="goOtherManor(item.friend.id)" style="width: 130upx;height: 65upx;" v-else>
+									去拜访
 								</view>
 							</btnComponent>
 						</view>
@@ -538,6 +541,7 @@
 					if (this.addCountTimeNumber == 10) {
 						if (this.addCount >= this.maxAddCount) {
 							this.addCount = this.maxAddCount;
+							// this.$app.toast();
 							this.cleanTimer();
 						} else {
 							this.addCountTimeNumber = 1;
@@ -581,7 +585,8 @@
 						main_background,
 						try_background,
 						call_type,
-						box_log
+						box_log,
+						max_output_hours
 					} = res.data;
 					this.manor = manor;
 					this.output = parseInt(output);
@@ -609,6 +614,9 @@
 						this.modal = 'nationalReward';
 					}
 					if (!this.addCountTimer) this.setTimer();
+					let temp = this.$app.getData('temp');
+					temp.manor_max_output_hours = max_output_hours;
+					this.$app.setData('temp', temp);
 				})
 			},
 			getFriends (pager) {
