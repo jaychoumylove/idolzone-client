@@ -25,7 +25,7 @@
 					</view>
 				</view>
 				<view class="count">
-					<view>夏日福袋获得</view>
+					<view class="self-center">{{weal_active.name}}获得</view>
 					<view>{{$app.formatNumber(item.send_weal_hot||0)}}</view>
 				</view>
 			</view>
@@ -45,9 +45,11 @@
 					{{$app.getData('userInfo').nickname}}
 					<image class="img-s" :src="'/static/image/user_level/lv'+myInfo.user.level+'.png'" mode=""></image>
 				</view>
-
 			</view>
-			<view class="count">夏日福袋获得 {{myInfo.send_weal_hot|| 0}}</view>
+			<view class="count">
+				<view class="self-center">{{weal_active.name}}获得</view>
+				<view>{{$app.formatNumber(myInfo.send_weal_hot||0)}}</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -61,6 +63,7 @@
 				myInfo: {},
 				AVATAR: this.$app.getData('AVATAR'),
 				NICKNAME: this.$app.getData('NICKNAME'),
+				weal_active: this.$app.getData('config').weal_active
 			};
 		},
 		onLoad(option) {
@@ -79,7 +82,6 @@
 					page: this.page,
 				}, res => {
 					this.myInfo = res.data.myinfo
-					console.log(this.myInfo)
 					if (this.page == 1) {
 						this.userRank = res.data.list
 					} else {
@@ -141,10 +143,16 @@
 				.count {
 					margin: 0 30upx;
 					color: #ff8421;
+					display: flex;
+					flex-direction: column;
 				}
 
 
 			}
+		}
+		
+		.self-center {
+			align-self: center;
 		}
 
 		.my-container {
@@ -195,6 +203,8 @@
 			.count {
 				margin-left: 30upx;
 				color: #ff8421;
+				display: flex;
+				flex-direction: column;
 			}
 		}
 	}

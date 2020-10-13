@@ -4,7 +4,7 @@
 			<view class="left-label">
 				<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HaRS8zyO4qfZ6KE3GsvdKcKQ1Tj3Dic4V8UibaicVxQbnYiblStG6lzUG3s0FZY7vxaywUEU9HWjIGPQ/0"
 				mode="aspectFit"></image>
-				<view class="position-set">夏日福利</view>
+				<view class="position-set">{{weal_active.name}}</view>
 			</view>
 			<view class="dialog">
 				<view style="position: relative;">
@@ -30,7 +30,7 @@
 		</view>
 		<view class="tips">
 			<view class="tips-left">每次完成增加0.1%额外人气</view>
-			<view class="tips-right" @tap="$app.goPage('/pages/active/weal_list')">夏日福袋收益></view>
+			<view class="tips-right" @tap="$app.goPage('/pages/active/weal_list')">{{weal_active.name}}收益></view>
 		</view>
 		<view class="item" v-for="(item,index) in taskList" :key="index" v-if="!($app.getData('config').version == $app.getData('VERSION') || $app.chargeSwitch() == 1)">
 
@@ -157,11 +157,17 @@
 				weiboUrl: '',
 				weibo_zhuanfa: {},
 				level: undefined,
+				weal_active: this.$app.getData('config').weal_active
 			};
 		},
 		onShow() {
-			this.getTaskList()
+			this.getTaskList();
 			this.getUserLevel();
+			if (this.weal_active.name != '福袋') {
+				uni.setNavigationBarTitle({
+					title: this.weal_active.name
+				})
+			}
 		},
 		onLoad() {
 			this.getShareText()
