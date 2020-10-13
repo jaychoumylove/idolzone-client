@@ -9,13 +9,13 @@
 		<view class="roll-container"></view>
 		<!-- 转盘 -->
 		<view class="dial-container">
-			<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5ibLeIKoQPDMLgiblRd3GPSHeJ54HqaQ78IQkMPALILcFaorZOiafQ3lGg/0"
+			<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GFiaTBMKaBqlGxvaGekXVueqmxclIVRooicVRdRdcUEQWr8wWDqz2RJ59a8ccPQxIrXAfr9QqZf3aA/0"
 			 mode=""></image>
 			<image class="dial-main" :style="{transition:lotteryTransition+'s', transform: 'rotate('+lotteryRotate+'deg)'}" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5H4zzF5xB3nzZNU0ZjOvMia94VeBrnibFLbdW8DdNMq8QsXMBaTBdkTyg/0"
 			 mode="aspectFill"></image>
 			<view class="cursor-wrap" @tap="lotteryStart">
 				<btnComponent>
-					<image class="cursor" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HpdKa9zTbvwsKmJ6hE0kNdFsSibhljHgVZicHO5mUiaeViaDyCDuowWtcB6CcdygE8W2KwGlQPIfKCAg/0"
+					<image class="cursor" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GFiaTBMKaBqlGxvaGekXVue2ReMZADoE18EaE0Cia4pIfrslHRrHXfQsIttlia8KW0jAxzxDt79ia8HA/0"
 					 mode="aspectFill"></image>
 				</btnComponent>
 			</view>
