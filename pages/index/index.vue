@@ -39,7 +39,6 @@
 						 mode="aspectFill" style="width: 34upx; height: 28upx;"></image>
 					</view>
 				</block>
-				<view class="tab-item" @tap="goManorRank">庄园排行</view>
 			</view>
 			<view class="right-wrap" @tap="$app.goPage('/pages/index/rank')">往期榜单<text class="iconfont iconicon_workmore"></text></view>
 		</view>
