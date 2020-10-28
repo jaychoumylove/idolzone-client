@@ -78,8 +78,9 @@
 							<view class="count">本周{{rankFieldDanwei}} {{item.hot}} 上周{{rankFieldDanwei}} {{item.lastweek_hot}}</view>
 						</view>
 					</view>
-					<view class="exit iconfont iconicon_signal" style="padding-right: 20rpx;" @tap="upAdmin(item.user_id,1)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==0&&leader_uid!=item.user_id"></view>
-					<view class="exit iconfont iconicon_signal" style="color: red; padding-right: 20rpx;" @tap="upAdmin(item.user_id,0)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==1&&leader_uid!=item.user_id"></view>
+					<view class="exit iconfont iconicon_signal" style="padding-right: 20rpx;" @tap="upLeader(index)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==1&&leader_uid!=item.user_id"></view>
+					<view class="exit iconfont iconicon_signal" style="padding-right: 20rpx;" @tap="upAdmin(index,1)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==0&&leader_uid!=item.user_id"></view>
+					<view class="exit iconfont iconicon_signal" style="color: red; padding-right: 20rpx;" @tap="upAdmin(index,0)" v-if="leader_uid==$app.getData('userInfo').id&&item.admin==1&&leader_uid!=item.user_id"></view>
 					<view class="exit iconfont iconclose" @tap="exit(item.user_id)" v-if="(leader_uid==$app.getData('userInfo').id && leader_uid!=item.user_id)||($app.getData('userInfo').id==item.user_id)||(admin && leader_uid!=item.user_id)"></view>
 				</view>
 			</checkbox-group>
@@ -372,14 +373,31 @@
 				})
 
 			},
-			upAdmin(uid,admin){
+			upAdmin(index,admin){
+				let item = this.userRank[index];
 				let msg = `确定提升TA为管理员吗？`
 				if(admin==0) msg='确定取消TA的管理员吗？'
 				this.$app.modal(msg,()=>{
 					this.$app.request('fans/upAdmin',{
-						user_id:uid,
+						user_id:item.user_id,
 						admin:admin,
 					},res=>{
+						item.admin = admin;
+						this.$set(this.userRank, index, item);
+						this.$app.toast(res.msg)
+					},'POST',true)
+				})
+			},
+			upLeader(index) {
+				let item = this.userRank[index];
+				let msg = `确定提升TA为团长吗？`
+				this.$app.modal(msg,()=>{
+					this.$app.request('fans/upLeader',{
+						admin:item.user_id,
+					},res=>{
+						this.leader_uid = admin;
+						item.admin = 0;
+						this.$set(this.userRank, index, item);
 						this.$app.toast(res.msg)
 					},'POST',true)
 				})

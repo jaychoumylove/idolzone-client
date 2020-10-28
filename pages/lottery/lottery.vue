@@ -8,6 +8,11 @@
 		<!-- 滚动抽奖记录 -->
 		<view class="roll-container"></view>
 		<!-- 转盘 -->
+
+<!--    <image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GFiaTBMKaBqlGxvaGekXVueqmxclIVRooicVRdRdcUEQWr8wWDqz2RJ59a8ccPQxIrXAfr9QqZf3aA/0"-->
+<!--    <image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic4xfvPnh6O5MrdzvJayky08iaxCecenlezR32ib9XWNYQebcW9VvEwUibu2vF0AQ4lk4FPle9uzgKA/0"-->
+<!--        <image class="cursor" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GFiaTBMKaBqlGxvaGekXVue2ReMZADoE18EaE0Cia4pIfrslHRrHXfQsIttlia8KW0jAxzxDt79ia8HA/0"-->
+<!--        <image class="cursor" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic4xfvPnh6O5MrdzvJaykygUia31ad4DX9j9Su4PCZSJ7fJYrL3rubNQgfEqovD4jF7NvbRNjsEBw/0"-->
 		<view class="dial-container">
 			<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GFiaTBMKaBqlGxvaGekXVueqmxclIVRooicVRdRdcUEQWr8wWDqz2RJ59a8ccPQxIrXAfr9QqZf3aA/0"
 			 mode=""></image>

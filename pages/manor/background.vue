@@ -40,6 +40,7 @@
 							活动已截止
 						</view>
 					</block>
+					<view class="tag" :class="item.locked ? 'tag-s': 'tag-f'" v-if="item.add_hours">+{{item.add_hours}}小时</view>
 					<image class="img" mode="aspectFill" :src="item.url"></image>
 				</view>
 				<view class="lock-desc">
@@ -75,10 +76,6 @@
 				<view class="title">
 					提示
 				</view>
-				<!-- <view class="buttom">
-					当前存豆时间
-					<text class="desc-red">{{$app.getData('temp').manor_max_output_hours || 8}}小时</text>
-				</view> -->
 				<view class="middle">
 					<image mode="widthFix" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKo5M09v5iajLMIlAb5MR4ib0kA9OnkhXodC6M6SmjAjmjj7VcwgUYklmfA/0"></image>
 					<view>
@@ -86,10 +83,6 @@
 						解锁
 					</view>
 				</view>
-				<!-- <view class="desc flex-set">	
-					解锁后存豆时间加：
-					<text class="desc-red">{{list[preUnlockIndex].add_hours || 0}}小时</text>
-				</view> -->
 				<view class="btn-wrap">
 					<btnComponent type="default">
 						<view class="btn" @tap="cancelUnlock">取消</view>
@@ -98,10 +91,6 @@
 						<view class="btn" style="color: white;" @tap="unlockBackgroundAction(preUnlockIndex)">确认</view>
 					</btnComponent>
 				</view>
-				
-				<!-- <view class="buttom">
-					我的幸运抽奖券：{{list[preUnlockIndex].prop_num || 0}}张
-				</view> -->
 				<view class="buttom">
 					解锁后庄园存豆时间为：
 					<text class="desc-red">{{($app.getData('temp').manor_max_output_hours || 8)+(list[preUnlockIndex].add_hours || 0)}}小时</text>
@@ -337,6 +326,24 @@
 
 				.background-img {
 					position: relative;
+					overflow: hidden;
+					.tag {
+						position: absolute;
+						transform: translate(-50%, -50%) rotate(-45deg);
+						top: 7%;
+						left: 11%;
+						width: 200rpx;
+						background: rebeccapurple;
+						font-size: 28rpx;
+					}
+					.tag-s {
+						background-color: #962de0;
+						color: white;
+					}
+					.tag-f {
+						background-color: #dcdcdc;
+						color: black;
+					}
 					.img {
 						width: 330upx;
 						height: 660upx;

@@ -50,32 +50,27 @@
 		methods: {
 			join(fid, uid, nickname) {
 				this.$app.modal(`${nickname} 想要加入`, () => {
-					this.$app.request('fans/applydeal', {
-						fid,
-						uid,
-						status: 2
-					}, res => {
-						this.$app.toast('加入成功', 'success')
-						setTimeout(() => {
-							this.loadData()
-						}, 1000)
-					}, 'POST', true)
+					this.dealAction(fid,uid, 2);
 				},'允许', () => {
-					this.$app.request('fans/applydeal', {
-						fid,
-						uid,
-						status: -1
-					}, res => {
-						this.$app.toast('已拒绝', 'success')
-						setTimeout(() => {
-							this.loadData()
-						}, 1000)
-					}, 'POST', true)
+					this.dealAction(fid,uid, -1);
 				},'拒绝')
+			},
+			dealAction(fid, uid, status) {
+				this.$app.request('fans/applydeal', {
+					fid,
+					uid,
+					status
+				}, res => {
+					let msg = status > 0 ? '加入成功': '已拒绝';
+					this.$app.toast(msg, 'success')
+					setTimeout(() => {
+						this.loadData()
+					}, 1000)
+				}, 'POST', true)
 			},
 			loadData() {
 				this.$app.request('fans/applylist', {
-						fid:this.fid
+					fid:this.fid
 				}, res => {
 					this.list = res.data
 					uni.stopPullDownRefresh()
