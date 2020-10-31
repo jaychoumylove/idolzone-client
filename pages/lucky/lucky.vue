@@ -112,6 +112,13 @@
 							</view>
 						</btnComponent>
 					</view>
+					<view v-if="lrtext.multiple_exchange ? lrtext.multiple_exchange.able: false">
+						<btnComponent type="default" @tap="openFiftyExchange">
+							<view class="get-bg-bm flex-set settle-bg-bm">
+								<text>{{lrtext.multiple_exchange ? lrtext.multiple_exchange.btn_text: '50张抽奖券 兑换3张幸运碎片'}}</text>
+							</view>
+						</btnComponent>
+					</view>
 					<view class="bg-b">
 						<view class="bg">
 							 我的抽奖券：{{my_lucky_num || 0}}张
@@ -152,11 +159,11 @@
 			<view class="content">
 				<view class="header">
 					<view class="bg">
-						{{animal_national_lucky_draw.title || ''}}
+						{{animal_text.title || ''}}
 					</view>
 				</view>
 				<view class="tip flex-set">
-					<view class="tip-desc">{{animal_national_lucky_draw.desc || ''}}</view>
+					<view class="tip-desc">{{animal_text.desc || ''}}</view>
 				</view>
 				<view class="charge-prize">
 					<block v-for="(item, index) in exchangeAnimalList" :key="index">
@@ -173,19 +180,6 @@
 						</view>
 					</block>
 				</view>
-				
-				<!-- <view class="charge-prize">
-					<block v-for="(item, index) in exchangeAnimal" :key="index">
-						<view class="animalitem">
-							<image class="animal" :src="item.image"></image>
-							<view class="exchange-btn flex-set">
-								<btnComponent type='default'>
-									<view class="flex-set" @tap="openExchangeAnimalModal(item)" style="width: 130upx;height: 50upx;">兑换</view>
-								</btnComponent>
-							</view>
-						</view>
-					</block>
-				</view> -->
 			</view>
 		</view>
 		
@@ -378,6 +372,27 @@
 			</view>
 		</modalComponent>
 		
+		<!-- 幸运抽奖券兑换 幸运碎片 -->
+		<modalComponent v-if="modal == 'exchangeLucky'" type="center" title="提示" @closeModal="modal=''">
+			<view class="modal-container exchange-modal-container">
+				<view class="title">提示</view>
+				<view class="label flex-set">{{lrtext.multiple_exchange ? lrtext.multiple_exchange.desc: '消耗50张抽奖券兑换3个幸运碎片'}}</view>
+				<image class="bg" :src="lrtext.multiple_exchange.image" mode="aspectFit"></image>
+				<view class="btn-wrap">
+					<btnComponent type="success">
+						<view class="btn" @tap="fiftyExchange">确认</view>
+					</btnComponent>
+					<btnComponent type="disable">
+						<view class="btn" @tap="modal=''">取消</view>
+					</btnComponent>
+				</view>
+				
+				<!-- <view class="buttom">
+					我的幸运抽奖券：{{my_lucky_num || 0}}张
+				</view> -->
+			</view>
+		</modalComponent>
+		
 	</view>
 </template>
 
@@ -421,7 +436,7 @@
 				exchangeAnimalList: null,
 				exchangeAnimalRate: [],
 				exchangeCurrentAnimal: null,
-				animal_national_lucky_draw: null,
+				animal_text: null,
 			};
 		},
 		onLoad() {
@@ -442,8 +457,8 @@
 					this.lrtext = res.data.recharge_lucky;
 					this.exchangeAnimalList = res.data.animal_exchange;
 					if (res.data.animal_exchange) {
-						this.exchangeAnimalRate = res.data.animal_national.animal_exchange_rate;
-						this.animal_national_lucky_draw = res.data.animal_national.lucky_draw;
+						this.exchangeAnimalRate = res.data.recharge_lucky.animal_exchange.rate;
+						this.animal_text = res.data.recharge_lucky.animal_exchange.text;
 					}
 					if (delay) {
 						setTimeout(() => {
@@ -557,6 +572,24 @@
 							this.$app.toast('取消兑换');
 						}
 					}
+				})
+			},
+			openFiftyExchange() {
+				this.modal = 'exchangeLucky';
+			},
+			fiftyExchange() {
+				const max = this.lrtext.multiple_exchange.hasOwnProperty('multiple') ? this.lrtext.multiple_exchange.multiple: 50;
+				if (this.my_lucky_num < max) {
+					return this.$app.toast('幸运抽奖券不够哦');
+				}
+				uni.showLoading({
+					mask:true,
+					title:"兑换中..."
+				})
+				this.$app.request(this.$app.API.LUCKY_DRAW_EXCHANGE_LUCKY, {}, res => {
+					this.$app.toast('兑换成功', 'success');
+					this.modal = '';
+					this.refresh();
 				})
 			},
 			fiftyStart() {

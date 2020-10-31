@@ -63,84 +63,52 @@
 						<view class="animal-list scroll-item">
 							<block v-for="(value, key) in item" :key='key'>
 								<view class="animal-item" :class="type == 'twelve' ? 'normal-item': type == 'secret' ? 'secret-item': ''">
-									<block v-if="['secret', 'twelve'].indexOf(type) > -1">
-										<label>
-											<view class="scrap-right-num" v-if="type=='secret'">
-												已拥有碎片<text class="number">{{value.scrap_num}}</text>
+									<block v-if="['SUPER_SECRET', 'STAR_SECRET'].indexOf(value.type) > -1&&!value.has_secret">
+										<view class="model">
+											<image mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HMNbdHUu694DBUIbeljCsvwKJa64kv1roib7eLbQYPXkAsg9MDCiaiaak1PmZiaIVXvicZticfPcasO7pw/0"></image>
+											<view class="lock-desc">
+												<view class="p" v-for="(ite, ind) in animalListModel[value.type]" :key="ind">{{ite}}</view>
 											</view>
-											<view class="lv">Lv.{{value.user_animal ? value.user_animal.level: 1}}</view>
-											<view class="name">{{value.name}}</view>
-											<radio :value="value.id" :checked="value.id == mainAnimalId" class="check" v-if="value.user_animal" /></radio>
-											<image :src="value.user_animal ? value.image: value.empty_img" mode="aspectFit"></image>
-											<view v-if="value.lv_info.output" class="desc">每10秒/{{value.lv_info.output}}金豆</view>
-											<view v-if="value.lv_info.steal" class="desc">每日可偷{{value.lv_info.steal}}次</view>
-											<block v-if="type == 'secret'">
-												<view class="lv-up-desc">
-													需要{{value.scrap_name}}X{{value.need_scrap}}{{value.user_animal ? '升级': '解锁'}}
-												</view>
-											</block>
-										</label>
-										<view class="up" :class="{'up-able': value.up_able}" @tap="getAnimalInfo(value.id)" v-if="value.user_animal">
-											{{value.up_able ? '可升级': '升级宠物'}}
+										</view>
+									</block>
+									<label>
+										<view class="scrap-right-num" v-if="type=='secret'">
+											已拥有碎片<text class="number">{{value.scrap_num}}</text>
+										</view>
+										<view class="lv">Lv.{{value.user_animal ? value.user_animal.level: 1}}</view>
+										<view class="name">{{value.name}}</view>
+										<radio :value="value.id" :checked="value.id == mainAnimalId" class="check" v-if="value.user_animal" /></radio>
+										<image :src="value.user_animal ? value.image: value.empty_img" mode="aspectFit"></image>
+										<view v-if="value.lv_info.output" class="desc">每10秒/{{value.lv_info.output}}金豆</view>
+										<view v-if="value.lv_info.steal" class="desc">每日可偷{{value.lv_info.steal}}次</view>
+										<block v-if="type == 'secret'">
+											<view class="lv-up-desc">
+												需要{{value.scrap_name}}X{{value.need_scrap}}{{value.user_animal ? '升级': '解锁'}}
+											</view>
+										</block>
+									</label>
+									<view class="up" :class="{'up-able': value.up_able}" @tap="getAnimalInfo(value.id)" v-if="value.user_animal">
+										{{value.up_able ? '可升级': '升级宠物'}}
+									</view>
+									<block v-else>
+										<view v-if="type== 'twelve'">
+											<view class="up" @tap="$app.goPage('/pages/manor/manor?modal=goCall')">
+												去召唤
+											</view>
 										</view>
 										<block v-else>
-											<view v-if="type== 'twelve'">
-												<view class="up" @tap="$app.goPage('/pages/manor/manor?modal=goCall')">
-													去召唤
-												</view>
+											<view class="up" @tap="unlock(value)" v-if="value.exchanged">
+												解锁
 											</view>
 											<block v-else>
-												<view class="up" @tap="unlock(value)" v-if="value.exchanged">
-													解锁
+												<view v-if='value.type == "SUPER_SECRET"' class="up" @tap="$app.goPage('/pages/manor/panacea_task')">
+													去收集
 												</view>
-												<view class="up" @tap="$app.goPage('/pages/lucky/lucky')" v-else>
+												<view v-else class="up" @tap="$app.goPage('/pages/lucky/lucky')">
 													去收集
 												</view>
 											</block>
 										</block>
-									</block>
-									
-									<block v-if="type=='all'">
-										<label>
-											<view class="lv">Lv.{{value.user_animal ? value.user_animal.level: 1}}</view>
-											<view class="name">{{value.name}}</view>
-											<radio :value="value.id" :checked="value.id == mainAnimalId" class="check" v-if="value.user_animal" /></radio>
-											<image :src="value.user_animal ? value.image: value.empty_img" mode="aspectFit"></image>
-											<view v-if="value.lv_info.output" class="desc">每10秒/{{value.lv_info.output}}金豆</view>
-											<view v-if="value.lv_info.steal" class="desc">每日可偷{{value.lv_info.steal}}次</view>
-										</label>
-										<view class="up" @tap="getAnimalInfo(value.id)" v-if="value.user_animal">
-											升级宠物
-										</view>
-										<view class="up" @tap="$app.goPage('/pages/manor/manor?modal=goCall')" v-else>
-											去召唤
-										</view>
-									</block>
-									<block v-if="type=='yet'">
-										<view class="lv">Lv.1</view>
-										<view class="name">{{value.name}}</view>
-										<image :src="value.empty_img" mode="aspectFit"></image>
-										<view v-if="value.lv_info.output" class="desc">每10秒/{{value.lv_info.output}}金豆</view>
-										<view v-if="value.lv_info.steal" class="desc">每日可偷{{value.lv_info.steal}}次</view>
-										<view class="up" @tap="unlock(value)" v-if="value.exchanged">
-											解锁
-										</view>
-										<view class="up" @tap="$app.goPage('/pages/lucky/lucky')" v-else>
-											去收集
-										</view>
-									</block>
-									<block v-if="type=='allready'">
-										<label>
-											<view class="lv">Lv.{{value.level}}</view>
-											<view class="name">{{value.animal.name}}</view>
-											<radio :checked="value.animal_id == mainAnimalId" :value="value.animal_id" class="check" /></radio>
-											<image :src="value.image" mode="aspectFit"></image>
-											<view v-if="value.lv_info.output" class="desc">每10秒/{{value.lv_info.output}}金豆</view>
-											<view v-if="value.lv_info.steal" class="desc">每日可偷{{value.lv_info.steal}}次</view>
-										</label>
-										<view class="up" @tap="getAnimalInfo(value.animal_id)">
-											升级宠物
-										</view>
 									</block>
 								</view>
 							</block>
@@ -238,7 +206,34 @@
 			<view class="modal-container">
 				<view class="title">{{animalInfo.animal.type == 'STAR_SECRET' ? animalInfo.animal.use_name: animalInfo.animal.name}}</view>
 				<view class="label flex-set">拥有{{animalInfo.animal.scrap_name}}：{{animalInfo.scrap_num}}个</view>
-				<image class="bg" :src="animalInfo.animal.type == 'STAR_SECRET' ? animalInfo.animal.use_image: animalInfo.animal.image" mode="widthFix"></image>
+				<view class="super_secret" v-if="animalInfo.animal.type == 'SUPER_SECRET'">
+					<image class="bg" :src="animalInfo.animal.use_image" mode="widthFix"></image>
+					<scroll-view scroll-y="true" class="scroll">
+						<view 
+							class="checkBtn" 
+							:key="ind" 
+							v-for="(ite, ind) in animalInfo.animal.image_group"  
+						>
+							<block v-if="ite.image.lock">
+								<btnComponent type='disable'>
+									<view class="lock-desc">
+										<view>Lv.{{ite.level}}  </view>
+										<image mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HMNbdHUu694DBUIbeljCsvwKJa64kv1roib7eLbQYPXkAsg9MDCiaiaak1PmZiaIVXvicZticfPcasO7pw/0"></image>
+									</view>
+								</btnComponent>
+							</block>
+							<block v-if="!ite.image.lock">
+								<btnComponent type='success' v-if="ite.image.url == animalInfo.animal.use_image">
+									Lv.{{ite.level}}  {{ite.image.name}}
+								</btnComponent>
+								<btnComponent type='default' v-else @tap="changeSuperImage(ite.level)">
+									Lv.{{ite.level}}  {{ite.image.name}}
+								</btnComponent>
+							</block>
+						</view>
+					</scroll-view>
+				</view>
+				<image v-else class="bg" :src="['STAR_SECRET'].indexOf(animalInfo.animal.type) > -1 ? animalInfo.animal.use_image: animalInfo.animal.image" mode="widthFix"></image>
 				<view class="row">
 					<view class="top">
 						<view class="left">当前等级 Lv.{{animalInfo.lv.level}}</view>
@@ -256,12 +251,11 @@
 				<view class="row" v-if="animalInfo.next_lv">
 					<view class="top">
 						<view class="left">下一等级 Lv.{{animalInfo.next_lv.level}}</view>
-						
 						<btnComponent type="fangde">
 							<view class="right flex-set" @tap="levelUp(animalInfo.animal.id)">
 								{{animalInfo.next_lv.number}}
-								<image 
-									class="img-s" 
+								<image
+									class="img-s"
 									:src="animalInfo.animal.scrap_img"
 								    mode="aspectFill">
 								</image>
@@ -313,6 +307,7 @@
 				rewardHasNew: false,
 				reward: [],
 				rewardPool: [],
+				animalListModel: null
 			};
 		},
 		onLoad(option) {
@@ -328,13 +323,15 @@
 						go_call,
 						go_supple
 					},
-					check_btn
+					check_btn,
+					animal_list_model
 				},
 			} = this.$app.getData('config');
 			this.callBtn = types;
 			this.goSupple = go_supple;
 			this.goCall = go_call;
-			this.checkBtn = check_btn;
+			this.checkBtn = check_btn;;
+			this.animalListModel = animal_list_model;
 			if (!this.type) this.type = this.checkBtn[0].type;
 			this.getAnimalList(this.type);
 		},
@@ -418,6 +415,22 @@
 					})
 					
 					this.$app.request(this.$app.API.ANIMAL_CHANGE_IMAGE, {}, res => {
+						this.$app.toast('更换成功');
+						this.getAnimalList(this.type);
+						this.$app.request(this.$app.API.ANIMAL_INFO, {animal_id: this.animalInfo.animal.id}, res => {
+							this.animalInfo = res.data;
+						})
+					})
+				})
+			},
+			changeSuperImage(lv) {
+				this.$app.modal(`确认更换灵宠形象么？`, () => {
+					uni.showLoading({
+						mask:true,
+						title:'更换中...'
+					})
+					
+					this.$app.request(this.$app.API.ANIMAL_CHANGE_SUPER_IMAGE, {level: lv}, res => {
 						this.$app.toast('更换成功');
 						this.getAnimalList(this.type);
 						this.$app.request(this.$app.API.ANIMAL_INFO, {animal_id: this.animalInfo.animal.id}, res => {
@@ -709,6 +722,31 @@
 							background-color: #962de0 !important;
 							color: white;
 						}
+						.model {
+							width: 100%;
+							height: 100%;
+							position: absolute;
+							transform: translate(-50%, -50%);
+							top: 50%;
+							left: 50%;
+							/* background-color: rgba(#000,0.1); */
+							background-color: rgba(#000000, 0.8);
+							color: white;
+							z-index: 9;
+							border-radius: 30rpx;
+							display: flex;
+							flex-direction: column;
+							image {
+								width: 80rpx;
+								height: 80rpx;
+								top: 20%;
+							}
+							.lock-desc {
+								margin-top: 45%;
+								padding: 10rpx 20rpx;
+								font-size: 24rpx;
+							}
+						}
 					}
 				}
 			}
@@ -896,45 +934,51 @@
 			}
 		}
 		
-		.lvup-modal-container {
-			color: #643107;
-			.btn {
-				font-size: 26rpx;
-				font-weight: 500;
+		.super_secret {
+			display: flex;
+			.scroll {
 				white-space: nowrap;
-				padding: 10rpx 20rpx !important;
-			}
-			.btn-wrap {
-				margin: 25rpx 0!important;
-				justify-content: space-around!important;
-			}
-			
-			.lv-info {
-				display: flex;
-				margin: 20rpx 0;
-				justify-content: space-around;
-				// width: 560rpx;
-				.current-lv,.next-lv {
-					display: flex;
-					flex-direction: column;
-					justify-content: center;
-					.lv-number {
-						font-size: 30rpx;
-					}
-					.lv-desc {
-						font-size: 22rpx;
+				width: 250rpx;
+				height: 250rpx;;
+				padding: 0 20rpx;
+				
+				.check-btn {
+					margin-bottom: 20rpx;
+					height: 60rpx;
+					line-height: 60rpx;
+					text-align: center;
+					background-color: white;
+					color: #007AFF;
+					font-size: 24rpx;
+					white-space: nowrap;
+					border-radius: 50rpx;
+					box-shadow: 0 2upx 4upx rgba($color: #007AFF, $alpha: 0.3);
+					.btn {
+						padding: 0;
 					}
 				}
-				.middle {
-					align-self: center;
-					image {
-						width: 100rpx;
-						height: 60rpx;
+				.checkBtn {
+					margin-bottom: 20rpx;
+					height: 60rpx;
+					line-height: 60rpx;
+					.lock-desc {
+						display: flex;
+						justify-content: space-between;
+						image {
+							width: 40rpx;
+							height: 40rpx;
+							align-self: center;
+							margin-left: 20rpx;
+						}
 					}
+				}
+				.active {
+					background-color: #007AFF !important;
+					color: white !important;
+					box-shadow: 0 2upx 4upx rgba($color: white, $alpha: 0.3);
 				}
 			}
 		}
-		
 		
 		.modal-container {
 			display: flex;

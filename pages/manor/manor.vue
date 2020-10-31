@@ -284,6 +284,7 @@
 				</view>
 			</view>
 		</modalComponent>
+		<!-- 宝箱 -->
 		<modalComponent v-if="modal == 'box'" headimg="/static/image/icon/lx.png" title="宝箱" @closeModal="modal=''">
 			<view class="box-container">
 				<view class="title">我宝箱内的宠物碎片</view>
@@ -340,7 +341,22 @@
 				</view>
 			</view>
 		</modalComponent>
-		</view>
+	
+		<!-- 酋长回馈 -->
+		<modalComponent v-if="modal == 'doubleElevenReward'" type="center" title="提示" @closeModal="modal=''">
+			<view class="modal-container flowerreward-modal-container">
+				<view class="title" style="margin-bottom: 40rpx;">双十一酋长回馈</view>
+				<view class="flex-set" v-if="doubleElevenReward.spend_lucky">庄园上线后，你使用了{{doubleElevenReward.spend_lucky}}张抽奖券</view>
+				<view class="coin-count" v-if="doubleElevenReward.scrap">你获得<text style="color: #FC6257;padding: 0 10rpx;">{{doubleElevenReward.scrap}}</text>个幸运碎片</view>
+				<view class="flex-set" v-if="doubleElevenReward.scrap_reward">现在获得{{doubleElevenReward.scrap_reward}}张幸运碎片补偿</view>
+				<view class="btn-wrap">
+					<btnComponent type="default">
+						<view class="btn" @tap="modal=''">收下了</view>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent>
+	</view>
 </template>
 
 <script>
@@ -411,7 +427,8 @@
 					coin: 0,
 					panacea: 0
 				},
-				nationalReward: null
+				nationalReward: null,
+				doubleElevenReward: null,
 			};
 		},
 		onLoad(option) {
@@ -497,7 +514,6 @@
 						this.cleanTryTimer();
 					} else {
 						const time = this.$app.timeGethms(diff);
-						
 						this.tryTimeDetail = {
 							full: endTime,
 							d: time.day,
@@ -586,7 +602,8 @@
 						try_background,
 						call_type,
 						box_log,
-						max_output_hours
+						max_output_hours,
+						double_eleven_reward
 					} = res.data;
 					this.manor = manor;
 					this.output = parseInt(output);
@@ -612,6 +629,10 @@
 					if (national_reward) {
 						this.nationalReward = national_reward;
 						this.modal = 'nationalReward';
+					}
+					if (double_eleven_reward) {
+						this.doubleElevenReward = double_eleven_reward;
+						this.modal = 'doubleElevenReward';
 					}
 					if (!this.addCountTimer) this.setTimer();
 					let temp = this.$app.getData('temp');
