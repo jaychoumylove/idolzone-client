@@ -33,7 +33,7 @@
 				</view>
 			</view>
 			
-			
+
 			<!-- 列表 -->
 			<view class="rank-list-container">
 				<view class="loading flex-set" v-if="rankloading.length">
@@ -80,6 +80,47 @@
 				</view>
 			</view>
 		</view>
+		
+		<view class="my-rank rank-list-container" v-if="true">
+			<view class="rank-list-item">
+				<block v-if="my.rank">
+					<view class="num" v-if="my.rank < 4" :class="{first: my.rank == 1, second: my.rank == 2, third: my.rank == 3}"></view>
+					<view class="num flex-set other" v-if="my.rank > 3" :class="{ten: my.rank < 11}">{{my.rank}}</view>
+					<view class="num flex-set other" v-if="my.rank == 'no'">no</view>
+				</block>
+				<view class="num flex-set other" v-else>no</view>
+				<view class='avatar-wrap'>
+					<image class="avatar" :src="my.user.avatarurl||$app.getData('userInfo').avatarurl||$app.getData('AVATAR')" mode="aspectFill"></image>
+					<image class="headwear position-set" :src="my.headwear&&my.headwear.img" mode=""></image>
+				</view>
+				<view class="content">
+					<view class="top">
+						<view class="name text-overflow">{{my.user.nickname||$app.getData("userInfo").nickname||$app.getData('NICKNAME')}}</view>
+						<view class="star flex-set text-overflow">{{my.star.name||$app.getData("userStar").name||""}}</view>
+					</view>
+					<view class="bottom" v-if="btnGroup[currentType].value == 'flower_time'">
+						累计邀请: {{$app.formatNumber(my.count||0)}}人
+					</view>
+					<view class="bottom" v-if="btnGroup[currentType].value == 'pk'">
+						累计贡献: {{$app.formatNumber(my.count||0)}}人气
+					</view>
+					<view class="bottom" v-if="btnGroup[currentType].value == 'flower'">
+						累计贡献: {{$app.formatNumber(my.count||0)}}鲜花
+					</view>
+					<view class="bottom" v-if="btnGroup[currentType].value == 'newguy'">
+						累计贡献: {{$app.formatNumber(my.count||0)}}人气
+					</view>
+				</view>
+				<view class="right">
+					<block v-if="my.num">
+						<view class="desc">累计获得</view>
+						<image :src="my.img" mode="aspectFit"></image>
+						<view class="desc-num">X{{my.num||0}}</view>
+					</block>
+				</view>
+			</view>
+		</view>
+				
 	</view>
 </template>
 
@@ -106,6 +147,7 @@
 				topHeader: {},
 				showing: false,
 				rankloading: [],
+				my: {}, // 用于记录我的排名
 			}
 		},
 		onLoad(option) {
@@ -116,6 +158,7 @@
 		onShow() {
 			this.showing = true;
 			this.getRankList(1);
+			this.getMyRankInfo();
 		},
 		onReachBottom() {
 			this.pager.page = this.pager.page + 1;
@@ -135,8 +178,19 @@
 				this.rankloading = loading;
 				this.pager.page = 1;
 				this.end = false;
+				this.my = {};
 				this.rankList = [];
 				this.getRankList(0);
+				this.getMyRankInfo();
+			},
+			getMyRankInfo() {
+				const data = {
+					type: this.currentType,
+					rank_type: this.currentBtnType,
+				};
+				this.$app.request(this.$app.API.PAGE_ACHIEVEMENT_MY_RANK, data, res => {
+					this.my = res.data;
+				})
 			},
 			getRankList(config) {
 				if (this.end) {
@@ -171,13 +225,7 @@
 						this.btnGroup = config.rank_group;
 						this.topHeader = config.top_header;
 					}
-					let list = res.data.list.map(i => {
-						if (this.btnGroup[this.currentType].value == 'flower_time') {
-							const time = this.$app.timeGethms(i.count);
-							i.timer = time;
-						}
-						return i;
-					});
+					let list = res.data.list;
 					this.rankList = this.pager.page == 1 ? list: this.rankList.concat(list);
 					let loading = this.rankloading;
 					if (loading.length) {
@@ -253,8 +301,137 @@
 				}
 			}
 		}
+		.my-rank {
+			position: fixed;
+			width: 100%;
+			background-color: rgba(247,245,254,1);
+			padding: unset!important;
+			bottom: 0;
+		}
+		.rank-list-container {
+			padding: 130rpx 0 10rpx;
+			.empty,.loading,.end {
+				margin: 20rpx 0;
+			}
+			.rank-list-item {
+				display: flex;
+				align-items: center;
+				background-color: #FFF;
+				margin: 20upx 30upx;
+				box-shadow: 0 2upx 16upx rgba(#999, .3);
+				border-radius: 30upx;
+				overflow: hidden;
+				padding: 0 20rpx;
+				// justify-content: space-around;
+				.num {
+					width: 80rpx;
+					height: 60rpx;
+				}
+				.first,.second,.third {
+					background-position: center center;
+					background-repeat: no-repeat;
+					background-size: 50rpx 40rpx;
+				}
+				.first {
+					background-image: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EVmf6wUAMKg0xuNYSRD53ZKwFjgKJrGLYZa1g2egHV5qcHfIgqsjygD74JMjHtAic8zFica0ce4wwg/0");
+				}
+				.second {
+					background-image: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EVmf6wUAMKg0xuNYSRD53ZcGVq5JGWjmibjgjAxIjm5o6Bfqs9a7NZFDnhuAOZ30SzolLvJmh5B8g/0");
+				}
+				.third {
+					background-image: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EVmf6wUAMKg0xuNYSRD53ZSkJAzIEiaCBOwo6hicqI7jtfhPz8T3rWPkv6ib45bY0xj8qlMBuX7ibzWg/0");
+				}
+				.other {
+					text-shadow: -1rpx 0 black, 0 1rpx black, 1rpx 0 black, 0 -1rpx black;
+					color: white;
+				}
+				.ten {
+					font-weight: 500;
+					font-size: 24px;
+				}
+				
+				.avatar-wrap {
+					position: relative;
+					
+					.avatar {
+						width: 80upx;
+						height: 80upx;
+						border-radius: 50%;
+					}
+				
+					.headwear {
+						width: 150%;
+						height: 150%;
+					}
+				}
+		
+				.content {
+					padding: 20upx;
+					line-height: 1.6;
+					max-width: 470upx;
+		
+					.top {
+						display: flex;
+						align-items: center;
+		
+						.name {
+							font-size: 15px;
+							color: #000;
+							max-width: 160rpx;
+						}
+		
+						.star {
+							border-radius: 20upx;
+							background-color: #82c7d4;
+							color: #FFF;
+							padding: 0 10upx;
+							margin: 0 10upx;
+							font-size: 22upx;
+						}
+					}
+				}
+				
+				.right {
+					// width: 200rpx;
+					margin-left: auto;
+					display: flex;
+					// justify-content: space-around;
+					.desc {
+						white-space: nowrap;
+						align-self: center;
+						color: #A5A5A5;
+						font-size: 20rpx;
+					}
+					.desc-num {
+						white-space: nowrap;
+						align-self: flex-end;
+						color: #EC7934;
+						font-size: 24rpx;
+					}
+					image {
+						width: 60upx;
+						height: 60upx;
+					}
+				}
+				.bottom {
+					display: flex;
+					align-items: center;
+					font-size: 20upx;
+					color: rgba(black, 0.4);
+					.hot-count {
+						color: $text-color-1;
+						margin-right: 4upx;
+					}
+					.icon-heart {
+						width: 24upx;
+						height: 24upx;
+					}
+				}
+			}
+		}
+	
 		.main-container {
-			margin: 60rpx 20rpx 20rpx;
+			margin: 60rpx 20rpx 180rpx;
 			background-color: rgba(247,245,254,1);
 			border-radius:30px;
 			position: relative;
@@ -313,128 +490,6 @@
 						background-color: white;
 						border-top-left-radius: 20rpx;
 						border-top-right-radius: 20rpx;
-					}
-				}
-			}
-			
-			.rank-list-container {
-				padding: 130rpx 0 10rpx;
-				.empty,.loading,.end {
-					margin: 20rpx 0;
-				}
-				.rank-list-item {
-					display: flex;
-					align-items: center;
-					background-color: #FFF;
-					margin: 20upx 30upx;
-					box-shadow: 0 2upx 16upx rgba(#999, .3);
-					border-radius: 30upx;
-					overflow: hidden;
-					padding: 0 20rpx;
-					// justify-content: space-around;
-					.num {
-						width: 80rpx;
-						height: 60rpx;
-					}
-					.first,.second,.third {
-						background-position: center center;
-						background-repeat: no-repeat;
-						background-size: 50rpx 40rpx;
-					}
-					.first {
-						background-image: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EVmf6wUAMKg0xuNYSRD53ZKwFjgKJrGLYZa1g2egHV5qcHfIgqsjygD74JMjHtAic8zFica0ce4wwg/0");
-					}
-					.second {
-						background-image: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EVmf6wUAMKg0xuNYSRD53ZcGVq5JGWjmibjgjAxIjm5o6Bfqs9a7NZFDnhuAOZ30SzolLvJmh5B8g/0");
-					}
-					.third {
-						background-image: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EVmf6wUAMKg0xuNYSRD53ZSkJAzIEiaCBOwo6hicqI7jtfhPz8T3rWPkv6ib45bY0xj8qlMBuX7ibzWg/0");
-					}
-					.other {
-						text-shadow: -1rpx 0 black, 0 1rpx black, 1rpx 0 black, 0 -1rpx black;
-						color: white;
-					}
-					.ten {
-						font-weight: 500;
-						font-size: 24px;
-					}
-					
-					.avatar-wrap {
-						position: relative;
-						
-						.avatar {
-							width: 80upx;
-							height: 80upx;
-							border-radius: 50%;
-						}
-					
-						.headwear {
-							width: 150%;
-							height: 150%;
-						}
-					}
-			
-					.content {
-						padding: 20upx;
-						line-height: 1.6;
-						max-width: 470upx;
-			
-						.top {
-							display: flex;
-							align-items: center;
-			
-							.name {
-								font-size: 15px;
-								color: #000;
-								max-width: 160rpx;
-							}
-			
-							.star {
-								border-radius: 20upx;
-								background-color: #82c7d4;
-								color: #FFF;
-								padding: 0 10upx;
-								margin: 0 10upx;
-								font-size: 22upx;
-							}
-						}
-					}
-					
-					.right {
-						// width: 200rpx;
-						margin-left: auto;
-						display: flex;
-						// justify-content: space-around;
-						.desc {
-							white-space: nowrap;
-							align-self: center;
-							color: #A5A5A5;
-							font-size: 20rpx;
-						}
-						.desc-num {
-							white-space: nowrap;
-							align-self: flex-end;
-							color: #EC7934;
-							font-size: 24rpx;
-						}
-						image {
-							width: 60upx;
-							height: 60upx;
-						}
-					}
-					.bottom {
-						display: flex;
-						align-items: center;
-						font-size: 20upx;
-						color: rgba(black, 0.4);
-						.hot-count {
-							color: $text-color-1;
-							margin-right: 4upx;
-						}
-						.icon-heart {
-							width: 24upx;
-							height: 24upx;
-						}
 					}
 				}
 			}
