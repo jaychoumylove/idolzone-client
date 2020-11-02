@@ -239,6 +239,16 @@
 						uni.hideLoading();
 						this.showing = false;
 					}
+				}, 'POST', true, res => {
+					let loading = this.rankloading;
+					if (loading.length) {
+						loading.pop();
+						this.rankloading = loading;
+					}
+					if (this.showing) {
+						uni.hideLoading();
+						this.showing = false;
+					}
 				})
 			},
 		}
