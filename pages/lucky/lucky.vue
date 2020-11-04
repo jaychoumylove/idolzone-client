@@ -54,31 +54,40 @@
 				<view class="charge-prize" v-if="sumPaid">
 					<view class="item" v-for="(item, index) in sumPaid" :key="index">
 						<view class="card">
-							<view style="margin: 0 50upx;">
+							<view style="width: 50%;" v-for="(ite, ind) in item.reward" :key="ind">
 								<view style="display: flex;flex-direction: column;">
 									<view class="lable">
-										<view v-for="(ite, ind) in item.reward" :key="ind">
+										<view>
 											{{ite.type == 'currency' ? '领': ''}}
 											{{$app.formatNumber(ite.number || 0)}}
 											{{ite.type == 'prop'&&ite.key_name&&ite.key_name=="lucky_draw" ? '张': ''}}
+											{{ite.type == 'user_ext'&&ite.key=="scrap" ? '个': ''}}
 										</view>
 									</view>
 									<view class="image-group">
-										<block v-for="(ite, ind) in item.reward" :key="ind">
-											<image v-if="item.double&&ite.image_o" mode="aspectFit" :src="ite.image_o"></image>
-											<image v-else mode="aspectFit" :src="ite.image"></image>
-										</block>
+										<image v-if="item.double&&ite.image_o" mode="aspectFit" :src="ite.image_o"></image>
+										<image v-else mode="aspectFit" :src="ite.image"></image>
 									</view>
 								</view>
 							</view>
 						</view>
+						
 						<view class="btn">
-							<btnComponent :type="my.sumPaid.count >= item.count&&my.sumPaid.is_settle == 0 ? 'success': 'default'" @tap="getPaidReward(item)">
-								<view class="get-bg-bm flex-set" :class="my.sumPaid.count >= item.count ? '': 'normal-bg-bm'">
-									<text v-if="my.sumPaid.count >= item.count">可领取</text>
-									<text v-else>补充{{$app.formatNumber(my.sumPaid.count || 0)}}/{{$app.formatNumber(item.count || 0)}}领取</text>
-								</view>
-							</btnComponent>
+							<block v-if="my.sumPaid.is_settle == 0">
+								<btnComponent :type="my.sumPaid.count >= item.count ? 'success': 'default'" @tap="getPaidReward(item)">
+									<view class="get-bg-bm flex-set" :class="my.sumPaid.count >= item.count ? '': 'normal-bg-bm'">
+										<text v-if="my.sumPaid.count >= item.count">可领取</text>
+										<text v-else>补充{{$app.formatNumber(my.sumPaid.count || 0)}}/{{$app.formatNumber(item.count || 0)}}领取</text>
+									</view>
+								</btnComponent>
+							</block>
+							<block v-else>
+								<btnComponent type="disable">
+									<view class="get-bg-bm flex-set">
+										<text>今日已领取</text>
+									</view>
+								</btnComponent>
+							</block>
 						</view>
 					</view>
 				</view>
@@ -105,13 +114,21 @@
 				</view>
 				
 				<view class="reamin">
-					<view v-if="lrtext.multiple_draw ? lrtext.multiple_draw.able: false">
-						<btnComponent type="default" @tap="fiftyStart">
-							<view class="get-bg-bm flex-set settle-bg-bm">
-								<text>{{lrtext.multiple_draw ? lrtext.multiple_draw.btn_text: '五十连抽 送幸运碎片'}}</text>
-							</view>
-						</btnComponent>
-					</view>
+					<block v-for="(item,index) in lrtext.multiple_draw" :key="index">
+						<view v-if="item.able">
+							<btnComponent type="default" @tap="startMore(item.multiple,index)" v-if="item.multiple!=1">
+								<view class="get-bg-bm flex-set settle-bg-bm">
+									<text>{{item.btn_text ? item.btn_text: '抽取奖励'}}</text>
+								</view>
+							</btnComponent>
+							<btnComponent type="default" @tap="lotteryStart" v-if="item.multiple==1">
+								<view class="get-bg-bm flex-set settle-bg-bm">
+									<text>{{item.btn_text ? item.btn_text: '抽取奖励'}}</text>
+								</view>
+							</btnComponent>
+						</view>
+					</block>
+					
 					<view v-if="lrtext.multiple_exchange ? lrtext.multiple_exchange.able: false">
 						<btnComponent type="default" @tap="openFiftyExchange">
 							<view class="get-bg-bm flex-set settle-bg-bm">
@@ -119,11 +136,17 @@
 							</view>
 						</btnComponent>
 					</view>
-					<view class="bg-b">
+					<!-- <view class="bg-b">
 						<view class="bg">
 							 我的抽奖券：{{my_lucky_num || 0}}张
 						</view>
-					</view>
+					</view> -->
+				</view>
+				
+				<view class="my-info">
+					<view>灵丹：{{$app.getData('userCurrency').stone || 0}}</view>
+					<view>抽奖券：{{my_lucky_num || 0}}</view>
+					<view>幸运碎片：{{myscrap || 0}}</view>
 				</view>
 				
 				<view class="notice" v-if="rewardList.length">
@@ -330,6 +353,41 @@
 				</view>
 			</view>
 		</modalComponent>
+		
+		<!-- 连抽抽奖 结果 -->
+		<modalComponent v-if="modal == 'lotteryMoreReward'" type="center" title="提示" @closeModal="modal=''">
+			<view class="fifty-container">
+				<view class="title">恭喜你连抽获得</view>
+				<view class="rewards">
+					<view class="reward-item flex-set" v-for="(item, index) in lotteryMoreReward.choose" :key="index">
+					<!-- <view class="reward-item flex-set" v-for="(item, index) in lucky_draw.reward" :key="index" v-if='index < 4'> -->
+						<view class="times">
+							<view>
+								X{{item.times}}
+								<!-- X{{item.weights}} -->
+							</view>
+						</view>	
+						<image class="icon" mode="aspectFit" v-if="item.image" :src="item.image"></image>
+						<block v-else>
+							<image v-if="item.key == 'panacea'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0"></image>
+							<image v-if="item.key == 'scrap'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GXvpB3e5ibvGiadFqIOl7vceee3ribmebyLp4YUkEa7my8VjaX641mQdlnTgrXCl0xWLSIicQMKicKb3Q/0"></image>
+							<image v-if="item.key == 'stone'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERibO7VvqicUHiaSaSa5xyRcvuiaOibBLgTdh8Mh4csFEWRCbz3VIQw1VKMCQ/0"></image>
+							<image v-if="item.key == 'coin'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"></image>
+							<image v-if="item.key == 'flower'" class="icon" mode="aspectFit" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERziauZWDgQPHRlOiac7NsMqj5Bbz1VfzicVr9BqhXgVmBmOA2AuE7ZnMbA/0"></image>
+						</block>
+						<view class="name">{{item.name}}x{{$app.formatNumber(item.number || 0)}}</view>
+					</view>
+				</view>
+				
+				<view class="btn-wrap">
+					<btnComponent type="success">
+						<view class="btn flex-set" @tap="modal=''">
+							确认收到
+						</view>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent>
 		<!-- 幸运抽奖券兑换12生肖 -->
 		<modalComponent v-if="modal == 'exchangeAnimal'" type="center" title="提示" @closeModal="modal=''">
 			<view class="modal-container exchange-modal-container">
@@ -416,6 +474,7 @@
 				sumPaid: [],
 				dayPaid: {},
 				my_lucky_num: 0,
+				myscrap: 0,
 				lucky_draw: null,
 				my: {
 					sumPaid: {},
@@ -431,6 +490,9 @@
 				fiftyReward: {
 					choose: [],
 					special: null
+				},
+				lotteryMoreReward: {
+					choose: [],
 				},
 				// 国庆节抽奖券兑换12生肖
 				exchangeAnimalList: null,
@@ -491,6 +553,7 @@
 					} else {
 						this.my_lucky_num = res.data.my_num;
 					}
+					this.myscrap = res.data.myscrap;
 					this.lucky_draw = res.data.lucky_draw;
 				})
 			},
@@ -550,6 +613,7 @@
 				if (scrap.has_number < scrap.count) {
 					return this.$app.toast('碎片不够哦');
 				}
+
 				if (scrap.type=='REDIRECT') {
 					return this.$app.goPage(scrap.extra.path);
 				}
@@ -608,6 +672,24 @@
 					setTimeout(() => {
 						uni.hideLoading();
 						this.modal = 'fiftyReward';
+					}, 100)
+					this.refresh();
+				})
+			},
+			startMore(times,index){
+				// if (this.my_lucky_num < times) {
+				// 	return this.$app.toast('幸运抽奖券不够哦');
+				// }
+				// uni.showLoading({
+				// 	mask:true,
+				// 	title:"抽奖中..."
+				// })
+				this.$app.request(this.$app.API.LUCKY_DRAW_START_MORE, {times:times,index:index}, res => {
+					const {choose} = res.data;
+					this.lotteryMoreReward.choose = choose;
+					setTimeout(() => {
+						uni.hideLoading();
+						this.modal = 'lotteryMoreReward';
 					}, 100)
 					this.refresh();
 				})
@@ -823,9 +905,13 @@
 						margin-top: 25upx;
 						.card{
 							width: 320upx;
-							height: 180upx;
-							background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FBlImEL23YOTuiciaSo0JyAju3ncCTQTVDWzVhEtJR7JkTUnYvOGGTx4cKxibKttkUQhs3UCn3qcxxA/0") no-repeat center center;
+							height: 400upx;
+							background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HTAhDrUtvGwvSvcpPJkEEJ7q8ufJRTWKPtBKWrN4GNibXutkPgPfXs6dgREseiaJpcnM6feYYmOFEA/0") no-repeat center center;
 							background-size: cover;
+							display: flex;
+							flex-wrap: wrap;
+							padding: 30rpx;
+
 							.lable,.image-group {
 								display: flex;
 								flex-direction: row;
@@ -989,6 +1075,16 @@
 							color: white;
 							font-size:24upx;
 						}
+					}
+				}
+				
+				.my-info{
+					padding: 20rpx 40rpx 0;
+					display: flex;
+					flex-wrap: wrap;
+					view{
+						flex: 1 0%;
+						font-size: 24rpx;
 					}
 				}
 				.notice {
