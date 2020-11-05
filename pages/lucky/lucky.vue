@@ -144,12 +144,12 @@
 				</view>
 				
 				<view class="my-info">
-					<view>灵丹：{{$app.getData('userCurrency').stone || 0}}</view>
+					<view>灵丹：{{mypanacea || 0}}</view>
 					<view>抽奖券：{{my_lucky_num || 0}}</view>
 					<view>幸运碎片：{{myscrap || 0}}</view>
 				</view>
 				
-				<view class="notice" v-if="rewardList.length">
+				<!-- <view class="notice" v-if="rewardList.length">
 					<image class="notice-icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPXtMTFLV2ydAKSiawiapkia2icuuW67SfcBKp3mbQWicrWJb4rJskIWFuhQ/0"></image>
 					<view class="notice-info">
 						<swiper 
@@ -174,7 +174,7 @@
 							</swiper-item>
 						</swiper>
 					</view>
-				</view>
+				</view> -->
 			</view>
 		</view>
 		
@@ -475,6 +475,7 @@
 				dayPaid: {},
 				my_lucky_num: 0,
 				myscrap: 0,
+				mypanacea: 0,
 				lucky_draw: null,
 				my: {
 					sumPaid: {},
@@ -554,6 +555,7 @@
 						this.my_lucky_num = res.data.my_num;
 					}
 					this.myscrap = res.data.myscrap;
+					this.mypanacea = res.data.mypanacea;
 					this.lucky_draw = res.data.lucky_draw;
 				})
 			},

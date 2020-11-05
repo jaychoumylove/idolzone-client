@@ -233,7 +233,7 @@
 						</view>
 					</scroll-view>
 				</view>
-				<image v-else class="bg" :src="['STAR_SECRET'].indexOf(animalInfo.animal.type) > -1 ? animalInfo.animal.use_image: animalInfo.animal.image" mode="widthFix"></image>
+				<image v-else class="bg" :src="['STAR_SECRET']==animalInfo.animal.type ? animalInfo.animal.use_image: animalInfo.animal.image" mode="widthFix"></image>
 				<view class="row">
 					<view class="top">
 						<view class="left">当前等级 Lv.{{animalInfo.lv.level}}</view>

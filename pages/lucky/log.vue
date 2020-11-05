@@ -45,6 +45,7 @@
 				<view class="content ">
 					<view class="top" v-if="item.type == 'SINGLE'">{{item.item.number > 0 ? '获得': '失去'}}{{item.item.name}}</view>
 					<view class="top" v-if="item.type == 'MULTIPLE'">{{$app.getData('config').recharge_lucky.draw_log.multiple}}</view>
+					<view class="top" v-if="item.type == 'MULTIPLE_MORE'">{{item.title}}</view>
 					<view class="top" v-if="item.type == 'EXCHANGE'">{{item.title}}</view>
 					<view class="bottom">{{item.create_time}}</view>
 				</view>
@@ -56,7 +57,7 @@
 						<image v-if="item.item.image" :src="item.item.image" mode="widthFix"></image>
 						<view class="add-count add">{{item.item.number > 0 ? '+' : ''}}{{$app.formatNumber(item.item.number || 0)}}</view>
 					</view>
-					<view class="right-item" v-if="['MULTIPLE', 'EXCHANGE'].indexOf(item.type) > -1" v-for="(ite, ind) in item.item" :key="ind">
+					<view class="right-item" v-if="['MULTIPLE', 'MULTIPLE_MORE', 'EXCHANGE'].indexOf(item.type) > -1" v-for="(ite, ind) in item.item" :key="ind">
 						<image v-if="ite.image" :src="ite.image" mode="widthFix"></image>
 						<view class="add-count add">{{ite.number > 0 ? '+' : ''}}{{$app.formatNumber(ite.number || 0)}}</view>
 					</view>
