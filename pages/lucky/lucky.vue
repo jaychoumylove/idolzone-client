@@ -73,7 +73,7 @@
 						</view>
 						
 						<view class="btn">
-							<block v-if="my.sumPaid.is_settle == 0">
+							<block v-if="item.is_settle == 0">
 								<btnComponent :type="my.sumPaid.count >= item.count ? 'success': 'default'" @tap="getPaidReward(item)">
 									<view class="get-bg-bm flex-set" :class="my.sumPaid.count >= item.count ? '': 'normal-bg-bm'">
 										<text v-if="my.sumPaid.count >= item.count">可领取</text>
