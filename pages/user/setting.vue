@@ -28,7 +28,7 @@
 		<modalComponent v-if="modal == 'exit'" type="center center-top" title="提示" @closeModal="modal=''">
 			<view class="confirm-modal-container flex-set">
 				<view class="title flex-set">退圈</view>
-				<view class="desc flex-set">退圈后等级、贡献、粉丝团、徽章(圈子相关数据)将清零。再次退圈需要90天之后才能操作</view>
+				<view class="desc flex-set">退圈后等级、贡献、粉丝团、徽章(圈子相关数据)将清零，退圈后无法接收和赠送他人鲜花钻石。再次退圈需要90天之后才能操作</view>
 				<view class="input">
 					<input type="number" @input="setConfrimId" placeholder="输入你的ID确认退圈" />
 				</view>
