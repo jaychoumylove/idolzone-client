@@ -53,7 +53,7 @@
 				</view>
 				<view class="charge-prize" v-if="sumPaid">
 					<view class="item" v-for="(item, index) in sumPaid" :key="index">
-						<view class="card">
+						<view class="card" :style="'background: url('+item.card_img+'); background-size: 100% 100%;'">
 							<view style="width: 50%;" v-for="(ite, ind) in item.reward" :key="ind">
 								<view style="display: flex;flex-direction: column;">
 									<view class="lable">
@@ -74,7 +74,7 @@
 						
 						<view class="btn">
 							<block v-if="item.is_settle == 0">
-								<btnComponent :type="my.sumPaid.count >= item.count ? 'success': 'default'" @tap="getPaidReward(item)">
+								<btnComponent :type="my.sumPaid.count >= item.count ? 'success': 'default'" @tap="getPaidReward(item,index)">
 									<view class="get-bg-bm flex-set" :class="my.sumPaid.count >= item.count ? '': 'normal-bg-bm'">
 										<text v-if="my.sumPaid.count >= item.count">可领取</text>
 										<text v-else>补充{{$app.formatNumber(my.sumPaid.count || 0)}}/{{$app.formatNumber(item.count || 0)}}领取</text>
@@ -185,8 +185,30 @@
 						{{animal_text.title || ''}}
 					</view>
 				</view>
+				<view class="right-tip" style="top: 3% !important;" @tap="$app.goPage('/pages/manor/log')">
+					<view class="flex-set get-btn">
+						我的兑换
+					</view>
+				</view>
 				<view class="tip flex-set">
 					<view class="tip-desc">{{animal_text.desc || ''}}</view>
+				</view>
+				<view class="scrap-exchange" v-if="lrtext.scrap_exchange">
+					<view class="item">
+						<image class="panacea" :src="lrtext.scrap_exchange.rewards[0].image" mode="widthFix"></image>
+						<view class="">x{{lrtext.scrap_exchange.rewards[0].number}}</view>
+					</view>
+					<view style="font-size: 40rpx; font-weight: bold;">+</view>
+					<view class="item">
+						<image class="scrap" :src="lrtext.scrap_exchange.rewards[1].image" mode="widthFix"></image>
+						<view class="">x{{lrtext.scrap_exchange.rewards[1].number}}</view>
+					</view>
+					<view class="item">
+						<btnComponent type='default'>
+							<view class="flex-set" @tap="exchangeMore()" style="width: 180upx;height: 60upx;font-size: 28rpx;">{{lrtext.scrap_exchange.conditions.number}}张兑换</view>
+							
+						</btnComponent>
+					</view>
 				</view>
 				<view class="charge-prize">
 					<block v-for="(item, index) in exchangeAnimalList" :key="index">
@@ -559,7 +581,7 @@
 					this.lucky_draw = res.data.lucky_draw;
 				})
 			},
-			getPaidReward(item) {
+			getPaidReward(item,index = 0) {
 				if (item.type == 'DAY') {
 					if (this.my.dayPaid.is_settle > 0) {
 						return;
@@ -571,6 +593,23 @@
 				if (item.type == 'SUM') {
 					if (this.my.sumPaid.count < item.count) {
 						return this.modal = 'goRecharge';
+					}
+					if (this.my.sumPaid.count > item.count) {
+						if(this.sumPaid[index+1] && this.my.sumPaid.count>=this.sumPaid[index+1].count && this.sumPaid[index+1].is_settle==0){
+							this.$app.modal(`确认领取么，领取哪个档次奖励就会扣除相应补充数值，您当前领取的不是最高档次奖励？`, () => {
+								this.$app.modal(`再次确认，您确定不领取`+this.sumPaid[index+1].count+`的档次奖励吗？`, () => {
+									uni.showLoading({
+										mask:true,
+										title: "领取中"
+									})
+									this.$app.request(this.$app.API.USER_PAID_SETTLE, {paid: item.id}, res => {
+										this.$app.toast('已领取', 'success');
+										this.refresh()
+									})
+								})
+							})
+							return ;
+						}
 					}
 				}
 				uni.showLoading({
@@ -585,6 +624,20 @@
 			openExchangeAnimalModal(animal) {
 				this.exchangeCurrentAnimal = animal;
 				this.modal = 'exchangeAnimal';
+			},
+			exchangeMore(){
+				this.$app.modal(`确认用20张抽奖券兑换么？`, () => {
+					uni.showLoading({
+						mask:true,
+						title:'兑换中...'
+					})
+					
+					this.$app.request(this.$app.API.LUCKY_DRAW_EXCHANGE_MORE, {}, res => {
+						
+						this.$app.toast('兑换成功','succese');
+						this.refresh();
+					})
+				})
 			},
 			exchangeAnimalAction(item) {
 				// 国庆中秋兑换12生肖
@@ -897,6 +950,27 @@
 						text-align: center;
 					}
 				}
+				.scrap-exchange{
+					display: flex;
+					flex-direction: row;
+					flex-wrap: wrap;
+					justify-content: center;
+					align-items: center;
+					border: 1rpx #ccc solid;
+					border-radius: 50rpx;
+					margin: 20rpx;
+					padding: 20rpx;
+					.item{
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						flex: 1 0%;
+						image{
+							width: 80rpx;
+						}
+					}
+				}
+				
 				.charge-prize {
 					display: flex;
 					flex-direction: row;
@@ -907,12 +981,12 @@
 						margin-top: 25upx;
 						.card{
 							width: 320upx;
-							height: 400upx;
-							background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HTAhDrUtvGwvSvcpPJkEEJ7q8ufJRTWKPtBKWrN4GNibXutkPgPfXs6dgREseiaJpcnM6feYYmOFEA/0") no-repeat center center;
+							height: 195upx;
+							// background: url("https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FBlImEL23YOTuiciaSo0JyAju3ncCTQTVDWzVhEtJR7JkTUnYvOGGTx4cKxibKttkUQhs3UCn3qcxxA/0") no-repeat center center;
 							background-size: cover;
 							display: flex;
 							flex-wrap: wrap;
-							padding: 30rpx;
+							padding: 20rpx;
 
 							.lable,.image-group {
 								display: flex;
