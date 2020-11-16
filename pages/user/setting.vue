@@ -28,8 +28,26 @@
 		<modalComponent v-if="modal == 'exit'" type="center center-top" title="提示" @closeModal="modal=''">
 			<view class="confirm-modal-container flex-set">
 				<view class="title flex-set">退圈</view>
-				<view class="desc flex-set">退圈后等级、贡献、粉丝团、徽章(圈子相关数据)将清零，退圈后无法接收和赠送他人鲜花钻石。再次退圈需要90天之后才能操作</view>
-				<view class="input">
+				<view class="desc flex-set">退圈后等级、贡献、粉丝团、徽章(圈子相关数据)将清零，再次退圈需要90天之后才能操作</view>
+				
+				<view class="flex-set check-quit" v-if="losePowerMap.length">
+					<radio-group @change="changeMain">
+						<label class="check-item" v-for="(item, index) in losePowerMap" :key="index">
+							<view class="check-label">
+								<radio :value="item.value" :checked="losePower == item.value" class="check" /></radio>
+								<view>{{item.label}}</view>
+							</view>
+							<view class="quit-require-label">
+								{{item.require_label}}
+							</view>
+						</label>
+					</radio-group>
+				</view>
+				<!-- 
+				<view class="quit-require-label">
+					{{losePowerMap[losePowerIndex].require_label}}
+				</view> -->
+				<view class="check-input">
 					<input type="number" @input="setConfrimId" placeholder="输入你的ID确认退圈" />
 				</view>
 				<view class="btn">
@@ -87,15 +105,24 @@
 				neverAgainVal: '',
 				rechargeList: [],
 				confrimId: '',
+				
+				losePower: 1,
+				losePowerIndex: 0,
+				losePowerMap: []
 			};
 		},
-		onLoad() {},
+		onLoad() {
+			
+		},
 		onShow() {
 			const now = Math.round(Date.now() / 1000);
 			const neverTime = this.$app.getData('userExt').exit_group_time
 			if (now < neverTime) {
 				this.never = true;
 			}
+			const config = this.$app.getData('config').quit_choose;
+			this.losePower = config.default_val;
+			this.losePowerMap = config.choose;
 		},
 		onShareAppMessage(e) {
 			const shareType = e.target && e.target.dataset.share
@@ -125,6 +152,10 @@
 			},
 			setConfrimId(e) {
 				this.confrimId = e.target.value;
+			},
+			changeMain(e) {
+				this.losePower = parseInt(e.detail.value);
+				this.losePowerIndex = this.losePowerMap.findIndex((item) => item.value == this.losePower);
 			},
 			nerverAgain() {
 				if (this.neverOnceVal != this.$app.getData('userInfo').id * 1234) {
@@ -161,7 +192,7 @@
 					mask:true,
 					title:'请稍后...'
 				})
-				this.$app.request(this.$app.API.USER_EXIT, {}, res => {
+				this.$app.request(this.$app.API.USER_EXIT, {lose: this.losePower}, res => {
 					this.$app.toast('退出成功', 'success')
 					this.modal = ''
 					this.$app.setData('userStar', {}, true)
@@ -261,6 +292,23 @@
 				padding: 0 20upx;
 				color: #333;
 				text-align: center;
+			}
+			
+			.check-quit {
+				margin: 10rpx;
+				.check-item {
+					.check-label {
+						display: flex;
+						margin: 10rpx 0;
+						.check{
+							transform: scale(0.8);
+						}
+					}
+				}
+			}
+			
+			.check-input {
+				margin: 15rpx 0 !important;
 			}
 		}
 	}

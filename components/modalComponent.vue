@@ -116,7 +116,7 @@
 		
 		// 中心弹出
 		.modal-container.center-top {
-			top: 30%;
+			top: 35%;
 		}
 		
 		// 中心弹出透明
