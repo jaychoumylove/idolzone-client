@@ -613,6 +613,30 @@
 				"navigationBarTitleText": "庄园产量排行榜"
 			}
 		}
+        ,{
+            "path" : "pages/active_open/active_open",
+            "style": {
+            	"navigationBarBackgroundColor": "#FBCC3E",
+            	"navigationBarTextStyle": "white",
+            	"navigationBarTitleText": "开屏活动"
+            }
+        }
+		,{
+		    "path" : "pages/active_open/star_rank",
+		    "style": {
+		    	"navigationBarBackgroundColor": "#FBCC3E",
+		    	"navigationBarTextStyle": "white",
+		    	"navigationBarTitleText": "爱豆勇气排行"
+		    }
+		}
+		,{
+		    "path" : "pages/active_open/courage_log",
+		    "style": {
+		    	"navigationBarBackgroundColor": "#FBCC3E",
+		    	"navigationBarTextStyle": "white",
+		    	"navigationBarTitleText": "冒险勇气日志"
+		    }
+		}
     ],
 	"tabBar": {
 		"color": "#aaaaaa",
