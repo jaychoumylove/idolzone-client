@@ -86,7 +86,7 @@
 							<btnComponent type="adventure" @tap="getAdventureReward('other')" v-if="!adventureInfo.my_first_is_settle">
 								<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">去冒险</view>
 							</btnComponent>
-							<btnComponent type="adventure" v-else>
+							<btnComponent type="disable" v-else>
 								<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">已领取</view>
 							</btnComponent>
 						</view>
@@ -128,7 +128,7 @@
 							<btnComponent type="adventure" @tap="getAdventureReward('normal')" v-if="!adventureInfo.my_second_is_settle">
 								<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">去冒险</view>
 							</btnComponent>
-							<btnComponent type="adventure" v-else>
+							<btnComponent type="disable" v-else>
 								<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">已领取</view>
 							</btnComponent>
 						</view>
@@ -171,7 +171,7 @@
 							<btnComponent type="adventure" @tap="getAdventureReward('super_secret')" v-if="!adventureInfo.my_third_is_settle">
 								<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">去冒险</view>
 							</btnComponent>
-							<btnComponent type="adventure" v-else>
+							<btnComponent type="disable" v-else>
 								<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">已领取</view>
 							</btnComponent>
 						</view>
@@ -181,11 +181,12 @@
 			</view>
 			<view class="refresh_tips">
 				<text>{{pet_adventure.notice.bottom_tips}}</text>
+				<view class="courage_log" @tap="goPage(pet_adventure.notice.go_page)">宠物冒险值>></view>
 			</view>
 		</view>
 		<view class="user-list-container" v-if="tabtype==2">
 			<view class="user-list-three">
-				<view class="user-item" v-for="(item,index) in userList" :key="index" v-if="index<3">
+				<view class="user-item" v-for="(item,index) in userList" :key="index" v-if="index<3" @tap="goOtherManor(item.user_id)">
 					<view class="user-item-cont">
 						<view class="top-animal-img flex-set">
 							<image class="bg-img" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FD3Srp4OIkJXZJK36LesDT0Bibg3Fh1F8rbZfdy2T3NlSW4wn67ZA2XESEAt1IflYj7LMRA8ymavg/0" mode="widthFix"></image>
@@ -217,7 +218,7 @@
 				</view>
 			</view>
 			<view class="user-list">
-				<view class="item" v-for="(item,index) in userList" :key="index" v-if="index>=3">
+				<view class="item" v-for="(item,index) in userList" :key="index" v-if="index>=3" @tap="goOtherManor(item.user_id)">
 					<view class="cont flex-set">
 						<view class="user-img">
 							<image :src="item.user.avatarurl || $app.getData('AVATAR') " mode="aspectFill"></image>
@@ -249,28 +250,33 @@
 		<view class="open-container" v-if="tabtype==3">
 			<view class="open-tab">
 				<view class="open-tab-item">
-					<btnComponent type="adventure" @tap="currentOpenTabType(1)">
+					<btnComponent type="adventure" @tap="currentOpenTabType('open')">
 						<view class="flex-set" style="width: 150rpx; height: 60rpx; font-size: 24rpx;">解锁开屏</view>
 					</btnComponent>
 				</view>
 				<view class="open-tab-item">
-					<btnComponent type="adventure" @tap="currentOpenTabType(2)">
-						<view class="flex-set" style="width: 150rpx; height: 60rpx; font-size: 24rpx;">我的宝箱</view>
+					<btnComponent type="adventure" @tap="currentOpenTabType('box')">
+						<view class="flex-set" style="width: 150rpx; height: 60rpx; font-size: 24rpx;">普通宝箱</view>
 					</btnComponent>
 				</view>
 				<view class="open-tab-item">
-					<btnComponent type="adventure" @tap="currentOpenTabType(3)">
+					<btnComponent type="adventure" @tap="currentOpenTabType('big_box')">
+						<view class="flex-set" style="width: 150rpx; height: 60rpx; font-size: 24rpx;">稀有宝箱</view>
+					</btnComponent>
+				</view>
+				<!-- <view class="open-tab-item">
+					<btnComponent type="adventure" @tap="currentOpenTabType('share_box')">
 						<view class="flex-set" style="width: 150rpx; height: 60rpx; font-size: 24rpx;">好友宝箱</view>
 					</btnComponent>
-				</view>
-				<view class="open-tab-item">
-					<btnComponent type="adventure" @tap="currentOpenTabType(4)">
+				</view> -->
+				<!-- <view class="open-tab-item">
+					<btnComponent type="adventure" @tap="currentOpenTabType('share_big_box')">
 						<view class="flex-set" style="width: 150rpx; height: 60rpx; font-size: 24rpx;">我的宝藏</view>
 					</btnComponent>
-				</view>
+				</view> -->
 			</view>
 			<view class="open-cont">
-				<view class="open-cont1" v-if="openTabtype==1">
+				<view class="open-cont1" v-if="openTabtype=='open'">
 					<view class="open_tips" v-if="pet_adventure.notice.open_tips">
 						<text>{{pet_adventure.notice.open_tips}}</text>
 					</view>
@@ -308,32 +314,42 @@
 						
 					</view>
 				</view>
-				<view class="open-cont2" v-if="openTabtype==2">
+				<view class="open-cont2" v-if="openTabtype=='box' || openTabtype=='big_box'">
 					<view class="open_tips" v-if="pet_adventure.box_list.desc">
 						<text>{{pet_adventure.box_list.desc}}</text>
 					</view>
 					<view class="list-wrapper">
-						<view class="item">
+						<view class="item" v-for="(item,index) in boxList" :key="index">
 							<view class="box-info">
 								<view class="box-img">
-									<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FE3nibCh4qjpmJzd1N2nf0LxIA9iaIxreQep0oFy3ialpIrefYrlhlP5JzGkCWCWicic7SD2Gkz7aeeKw/0" mode="aspectFill"></image>
+									<image :src="item.image" mode="aspectFill"></image>
 								</view>
 								<view class="info">
 									<view class="info-top">
-										<view class="title text-overflow">哈哈哈哈</view>
+										<view class="title text-overflow">{{item.title}}</view>
 										<view class="need-courage flex-set">
-											勇气值10解锁
+											勇气值{{item.need_courage || 0}}解锁
 										</view>
 									</view>
 									<view class="number">
-										说明：打开后可获得<text class="num">{{item.courage || 0}}</text>金豆
+										说明：打开后可获得<text class="num">{{item.number || 0}}</text>金豆
 									</view>
 								</view>
 								<view class="btn-wrapper">
 									<view class="btn">
-										<btnComponent type="adventure" @tap="">
-											<view class="flex-set" style="width: 140rpx; height: 50rpx; font-size: 24rpx;">点击领取</view>
-										</btnComponent>
+										<block v-if="item.is_get">
+											<btnComponent type="disable">
+												<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">已领取</view>
+											</btnComponent>
+										</block>
+										<block v-if="!item.is_get">
+											<btnComponent type="adventure" v-if="adventureInfo.my_courage<item.need_courage">
+												<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">去冒险</view>
+											</btnComponent>
+											<btnComponent type="adventure" v-else @tap="getBoxReward(index)">
+												<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">点击领取</view>
+											</btnComponent>
+										</block>
 									</view>
 								</view>
 							</view>
@@ -341,23 +357,35 @@
 								<view class="text">勇气值解锁宝箱进度</view>
 								<view class="progress-wrap">
 									<view class="progress">
-										<!-- <view class="progress-inner" :style="{width: item.progress.join_people/item.target_people*100+'%',backgroundColor: '#fbcc3e'}"></view> -->
-										<view class="progress-inner" style="width:50%;background-color:#fbcc3e"></view>
+										<view class="progress-inner" v-if="adventureInfo.my_courage<item.need_courage" :style="'width:'+(adventureInfo.my_courage/item.need_courage*100)+'%;background-color:#fbcc3e'"></view>
+										<view class="progress-inner" v-else style="width:100%;background-color:#fbcc3e"></view>
 									</view>
-									<view class="text">50%</view>
+									<view class="text">
+										<view class="">{{adventureInfo.my_courage || 0}}/{{item.need_courage || 0}}</view>
+									</view>
 								</view>
 							</view>
 						</view>
 					</view>
 				</view>
-				<view class="open-cont3" v-if="openTabtype==3">
-					
-				</view>
-				<view class="open-cont4" v-if="openTabtype==4">
-					
-				</view>
 			</view>
 		</view>
+		<modalComponent v-if="modal == 'getRewardSuccess'" type="center" title="提示" @closeModal="modal=''">
+			<view class="get-reward-container">
+				<view class="title">领取成功</view>
+				<image class="bg" v-if="rewardData.coin" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FctOFR9uh4qenFtU5NmMB5uWEQk2MTaRfxdveGhfFhS1G5dUIkwlT5fosfMaW0c9aQKy3mH3XAew/0"
+				 mode="aspectFill"></image>
+				 <image class="bg" v-if="rewardData.panacea" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0"
+				  mode="aspectFill"></image>
+				<view class="count" v-if="rewardData.coin">+{{rewardData.coin}}</view>
+				<view class="count" v-if="rewardData.panacea">+{{rewardData.panacea}}</view>
+				<view class="btn-wrap">
+					<btnComponent type="adventure" @tap="modal=''">
+						<view class="flex-set" style="width: 240rpx; height: 80rpx; font-size: 28rpx;">我知道了</view>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent>
 	</view>
 </template>
 
@@ -380,10 +408,13 @@
 				starList: [],
 				userList: [],
 				pet_adventure: [],
-				tabtype: 3,
-				openTabtype: 2,
+				tabtype: 1,
+				openTabtype: 'open',
 				adventureInfo: '',
 				openList: [],
+				boxList: [],
+				rewardData: [],
+				modal: '',
 			};
 		},
 		onShow() {
@@ -394,9 +425,28 @@
 			});
 			this.getAdventureInfo();
 		},
+		onReachBottom() {
+			this.page++;
+			if(this.tabtype==2){
+				var that = this;
+				this.getActiveRank('user', this.size, function(data) {
+					if (that.page == 1) {
+						that.userList = data
+					} else {
+						that.userList = that.userList.concat(data)
+					}
+				});
+			}
+		},
 		methods: {
 			goPage(url){
 				this.$app.goPage(url);
+			},
+			goOtherManor(user_id) {
+				if (!user_id) return false;
+				uni.navigateTo({
+					url:`/pages/manor/other_manor?user=${user_id}`
+				})
 			},
 			currentTabType(type){
 				this.tabtype = type;
@@ -414,14 +464,10 @@
 			},
 			currentOpenTabType(type){
 				this.openTabtype = type;
-				if(type==1){
+				if(type=='open'){
 					this.getOpenList();
-				}else if(type==2){
-					
-				}else if(type==3){
-					
-				}else if(type==4){
-					
+				}else if(type=='box' || type=='share_box' || type=='share_big_box' || type=='big_box'){
+					this.getBoxList(type);
 				}
 			},
 			getActiveRank(type, size, fcallback) {
@@ -490,7 +536,18 @@
 					}
 				});
 			},
-			
+			getBoxList(type){
+				this.$app.request('activeopen/get_box_list', {type:type}, res => {
+					this.boxList = res.data;
+				})
+			},
+			getBoxReward(index){
+				this.$app.request('activeopen/get_box_reward', {index:index,type:this.openTabtype}, res => {
+					this.rewardData = res.data;
+					this.modal = 'getRewardSuccess';
+					this.getBoxList(this.openTabtype);
+				})
+			}
 		}
 	}
 </script>
@@ -1144,8 +1201,13 @@
 									}
 								
 									.text {
+										width: 100%;
 										position: absolute;
-										left: 40%;
+										left: 0%;
+										view{
+											width: 100%;
+											text-align: center;
+										}
 									}
 								}
 							}
@@ -1156,5 +1218,45 @@
 			}
 		}
 	
+		.get-reward-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: -80upx;
+			padding: 40upx;
+			overflow: hidden;
+					
+			.title {
+				font-size: 36upx;
+				font-weight: 700;
+			}
+					
+			.tips {
+				padding: 20upx;
+			}
+					
+			.count {
+				font-size: 50upx;
+				padding-bottom: 20upx;
+				font-weight: 700;
+				color: $bg-color-2;
+				margin-bottom: 30rpx;
+			}
+					
+			.bg {
+				width: 150upx;
+				height: 150upx;
+				margin: 30rpx 0;
+			}
+					
+			.btn {
+				padding: 10upx 30upx;
+				font-size: 30upx;
+				width: 220upx;
+				font-weight: 600;
+			}
+		
+		
+		}
 	}
 </style>
