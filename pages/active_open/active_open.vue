@@ -83,8 +83,8 @@
 							</view>
 						</block>
 						<view class="item-btn">
-							<btnComponent type="adventure" @tap="getAdventureReward('other')" v-if="!adventureInfo.my_first_is_settle">
-								<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">去冒险</view>
+							<btnComponent type="adventureover" @tap="getAdventureReward('other')" v-if="!adventureInfo.my_first_is_settle">
+								<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">点击冒险</view>
 							</btnComponent>
 							<btnComponent type="disable" v-else>
 								<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">已领取</view>
@@ -125,8 +125,8 @@
 							</view>
 						</block>
 						<view class="item-btn">
-							<btnComponent type="adventure" @tap="getAdventureReward('normal')" v-if="!adventureInfo.my_second_is_settle">
-								<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">去冒险</view>
+							<btnComponent type="adventureover" @tap="getAdventureReward('normal')" v-if="!adventureInfo.my_second_is_settle">
+								<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">点击冒险</view>
 							</btnComponent>
 							<btnComponent type="disable" v-else>
 								<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">已领取</view>
@@ -168,8 +168,8 @@
 						</block>
 						
 						<view class="item-btn">
-							<btnComponent type="adventure" @tap="getAdventureReward('super_secret')" v-if="!adventureInfo.my_third_is_settle">
-								<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">去冒险</view>
+							<btnComponent type="adventureover" @tap="getAdventureReward('super_secret')" v-if="!adventureInfo.my_third_is_settle">
+								<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">点击冒险</view>
 							</btnComponent>
 							<btnComponent type="disable" v-else>
 								<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">已领取</view>
@@ -346,7 +346,7 @@
 											<btnComponent type="adventure" v-if="adventureInfo.my_courage<item.need_courage">
 												<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">去冒险</view>
 											</btnComponent>
-											<btnComponent type="adventure" v-else @tap="getBoxReward(index)">
+											<btnComponent type="adventureover" v-else @tap="getBoxReward(index)">
 												<view class="flex-set" style="width: 130rpx; height: 50rpx; font-size: 24rpx;">点击领取</view>
 											</btnComponent>
 										</block>

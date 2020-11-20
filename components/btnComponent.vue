@@ -114,6 +114,11 @@
 		color: #8A4B36;
 		background: url(https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Exvr8ppbZ5VVuxbP7tSmU42stko8KLVoQ2Pd4eLGvkhE5eyCPgeYT2lyD4icwyJ2nT5WyEs9E5ARQ/0) center center/100% 100% no-repeat;
 	}
+	.button.adventureover {
+		color: #FFFFFF;
+		background: url(https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXyaKHrg1Qcwb6oJzia3R4bqFt8q2x4Emjd6agcIsxWs5icbnzFax4tB4T28uicuefyiaiaSm0LLovQGGA/0) center center/100% 100% no-repeat;
+	}
+	
 	
 	.button.style2{
 		background: linear-gradient(to bottom, #f7c566,#fe9a3c);
