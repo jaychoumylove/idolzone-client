@@ -92,7 +92,7 @@
 									</view>
 									<block v-else>
 										<view v-if="type== 'twelve'">
-											<view class="up" @tap="$app.goPage('/pages/manor/manor?modal=goCall')">
+											<view class="up" @tap="modal='goCall'">
 												去召唤
 											</view>
 										</view>
