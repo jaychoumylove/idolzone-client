@@ -629,14 +629,30 @@
 		    	"navigationBarTitleText": "爱豆勇气排行"
 		    }
 		}
-		,{
-		    "path" : "pages/active_open/courage_log",
-		    "style": {
-		    	"navigationBarBackgroundColor": "#FBCC3E",
-		    	"navigationBarTextStyle": "white",
-		    	"navigationBarTitleText": "冒险勇气日志"
-		    }
-		}
+        ,{
+            "path" : "pages/birthday_open/birthday_open",
+            "style" : {
+				"navigationBarBackgroundColor": "#FBCC3E",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "爱豆生日开屏"
+			}
+        }
+        ,{
+            "path" : "pages/log_other/log_other",
+            "style" : {
+				"navigationBarBackgroundColor": "#FBCC3E",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "日志记录"
+			}
+        }
+        ,{
+            "path" : "pages/birthday_open/birthday_open_rank",
+            "style" : {
+				"navigationBarBackgroundColor": "#FBCC3E",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "圈内助力排行"
+			}
+        }
     ],
 	"tabBar": {
 		"color": "#aaaaaa",

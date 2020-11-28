@@ -48,7 +48,7 @@
 			</view>
 			<view class="refresh_tips">
 				<text>{{pet_adventure.notice.refresh_tips}}</text>
-				<view class="courage_log" @tap="goPage('/pages/active_open/courage_log')">冒险记录>></view>
+				<view class="courage_log" @tap="goOtherLog('active_open_courage_log')">冒险记录>></view>
 			</view>
 			<view class="adventure-list">
 				<view class="adventure-item">
@@ -439,6 +439,12 @@
 			}
 		},
 		methods: {
+			goOtherLog(type){
+				if (!type) return false;
+				uni.navigateTo({
+					url:`/pages/log_other/log_other?type=${type}`
+				})
+			},
 			goPage(url){
 				this.$app.goPage(url);
 			},

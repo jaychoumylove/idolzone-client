@@ -1,22 +1,26 @@
-<!-- 获取勇气日志 -->
+<!-- 其他日志 -->
 <template>
 	<view class="log-container">
 		<view class="item" v-for="(item,index) in logList" :key="index">
-			<view class="left-content">
-				<view class="content ">
-					<view class="top">{{item.content}}</view>
-					<view class="bottom">{{item.create_time}}</view>
-				</view>
-			</view>
-
-			<view class="right-content">
-				<view class="earn">
-					<view class="right-item">
-						<image :src="courage_img" mode="widthFix"></image>
-						<view class="add-count" :class="{add: item.count > 0}">{{item.count > 0 ? '+': ''}}{{item.count}}</view>
+			<block v-if="type == 'active_open_courage_log' || type == 'birthday_open_help_log'">
+				<view class="left-content">
+					<view class="content ">
+						<view class="top">{{item.content}}</view>
+						<view class="bottom">{{item.create_time}}</view>
 					</view>
 				</view>
-			</view>
+
+				<view class="right-content">
+					<view class="earn">
+						<view class="right-item">
+							<image v-if="type == 'active_open_courage_log'" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Exvr8ppbZ5VVuxbP7tSmU4nKUGxoYVA4KdJwS3Jud6MOXdooRdAEHYuqBeib1976IIGUOvTcO5OoQ/0"
+							 mode="widthFix"></image>
+							 <image v-if="type == 'birthday_open_help_log'" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Hlt9tIaEI9nvsCuYic6ug9viajc7iaHKbG4oCM2QeD3l0ScEkotHcKiaW6H7t39VKthHH4AJ2kpFmnPA/0" mode="widthFix"></image>
+							<view class="add-count" :class="{add: item.count > 0}">{{item.count > 0 ? '+': ''}}{{item.count}}</view>
+						</view>
+					</view>
+				</view>
+			</block>
 		</view>
 	</view>
 </template>
@@ -28,10 +32,11 @@
 				logList: [],
 				page: 1,
 				size: 15,
-				courage_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Exvr8ppbZ5VVuxbP7tSmU4nKUGxoYVA4KdJwS3Jud6MOXdooRdAEHYuqBeib1976IIGUOvTcO5OoQ/0',
+				type: '',
 			};
 		},
-		onLoad() {
+		onLoad(option) {
+			this.type = option.type ? option.type : this.type;
 			this.getLog()
 		},
 		onReachBottom() {
@@ -40,7 +45,17 @@
 		},
 		methods: {
 			getLog() {
-				this.$app.request('activeopen/courage_log', {
+				console.log(this.type)
+				let url;
+				if (this.type == 'active_open_courage_log') {
+					url = 'activeopen/courage_log';
+				} else if (this.type == 'birthday_open_help_log') {
+					url = 'birthday_open/help_log';
+				}
+				this.getLogRequrst(url);
+			},
+			getLogRequrst(url) {
+				this.$app.request(url, {
 					page: this.page,
 					size: this.size
 				}, res => {
@@ -50,7 +65,8 @@
 						this.logList = this.logList.concat(res.data)
 					}
 				})
-			},
+			}
+
 		}
 	}
 </script>

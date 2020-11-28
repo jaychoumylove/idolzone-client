@@ -33,11 +33,7 @@
 </template>
 
 <script>
-	import btnComponent from '@/components/btnComponent.vue';
 	export default {
-		components: {
-			btnComponent
-		},
 		data() {
 			return {
 				courage_img: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Exvr8ppbZ5VVuxbP7tSmU4nKUGxoYVA4KdJwS3Jud6MOXdooRdAEHYuqBeib1976IIGUOvTcO5OoQ/0',
