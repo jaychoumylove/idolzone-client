@@ -287,58 +287,152 @@
 		<!-- 宝箱 -->
 		<modalComponent v-if="modal == 'box'" headimg="/static/image/icon/lx.png" title="宝箱" @closeModal="modal=''">
 			<view class="box-container">
-				<view class="title">我宝箱内的宠物碎片</view>
-				<view class="desc">
-					<view class="flex-set">
-						说明：仅限好友抽取，24小时后过期消失。
+				<view class="title">我的宝箱</view>
+				<view class="top-btn" style="width: 100%;">
+					<view class="btn">
+						<btnComponent type="default" @tap="box_type=1;getBoxScrap();">
+							<view class="flex-set" style="width: 200upx;height: 65upx;">
+								有福同享金豆宝箱
+							</view>
+						</btnComponent>
+					</view>
+					<view class="btn">
+						<btnComponent type="default" @tap="box_type=2">
+							<view class="flex-set" style="width: 200upx;height: 65upx;">
+								生肖碎片宝箱
+							</view>
+						</btnComponent>
 					</view>
 				</view>
-				<view class="notice">
-					<image class="notice-icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPXtMTFLV2ydAKSiawiapkia2icuuW67SfcBKp3mbQWicrWJb4rJskIWFuhQ/0"></image>
-					<view class="notice-info">
-						<swiper 
-							:indicator-dots="false" 
-							:autoplay="true" 
-							:interval="3000" 
-							:duration="1000" 
-							vertical="true"
-							touchable="false"
-							circular='true'
-							disable-touch="true"
-						>
-							<swiper-item v-for="(item, index) in boxLogList" :key="index">
-								<view class="notice-item">
-									<image class="notice-avatar" :src="item.user.avatarurl"></image>
-									<view class="notice-con">
-										{{item.content}}
-									</view>
-								</view>
-							</swiper-item>
-							<swiper-item v-if="!boxLogList.length">
-								<view class="notice-item">
-									<view class="notice-con">
-										暂无数据~
-									</view>
-								</view>
-							</swiper-item>
-						</swiper>
-					</view>
-				</view>
-				<view class="main">
-					<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FkdUhHPgXyfkQlic4PyAIfcQkbDhgXTicIJrMdPXZfU1icAAVibDjicBw81PCb6iapIREdsgYUwIr0emHg/0" class="main-image position-set"></image>
-					<view class="box-position" :class="'position-'+ite.position" v-for="(ite, ind) in boxScrapList" :key="ind">
-						<view class="box-scrap">
-							<image class="scrap-bg position-set" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FkdUhHPgXyfkQlic4PyAIfce5tqyprFJXAXiaaalhH02TW0SjricBxWWr3KGHQBwpq2NW7GDEd7Arrg/0"></image>
-							<image class="scrap-item position-set" :src="ite.scrap_img"></image>
-							<view v-if="ite.number > 1" class="scrap-num">X{{ite.number}}</view>
+				<block v-if="box_type == 2">
+					<view class="desc">
+						<view class="flex-set">
+							说明：仅限好友抽取，24小时后过期消失。
 						</view>
 					</view>
-				</view>
-				<view class="bottom">
-					<view class="desc">
-						召唤灵宠可增加自己宝箱内的宠物碎片。每用灵丹召唤获得10宠物碎片，宝箱额外入账1张同等宠物碎片。额外赠送的宠物碎片24小时后过期消失。
+					<view class="notice">
+						<image class="notice-icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPXtMTFLV2ydAKSiawiapkia2icuuW67SfcBKp3mbQWicrWJb4rJskIWFuhQ/0"></image>
+						<view class="notice-info">
+							<swiper 
+								:indicator-dots="false" 
+								:autoplay="true" 
+								:interval="3000" 
+								:duration="1000" 
+								vertical="true"
+								touchable="false"
+								circular='true'
+								disable-touch="true"
+							>
+								<swiper-item v-for="(item, index) in boxLogList" :key="index">
+									<view class="notice-item">
+										<image class="notice-avatar" :src="item.user.avatarurl"></image>
+										<view class="notice-con">
+											{{item.content}}
+										</view>
+									</view>
+								</swiper-item>
+								<swiper-item v-if="!boxLogList.length">
+									<view class="notice-item">
+										<view class="notice-con">
+											暂无数据~
+										</view>
+									</view>
+								</swiper-item>
+							</swiper>
+						</view>
 					</view>
-				</view>
+					<view class="main">
+						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FkdUhHPgXyfkQlic4PyAIfcQkbDhgXTicIJrMdPXZfU1icAAVibDjicBw81PCb6iapIREdsgYUwIr0emHg/0" class="main-image position-set"></image>
+						<view class="box-position" :class="'position-'+ite.position" v-for="(ite, ind) in boxScrapList" :key="ind">
+							<view class="box-scrap">
+								<image class="scrap-bg position-set" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FkdUhHPgXyfkQlic4PyAIfce5tqyprFJXAXiaaalhH02TW0SjricBxWWr3KGHQBwpq2NW7GDEd7Arrg/0"></image>
+								<image class="scrap-item position-set" :src="ite.scrap_img"></image>
+								<view v-if="ite.number > 1" class="scrap-num">X{{ite.number}}</view>
+							</view>
+						</view>
+					</view>
+					<view class="bottom">
+						<view class="desc">
+							召唤灵宠可增加自己宝箱内的宠物碎片。每用灵丹召唤获得10宠物碎片，宝箱额外入账1张同等宠物碎片。额外赠送的宠物碎片24小时后过期消失。
+						</view>
+					</view>
+				</block>
+				<block v-if="box_type == 1">
+					<view class="desc">
+						<view class="flex-set">
+							说明：仅限好友领取，24小时后过期消失，请及时分享。
+						</view>
+					</view>
+					<view class="notice" @tap="goOtherLog('box_share_log')">
+						<image class="notice-icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPXtMTFLV2ydAKSiawiapkia2icuuW67SfcBKp3mbQWicrWJb4rJskIWFuhQ/0"></image>
+						<view class="notice-info">
+							<swiper 
+								:indicator-dots="false" 
+								:autoplay="true" 
+								:interval="3000" 
+								:duration="1000" 
+								vertical="true"
+								touchable="false"
+								circular='true'
+								disable-touch="true"
+							>
+								<swiper-item v-for="(item, index) in boxGetLogList" :key="index">
+									<view class="notice-item">
+										<image class="notice-avatar" :src="item.user.avatarurl"></image>
+										<view class="notice-con">
+											{{item.content}}
+										</view>
+										<view class="">>></view>
+									</view>
+								</swiper-item>
+								<swiper-item v-if="!boxGetLogList.length">
+									<view class="notice-item">
+										<view class="notice-con">
+											暂无数据~
+										</view>
+									</view>
+								</swiper-item>
+							</swiper>
+						</view>
+					</view>
+					<view class="invit-list" v-if="boxShareList.length>0">
+						<scroll-view scroll-y class="list-wrapper">
+							<view class="list-item" v-for="(item,index) in boxShareList" :key="index">
+								<view class="row row-1">
+									<view class="left flex-set">
+										<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FFUMG0IYCCicibqW4O53HDmicNgC8ceWTe8XjTyNXs7ZSuqGz72jyQLBI80aXOQg3R7mT7RiaNQtNJAQ/0" class="icon" mode="widthFix"></image>
+											
+										<view class="content">
+											<view class="top">{{item.coin}}金豆宝箱</view>
+											<view class="bottom-cont">剩余打开次数：{{item.remaining_people}}次</view>
+											<view class="bottom-cont">过期时间：{{item.end_text}}</view>
+										</view>
+									</view>
+										
+									<view class="right">
+										<view style="margin-bottom: 20rpx;">
+											<btnComponent type="custom1" @tap="openShareBox(item)" >
+												<view class="flex-set" style="width: 180upx; height: 55upx;">直接领取</view>
+											</btnComponent>
+										</view>
+										<view class="">
+											<btnComponent type="default">
+												<button open-type="share" data-share="114" :data-otherparam="'box_id=' + item.id + '&type=sharebox'">
+													<view class="flex-set" style="width: 140upx; height: 55upx;">分享</view>
+												</button>
+											</btnComponent>
+										</view>
+									</view>
+								</view>
+											
+								<view class="row row-2">点击分享宝箱给好友，{{item.people}}人瓜分{{item.coin}}金豆</view>
+											
+							</view>
+						</scroll-view>
+					</view>
+					<view style="width: 100%; text-align: center; padding-top: 20rpx; padding-bottom: 800rpx; font-size: 24rpx;" v-else>暂无宝箱</view>
+				</block>
+				
 			</view>
 		</modalComponent>
 	
@@ -429,6 +523,9 @@
 				},
 				nationalReward: null,
 				doubleElevenReward: null,
+				box_type: 1,
+				boxShareList: [],
+				boxGetLogList: [],
 			};
 		},
 		onLoad(option) {
@@ -438,7 +535,8 @@
 		},
 		onShareAppMessage(e) {
 			const shareType = e.target && e.target.dataset.share;
-			return this.$app.commonShareAppMessage(shareType)
+			const otherparam = e.target && e.target.dataset.otherparam
+			return this.$app.commonShareAppMessage(shareType, otherparam)
 		},
 		onShow() {
 			const system = uni.getSystemInfoSync();
@@ -504,6 +602,12 @@
 			// this.cleanTimer();
 		},
 		methods: {
+			goOtherLog(type){
+				if (!type) return false;
+				uni.navigateTo({
+					url:`/pages/log_other/log_other?type=${type}`
+				})
+			},
 			setTryTimer(endTime) {
 				clearInterval(this.tryTimer);
 				this.tryTimer = setInterval(() => {
@@ -663,8 +767,22 @@
 					data = {user_id: this.user_id};
 				}
 				this.$app.request("animal_box/list", data, res => {
-					this.boxScrapList = res.data;
+					this.boxScrapList = res.data.boxScrapList;
+					this.boxShareList = res.data.boxShareList;
+					this.boxGetLogList = res.data.boxGetLogList;
 				})
+			},
+			openShareBox(item){
+				this.$app.modal(`确认直接领取${item.coin}金豆友谊宝箱么？`, () => {
+					this.$app.request("animal_box/open_box", {box_id:item.id,type:1}, res => {
+						let text = '成功领取金豆+';
+						text += res.data;
+						this.$app.toast(text);
+						this.getCurrency();
+						this.getBoxScrap();
+					})
+				}, '直接领取', () => {}, '我再想想');
+				
 			},
 			goOtherManor(user_id) {
 				if (!user_id) return false;
@@ -748,6 +866,7 @@
 						this.$app.toast('收取成功');
 						this.getCurrency();
 						this.getManorInfo();
+						this.getBoxScrap();
 					})
 				}
 			},
@@ -1336,7 +1455,7 @@
 					}
 					
 					.box {
-						width: 140rpx;
+						width: 130rpx;
 						display: flex;
 						justify-content: space-between;
 						.scrap {
@@ -1637,6 +1756,80 @@
 				}
 				.btn {
 					padding: unset;
+				}
+			}
+		
+			.top-btn{
+				display: flex;
+				justify-content: space-around;
+				padding-top: 20rpx;
+				view{
+					width: 50%;
+				}
+			}
+			
+			.invit-list {
+				margin-top: 20rpx;
+				height: 720rpx;
+				padding: 0 20rpx;
+			
+				.list-wrapper{
+					overflow-y: auto;
+					max-height: 680rpx;
+					display: flex;
+					flex-direction: column;
+					.list-item {
+						background-color: #FFFFFF;
+						border-bottom: 1rpx solid #f5f5f5;
+						margin: 10upx 0;
+						border-radius: 20rpx;
+						padding: 0 10rpx;
+					
+						.row {
+							padding: 10rpx;
+					
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+						}
+					
+						.row-1 {
+							border-bottom: 1px solid #FFF;
+					
+							.left {
+								.icon {
+									width: 100upx;
+					
+								}
+					
+								.content {
+									line-height: 1.7;
+									margin: 0 20upx;
+					
+									.top {
+										color: #541C21;
+									}
+					
+									.bottom-cont {
+										justify-content: flex-start;
+										font-size: 22upx;
+					
+										.price {
+											color: red;
+											font-size: 30upx;
+											margin-right: 10upx;
+										}
+					
+										.remain {}
+									}
+								}
+							}
+						}
+					
+						.row-2 {
+							font-size: 24upx;
+						}
+					}
 				}
 			}
 		}

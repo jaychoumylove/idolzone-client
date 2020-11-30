@@ -653,6 +653,13 @@
 				"navigationBarTitleText": "圈内助力排行"
 			}
         }
+        ,{
+            "path" : "pages/box_open_other/box_open_other",
+            "style" : {
+				"navigationBarBackgroundColor": "#FBCC3E",
+				"navigationBarTextStyle": "white"
+			}
+        }
     ],
 	"tabBar": {
 		"color": "#aaaaaa",

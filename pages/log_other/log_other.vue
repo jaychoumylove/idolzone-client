@@ -21,6 +21,24 @@
 					</view>
 				</view>
 			</block>
+			<block v-if="type == 'box_share_log'">
+				<view class="left-content">
+					<view class="content ">
+						<view class="top">【{{item.user.nickname||$app.getData('NICKNAME')}}】{{item.content}}</view>
+						<view class="bottom">{{item.create_time}}</view>
+					</view>
+				</view>
+			
+				<view class="right-content">
+					<view class="earn">
+						<view class="right-item">
+							 <image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERgEQSHS0566j091KHGzhdQNKZpBKHPuWicKkHxXxNdSneZX4JLGn7BqQ/0" mode="widthFix"></image>
+							<view class="add-count" :class="{add: item.count > 0}">{{item.count > 0 ? '+': ''}}{{item.count}}</view>
+						</view>
+					</view>
+				</view>
+			</block>
+			
 		</view>
 	</view>
 </template>
@@ -51,6 +69,8 @@
 					url = 'activeopen/courage_log';
 				} else if (this.type == 'birthday_open_help_log') {
 					url = 'birthday_open/help_log';
+				} else if (this.type == 'box_share_log') {
+					url = 'animal_box/open_box_log';
 				}
 				this.getLogRequrst(url);
 			},
