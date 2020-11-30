@@ -291,14 +291,14 @@
 				<view class="top-btn" style="width: 100%;">
 					<view class="btn">
 						<btnComponent type="default" @tap="box_type=1;getBoxScrap();">
-							<view class="flex-set" style="width: 200upx;height: 65upx;">
+							<view class="flex-set" style="width: 240upx;height: 65upx;">
 								有福同享金豆宝箱
 							</view>
 						</btnComponent>
 					</view>
 					<view class="btn">
 						<btnComponent type="default" @tap="box_type=2">
-							<view class="flex-set" style="width: 200upx;height: 65upx;">
+							<view class="flex-set" style="width: 240upx;height: 65upx;">
 								生肖碎片宝箱
 							</view>
 						</btnComponent>
