@@ -304,7 +304,7 @@
 			</view>
 
 			<!-- 粉丝团宝箱 -->
-			<view class="btn-wrap" @tap="fansBoxOpen" v-if="$app.getData('config').version != $app.getVal('VERSION') && $app.getData('config').fansbox_open=='1'">
+			<view class="btn-wrap" @tap="fansBoxOpen();modal='fansBox'" v-if="$app.getData('config').version != $app.getVal('VERSION') && $app.getData('config').fansbox_open=='1'">
 				<image class="img" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fy1abNSLpfp8oqM7wyicwdCHA3wGhWkP3tIu9ztc4sqKr74M5icSkYVNpCdiarySDSggEss5DqJ9ictw/0"
 				 mode="aspectFill"></image>
 				<view class="tips" v-if="sendFansNoSettle">{{sendFansNoSettle}}</view>
@@ -617,10 +617,166 @@
 
 		<!-- 粉丝团宝箱 -->
 		<modalComponent v-if="modal == 'fansBox'" @closeModal="modal=''">
-			<view class="fansbox-modal-container">
-				<view class="title flex-set">粉丝团宝箱<view @tap="$app.goPage('/pages/notice/notice?id='+sendFansNoticeId)" class="iconfont iconicon-test"></view>
+			<view class="box-container fansbox-modal-container1">
+				<view class="title flex-set">我的宝箱</view>
+				<view class="top-btn" style="width: 100%;">
+					<view class="btn-list">
+						<view class="btn flex-set" :class="{active:box_type==1}" v-if="boxShareStatus" @tap="box_type=1;getBoxScrap();">
+							有福同享金豆宝箱
+						</view>
+						<view class="btn flex-set" :class="{active:box_type==2}" @tap="box_type=2;fansBoxOpen()">
+							粉丝团宝箱
+							<!-- <view @tap="$app.goPage('/pages/notice/notice?id='+sendFansNoticeId)" class="iconfont iconicon-test"></view> -->
+						</view>
+					</view>
 				</view>
-				<view class="scroll-wrap" v-if="sendFansBoxList.length>0">
+				<block v-if="box_type == 1">
+					<view class="notice" @tap="goOtherLog('box_share_log')">
+						<image class="notice-icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPXtMTFLV2ydAKSiawiapkia2icuuW67SfcBKp3mbQWicrWJb4rJskIWFuhQ/0"></image>
+						<view class="notice-info">
+							<swiper 
+								:indicator-dots="false" 
+								:autoplay="true" 
+								:interval="3000" 
+								:duration="1000" 
+								vertical="true"
+								touchable="false"
+								circular='true'
+								disable-touch="true"
+							>
+								<swiper-item v-for="(item, index) in boxGetLogList" :key="index">
+									<view class="notice-item">
+										<image class="notice-avatar" :src="item.user.avatarurl"></image>
+										<view class="notice-con">
+											{{item.content}}
+										</view>
+										<view class="">>></view>
+									</view>
+								</swiper-item>
+								<swiper-item v-if="!boxGetLogList.length">
+									<view class="notice-item">
+										<view class="notice-con">
+											暂无数据~
+										</view>
+									</view>
+								</swiper-item>
+							</swiper>
+						</view>
+					</view>
+					<view class="invit-list" v-if="boxShareList.length>0">
+						<scroll-view scroll-y class="list-wrapper">
+							<view class="list-item" v-for="(item,index) in boxShareList" :key="index">
+								<view class="row row-1">
+									<view class="left flex-set">
+										<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F7Inl3JrEKianQsX5Q97lONuGLuDtFKp3JeZPagOPQ19kzhF6reSz5GSKeLibPDyNb4ys1CgsTg4MA/0" class="icon" mode="widthFix"></image>
+											
+										<view class="content">
+											<view class="top">{{item.coin}}金豆宝箱</view>
+											<view class="bottom-cont">剩余打开次数：{{item.remaining_people}}次</view>
+											<view class="bottom-cont">过期时间：{{item.end_text}}</view>
+										</view>
+									</view>
+										
+									<view class="right">
+										<block v-if="item.remaining_people>0">
+											<view style="margin-bottom: 20rpx;">
+												<btnComponent type="success" @tap="openShareBox(item)" >
+													<view class="flex-set" style="width: 180upx; height: 55upx;">直接领取</view>
+												</btnComponent>
+											</view>
+											<view class="">
+												<btnComponent type="default">
+													<button open-type="share" data-share="114" :data-otherparam="'box_id=' + item.id + '&type=sharebox'">
+														<view class="flex-set" style="width: 140upx; height: 55upx;">分享好友</view>
+													</button>
+												</btnComponent>
+											</view>
+										</block>
+										<block v-else>
+											<view class="">
+												<btnComponent type="disable">
+													<view class="flex-set" style="width: 180upx; height: 55upx;">已领完</view>
+												</btnComponent>
+											</view>
+										</block>
+									</view>
+								</view>
+											
+								<view class="row row-2">点击分享宝箱给好友，{{item.people}}人瓜分{{item.coin}}金豆</view>
+											
+							</view>
+						</scroll-view>
+					</view>
+					<view style="width: 100%; text-align: center; padding-top: 20rpx; padding-bottom: 800rpx; font-size: 24rpx;" v-else>暂无宝箱</view>
+					<view class="desc">
+						<view class="flex-set" style="width: 70%;">
+							说明：仅限好友领取，24小时后过期消失，请及时分享。
+						</view>
+						<view class="flex-set">
+							<btnComponent type="default" @tap="$app.goPage('/pages/manor/manor')">
+								<view class="flex-set" style="width: 180upx; height: 60upx; font-size: 24rpx;">去领庄园豆</view>
+							</btnComponent>
+						</view>
+					</view>
+				</block>
+				<block v-if="box_type == 2">
+					<view class="invit-list" v-if="sendFansBoxList.length>0">
+						<scroll-view scroll-y class="list-wrapper">
+							<view class="list-item" v-for="(item,index) in sendFansBoxList" :key="index">
+								<view class="row row-1">
+									<view class="left flex-set">
+										<image v-if="!item.settle" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Ep3RhxrWX9ibdRVKkjMQibIDXFuAk08uV2BgHKn9RO8fLoS8zM0z12ic0SjzHd1IxYNhUibyy5fJEllQ/0" class="icon" mode="widthFix"></image>
+										<image v-else src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Ep3RhxrWX9ibdRVKkjMQibIDOyyiceYtYA3wicYibgc9LdyicVnq6rx9KASdZxH9V0VIaJ7icZEZr3gbLng/0" class="icon" mode="widthFix"></image>
+											
+										<view class="content">
+											<view class="top" v-if="item.coin">{{$app.formatNumber(item.coin)}}金豆宝箱</view>
+											<view class="bottom-cont">剩余打开次数：{{item.people-item.open_people>=0?(item.people-item.open_people):0}}次</view>
+											<view class="bottom-cont">发宝箱时间：{{item.create_time}}</view>
+										</view>
+									</view>
+										
+									<view class="right">
+										<block v-if="!item.settle">
+											<view>
+												<btnComponent type="success" @tap="goFansBox(item.id)" >
+													<view class="flex-set" style="width: 180upx; height: 55upx;">领取</view>
+												</btnComponent>
+											</view>
+										</block>
+										<block v-else>
+											<view>
+												<btnComponent type="disable">
+													<view class="flex-set" style="width: 180upx; height: 55upx;">已领取</view>
+												</btnComponent>
+											</view>
+										</block>
+									</view>
+								</view>
+											
+								<view class="row-2">
+									<view class="flex-set">
+										<image class="img" :src="item.user.avatarurl" mode="aspectFill"></image>
+										<view class="name">{{item.user.nickname}}</view>
+										<view class="">分享的粉丝团宝箱</view>
+									</view>
+								</view>
+											
+							</view>
+						</scroll-view>
+					</view>
+					<view style="width: 100%; text-align: center; padding-top: 20rpx; padding-bottom: 800rpx; font-size: 24rpx;" v-else>暂无宝箱</view>
+					<view class="desc">
+						<view class="flex-set" style="width: 70%;">
+							说明：用钻石或者积分发的金豆宝箱，仅限同粉丝团用户领取，24小时后过期消失
+						</view>
+						<view class="flex-set">
+							<btnComponent type="default" @tap="modal='sendFansBox'">
+								<view class="flex-set" style="width: 180upx; height: 60upx; font-size: 24rpx;">发宝箱</view>
+							</btnComponent>
+						</view>
+					</view>
+				</block>
+				<!-- <view class="scroll-wrap" v-if="sendFansBoxList.length>0">
 					<view class="box-item" @tap="goFansBox(item.id)" v-for="(item,index) in sendFansBoxList" :key="index">
 						<image class="img" v-if="item.settle" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Ep3RhxrWX9ibdRVKkjMQibIDOyyiceYtYA3wicYibgc9LdyicVnq6rx9KASdZxH9V0VIaJ7icZEZr3gbLng/0"
 						 mode=""></image>
@@ -631,17 +787,17 @@
 							{{item.user.nickname}}
 						</view>
 					</view>
-				</view>
-				<view class="scroll-wrap" v-else>
+				</view> -->
+				<!-- <view class="scroll-wrap" v-else>
 					<view class="tips position-set">
 						<view>粉丝团成员发出的宝箱会在这里显示</view>
 					</view>
-				</view>
-				<view class="btn-wrap" @tap="modal='sendFansBox'">
+				</view> -->
+				<!-- <view class="btn-wrap" @tap="modal='sendFansBox'">
 					<btnComponent type="default">
 						<view class="btn flex-set">我要发宝箱</view>
 					</btnComponent>
-				</view>
+				</view> -->
 			</view>
 		</modalComponent>
 		<!-- 发粉丝团宝箱 -->
@@ -1027,6 +1183,11 @@
 				extHot: {},
 				
 				getHearItem: null,
+				
+				box_type: 1,
+				boxShareList: [],
+				boxGetLogList: [],
+				boxShareStatus: false,
 			};
 		},
 		created() {
@@ -1044,6 +1205,37 @@
 			clearInterval(this.timeId_danmaku)
 		},
 		methods: {
+			goOtherLog(type){
+				if (!type) return false;
+				uni.navigateTo({
+					url:`/pages/log_other/log_other?type=${type}`
+				})
+			},
+			getBoxScrap() {
+				let data = {};
+				if (!this.isSelf) {
+					data = {user_id: this.user_id};
+				}
+				this.$app.request("animal_box/list", data, res => {
+					this.boxShareList = res.data.boxShareList;
+					this.boxGetLogList = res.data.boxGetLogList;
+					this.boxShareStatus = res.data.boxShareStatus;
+					if(!res.data.boxShareStatus){
+						this.box_type=2;
+					}
+				})
+			},
+			openShareBox(item){
+				this.$app.modal(`确认直接领取${item.coin}金豆友谊宝箱么？`, () => {
+					this.$app.request("animal_box/open_box", {box_id:item.id,type:1}, res => {
+						let text = '成功领取金豆+';
+						text += res.data;
+						this.$app.toast(text);
+						this.getBoxScrap();
+					})
+				}, '直接领取', () => {}, '我再想想');
+				
+			},
 			// 获取打榜额外的加成
 			getExtraSendHot() {
 				this.$app.request(this.$app.API.STAR_EXTRA_SEND_HOT, {}, res => {
@@ -1170,6 +1362,7 @@
 				// 请求数据
 				this.loadData()
 				
+				
 				this.getExtraSendHot()
 
 				this.userCurrency = this.$app.getData('userCurrency')
@@ -1229,13 +1422,8 @@
 
 						//宝箱及成长礼包
 						if (this.$app.getData('config').fansbox_open == '1') {
-							this.$app.request('fans/mybox', {}, res => {
-								this.sendFansBoxList = res.data.list
-								this.sendFansNoSettle = res.data.can_settle
-								this.isJoinFanclub = res.data.isJoinFanclub
-								this.signGift_title = res.data.signGift_title
-								this.signGift_tips = res.data.signGift_tips
-							})
+							this.fansBoxOpen();
+							this.getBoxScrap();
 						}
 
 						//徽章获得
@@ -1713,11 +1901,13 @@
 			},
 			fansBoxOpen() {
 				// if (this.isJoinFanclub) {
-				this.modal = 'fansBox'
 				this.$app.request('fans/mybox', {}, res => {
 					this.sendFansBoxList = res.data.list
 					this.sendFansNoSettle = res.data.can_settle
 					this.sendFansNoticeId = res.data.noticeId
+					this.isJoinFanclub = res.data.isJoinFanclub
+					this.signGift_title = res.data.signGift_title
+					this.signGift_tips = res.data.signGift_tips
 				})
 				// } else {
 				// 	this.$app.modal(`请先加入一个粉丝团`, () => {
@@ -3595,6 +3785,180 @@
 			}
 
 		}
+		
+		.box-container {
+			margin-top: -100rpx;
+			background: linear-gradient(0deg, #EFFFEC, #7ACFFF);
+			.title {
+				text-align: center;
+				width: 100%;
+				padding-top: 40rpx;
+			}
+			.desc {
+				display: flex;
+				justify-content: space-between;
+				color:rgba(120,67,16,1);
+				font-size: 24rpx;
+				padding: 10rpx 20rpx;
+				border-radius: 20rpx;
+				width: 100%;
+				
+			}
+			.notice {
+				margin: 20upx;
+				background:#fff;
+				border-radius:19upx;
+				display: flex;
+				justify-content: flex-start;
+				.notice-icon {
+					margin:0;
+					margin-left: 4%;
+					width: 35upx;
+					align-self: center;
+					height: 35upx;
+					border-radius:50%;
+				}
+				.notice-info {
+					margin: 10upx 5%;
+					flex: 1;
+					display: inline-block;
+					overflow: hidden;
+					height: 50upx;
+					swiper {
+						height: 50upx;
+					}
+					.notice-item {
+						display: flex;
+						justify-content: flex-start;
+						.notice-avatar {
+							width: 50upx;
+							height: 50upx;
+							border-radius:50%;
+							margin-right: 10upx;
+						}
+						.notice-con {
+							flex: 1;
+							height: 50upx;
+							margin-right: 10%;
+							display: inline-block;
+							font-size:26upx;
+							line-height: 50upx;
+						}
+					}
+				}
+			}
+			
+		
+			.bottom {
+				padding: 0 40rpx 40rpx;
+				.desc {
+					background-color: #fff;
+					border-radius: 50rpx;
+					color: #B5B5B4;
+					padding: 20rpx 30rpx;
+				}
+				.btn {
+					padding: unset;
+				}
+			}
+		
+			.top-btn{
+				width: 100%;
+				padding: 20rpx 20rpx 0;
+				.btn-list{
+					width: 100%;
+					display: flex;
+					justify-content: space-around;
+					border: 4rpx solid #FFFFFF;
+					border-radius: 40rpx;
+					.btn{
+						width: 50%;
+						height: 60rpx;
+						border-radius: 30rpx;
+					}
+					.btn.active{
+						background-color: #FFFFFF;
+						color: #FF9000;
+					}
+				}
+			}
+			
+			.invit-list {
+				margin-top: 20rpx;
+				height: 500rpx;
+				padding: 0 20rpx;
+			
+				.list-wrapper{
+					overflow-y: auto;
+					max-height: 480rpx;
+					display: flex;
+					flex-direction: column;
+					.list-item {
+						background-color: #FFFFFF;
+						border-bottom: 1rpx solid #f5f5f5;
+						margin: 10upx 0;
+						border-radius: 20rpx;
+						padding: 0 10rpx;
+					
+						.row {
+							padding: 10rpx;
+					
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+						}
+					
+						.row-1 {
+							border-bottom: 1px solid #FFF;
+					
+							.left {
+								.icon {
+									width: 100upx;
+					
+								}
+					
+								.content {
+									line-height: 1.7;
+									margin: 0 20upx;
+					
+									.top {
+										color: #541C21;
+									}
+					
+									.bottom-cont {
+										justify-content: flex-start;
+										font-size: 22upx;
+					
+										.price {
+											color: red;
+											font-size: 30upx;
+											margin-right: 10upx;
+										}
+					
+										.remain {}
+									}
+								}
+							}
+						}
+					
+						.row-2 {
+							font-size: 24upx;
+							display: flex;
+							flex-direction: row;
+							padding: 0 20rpx 20rpx;
+							image{
+								width: 30rpx;
+								height: 30rpx;
+								border-radius: 50%;
+							}
+							.name{
+								max-width: 250rpx;
+							}
+						}
+					}
+				}
+			}
+		}
 
 		.fansbox-modal-container {
 			margin-top: -100upx;
@@ -3602,6 +3966,7 @@
 			display: flex;
 			align-items: center;
 			flex-direction: column;
+			background: linear-gradient(0deg, #EFFFEC, #7ACFFF);
 
 			.title {
 				font-size: 32upx;
@@ -3694,6 +4059,8 @@
 					padding: 10upx 40upx;
 				}
 			}
+		
+			
 		}
 
 		.sendfansbox-modal-container {

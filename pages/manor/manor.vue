@@ -289,19 +289,13 @@
 			<view class="box-container">
 				<view class="title">我的宝箱</view>
 				<view class="top-btn" style="width: 100%;">
-					<view class="btn">
-						<btnComponent type="default" @tap="box_type=1;getBoxScrap();">
-							<view class="flex-set" style="width: 240upx;height: 65upx;">
-								有福同享金豆宝箱
-							</view>
-						</btnComponent>
-					</view>
-					<view class="btn">
-						<btnComponent type="default" @tap="box_type=2">
-							<view class="flex-set" style="width: 240upx;height: 65upx;">
-								生肖碎片宝箱
-							</view>
-						</btnComponent>
+					<view class="btn-list">
+						<view class="btn flex-set" :class="{active:box_type==1}" v-if="boxShareStatus" @tap="box_type=1;getBoxScrap();">
+							有福同享金豆宝箱
+						</view>
+						<view class="btn flex-set" :class="{active:box_type==2}" @tap="box_type=2">
+							生肖碎片宝箱
+						</view>
 					</view>
 				</view>
 				<block v-if="box_type == 2">
@@ -400,7 +394,7 @@
 							<view class="list-item" v-for="(item,index) in boxShareList" :key="index">
 								<view class="row row-1">
 									<view class="left flex-set">
-										<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FFUMG0IYCCicibqW4O53HDmicNgC8ceWTe8XjTyNXs7ZSuqGz72jyQLBI80aXOQg3R7mT7RiaNQtNJAQ/0" class="icon" mode="widthFix"></image>
+										<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F7Inl3JrEKianQsX5Q97lONuGLuDtFKp3JeZPagOPQ19kzhF6reSz5GSKeLibPDyNb4ys1CgsTg4MA/0" class="icon" mode="widthFix"></image>
 											
 										<view class="content">
 											<view class="top">{{item.coin}}金豆宝箱</view>
@@ -410,18 +404,27 @@
 									</view>
 										
 									<view class="right">
-										<view style="margin-bottom: 20rpx;">
-											<btnComponent type="custom1" @tap="openShareBox(item)" >
-												<view class="flex-set" style="width: 180upx; height: 55upx;">直接领取</view>
-											</btnComponent>
-										</view>
-										<view class="">
-											<btnComponent type="default">
-												<button open-type="share" data-share="114" :data-otherparam="'box_id=' + item.id + '&type=sharebox'">
-													<view class="flex-set" style="width: 140upx; height: 55upx;">分享</view>
-												</button>
-											</btnComponent>
-										</view>
+										<block v-if="item.remaining_people>0">
+											<view style="margin-bottom: 20rpx;">
+												<btnComponent type="success" @tap="openShareBox(item)" >
+													<view class="flex-set" style="width: 180upx; height: 55upx;">直接领取</view>
+												</btnComponent>
+											</view>
+											<view class="">
+												<btnComponent type="default">
+													<button open-type="share" data-share="114" :data-otherparam="'box_id=' + item.id + '&type=sharebox'">
+														<view class="flex-set" style="width: 140upx; height: 55upx;">分享好友</view>
+													</button>
+												</btnComponent>
+											</view>
+										</block>
+										<block v-else>
+											<view class="">
+												<btnComponent type="disable">
+													<view class="flex-set" style="width: 180upx; height: 55upx;">已领完</view>
+												</btnComponent>
+											</view>
+										</block>
 									</view>
 								</view>
 											
@@ -446,6 +449,38 @@
 				<view class="btn-wrap">
 					<btnComponent type="default">
 						<view class="btn" @tap="modal=''">收下了</view>
+					</btnComponent>
+				</view>
+			</view>
+		</modalComponent>
+		
+		<!-- 有福同享宝箱 -->
+		<modalComponent v-if="modal == 'boxShare'" type="center" title="提示" @closeModal="modal=''">
+			<view class="modal-container">
+				<view class="title" style="margin-bottom: 40rpx;">领取成功</view>
+				<view class="coin-count" style="font-weight: bold;">金豆+<text style="color: #FC6257;padding: 0 10rpx;">{{lastAddCount || 0}}</text></view>
+				<block v-if="lastAddCount>=10000">
+					<view class="flex-set" style="padding-top: 20rpx;">
+						恭喜你获得<text style="color: #FC6257;padding: 0 10rpx;">{{lastAddCount || 0}}</text>额外金豆宝箱
+					</view>
+					<view class="flex-set" style="padding: 40rpx;">
+						<image style="width: 200rpx;" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FFUMG0IYCCicibqW4O53HDmicNgC8ceWTe8XjTyNXs7ZSuqGz72jyQLBI80aXOQg3R7mT7RiaNQtNJAQ/0" mode="widthFix"></image>
+					</view>
+				</block>
+				<block v-else>
+					<view class="flex-set" style="padding: 30rpx 20rpx;">
+						提示：一次性领取庄园金豆1万以上可额外获得等额金豆宝箱
+					</view>
+				</block>
+				<view class="btn-wrap">
+					<btnComponent type="default">
+						<view class="btn" @tap="modal=''">我知道了</view>
+					</btnComponent>
+					<btnComponent type="default" v-if="lastAddCount>=10000">
+						<view class="btn" @tap="modal='box';box_type=1">去开宝箱</view>
+					</btnComponent>
+					<btnComponent type="default" v-if="lastAddCount<10000">
+						<view class="btn" @tap="$app.goPage('/pages/manor/animal_list')">去升级产量</view>
 					</btnComponent>
 				</view>
 			</view>
@@ -526,6 +561,8 @@
 				box_type: 1,
 				boxShareList: [],
 				boxGetLogList: [],
+				boxShareStatus: false,
+				lastAddCount: 0,
 			};
 		},
 		onLoad(option) {
@@ -770,6 +807,10 @@
 					this.boxScrapList = res.data.boxScrapList;
 					this.boxShareList = res.data.boxShareList;
 					this.boxGetLogList = res.data.boxGetLogList;
+					this.boxShareStatus = res.data.boxShareStatus;
+					if(!res.data.boxShareStatus){
+						this.box_type=2;
+					}
 				})
 			},
 			openShareBox(item){
@@ -862,11 +903,15 @@
 						mask:true,
 						title:'正在收取...'
 					})
+					this.lastAddCount = this.addCount;
 					this.$app.request(this.$app.API.ANIMAL_OUTPUT, {}, res => {
-						this.$app.toast('收取成功');
 						this.getCurrency();
 						this.getManorInfo();
 						this.getBoxScrap();
+						this.$app.toast('收取成功');
+						if(this.boxShareStatus){
+							this.modal = 'boxShare'
+						}
 					})
 				}
 			},
@@ -1760,11 +1805,23 @@
 			}
 		
 			.top-btn{
-				display: flex;
-				justify-content: space-around;
-				padding-top: 20rpx;
-				view{
-					width: 50%;
+				width: 100%;
+				padding: 20rpx 20rpx 0;
+				.btn-list{
+					width: 100%;
+					display: flex;
+					justify-content: space-around;
+					border: 4rpx solid #FFFFFF;
+					border-radius: 40rpx;
+					.btn{
+						width: 50%;
+						height: 60rpx;
+						border-radius: 30rpx;
+					}
+					.btn.active{
+						background-color: #FFFFFF;
+						color: #FF9000;
+					}
 				}
 			}
 			
