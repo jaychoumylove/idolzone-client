@@ -464,7 +464,7 @@
 						恭喜你获得<text style="color: #FC6257;padding: 0 10rpx;">{{lastAddCount || 0}}</text>额外金豆宝箱
 					</view>
 					<view class="flex-set" style="padding: 40rpx;">
-						<image style="width: 200rpx;" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FFUMG0IYCCicibqW4O53HDmicNgC8ceWTe8XjTyNXs7ZSuqGz72jyQLBI80aXOQg3R7mT7RiaNQtNJAQ/0" mode="widthFix"></image>
+						<image style="width: 200rpx;" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F7Inl3JrEKianQsX5Q97lONuGLuDtFKp3JeZPagOPQ19kzhF6reSz5GSKeLibPDyNb4ys1CgsTg4MA/0" mode="widthFix"></image>
 					</view>
 				</block>
 				<block v-else>
