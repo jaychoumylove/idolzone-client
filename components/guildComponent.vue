@@ -693,9 +693,14 @@
 											</view>
 										</block>
 										<block v-else>
-											<view class="">
+											<view style="margin-bottom: 20rpx;">
 												<btnComponent type="disable">
 													<view class="flex-set" style="width: 180upx; height: 55upx;">已领完</view>
+												</btnComponent>
+											</view>
+											<view @tap="boxOpenOther(item.id)">
+												<btnComponent type="default">
+													<view class="flex-set" style="width: 180upx; height: 55upx;">查看详情</view>
 												</btnComponent>
 											</view>
 										</block>
@@ -1925,6 +1930,9 @@
 				// 	}, '跳转')
 				// }
 
+			},
+			boxOpenOther(id) {
+				this.$app.goPage(`/pages/box_open_other/box_open_other?box_id=${id}&type=sharebox`)
 			},
 			goFansBox(id) {
 				this.$app.goPage(`/pages/lottery/box_open?id=${id}`)

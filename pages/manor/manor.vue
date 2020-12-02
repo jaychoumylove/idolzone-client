@@ -22,12 +22,12 @@
 					<view class="left">
 						<view class="number">{{userCurrency.coin || 0}}</view>
 						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GT2o2aCDJf7rjLOUlbtTERgEQSHS0566j091KHGzhdQNKZpBKHPuWicKkHxXxNdSneZX4JLGn7BqQ/0"
-						mode="aspectFill"></image>
+						 mode="aspectFill"></image>
 					</view>
 					<view class="right" @tap="$app.goPage('/pages/manor/panacea_task')">
 						<view class="number">{{userCurrency.panacea || 0}}</view>
 						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0"
-						mode="aspectFill"></image>
+						 mode="aspectFill"></image>
 						<!-- <view class="add flex-set">+</view> -->
 						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtqibsjoz4q50r0xxB6XBXYdcsFzFDw78QynvK8AiagO92tUyrhhCgFk3Q/0"></image>
 					</view>
@@ -43,32 +43,23 @@
 				秒
 			</view>
 		</view>
-		
+
 		<view class="right-btn-list" :class="fix.rightList">
 			<block v-for="(item, index) in btn" :key="index" v-if="item.path||item.modal">
-				<view
-					v-if="item.change"
-					class="item" 
-					:style="{'background-image': 'url('+(callType == 'goSupple' ? item.image_s: item.image)+')'}"
-					@tap="goModelOrPage(item)"
-				>
+				<view v-if="item.change" class="item" :style="{'background-image': 'url('+(callType == 'goSupple' ? item.image_s: item.image)+')'}"
+				 @tap="goModelOrPage(item)">
 				</view>
-				<view
-					v-else
-					class="item"
-					:style="{'background-image': 'url('+item.image+')'}"
-					@tap="goModelOrPage(item)"
-				>
+				<view v-else class="item" :style="{'background-image': 'url('+item.image+')'}" @tap="goModelOrPage(item)">
 				</view>
 			</block>
 		</view>
-		
+
 		<view class="main-animal" :class='{"normal-main": mainAnimal.type == "NORMAL", "secret-main": mainAnimal.type == "SECRET"}'>
 			<view class="word">{{word||"记得常来看我"}}</view>
 			<image class="animal secret" :class="fix.mainAnimal" v-if="mainAnimal.type == 'SECRET'" mode="widthFix" :src="mainAnimal.image"></image>
 			<image class="animal normal" v-if="mainAnimal.type == 'NORMAL'" mode="aspectFit" :src="mainAnimal.image"></image>
 		</view>
-		
+
 		<view class="right-bottom" :class="fixBottom">
 			<view class="word" @tap="$app.goPage('/pages/manor/animal_list')">
 				<view class="output">
@@ -87,7 +78,7 @@
 				<image class="buttom"></image>
 			</view>
 		</view>
-		
+
 		<!-- 召唤宠物 -->
 		<modalComponent v-if="modal == 'goCall'" type="center" title="提示" @closeModal="modal=''">
 			<view class="modal-container gocall-modal-container">
@@ -107,18 +98,18 @@
 						<view class="btn" @tap="callReward(item)">{{item.text}}</view>
 					</btnComponent>
 				</view>
-				
+
 				<view class="buttom">
 					今日剩余次数：{{lotteryLeft || 0}}/{{lottery_max}}
 				</view>
 			</view>
 		</modalComponent>
-		
+
 		<!-- 奖池详情 -->
 		<modalComponent v-if="modal == 'callPool'" type="center" title="提示" @closeModal="modal='goCall'">
 			<view class="modal-container callpoll-modal-container">
 				<view class="title">奖池详情</view>
-				
+
 				<scroll-view scroll-y class="scroll-wrapper">
 					<block v-for="(item, index) in rewardPool" :key='index'>
 						<view class="call-list scroll-item">
@@ -133,12 +124,12 @@
 				</scroll-view>
 			</view>
 		</modalComponent>
-		
+
 		<!-- 召唤结果 -->
 		<modalComponent v-if="modal == 'callResult'" type="center" title="提示" @closeModal="modal=''">
 			<view class="modal-container callresult-modal-container">
 				<view class="title">召唤结果</view>
-				
+
 				<view class="result">
 					<view class="call-list">
 						<view class="call-item" v-for="(item, index) in reward" :key='index'>
@@ -146,7 +137,7 @@
 							<view class="number">X{{item.number}}</view>
 						</view>
 					</view>
-					
+
 					<view class="new-list" v-if="rewardHasNew">
 						<view class="new-item" v-for="(item, index) in reward" v-if="item.new" :key='index'>
 							<view class="name">{{item.animal_info.name}}</view>
@@ -154,7 +145,7 @@
 						</view>
 					</view>
 				</view>
-				
+
 				<view class="btn-wrap">
 					<btnComponent type="default">
 						<view class="btn" @tap="$app.goPage('/pages/manor/animal_list')">去升级</view>
@@ -165,13 +156,13 @@
 				</view>
 			</view>
 		</modalComponent>
-		
+
 		<!-- 往期鲜花结算 -->
 		<modalComponent v-if="modal == 'flowerReward'" type="center" title="提示" @closeModal="modal=''">
 			<view class="modal-container flowerreward-modal-container">
 				<view class="title">往期鲜花收益</view>
 				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9Fic6VmPQYib2ktqATmSxJmUtVH7OoNPjuMs2xwl26pXQGbQn74vvibp5mUNuJk7ucxzdXGAd8OlHJDA/0"
-					   mode="aspectFill"></image>
+				 mode="aspectFill"></image>
 				<view class="coin-count">恭喜你获得<text style="color: #FC6257;padding: 0 10rpx;">{{panaceaReward}}</text>灵丹</view>
 				<view class="flex-set">你可以使用这些灵丹召唤宠物</view>
 				<view class="btn-wrap">
@@ -181,7 +172,7 @@
 				</view>
 			</view>
 		</modalComponent>
-		
+
 		<!-- 国庆中秋回馈 -->
 		<modalComponent v-if="modal == 'nationalReward'" type="center" title="提示" @closeModal="modal=''">
 			<view class="modal-container flowerreward-modal-container">
@@ -199,7 +190,7 @@
 				</view>
 			</view>
 		</modalComponent>
-	
+
 		<!-- 好友列表 -->
 		<modalComponent v-if="modal == 'friendList'" headimg="/static/image/icon/lx.png" title="好友" @closeModal="modal=''">
 			<view class="invit-modal-container">
@@ -219,16 +210,8 @@
 				<view class="notice">
 					<image class="notice-icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPXtMTFLV2ydAKSiawiapkia2icuuW67SfcBKp3mbQWicrWJb4rJskIWFuhQ/0"></image>
 					<view class="notice-info">
-						<swiper 
-							:indicator-dots="false" 
-							:autoplay="true" 
-							:interval="3000" 
-							:duration="1000" 
-							vertical="true"
-							touchable="false"
-							circular='true'
-							disable-touch="true"
-						>
+						<swiper :indicator-dots="false" :autoplay="true" :interval="3000" :duration="1000" vertical="true" touchable="false"
+						 circular='true' disable-touch="true">
 							<swiper-item v-for="(item, index) in boxLogList" :key="index">
 								<view class="notice-item">
 									<image class="notice-avatar" :src="item.user.avatarurl"></image>
@@ -307,16 +290,8 @@
 					<view class="notice">
 						<image class="notice-icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPXtMTFLV2ydAKSiawiapkia2icuuW67SfcBKp3mbQWicrWJb4rJskIWFuhQ/0"></image>
 						<view class="notice-info">
-							<swiper 
-								:indicator-dots="false" 
-								:autoplay="true" 
-								:interval="3000" 
-								:duration="1000" 
-								vertical="true"
-								touchable="false"
-								circular='true'
-								disable-touch="true"
-							>
+							<swiper :indicator-dots="false" :autoplay="true" :interval="3000" :duration="1000" vertical="true" touchable="false"
+							 circular='true' disable-touch="true">
 								<swiper-item v-for="(item, index) in boxLogList" :key="index">
 									<view class="notice-item">
 										<image class="notice-avatar" :src="item.user.avatarurl"></image>
@@ -336,7 +311,8 @@
 						</view>
 					</view>
 					<view class="main">
-						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FkdUhHPgXyfkQlic4PyAIfcQkbDhgXTicIJrMdPXZfU1icAAVibDjicBw81PCb6iapIREdsgYUwIr0emHg/0" class="main-image position-set"></image>
+						<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FkdUhHPgXyfkQlic4PyAIfcQkbDhgXTicIJrMdPXZfU1icAAVibDjicBw81PCb6iapIREdsgYUwIr0emHg/0"
+						 class="main-image position-set"></image>
 						<view class="box-position" :class="'position-'+ite.position" v-for="(ite, ind) in boxScrapList" :key="ind">
 							<view class="box-scrap">
 								<image class="scrap-bg position-set" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FkdUhHPgXyfkQlic4PyAIfce5tqyprFJXAXiaaalhH02TW0SjricBxWWr3KGHQBwpq2NW7GDEd7Arrg/0"></image>
@@ -360,16 +336,8 @@
 					<view class="notice" @tap="goOtherLog('box_share_log')">
 						<image class="notice-icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9GqEna3Bu4hOUqY2ruicPUKoPXtMTFLV2ydAKSiawiapkia2icuuW67SfcBKp3mbQWicrWJb4rJskIWFuhQ/0"></image>
 						<view class="notice-info">
-							<swiper 
-								:indicator-dots="false" 
-								:autoplay="true" 
-								:interval="3000" 
-								:duration="1000" 
-								vertical="true"
-								touchable="false"
-								circular='true'
-								disable-touch="true"
-							>
+							<swiper :indicator-dots="false" :autoplay="true" :interval="3000" :duration="1000" vertical="true" touchable="false"
+							 circular='true' disable-touch="true">
 								<swiper-item v-for="(item, index) in boxGetLogList" :key="index">
 									<view class="notice-item">
 										<image class="notice-avatar" :src="item.user.avatarurl"></image>
@@ -394,19 +362,20 @@
 							<view class="list-item" v-for="(item,index) in boxShareList" :key="index">
 								<view class="row row-1">
 									<view class="left flex-set">
-										<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F7Inl3JrEKianQsX5Q97lONuGLuDtFKp3JeZPagOPQ19kzhF6reSz5GSKeLibPDyNb4ys1CgsTg4MA/0" class="icon" mode="widthFix"></image>
-											
+										<image src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F7Inl3JrEKianQsX5Q97lONuGLuDtFKp3JeZPagOPQ19kzhF6reSz5GSKeLibPDyNb4ys1CgsTg4MA/0"
+										 class="icon" mode="widthFix"></image>
+
 										<view class="content">
 											<view class="top">{{item.coin}}金豆宝箱</view>
 											<view class="bottom-cont">剩余打开次数：{{item.remaining_people}}次</view>
 											<view class="bottom-cont">过期时间：{{item.end_text}}</view>
 										</view>
 									</view>
-										
+
 									<view class="right">
 										<block v-if="item.remaining_people>0">
 											<view style="margin-bottom: 20rpx;">
-												<btnComponent type="success" @tap="openShareBox(item)" >
+												<btnComponent type="success" @tap="openShareBox(item)">
 													<view class="flex-set" style="width: 180upx; height: 55upx;">直接领取</view>
 												</btnComponent>
 											</view>
@@ -419,26 +388,32 @@
 											</view>
 										</block>
 										<block v-else>
-											<view class="">
+											<view style="margin-bottom: 20rpx;">
 												<btnComponent type="disable">
 													<view class="flex-set" style="width: 180upx; height: 55upx;">已领完</view>
+												</btnComponent>
+											</view>
+											<view @tap="boxOpenOther(item.id)">
+												<btnComponent type="default">
+													<view class="flex-set" style="width: 180upx; height: 55upx;">查看详情</view>
 												</btnComponent>
 											</view>
 										</block>
 									</view>
 								</view>
-											
+
 								<view class="row row-2">点击分享宝箱给好友，{{item.people}}人瓜分{{item.coin}}金豆</view>
-											
+
 							</view>
 						</scroll-view>
 					</view>
-					<view style="width: 100%; text-align: center; padding-top: 20rpx; padding-bottom: 800rpx; font-size: 24rpx;" v-else>暂无宝箱</view>
+					<view style="width: 100%; text-align: center; padding-top: 20rpx; padding-bottom: 800rpx; font-size: 24rpx;"
+					 v-else>暂无宝箱</view>
 				</block>
-				
+
 			</view>
 		</modalComponent>
-	
+
 		<!-- 酋长回馈 -->
 		<modalComponent v-if="modal == 'doubleElevenReward'" type="center" title="提示" @closeModal="modal=''">
 			<view class="modal-container flowerreward-modal-container">
@@ -453,7 +428,7 @@
 				</view>
 			</view>
 		</modalComponent>
-		
+
 		<!-- 有福同享宝箱 -->
 		<modalComponent v-if="modal == 'boxShare'" type="center" title="提示" @closeModal="modal=''">
 			<view class="modal-container">
@@ -464,7 +439,8 @@
 						恭喜你获得<text style="color: #FC6257;padding: 0 10rpx;">{{lastAddCount || 0}}</text>额外金豆宝箱
 					</view>
 					<view class="flex-set" style="padding: 40rpx;">
-						<image style="width: 200rpx;" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F7Inl3JrEKianQsX5Q97lONuGLuDtFKp3JeZPagOPQ19kzhF6reSz5GSKeLibPDyNb4ys1CgsTg4MA/0" mode="widthFix"></image>
+						<image style="width: 200rpx;" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F7Inl3JrEKianQsX5Q97lONuGLuDtFKp3JeZPagOPQ19kzhF6reSz5GSKeLibPDyNb4ys1CgsTg4MA/0"
+						 mode="widthFix"></image>
 					</view>
 				</block>
 				<block v-else>
@@ -511,8 +487,8 @@
 					size: 10,
 				},
 				stealLog: [],
-				addCount: 0,// 累计收集数
-				output: 0,// 每10秒产量
+				addCount: 0, // 累计收集数
+				output: 0, // 每10秒产量
 				stealLeft: 0,
 				lotteryLeft: 0,
 				addCountTimer: '',
@@ -542,7 +518,7 @@
 				tryTimer: '',
 				tryTimeDetail: {},
 				mainBackground: {
-					url:"https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36WkoItYoGoC20F1N49sXdnmrLwodF6x2icITRfQ4GN999WzPyMmDib7fw/0",
+					url: "https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36WkoItYoGoC20F1N49sXdnmrLwodF6x2icITRfQ4GN999WzPyMmDib7fw/0",
 				},
 				boxLogList: [],
 				friendList: [],
@@ -639,10 +615,13 @@
 			// this.cleanTimer();
 		},
 		methods: {
-			goOtherLog(type){
+			boxOpenOther(id) {
+				this.$app.goPage(`/pages/box_open_other/box_open_other?box_id=${id}&type=sharebox`)
+			},
+			goOtherLog(type) {
 				if (!type) return false;
 				uni.navigateTo({
-					url:`/pages/log_other/log_other?type=${type}`
+					url: `/pages/log_other/log_other?type=${type}`
 				})
 			},
 			setTryTimer(endTime) {
@@ -650,7 +629,7 @@
 				this.tryTimer = setInterval(() => {
 					const now = Math.round(Date.now() / 1000),
 						diff = endTime - now;
-					
+
 					if (diff <= 0) {
 						this.cleanTryTimer();
 					} else {
@@ -675,13 +654,13 @@
 				const pages = getCurrentPages();
 				if (pages.length == 1) {
 					uni.reLaunch({
-						url:"/pages/index/index"
+						url: "/pages/index/index"
 					})
 				} else {
 					uni.navigateBack();
 				}
 			},
-			cleanTimer () {
+			cleanTimer() {
 				clearInterval(this.addCountTimer);
 				this.addCountTimer = '';
 			},
@@ -727,13 +706,13 @@
 			getManorInfo() {
 				this.$app.request(this.$app.API.MANOR_PAGE, {}, res => {
 					const {
-						manor, 
-						output, 
-						add_count, 
-						auto_count, 
-						main_animal, 
-						steal_left, 
-						lottery_left, 
+						manor,
+						output,
+						add_count,
+						auto_count,
+						main_animal,
+						steal_left,
+						lottery_left,
 						limit_time,
 						panacea_reward,
 						national_reward,
@@ -781,7 +760,7 @@
 					this.$app.setData('temp', temp);
 				})
 			},
-			getFriends (pager) {
+			getFriends(pager) {
 				this.$app.request("manor/friend_list", pager, res => {
 					if (pager.page == 1) {
 						this.friendList = res.data;
@@ -795,27 +774,34 @@
 				this.$app.modal(`确认移除${friend.nickname}么？`, () => {
 					this.$delete(this.friendList, index)
 					this.$app.toast('已移除');
-					this.$app.request('manor/remove_friend', {friend: friend.id}, res => {})
+					this.$app.request('manor/remove_friend', {
+						friend: friend.id
+					}, res => {})
 				}, '狠心移除', () => {}, '我再想想');
 			},
 			getBoxScrap() {
 				let data = {};
 				if (!this.isSelf) {
-					data = {user_id: this.user_id};
+					data = {
+						user_id: this.user_id
+					};
 				}
 				this.$app.request("animal_box/list", data, res => {
 					this.boxScrapList = res.data.boxScrapList;
 					this.boxShareList = res.data.boxShareList;
 					this.boxGetLogList = res.data.boxGetLogList;
 					this.boxShareStatus = res.data.boxShareStatus;
-					if(!res.data.boxShareStatus){
-						this.box_type=2;
+					if (!res.data.boxShareStatus) {
+						this.box_type = 2;
 					}
 				})
 			},
-			openShareBox(item){
+			openShareBox(item) {
 				this.$app.modal(`确认直接领取${item.coin}金豆友谊宝箱么？`, () => {
-					this.$app.request("animal_box/open_box", {box_id:item.id,type:1}, res => {
+					this.$app.request("animal_box/open_box", {
+						box_id: item.id,
+						type: 1
+					}, res => {
 						let text = '成功领取金豆+';
 						text += res.data;
 						this.$app.toast(text);
@@ -823,19 +809,19 @@
 						this.getBoxScrap();
 					})
 				}, '直接领取', () => {}, '我再想想');
-				
+
 			},
 			goOtherManor(user_id) {
 				if (!user_id) return false;
 				uni.navigateTo({
-					url:`/pages/manor/other_manor?user=${user_id}`
+					url: `/pages/manor/other_manor?user=${user_id}`
 				})
 			},
-			reachBottomFriends () {
-				this.friendPager.page ++;
+			reachBottomFriends() {
+				this.friendPager.page++;
 				this.getFriends(this.friendPager);
 			},
-			getCurrency () {
+			getCurrency() {
 				this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {
 					this.userCurrency = res.data;
 					this.$app.setData('userCurrency', res.data)
@@ -843,10 +829,10 @@
 			},
 			getRewardPool() {
 				uni.showLoading({
-					mask:true,
-					title:'请稍后...'
+					mask: true,
+					title: '请稍后...'
 				})
-				
+
 				this.$app.request(this.$app.API.ANIMAL_LOTTERY_INFO, {}, res => {
 					uni.hideLoading();
 					this.rewardPool = this.supportNumberGroup(res.data, 3);
@@ -860,13 +846,18 @@
 			},
 			callReward(item) {
 				uni.showLoading({
-					mask:true,
-					title:'召唤中...'
+					mask: true,
+					title: '召唤中...'
 				})
-				
-				const {type, number} = item;
-				
-				this.$app.request(this.$app.API.ANIMAL_LOTTERY, {type}, res => {
+
+				const {
+					type,
+					number
+				} = item;
+
+				this.$app.request(this.$app.API.ANIMAL_LOTTERY, {
+					type
+				}, res => {
 					this.reward = res.data.list;
 					this.rewardHasNew = res.data.has_new;
 					this.lotteryLeft = parseInt(this.lotteryLeft) - parseInt(number)
@@ -881,27 +872,29 @@
 			},
 			getStealLogList() {
 				this.$app.request(this.$app.API.ANIMAL_STEAL_LOG, this.stealLogPage, res => {
-					this.stealLog = this.stealLogPage.page == 1 ? res.data: this.stealLog.concat(res.data);
+					this.stealLog = this.stealLogPage.page == 1 ? res.data : this.stealLog.concat(res.data);
 				})
 			},
 			steal(user_id) {
 				if (!user_id) {
 					return this.$app.toast('请选择偷取的人哦！')
 				}
-				
+
 				uni.showLoading({
-					mask:true,
-					title:'正在偷取...'
+					mask: true,
+					title: '正在偷取...'
 				})
-				this.$app.request(this.$app.API.ANIMAL_STEAL, {user_id}, res => {
+				this.$app.request(this.$app.API.ANIMAL_STEAL, {
+					user_id
+				}, res => {
 					this.$app.toast('偷取成功');
 				})
 			},
 			manorOutputSettle() {
 				if (this.addCount > 0) {
 					uni.showLoading({
-						mask:true,
-						title:'正在收取...'
+						mask: true,
+						title: '正在收取...'
 					})
 					this.lastAddCount = this.addCount;
 					this.$app.request(this.$app.API.ANIMAL_OUTPUT, {}, res => {
@@ -909,7 +902,7 @@
 						this.getManorInfo();
 						this.getBoxScrap();
 						this.$app.toast('收取成功');
-						if(this.boxShareStatus){
+						if (this.boxShareStatus) {
 							this.modal = 'boxShare'
 						}
 					})
@@ -919,10 +912,10 @@
 				if (!list.length) return [];
 				let newList = [];
 				const length = list.length,
-					lineNum = length % number === 0 ? length / number: Math.floor((length / number) + 1);
-					
-				for (let i = 0; i < lineNum; i ++) {
-					let item = list.slice(i*number, i*number + number);
+					lineNum = length % number === 0 ? length / number : Math.floor((length / number) + 1);
+
+				for (let i = 0; i < lineNum; i++) {
+					let item = list.slice(i * number, i * number + number);
 					newList.push(item);
 				}
 				return newList;
@@ -934,57 +927,72 @@
 <style lang="scss" scoped>
 	.manor-container-modal-content {
 		/deep/ .container .content {
-			padding-top: unset!important;
+			padding-top: unset !important;
 		}
 	}
+
 	.manor-container {
 		position: relative;
-		
+
 		// 屏幕兼容 start
 		.secret.normal-screen {
-			width: 750rpx!important;
+			width: 750rpx !important;
 		}
+
 		.secret.small-screen {
-			width: 650rpx!important;
+			width: 650rpx !important;
 		}
+
 		.fix-header-small {
-			top: 70rpx!important;
+			top: 70rpx !important;
 		}
+
 		.fix-user-info-small {
-			top: 170rpx!important;
+			top: 170rpx !important;
 		}
+
 		.fix-try-timer-small {
-			top: 280rpx!important;
+			top: 280rpx !important;
 		}
+
 		.fix-right-btn-list-small {
-			top: 170rpx!important;
+			top: 170rpx !important;
 		}
+
 		.fix-header-640 {
-			top: 60rpx!important;
+			top: 60rpx !important;
 		}
+
 		.fix-user-info-640 {
-			top: 160rpx!important;
+			top: 160rpx !important;
 		}
+
 		.fix-try-timer-640 {
-			top: 270rpx!important;
+			top: 270rpx !important;
 		}
+
 		.fix-right-btn-list-640 {
-			top: 160rpx!important;
+			top: 160rpx !important;
 		}
+
 		.fix-header-large {
-			top: 90rpx!important;
+			top: 90rpx !important;
 		}
+
 		.fix-user-info-large {
-			top: 190rpx!important;
+			top: 190rpx !important;
 		}
+
 		.fix-try-timer-large {
-			top: 300rpx!important;
+			top: 300rpx !important;
 		}
+
 		.fix-right-btn-list-large {
-			top: 190rpx!important;
+			top: 190rpx !important;
 		}
+
 		// end
-		
+
 		.background {
 			width: 100%;
 			height: 1284rpx;
@@ -994,10 +1002,12 @@
 			background-position: center center;
 			background-size: 100% 100%;
 		}
+
 		.bg {
 			width: 100%;
 			overflow: hidden;
 		}
+
 		.add {
 			background-color: #FC6257;
 			border-radius: 30rpx;
@@ -1005,6 +1015,7 @@
 			width: 30rpx;
 			height: 30rpx;
 		}
+
 		.header {
 			position: absolute;
 			width: 100%;
@@ -1015,23 +1026,27 @@
 			display: flex;
 			width: 90%;
 			font-size: 32rpx;
+
 			.title {
 				display: inline-block;
 			}
+
 			.title-and {
 				padding-left: 10rpx;
 			}
+
 			.title-ios {
 				flex: 1;
 				text-align: center;
 			}
+
 			.left {
 				width: 60rpx;
 				height: 60rpx;
 				transform: rotateY(180deg);
 			}
 		}
-		
+
 		.user-info {
 			position: absolute;
 			top: 140rpx;
@@ -1046,38 +1061,47 @@
 				height: 100rpx;
 				border-radius: 50rpx;
 			}
+
 			.info {
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
 				padding: 0 40rpx 0 20rpx;
+
 				.nickname {
 					max-width: 300rpx;
 					margin-bottom: 5rpx;
 					font-weight: 600;
 					color: #653208;
 				}
+
 				.week-output {
 					border-top: white 1rpx solid;
 					white-space: nowrap;
 					display: flex;
 					justify-content: space-around;
+
 					.right {
 						margin-left: 40rpx;
 					}
-					.left,.right {
+
+					.left,
+					.right {
 						display: flex;
 						justify-content: space-around;
 						align-items: center;
+
 						// font-size: 22rpx;
 						.icon {
 							width: 32upx;
 							height: 32upx;
-							margin:0 10rpx;
+							margin: 0 10rpx;
 						}
+
 						.number {
-							color:#643208;
+							color: #643208;
 						}
+
 						.number-label {
 							color: #643208;
 						}
@@ -1085,7 +1109,7 @@
 				}
 			}
 		}
-		
+
 		.try-timer {
 			position: absolute;
 			top: 250rpx;
@@ -1096,17 +1120,19 @@
 			padding: 5upx 20upx;
 			font-size: 24upx;
 			display: flex;
+
 			.text {
 				padding: 0 10upx;
 				color: yellow;
 			}
 		}
-	
+
 		.right-btn-list {
 			position: absolute;
 			right: 30rpx;
 			top: 140rpx;
 			z-index: 1; // 防止被图片挡住
+
 			.item {
 				width: 110rpx;
 				height: 110rpx;
@@ -1128,17 +1154,19 @@
 				// }
 			}
 		}
-		
+
 		.normal-main {
 			transform: translate(-50%, -50%);
 			left: 44%;
 			top: 60%;
 		}
+
 		.secret-main {
 			transform: translate(-50%);
 			bottom: 170rpx;
 			left: 50%;
 		}
+
 		.main-animal {
 			position: absolute;
 
@@ -1154,26 +1182,29 @@
 				padding-top: 15rpx;
 				margin: 0 auto;
 			}
-			
+
 			.animal {
 				// width: 400rpx;
 				// height: 400rpx;
 			}
+
 			.secret {
 				width: 850rpx;
 			}
+
 			.normal {
 				width: 400rpx;
 				height: 400rpx;
 			}
-			
+
 		}
-		
+
 		.right-bottom {
 			position: absolute;
 			right: 20rpx;
 			bottom: 80rpx;
 			z-index: 1; // 防止被图片挡住
+
 			.word {
 				width: 260rpx;
 				height: 80rpx;
@@ -1184,25 +1215,30 @@
 				background-repeat: no-repeat;
 				background-size: 100% 100%;
 				padding-top: 15rpx;
+
 				.output {
 					display: flex;
 					justify-content: space-around;
+
 					.info {
 						font-size: 22rpx;
 					}
+
 					.icon {
 						width: 32upx;
 						height: 32upx;
-						margin:0 10rpx;
+						margin: 0 10rpx;
 					}
 				}
 			}
+
 			.outputing {
 				margin: 20rpx auto;
 				width: 100rpx;
 				position: relative;
 				border: 1rpx solid #653208;
 				border-radius: 5px;
+
 				.times {
 					color: black;
 					position: absolute;
@@ -1212,27 +1248,32 @@
 					font-size: 22rpx;
 				}
 			}
+
 			.outputleft {
 				width: 160rpx;
 				margin: 10rpx auto;
-				.outleft, .buttom {
+
+				.outleft,
+				.buttom {
 					background-position: center center;
 					background-repeat: no-repeat;
 					background-size: 100% 100%;
 					width: 160rpx;
 				}
+
 				.outleft {
 					background-image: url('https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36iaTEyc8ptBZ9NShb9NmfC2BsI4R3UgXff7oLmK15BibickLuaz1Acl36Q/0');
 					height: 80rpx;
 					color: white;
 				}
+
 				.buttom {
 					background-image: url('https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EYo3y2NlFPAWCnsfj8xr36zicDIwaxZQl2IIsAdqxvJyUs0a1ZVIWnicwfUKRL8lAR9L39SJUicgW9A/0');
 					height: 30rpx;
 				}
 			}
 		}
-	
+
 		.gocall-modal-container {
 			.btn {
 				font-size: 30upx;
@@ -1241,13 +1282,16 @@
 				color: #643107;
 				padding: 10rpx 20rpx !important;
 			}
+
 			.buttom {
 				color: #643107;
 				font-size: 24rpx;
 			}
+
 			.btn-wrap {
-				margin: 25rpx 0!important;
+				margin: 25rpx 0 !important;
 			}
+
 			.desc {
 				margin: 20rpx;
 				padding: 20rpx;
@@ -1256,19 +1300,19 @@
 				border-radius: 40rpx;
 			}
 		}
-		
+
 		.modal-container {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			margin-top: -80upx;
 			padding: 40upx;
-		
+
 			.title {
 				font-size: 36upx;
 				font-weight: 700;
 			}
-			
+
 			.title-lable {
 				margin-left: auto;
 				color: red;
@@ -1276,18 +1320,18 @@
 				font-weight: 500;
 				border-bottom: red 1rpx solid;
 			}
-		
+
 			.bg {
 				width: 250upx;
 				height: 250upx;
 			}
-		
+
 			.btn {
 				padding: 10upx 30upx;
 				font-size: 30upx;
 				font-weight: 600;
 			}
-		
+
 			.btn-wrap {
 				margin: 10upx 0;
 				text-align: center;
@@ -1297,28 +1341,32 @@
 				padding: 0 20upx;
 			}
 		}
-		
+
 		.flowerreward-modal-container {
 			color: #643107;
+
 			.btn-wrap {
 				justify-content: space-around;
 			}
+
 			.bg {
 				width: 150rpx;
 				height: 150rpx;
 			}
 		}
-	
+
 		.callpoll-modal-container {
 			.scroll-wrapper {
 				margin-top: 40rpx;
 				overflow-y: auto;
 				height: 500rpx;
 			}
+
 			.call-list {
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: space-around;
+
 				.call-item {
 					width: 170rpx;
 					height: 223rpx;
@@ -1328,14 +1376,16 @@
 					background-size: 100% 100%;
 					position: relative;
 					margin-bottom: 20rpx;
+
 					image {
 						position: absolute;
 						width: 100rpx;
 						height: 100rpx;
-						transform: translate(-50%,-50%);
+						transform: translate(-50%, -50%);
 						top: 40%;
 						left: 50%;
 					}
+
 					.name {
 						position: absolute;
 						transform: translate(-50%, -50%);
@@ -1343,6 +1393,7 @@
 						top: 20%;
 						font-size: 22rpx;
 					}
+
 					.percent {
 						white-space: nowrap;
 						height: 50rpx;
@@ -1359,6 +1410,7 @@
 						font-size: 24rpx;
 						color: #643107;
 					}
+
 					.has-scrap {
 						white-space: nowrap;
 						height: 50rpx;
@@ -1378,96 +1430,104 @@
 				}
 			}
 		}
-		
+
 		.invit-modal-container {
 			width: 100%;
 			height: 100%;
 			display: flex;
 			flex-direction: column;
 			color: #000;
-		
+
 			.explain-wrapper {
 				padding: 20upx 40upx;
 				padding-top: 0;
-		
+
 				.top {
 					justify-content: space-between;
-		
+
 					font-size: 34upx;
 					font-weight: 700;
-		
+
 					text {
 						color: orange;
 					}
 				}
-		
+
 				.title {
 					font-size: 30upx;
 					font-weight: 600;
 					padding: 10upx;
 				}
-		
+
 				.bottom {
 					font-size: 22upx;
 				}
-		
+
 				.row.between {
 					display: flex;
 					justify-content: space-between;
 				}
 			}
+
 			.desc {
-				background:rgba(248,226,207,0.42);
-				color:rgba(120,67,16,1);
+				background: rgba(248, 226, 207, 0.42);
+				color: rgba(120, 67, 16, 1);
 				font-size: 24rpx;
 				padding: 10rpx 20rpx;
 				margin: 0 auto;
 				border-radius: 20rpx;
 			}
-		
+
 			.notice {
 				margin: 30upx 20upx 0;
-				background:rgba(248,226,207,0.57);
-				border-radius:19upx;
+				background: rgba(248, 226, 207, 0.57);
+				border-radius: 19upx;
 				display: flex;
 				justify-content: flex-start;
+
 				.notice-icon {
-					margin:0;
+					margin: 0;
 					margin-left: 4%;
 					width: 35upx;
 					align-self: center;
 					height: 35upx;
-					border-radius:50%;
+					border-radius: 50%;
 				}
+
 				.notice-info {
 					margin: 10upx 5%;
 					flex: 1;
 					display: inline-block;
 					overflow: hidden;
 					height: 50upx;
+
 					swiper {
 						height: 50upx;
 					}
+
 					.notice-item {
 						display: flex;
 						justify-content: flex-start;
+
 						.notice-avatar {
 							width: 50upx;
 							height: 50upx;
-							border-radius:50%;
+							border-radius: 50%;
 							margin-right: 10upx;
 						}
+
 						.notice-con {
 							flex: 1;
 							height: 50upx;
 							margin-right: 10%;
 							display: inline-block;
-							font-size:26upx;
+							font-size: 26upx;
 							line-height: 50upx;
 						}
 					}
 				}
 			}
+
 			.info {
 				width: 100%;
 				background-color: #f7f7f7;
@@ -1476,69 +1536,74 @@
 				padding: 10upx;
 				font-size: 26upx;
 			}
-		
+
 			.list-wrapper {
 				overflow-y: auto;
 				height: 536upx;
-		
+
 				.item {
 					display: flex;
 					justify-content: flex-start;
 					align-items: center;
 					padding: 20upx 30upx;
 					border-bottom: 1px solid #EEE;
-		
+
 					.rank-num {
 						width: 90upx;
 						text-align: center;
 					}
-		
+
 					.avatar image {
 						width: 90upx;
 						height: 90upx;
 						border-radius: 50%;
 					}
-					
+
 					.box {
 						width: 130rpx;
 						display: flex;
 						justify-content: space-between;
+
 						.scrap {
 							display: flex;
 							flex-direction: column;
 							align-items: center;
+
 							.scrap-img {
 								width: 40rpx;
 							}
+
 							view {
 								white-space: nowrap;
 								font-size: 20rpx;
 							}
 						}
+
 						.num {
 							white-space: nowrap;
 							font-size: 20rpx;
 						}
 					}
-		
+
 					.text-container {
 						flex: 1;
 						padding: 0 30upx;
 						line-height: 44upx;
-						
+
 						.nickname {
 							max-width: 285rpx;
 						}
+
 						.bottom-text {
 							display: flex;
 							align-items: center;
-		
+
 							.hot-count {
 								color: $text-color-1;
 								margin-right: 4upx;
 								font-size: 20rpx;
 							}
-		
+
 							.icon-heart {
 								width: 30upx;
 								height: 30upx;
@@ -1546,12 +1611,12 @@
 						}
 					}
 				}
-		
+
 			}
-		
+
 			.user-list {
 				width: 100%;
-		
+
 				.user-list-avatar {
 					width: 80upx;
 					height: 80upx;
@@ -1559,7 +1624,7 @@
 					margin: 20upx;
 				}
 			}
-		
+
 			.btn-wrap {
 				margin-top: 40upx;
 				margin-bottom: 40upx;
@@ -1567,20 +1632,20 @@
 				justify-content: space-around;
 				width: 100%;
 				padding: 0 60upx;
-		
+
 				.fsend-btn {
 					// background-color: #0EC52F;
 					// font-size: 32upx;
 					color: #333;
 					padding: 0 20upx;
 					flex-direction: column;
-		
+
 					image {
 						width: 80upx;
 						height: 80upx;
 					}
 				}
-		
+
 				.save-btn {
 					background-color: #FF7E00;
 					border-radius: 10upx;
@@ -1590,7 +1655,7 @@
 				}
 			}
 		}
-	
+
 		.callresult-modal-container {
 			.result {
 				background: #F5F5F5;
@@ -1599,29 +1664,36 @@
 				padding: 20rpx;
 				margin: 30rpx 0;
 			}
+
 			.call-list {
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: space-around;
+
 				.call-item {
 					position: relative;
+
 					image {
 						width: 100rpx;
 						height: 100rpx;
 					}
+
 					margin-bottom: 20rpx;
+
 					.number {
 						text-align: right;
 						font-size: 22rpx;
 						color: #FC6258;
 					}
 				}
-				
+
 			}
+
 			.new-list {
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: space-around;
+
 				// margin: 20rpx 0;
 				.new-item {
 					margin: 10rpx 0;
@@ -1632,6 +1704,7 @@
 					background-repeat: no-repeat;
 					background-size: 100% 100%;
 					position: relative;
+
 					.name {
 						position: absolute;
 						transform: translate(-50%, -50%);
@@ -1639,148 +1712,178 @@
 						top: 20%;
 						font-size: 20rpx;
 					}
+
 					image {
 						width: 130rpx;
 						height: 130rpx;
 					}
 				}
 			}
+
 			.btn-wrap {
 				justify-content: space-around;
 			}
 		}
-	
+
 		.box-container {
 			background: linear-gradient(0deg, #EFFFEC, #7ACFFF);
+
 			.title {
 				text-align: center;
 				width: 100%;
 				padding-top: 40rpx;
 			}
+
 			.desc {
-				background:rgba(248,226,207,0.42);
-				color:rgba(120,67,16,1);
+				background: rgba(248, 226, 207, 0.42);
+				color: rgba(120, 67, 16, 1);
 				font-size: 24rpx;
 				padding: 10rpx 20rpx;
 				border-radius: 20rpx;
 				margin: 20rpx auto;
 				width: 90%;
 			}
+
 			.notice {
 				margin: 20upx;
-				background:#fff;
-				border-radius:19upx;
+				background: #fff;
+				border-radius: 19upx;
 				display: flex;
 				justify-content: flex-start;
+
 				.notice-icon {
-					margin:0;
+					margin: 0;
 					margin-left: 4%;
 					width: 35upx;
 					align-self: center;
 					height: 35upx;
-					border-radius:50%;
+					border-radius: 50%;
 				}
+
 				.notice-info {
 					margin: 10upx 5%;
 					flex: 1;
 					display: inline-block;
 					overflow: hidden;
 					height: 50upx;
+
 					swiper {
 						height: 50upx;
 					}
+
 					.notice-item {
 						display: flex;
 						justify-content: flex-start;
+
 						.notice-avatar {
 							width: 50upx;
 							height: 50upx;
-							border-radius:50%;
+							border-radius: 50%;
 							margin-right: 10upx;
 						}
+
 						.notice-con {
 							flex: 1;
 							height: 50upx;
 							margin-right: 10%;
 							display: inline-block;
-							font-size:26upx;
+							font-size: 26upx;
 							line-height: 50upx;
 						}
 					}
 				}
 			}
+
 			.main {
 				width: 100%;
 				height: 500rpx;
 				position: relative;
-				.main-image{
+
+				.main-image {
 					height: 360rpx;
 					width: 460rpx;
 				}
+
 				.position-1 {
 					left: 150rpx;
 					top: 40rpx
 				}
+
 				.position-2 {
 					left: 120rpx;
 					top: 140rpx;
 				}
+
 				.position-3 {
 					left: 150rpx;
 					top: 240rpx;
 				}
+
 				.position-4 {
 					left: 220rpx;
 					top: 340rpx;
 				}
+
 				.position-5 {
 					left: 320rpx;
 					top: 320rpx;
 				}
+
 				.position-6 {
 					left: 270rpx;
 					top: 40rpx;
 				}
+
 				.position-7 {
 					left: 440rpx;
 					top: 340rpx;
 				}
+
 				.position-8 {
 					left: 460rpx;
 					top: 210rpx;
 				}
+
 				.position-9 {
 					right: 180rpx;
 					top: 60rpx;
 				}
+
 				.position-10 {
 					left: 550rpx;
 					top: 270rpx;
 				}
+
 				.position-11 {
 					left: 550rpx;
 					top: 140rpx;
 				}
+
 				.position-12 {
 					left: 380rpx;
 					top: 0rpx;
 				}
+
 				.box-position {
 					position: absolute;
+
 					.box-scrap {
 						position: relative;
 						width: 100rpx;
 						height: 100rpx;
+
 						.scrap-bg {
 							width: 100rpx;
 							height: 100rpx;
 							z-index: 2;
 						}
+
 						.scrap-item {
 							z-index: 1;
-							width: 80rpx; 
+							width: 80rpx;
 							height: 80rpx;
 						}
+
 						.scrap-num {
 							position: absolute;
 							right: 0;
@@ -1790,99 +1893,105 @@
 					}
 				}
 			}
-		
+
 			.bottom {
 				padding: 0 40rpx 40rpx;
+
 				.desc {
 					background-color: #fff;
 					border-radius: 50rpx;
 					color: #B5B5B4;
 					padding: 20rpx 30rpx;
 				}
+
 				.btn {
 					padding: unset;
 				}
 			}
-		
-			.top-btn{
+
+			.top-btn {
 				width: 100%;
 				padding: 20rpx 20rpx 0;
-				.btn-list{
+
+				.btn-list {
 					width: 100%;
 					display: flex;
 					justify-content: space-around;
 					border: 4rpx solid #FFFFFF;
 					border-radius: 40rpx;
-					.btn{
+
+					.btn {
 						width: 50%;
 						height: 60rpx;
 						border-radius: 30rpx;
 					}
-					.btn.active{
+
+					.btn.active {
 						background-color: #FFFFFF;
 						color: #FF9000;
 					}
 				}
 			}
-			
+
 			.invit-list {
 				margin-top: 20rpx;
 				height: 720rpx;
 				padding: 0 20rpx;
-			
-				.list-wrapper{
+
+				.list-wrapper {
 					overflow-y: auto;
 					max-height: 680rpx;
 					display: flex;
 					flex-direction: column;
+
 					.list-item {
 						background-color: #FFFFFF;
 						border-bottom: 1rpx solid #f5f5f5;
 						margin: 10upx 0;
 						border-radius: 20rpx;
 						padding: 0 10rpx;
-					
+
 						.row {
 							padding: 10rpx;
-					
+
 							display: flex;
 							justify-content: space-between;
 							align-items: center;
 						}
-					
+
 						.row-1 {
 							border-bottom: 1px solid #FFF;
-					
+
 							.left {
 								.icon {
 									width: 100upx;
-					
+
 								}
-					
+
 								.content {
 									line-height: 1.7;
 									margin: 0 20upx;
-					
+
 									.top {
 										color: #541C21;
 									}
-					
+
 									.bottom-cont {
 										justify-content: flex-start;
 										font-size: 22upx;
-					
+
 										.price {
 											color: red;
 											font-size: 30upx;
 											margin-right: 10upx;
 										}
-					
+
 										.remain {}
 									}
 								}
 							}
 						}
-					
+
 						.row-2 {
 							font-size: 24upx;
 						}
