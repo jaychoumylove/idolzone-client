@@ -679,9 +679,15 @@
 										
 									<view class="right">
 										<block v-if="item.remaining_people>0">
-											<view style="margin-bottom: 20rpx;">
-												<btnComponent type="success" @tap="openShareBox(item)" >
+											
+											<view v-if="item.remaining_people==item.people" style="margin-bottom: 20rpx;">
+												<btnComponent type="success" @tap="openShareBox(item)">
 													<view class="flex-set" style="width: 180upx; height: 55upx;">直接领取</view>
+												</btnComponent>
+											</view>
+											<view v-else @tap="boxOpenOther(item.id)" style="margin-bottom: 20rpx;">
+												<btnComponent type="default">
+													<view class="flex-set" style="width: 180upx; height: 55upx;">查看详情</view>
 												</btnComponent>
 											</view>
 											<view class="">
