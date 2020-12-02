@@ -354,7 +354,7 @@
 				<block v-if="box_type == 1">
 					<view class="desc">
 						<view class="flex-set">
-							说明：仅限好友领取，24小时后过期消失，请及时分享。
+							{{$app.getData('config').share_friend_box.desc}}
 						</view>
 					</view>
 					<view class="notice" @tap="goOtherLog('box_share_log')">

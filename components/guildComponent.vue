@@ -710,7 +710,7 @@
 					<view style="width: 100%; text-align: center; padding-top: 20rpx; padding-bottom: 800rpx; font-size: 24rpx;" v-else>暂无宝箱</view>
 					<view class="desc">
 						<view class="flex-set" style="width: 70%;">
-							说明：仅限好友领取，24小时后过期消失，请及时分享。
+							{{$app.getData('config').share_friend_box.desc}}
 						</view>
 						<view class="flex-set">
 							<btnComponent type="default" @tap="$app.goPage('/pages/manor/manor')">
@@ -736,8 +736,18 @@
 									</view>
 										
 									<view class="right">
+										<view style="margin-bottom: 20rpx;">
+											<btnComponent type="default" @tap="goFansBox(item.id)" >
+												<view class="flex-set" style="width: 180upx; height: 55upx;">查看领取</view>
+											</btnComponent>
+										</view>
 										<block v-if="!item.settle">
-											<view>
+											<view v-if="item.people>item.open_people">
+												<btnComponent type="success" @tap="goFansBox(item.id)" >
+													<view class="flex-set" style="width: 180upx; height: 55upx;">领取</view>
+												</btnComponent>
+											</view>
+											<view v-else>
 												<btnComponent type="success" @tap="goFansBox(item.id)" >
 													<view class="flex-set" style="width: 180upx; height: 55upx;">领取</view>
 												</btnComponent>
@@ -3799,7 +3809,7 @@
 				justify-content: space-between;
 				color:rgba(120,67,16,1);
 				font-size: 24rpx;
-				padding: 10rpx 20rpx;
+				padding: 10rpx 20rpx 40rpx;
 				border-radius: 20rpx;
 				width: 100%;
 				
